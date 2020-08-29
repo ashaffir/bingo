@@ -1,7 +1,9 @@
 # from djoser.serializers import UserCreateSerializer, UserSerializer
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model, authenticate, password_validation
 from rest_framework import serializers, exceptions
 from rest_framework.validators import UniqueTogetherValidator
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import BaseUserManager
 
 from .models import User
 
@@ -31,6 +33,34 @@ class UserSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('id',)
 
+class PasswordChangeSerializer(serializers.Serializer):
+    current_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
+
+    def validate_current_password(self, value):
+        if not self.context['request'].user.check_password(value):
+            raise serializers.ValidationError('Current password does not match')
+        return value
+
+    def validate_new_password(self, value):
+        password_validation.validate_password(value)
+        return value
+
+import django.contrib.auth.password_validation as validators
+class UserResetPasswordSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(source='user.password', style={'input_type': 'password'},
+        max_length=20, min_length=8)
+    new_password = serializers.CharField(style={'input_type': 'password'},
+        max_length=20, min_length=8)
+    class Meta:
+        model = User
+        fields =("password", 'new_password')
+
+class EmptySerializer(serializers.Serializer):
+    pass
+
+
+##########
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
