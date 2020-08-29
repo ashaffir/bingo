@@ -17,8 +17,10 @@ class Album(models.Model):
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100, blank=True, null=True)
     number_of_images = models.IntegerField(blank=True, null=True)
+    pictures = models.JSONField(blank=True, null=True)
+    board = models.JSONField(blank=True, null=True)
 
-    board = models.ForeignKey(Board, null=True, blank=True, on_delete=models.CASCADE )
+    # board = models.ForeignKey(Board, null=True, blank=True, on_delete=models.CASCADE )
 
     class Meta:
         verbose_name = 'Album'

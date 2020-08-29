@@ -43,7 +43,9 @@ def albums(request):
     Retreive albums: either public ones or per user
     API endpoints: 
     /api/game/albums/ for particular user (the one that is logged in)
-    /api/game/albums/ for all public
+    /api/game/albums/?albums=all for all public
+
+    Create 
     '''
     data = {}
     if request.method == 'GET':
@@ -73,28 +75,35 @@ def albums(request):
         data['albums'] = albums_list
         return Response(data)
 
+    # Create new album
     elif request.method == 'POST':
-        query = request.GET.get('albums')
-        if query == 'all':
-            albums = Album.objects.all()
-            albums_list = []
-            for album in albums:
-                serializer = serializers.AlbumSerializer(album, data=request.data) 
-                if serializer.is_valid():
-                    albums_list.append(serializer.data)
-            data['response'] = 'All albums'
-        else:
-            albums = Album.objects.filter(Q(user=request.user))
-            albums_list = []
-            for album in albums:
-                serializer = serializers.AlbumSerializer(album, data=request.data) 
-                if serializer.is_valid():
-                    albums_list.append(serializer.data)
-            data['response'] = f'Albums for user: {request.user}'
+        data = {}
+        print(f'DATA: {request.data}')
+        album_name = request.data['name']
+        user = request.user
+        pictures = request.data['pictures']
+        board = request.data['board']
+        
+        album = Album()
+        album.name = album_name
+        album.user = user
+        album.pictures = pictures
+        album.board = board
+        album.number_of_images = len(pictures[0])
+        album.save()
+        print(f'IMAGES: {pictures[0]}')
 
-            # print(f'ERROR GETTNIG ALL ALBUMS')
-            # data = serializer.errors
-        data['albums'] = albums_list
+        serializer = serializers.AlbumSerializer(album, data=request.data)
+        if serializer.is_valid():
+            data = serializer.data
+        else:
+            return Response('ERROR SERIALIZING NEW ALBUM')
+
+        # Card:{
+        # Row:nubmer,
+        # Column: number,
+        # isEmptyCenter: boolean
+
         return Response(data)
 
     return Response(status.HTTP_400_BAD_REQUEST)

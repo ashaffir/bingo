@@ -4,8 +4,7 @@ from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 from .models import Album, Board, Picture
 
 @admin.register(Album)
-# class OrderAdmin(DefaultUserAdmin):
-class OrderAdmin(admin.ModelAdmin):
+class AlbumAdmin(admin.ModelAdmin):
 
     list_display = ('album_id', 'name', 'created','number_of_images',)
     search_fields = ('name','')
