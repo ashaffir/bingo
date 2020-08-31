@@ -12,7 +12,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=100, null=True, blank=True)
     paypal = models.CharField(max_length=100, null=True, blank=True)
     balance = models.FloatField(null=True, blank=True)
-    europeCitizenship = models.BooleanField()
+    europeCitizenship = models.BooleanField(null=True, blank=True)
     first_name = models.CharField('First Name', max_length=255, blank=True,
                                   null=False)
     last_name = models.CharField('Last Name', max_length=255, blank=True,
