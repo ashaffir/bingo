@@ -2,7 +2,7 @@
 
 NAME="bingo_matrix"                                   # Name of the application
 DJANGODIR=/home/ubuntu/bingo               # Django project directory
-SOCKFILE=/home/ubuntu/bingo/run/gunicorn.sock  # we will communicte using this unix socket
+SOCKFILE=/home/ubuntu/bingo/venv_bingo/run/gunicorn.sock  # we will communicte using this unix socket
 USER=ubuntu                                         # the user to run as
 GROUP=ubuntu                                        # the group to run as
 NUM_WORKERS=3                                       # how many worker processes should Gunicorn spawn
