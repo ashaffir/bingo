@@ -167,7 +167,7 @@ DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bingo_db', #LIVE DAATABASE
         'USER': 'bingo_admin',
         'PASSWORD': config['POSTGRES_PASS'],
