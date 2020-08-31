@@ -38,6 +38,8 @@ def registration_view(request):
             data['response'] = 'Success registration.'
             data['email'] = account.email
             data['username'] = account.username
+            data['name'] = account.name
+            data['europeCitizenship'] = account.europeCitizenship
             token = Token.objects.get(user=account).key
             data['token'] = token
 

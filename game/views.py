@@ -91,7 +91,14 @@ def albums(request):
         album.board = board
         album.number_of_images = len(pictures[0])
         album.save()
-        print(f'IMAGES: {pictures[0]}')
+
+        for pic in pictures[0]:
+            image = Picture()
+            image.name = pic
+            image.album = album
+            image.url = pictures[0][f'{pic}']['url']
+            image.save()
+
 
         serializer = serializers.AlbumSerializer(album, data=request.data)
         if serializer.is_valid():
