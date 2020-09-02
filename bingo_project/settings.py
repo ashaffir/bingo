@@ -41,12 +41,17 @@ INSTALLED_APPS = [
     # REST API
     'rest_framework',
     'rest_framework.authtoken',
+    'django_rest_passwordreset',
+
+    # Paypal
+    'paypal.standard.ipn',
 
     # Project:
     'api',
     'channels',
     'game',
     'users',
+    'payments',
     # REFERENCE: Djoser authentication: https://www.youtube.com/watch?v=ddB83a4jKSY
     # 'djoser' # Authentication. https://djoser.readthedocs.io/en/latest/index.html 
 
@@ -209,9 +214,36 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Email Setup
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'bingomatrix1@gmail.com'
+EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
+DEFAULT_FROM_EMAIL = 'bingomatrix1@gmail.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+CURRENCY = config['CURRENCY']
+WEBSITE_URL = config['WEBSITE_URL']
+NOTIFY_URL = WEBSITE_URL + '/scrambled_URL/'
+RETURN_URL = WEBSITE_URL + '/paypal_return/'
+CANCEL_URL = WEBSITE_URL + '/paypal_cancel/'
+
+if DEBUG:
+    # Enable PayPal Sandbox - Get it from the account at: https://developer.paypal.com/developer/accounts/
+    PAYPAL_RECEIVER_EMAIL = 'bingobulls1-facilitator@gmail.com'  # This is the test BUSINESS account.
+
+    # Buyer account: bingobulls1-buyer@gmail.com / 88776655
+
+    PAYPAL_TEST = True 
+else:
+    PAYPAL_RECEIVER_EMAIL = config['PAYPAL_RECEIVER_EMAIL']
+    PAYPAL_TEST = False
+

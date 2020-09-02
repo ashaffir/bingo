@@ -20,6 +20,7 @@ urlpatterns = [
     # path('auth/', include('users.urls')),
     path('check-server/', check_server, name='check-server'),
     path('users/', include('users.urls')),
+    path('payments/', include('payments.urls')),
     path('game/', include('game.urls', namespace='game')),
 
 ]

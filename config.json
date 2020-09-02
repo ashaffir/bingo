@@ -1,4 +1,9 @@
 {
     "SECRET_KEY": "(0q#ng%ze&#4xs9qi8_vm=$m6b*gbz%h7a^u@0i_9-5^bhre#)",
-    "POSTGRES_PASS":"BingoMatrix2020!"
+    "POSTGRES_PASS":"BingoMatrix2020!",
+    "PAYPAL_RECEIVER_EMAIL": "bingobulls1@gmail.com",
+    "EMAIL_HOST_PASSWORD": "BingoMatrix2020!",
+    "WEBSITE_URL":"",
+    "CURRENCY": "USD",
+    "ADMIN_EMAIL": "alfred.shaffir@gmail.com"
 }
