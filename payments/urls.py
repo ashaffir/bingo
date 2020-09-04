@@ -13,7 +13,11 @@ urlpatterns = [
     path('error/', payment_views.payment_error, name='payment_error'),
 
 
+    # Paypal
     path('payment/<int:amount>', payment_views.payment, name='payment'),
+    # Stripe
+    path('charge/', payment_views.charge, name='charge'),
+    path('success/<str:args>/', payment_views.successMsg, name="success"),
     path('deposits/', payment_views.deposits, name='deposits'),
 
 

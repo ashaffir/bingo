@@ -5,5 +5,7 @@
     "EMAIL_HOST_PASSWORD": "BingoMatrix2020!",
     "WEBSITE_URL":"",
     "CURRENCY": "USD",
-    "ADMIN_EMAIL": "alfred.shaffir@gmail.com"
+    "ADMIN_EMAIL": "alfred.shaffir@gmail.com",
+    "STRIPE_SECRET_KEY": "",
+    "STRIPE_PUBLISHABLE_KEY": ""
 }

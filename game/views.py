@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Q
-
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from rest_framework.response import Response
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import api_view, permission_classes
@@ -9,7 +10,7 @@ from rest_framework.authentication import TokenAuthentication, SessionAuthentica
 from rest_framework.decorators import action
 
 
-from .models import Album, Picture
+from .models import Album, Picture, Game, Player
 from . import serializers
 
 @api_view(['GET','POST',],)
@@ -134,3 +135,45 @@ class UserAlbumsView(viewsets.ModelViewSet):
 
         return queryset_list
 
+@login_required
+def game(request):
+    context = {}
+    if request.method == 'POST':
+        if 'gamePrep' in request.POST:
+            album = Album.objects.filter(user=request.user).first()
+            new_game = Game.objects.create(
+                album_id=album,
+                user = request.user,
+                winning_conditions='ALL',
+                is_public=True
+            )
+
+            context['game_id'] = new_game.game_id
+            context['album'] = album.name
+            context['winning_cond'] = 'ALL'
+            context['is_public'] = 'Public Game'
+
+        elif 'startGame' in request.POST:
+            # TODO: open a WS on start of game listening to the joining of players
+            context['started'] = 'STARTED'
+
+        elif 'enterGame' in request.POST:
+            try:
+                playerGameId = request.POST.get('playerGameId')
+                playerNickname = request.POST.get('nickname')
+                player = Player.objects.create(
+                    game_id = playerGameId,
+                    nickname = playerNickname if playerNickname != "" else "Bob"
+                )
+                print(f'Playing: {playerGameId}')
+                context['played_game'] = playerGameId
+            except Exception as e:
+                messages.error(request, 'Please enter a valid game id')
+                return redirect(request.META['HTTP_REFERER'])
+
+        else:
+            context['next'] = "NEXT IMAGE"
+
+    #TODO: What happend on game compete?, e.g. is_finished is set to true
+
+    return render(request, 'game/game.html', context)

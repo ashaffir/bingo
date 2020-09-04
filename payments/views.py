@@ -1,5 +1,5 @@
 import requests
-
+import stripe
 from django.shortcuts import render, get_object_or_404, reverse, redirect, resolve_url
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
@@ -16,7 +16,9 @@ from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.signals import valid_ipn_received
 
 from .models import Payment
+from users.models import User
 
+stripe.api_key = settings.STRIPE_SECRET_KEY 
 
 # Generate an invoice
 # INVOICE = "unique_invoice_00001"
@@ -26,12 +28,15 @@ def payment(request, amount=0.0):
     deposit_id = request.session.get('order_id')
     context = {}
     host = request.get_host()
+    user = User.objects.get(pk=request.user.pk)
 
     invoice = Payment.objects.create(
         amount = amount,
         user = request.user
     )
 
+    # PayPal Payments
+    #################
     paypal_dict = {
         "business" : settings.PAYPAL_RECEIVER_EMAIL,
         "amount" : amount,
@@ -53,8 +58,58 @@ def payment(request, amount=0.0):
 
     form = PayPalPaymentsForm(initial=paypal_dict)
 
+    context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
+
     context['form'] = form
     return render(request, 'payments/payment.html', context)
+
+@login_required
+def charge(request):
+    if request.method == 'POST':
+        print('Data:', request.POST)
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        user = User.objects.get(pk=request.user.pk)
+        name = user.name
+        email = user.username
+        amount = float(request.POST.get('amount'))
+        try:
+            if not user.stripe_customer_key:
+                customer = stripe.Customer.create(
+                        name = name,
+                        email = email,
+                        source = request.POST['stripeToken']
+                    )
+                
+                stripe.Charge.create(
+                    customer=customer,
+                    amount=int(amount * 100),
+                    currency="usd", # TODO: make dynamic according to browser language
+                    description="Bingo Matrix funds deposit",
+                    )
+
+                # Adding stripe customer key to the user
+                user.stripe_customer_key = customer.id
+            else:
+                stripe.Charge.create(
+                    customer=user.stripe_customer_key,
+                    amount=int(amount * 100),
+                    currency="usd", # TODO: make dynamic according to browser language
+                    description="Bingo Matrix funds deposit",
+                    )
+        except Exception as e:
+                print('Failed to charge Stripe account')
+
+    # Adding the amount to the user's balance
+    user.balance = user.balance + amount
+    user.save()
+
+
+    return redirect(reverse('payments:success', args=[amount]))
+
+def successMsg(request, args):
+	amount = args
+	return render(request, 'payments/success.html', {'amount':amount})
+
 
 @login_required
 def deposits(request):

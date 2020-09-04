@@ -52,8 +52,11 @@ INSTALLED_APPS = [
     'game',
     'users',
     'payments',
+    'stripe',
     # REFERENCE: Djoser authentication: https://www.youtube.com/watch?v=ddB83a4jKSY
     # 'djoser' # Authentication. https://djoser.readthedocs.io/en/latest/index.html 
+    # Other
+    'import_export',
 
 ]
 
@@ -236,14 +239,26 @@ NOTIFY_URL = WEBSITE_URL + '/scrambled_URL/'
 RETURN_URL = WEBSITE_URL + '/paypal_return/'
 CANCEL_URL = WEBSITE_URL + '/paypal_cancel/'
 
+# Billing and Payments
 if DEBUG:
+    # PayPal
     # Enable PayPal Sandbox - Get it from the account at: https://developer.paypal.com/developer/accounts/
     PAYPAL_RECEIVER_EMAIL = 'bingobulls1-facilitator@gmail.com'  # This is the test BUSINESS account.
-
     # Buyer account: bingobulls1-buyer@gmail.com / 88776655
-
     PAYPAL_TEST = True 
+    
+    # Stripe
+    STRIPE_SECRET_KEY = 'sk_test_Ot00cg3oiXBCmssiHmgd1zfz00OoIVzxBV'
+    STRIPE_PUBLISHABLE_KEY = 'pk_test_SaQ9IHfske2orxsm3qpyAgnh00V5ILDySH'
+
 else:
+    # Paypal
     PAYPAL_RECEIVER_EMAIL = config['PAYPAL_RECEIVER_EMAIL']
     PAYPAL_TEST = False
 
+    # Stripe
+    STRIPE_SECRET_KEY = config['STRIPE_SECRET_KEY']
+    STRIPE_PUBLISHABLE_KEY = config['STRIPE_PUBLISHABLE_KEY']
+
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True

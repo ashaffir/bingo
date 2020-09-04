@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="box">
+		<h4>Thank you for depositing ${{amount}}!</h4>
+		<hr>
+		<a class="myButton" href="{% url 'payments:payment' amount=3 %}">&#x2190;Back to deposit page</a>
+	</div>
+</body>
+</html>
