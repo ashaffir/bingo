@@ -62,6 +62,8 @@ class Game(models.Model):
     players_list = models.JSONField(blank=True, null=True)
 
     # Start Game
+    started = models.BooleanField(default=False)
+    ended = models.BooleanField(default=False)
     game_cost = models.FloatField(null=True, blank=True)
     shown_pictures = models.JSONField(null=True, blank=True)
 
@@ -72,9 +74,17 @@ class Game(models.Model):
         return self.game_id
  
 class Player(models.Model):
+    
+    # Player Info
+    created = models.DateTimeField(auto_now_add=True)
     player_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    game = models.ForeignKey(Game, null=True, blank=True, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=50, null=True, blank=True)
+
+    # Player Game
+    game = models.ForeignKey(Game, null=True, blank=True, on_delete=models.CASCADE)
+    player_game_id = models.CharField(max_length=5, null=True, blank=True)
+    approved = models.BooleanField(default=False)
+    board = models.JSONField(null=True, blank=True)
 
     def __str__(self):
         return self.nickname

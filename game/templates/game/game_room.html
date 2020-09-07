@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Game Room</title>
+</head>
+<body>
+    <div class="container" style="text-align: center;">
+        <div class="row">
+            <div class="col-8">
+                <section>
+                    {% if game_started or game_ended %}
+                        <div class="row">
+                            <h2>Game is Closed</h2>
+                        </div>
+                    {% else %}
+                    <div class="row mt-5">
+                            <img src="https://www.mediaweek.com.au/wp-content/uploads/2019/12/jumanji-the-next-level-.gif" alt="">   
+                            <!-- <textarea id="game-log" cols="100" rows="20"></textarea><br>
+                            <input id="game-message-input" type="text" size="100"><br> -->    
+                        {% endif %}
+                    </div>     
+                
+                </section>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-2 mt-3">
+                {% if user.is_authenticated %}
+                <div class="col-3">
+                    <p>Game ID: {{ game.game_id }}</p>
+                </div>
+                    <div class="col-2 mb-4">
+                        <button class="btn btn-success btn-lg" type="submit" id="nextPicture" name="nextPicture">Next Picture</button>
+                    </div>
+                    <h3>Players:</h3>
+                    <textarea id="game-log" cols="20" rows="10"></textarea><br>    
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {{ game.game_id|json_script:"game_room" }}
+    <script>
+        const gameId = JSON.parse(document.getElementById('game_room').textContent);
+
+        const scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        console.log('Game WS is ready!')
+        const gameSocket = new WebSocket(
+            scheme
+            + window.location.host
+            + '/ws/game/'
+            + gameId
+            + '/'
+        );    
+
+        gameSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log(`DATA RECEIVED: ${e.data}`);
+            document.querySelector('#game-log').value += (data.message.nickname + '\n');
+        };
+
+        gameSocket.onclose = function(e) {
+            console.error('game socket closed unexpectedly');
+        };
+
+        /*
+        document.querySelector('#game-message-input').focus();
+        document.querySelector('#game-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#game-message-submit').click();
+            }
+        };
+
+        document.querySelector('#game-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#game-message-input');
+            const message = messageInputDom.value;
+            gameSocket.send(JSON.stringify({
+                'message_type': "new_player",
+                'data': message
+            }));
+            messageInputDom.value = '';
+        };
+        */
+    </script>
+        <!-- Bootstrap -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+</body>
+</html>

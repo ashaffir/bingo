@@ -1,4 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponseRedirect
+
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -136,7 +138,7 @@ class UserAlbumsView(viewsets.ModelViewSet):
         return queryset_list
 
 @login_required
-def game(request):
+def game_control(request):
     context = {}
     if request.method == 'POST':
         if 'gamePrep' in request.POST:
@@ -148,32 +150,47 @@ def game(request):
                 is_public=True
             )
 
-            context['game_id'] = new_game.game_id
+            context['game'] = new_game
             context['album'] = album.name
             context['winning_cond'] = 'ALL'
             context['is_public'] = 'Public Game'
+            
+            return redirect('game:game-room', new_game.game_id)
 
         elif 'startGame' in request.POST:
             # TODO: open a WS on start of game listening to the joining of players
-            context['started'] = 'STARTED'
+            game = Game.objects.filter(user=request.user).last
+            context['game'] = game
 
-        elif 'enterGame' in request.POST:
-            try:
-                playerGameId = request.POST.get('playerGameId')
-                playerNickname = request.POST.get('nickname')
-                player = Player.objects.create(
-                    game_id = playerGameId,
-                    nickname = playerNickname if playerNickname != "" else "Bob"
-                )
-                print(f'Playing: {playerGameId}')
-                context['played_game'] = playerGameId
-            except Exception as e:
-                messages.error(request, 'Please enter a valid game id')
-                return redirect(request.META['HTTP_REFERER'])
+
+        # elif 'enterGame' in request.POST:
+        #     try:
+        #         playerGameId = request.POST.get('playerGameId')
+        #         playerNickname = request.POST.get('nickname')
+        #         player = Player.objects.create(
+        #             game_id = playerGameId,
+        #             nickname = playerNickname if playerNickname != "" else "Bob"
+        #         )
+        #         print(f'Playing: {playerGameId}')
+        #         context['played_game'] = playerGameId
+        #     except Exception as e:
+        #         messages.error(request, 'Please enter a valid game id')
+        #         return redirect(request.META['HTTP_REFERER'])
 
         else:
             context['next'] = "NEXT IMAGE"
 
-    #TODO: What happend on game compete?, e.g. is_finished is set to true
+    #TODO: What happend on game complete?, e.g. is_finished is set to true
 
-    return render(request, 'game/game.html', context)
+    return render(request, 'game/game-control.html', context)
+
+def home(request):
+    context = {}
+    return render(request, 'game/home.html', context)
+
+
+def game_room(request, game_id):
+    context = {}
+    game = Game.objects.get(game_id=game_id)
+    context['game'] = game
+    return render(request, 'game/game_room.html',context)

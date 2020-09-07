@@ -22,7 +22,7 @@
                             <button class="btn btn-secondary btn-lg" type="submit" id="gamePrep" name="gamePrep">Prep Game</button>
                             <div class="mt-4">
                                 <ul>
-                                    <li>Game ID: <b>{{ game_id }}</b></li>
+                                    <li>Game ID: <b>{{ game.game_id }}</b></li>
                                     <li>Allbum name: <b>{{ album }}</b></li>
                                     <li>Winning Conditions: <b>{{ winning_cond }}</b></li>
                                     <li>Is Public: <b>{{ is_public }}</b></li>
@@ -31,7 +31,7 @@
                         </div>
     
                         <div class="col-4">
-                            <a href="{% url 'game:game-room' game_id=game_id %}" class="btn btn-primary btn-lg" type="submit" id="startGame" name="startGame" target="_blank" >Start Game</a>
+                            <a href="{% url 'game:game-room' game_id=game.game_id %}" class="btn btn-primary btn-lg" type="submit" id="startGame" name="startGame" target="_blank" >Start Game</a>
                         </div>
                         <div class="col-4">
                             <h3>Current Players</h3>
@@ -41,48 +41,6 @@
                                 </ol>
                             </div>
                         </div>
-                </div> 
-            </section>
-
-            <hr>
-            <section>
-                <div class="mt-3">
-                    <h3>Player</h3>
-                </div>
-                <div class="row mt-3">
-                    {% csrf_token %}
-                    <div class="col-12">
-                        <div class="row mb-2">
-                            {% if messages %}
-                                <ul class="messages">
-                                    {% for message in messages %}
-                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                            
-                            {% endif %}
-
-                        </div>
-                        <div class="row">
-                            <div class="col-3">
-                                <input type="text" id="playerGameId" name="playerGameId" placeholder="Enter Game ID">
-                            </div>
-                            <div class="col-3">
-                                <input type="text" id="nickname" name="nickname" placeholder="Enter Nickname">
-                            </div>
-                            <div class="col-3">
-                                <button class="btn btn-success btn-lg" type="button" id="enterGame" name="enterGame">Play</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <h4>Game Played: <b>{{ played_game }}</b></h4> 
-                    </div>
-                </div>
                 </div> 
             </section>
 
@@ -123,6 +81,7 @@
 
 
         var gameId;
+        /*
         document.querySelector('#playerGameId').focus();
 
         document.querySelector('#playerGameId').onkeyup = function(e) {
@@ -149,6 +108,7 @@
 
             //window.location.pathname = '/game/' + gameId + '/';
         };
+        */
 
     </script>
 

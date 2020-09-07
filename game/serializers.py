@@ -4,7 +4,7 @@ from rest_framework.validators import UniqueTogetherValidator
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import BaseUserManager
 
-from .models import Album, Picture
+from .models import Album, Picture, Player
 
 class AlbumSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,4 +19,9 @@ class PicturesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Picture
         fields = '__all__'
-        
+
+class PlayerSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Player
+        fields = '__all__'

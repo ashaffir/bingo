@@ -24,15 +24,15 @@ class AlbumAdmin(admin.ModelAdmin):
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('created','album_id', 'user','is_finished',)
+    list_display = ('pk','created','game_id','album_id', 'user','is_finished',)
     search_fields = ('user',)
     ordering = ('-created',)
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ('player_id','game_id', 'nickname',)
-    search_fields = ['player_id','nickname','game__game_id',]
-    ordering = ('nickname',)
+    list_display = ('player_id','created','player_game_id', 'nickname',)
+    search_fields = ['player_id','nickname','game__game_id','created',]
+    ordering = ('-created',)
 
 @admin.register(Picture)
 class PictureAdmin(ImportExportModelAdmin):
