@@ -94,7 +94,8 @@
             //console.log(`${gameId}`);
             
             // Send a message about new user
-            var nickname = document.querySelector('#nickname').value;
+            var entered_nickname = document.querySelector('#nickname').value;
+            nickname = entered_nickname != "" ? entered_nickname : "Bob" + `${Math.floor(Math.random() * 10000)}`;
             var data = {
                 'game_id': gameId,
                 'nickname': nickname
@@ -105,7 +106,7 @@
                 'data': data,
             }));
 
-            //window.location.pathname = '/game/' + gameId + '/';
+            window.location.pathname = '/game/' + gameId + '/';
 
         };
 

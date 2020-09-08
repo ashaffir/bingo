@@ -42,7 +42,6 @@ class GameConsumer(AsyncWebsocketConsumer):
             print(f'NEW PLAYER: {new_player.pk}')
             player_data = PlayerSerializer(new_player).data
             game_room = f'game_{player_data["player_game_id"]}'
-            print(f'>>>>>>> Sending player data: {player_data} to game: {game_room}')
             await self.channel_layer.group_send(
                 game_room,
                 {
@@ -51,13 +50,9 @@ class GameConsumer(AsyncWebsocketConsumer):
                 }
             )
 
-
-    async def echo_message(self, event):
-        print(f'>>> ECHO 1: {event}')
-        await self.send_json(event)
-
     # Receive message from room group
     async def game_message(self, event):
+        print(f'SENT MESSAGE: {event}')
         message = event['message']
 
         # Send message to WebSocket

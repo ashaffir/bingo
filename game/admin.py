@@ -24,7 +24,7 @@ class AlbumAdmin(admin.ModelAdmin):
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ('pk','created','game_id','album_id', 'user','is_finished',)
+    list_display = ('pk', 'user','created','game_id','album_id','started','number_of_players','is_finished',)
     search_fields = ('user',)
     ordering = ('-created',)
 

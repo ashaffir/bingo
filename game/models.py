@@ -62,6 +62,7 @@ class Game(models.Model):
     players_list = models.JSONField(blank=True, null=True)
 
     # Start Game
+    game_requested = models.BooleanField(default=False)
     started = models.BooleanField(default=False)
     ended = models.BooleanField(default=False)
     game_cost = models.FloatField(null=True, blank=True)

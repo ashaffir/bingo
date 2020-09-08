@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
 from rest_framework.decorators import action
 
-
+from users.models import User
 from .models import Album, Picture, Game, Player
 from . import serializers
 
@@ -155,7 +155,7 @@ def game_control(request):
             context['winning_cond'] = 'ALL'
             context['is_public'] = 'Public Game'
             
-            return redirect('game:game-room', new_game.game_id)
+            # return redirect('game:game-room', new_game.game_id)
 
         elif 'startGame' in request.POST:
             # TODO: open a WS on start of game listening to the joining of players
@@ -192,5 +192,58 @@ def home(request):
 def game_room(request, game_id):
     context = {}
     game = Game.objects.get(game_id=game_id)
+
+    if request.method == 'POST':
+        if 'requestGame' in request.POST:
+            # TODO: Delete game data to oavoid future collisions
+            
+            # Setting game to started
+            game = Game.objects.get(user=request.user.pk, game_id=game_id)
+            game.game_requested = True
+
+            # Collecting the Players
+            players = Player.objects.filter(player_game_id=game_id)
+            game.player_list = players
+
+            game.number_of_players = len(players)
+
+            #Setting up the price for the game
+            # TODO: Define pricing accurately
+            if len(players) < 21:
+                game.game_cost = round(len(players) * 1/20,2)
+            elif len(players < 41):
+                game.game_cost = round(len(players) * 1/25,2)
+            else:
+                game.game_cost = round(len(players) * 1/30,2)
+
+            print(f'COST: {game.game_cost}')            
+            game.save()
+        elif 'conirmed' in request.POST:
+            user = User.objects.get(pk=request.user.pk)
+            game = Game.objects.get(user=request.user.pk, game_id=game_id)
+            game.game_requested = False
+
+            # Check user's balance and deduct the amount
+            current_balance = user.balance
+            game_cost = game.game_cost
+            new_balance = current_balance - game_cost
+            if new_balance > 0: 
+                # Updating user new balance
+                user.balance = new_balance
+                user.save()
+
+                # Start the game
+                game.started = True
+                game.save()
+                print(f'GAME STARTED')            
+
+
     context['game'] = game
+
     return render(request, 'game/game_room.html',context)
+
+def players(request, user_id, game_id):
+    context = {}
+    players = Player.objects.filter(player_game_id=game_id)
+    context['players'] = players
+    return render(request, 'game/players.html', context)
