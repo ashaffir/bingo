@@ -150,10 +150,16 @@ def game_control(request):
                 is_public=True
             )
 
-            context['game'] = new_game
-            context['album'] = album.name
-            context['winning_cond'] = 'ALL'
-            context['is_public'] = 'Public Game'
+            try:
+                context['game'] = new_game
+                context['album'] = album.name
+                context['winning_cond'] = 'ALL'
+                context['is_public'] = 'Public Game'
+            except:
+                context['game'] = new_game
+                context['album'] = 'There are no albums for this user'
+                context['winning_cond'] = 'ALL'
+                context['is_public'] = 'Public Game'                
             
             # return redirect('game:game-room', new_game.game_id)
 
