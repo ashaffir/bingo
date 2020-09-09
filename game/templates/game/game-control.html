@@ -46,6 +46,7 @@
     <!-- Websocket -->
     <script>
         //Open game socket
+        /*
 
         const scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
         console.log('Game WS is ready!')
@@ -67,7 +68,7 @@
         gameSocket.onclose = function(e) {
             console.error('Game socket closed unexpectedly');
         };
-
+        */
 
         //var gameId;
         document.querySelector('#gameReady').onclick = function(e) {
@@ -75,7 +76,7 @@
             console.log(gameId);
             window.location.pathname = '/game/' + gameId + '/';
         };
-        
+
         /*
             document.querySelector('#playerGameId').focus();
 
