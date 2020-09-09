@@ -58,8 +58,10 @@
     <script>
         //Open game socket
 
+        var gameId = '0000';
+    
         const scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-        console.log('Game WS is ready!')
+        console.log(`WS is ready. Dummy room ${gameId}!`)
         const gameSocket = new WebSocket(
             scheme
             + window.location.host
@@ -80,7 +82,6 @@
         };
 
 
-        var gameId;
         document.querySelector('#playerGameId').focus();
 
         document.querySelector('#playerGameId').onkeyup = function(e) {
