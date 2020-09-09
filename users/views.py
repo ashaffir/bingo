@@ -1,6 +1,7 @@
 from datetime import datetime
 from django.shortcuts import render
 from django.core.exceptions import ImproperlyConfigured
+from django.core import serializers as d_serializers
 from django.contrib.auth import login as django_login, logout as django_logout
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib import messages
@@ -60,14 +61,28 @@ def registration_view(request):
         
 class LoginView(APIView):
     def post(self, request):
+        data = {}
         serializer = serializers.LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True) # Block the code from continue if raised exception
         user = serializer.validated_data['user']
+        user_info = User.objects.get(pk=user.pk)    
+        # The below works, but response in long JSON string
+        # user_obj = User.objects.filter(pk=user.pk)
+        # user_info = d_serializers.serialize("json",user_obj)
+        
+
         django_login(request,user)
         token, created = Token.objects.get_or_create(user=user)
+
+        data['username' ] = user_info.username
+        data['email'] = user_info.username
+        data['phone'] = user_info.phone
+        data['first_name'] = user_info.first_name
+        data["last_name"] = user_info.last_name
+        data['token'] = token.key
         
         # TODO: Return all user data
-        return Response({"token":token.key}, status=200)
+        return Response(data, status=200)
 
 @api_view(['POST',])
 def logout_view(request):
@@ -86,7 +101,6 @@ def password_change(request):
     reset_password_serializer = serializers.UserResetPasswordSerializer(request.user, data=request.data)
 
     if reset_password_serializer.is_valid():
-        print('HERE')
         if not request.user.check_password(request.data.get('password')):
             return Response({"password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
 
