@@ -11,3 +11,5 @@ sudo service nginx restart
 
 # REDIS
 sudo systemctl restart redis.service
+sudo /etc/init.d/redis-server restart
+redis-server -v  # Version check

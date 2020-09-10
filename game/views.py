@@ -18,28 +18,33 @@ from . import serializers
 @api_view(['GET','POST',],)
 @permission_classes((IsAuthenticated,))
 def pictures(request):
-    if request.method == 'GET':
-        data = {}
+    data = {}
+
+    if request.method == 'POST':
         album = request.data['album_id']
-        pictures = Picture.objects.filter(album=album).values()
-        pictures_list = []
-        for picture in pictures:
-            print(f'PICTURE: {picture}')
-            serializer = serializers.PicturesSerializer(picture, data=request.data)
-            if serializer.is_valid():
-                pictures_list.append(picture)
-            else:
-                print(f'Failed picture serializing. ERROR: {serializer.errors}')
-        data['pictures'] = pictures_list
-        data['response'] = f'Picture for album: {album}'
+    elif request.method == 'GET':
+        album = request.GET.get('album_id')
     else:
         return Response(status.HTTP_400_BAD_REQUEST)
+
+    pictures = Picture.objects.filter(album=album).values()
+    pictures_list = []
+    for picture in pictures:
+        print(f'PICTURE: {picture}')
+        serializer = serializers.PicturesSerializer(picture, data=request.data)
+        if serializer.is_valid():
+            pictures_list.append(picture)
+        else:
+            print(f'Failed picture serializing. ERROR: {serializer.errors}')
+    data['pictures'] = pictures_list
+    data['response'] = f'Picture for album: {album}'
+
     if len(pictures_list) == 0:
         return Response(data='No Pictures', status=status.HTTP_200_OK)
     else:
         return Response(data)
 
-@api_view(['POST', 'GET'],)
+@api_view(['POST', 'GET', 'PUT'],)
 @permission_classes((IsAuthenticated,))
 def albums(request):
     '''
@@ -54,7 +59,7 @@ def albums(request):
     if request.method == 'GET':
         query = request.GET.get('albums')
         if query == 'public':
-            public_albums = Album.objects.filter(isPublic=True)
+            public_albums = Album.objects.filter(is_public=True)
             albums_list = []
             for album in public_albums:
                 serializer = serializers.AlbumSerializer(album, data=request.data) 
@@ -78,6 +83,26 @@ def albums(request):
         data['albums'] = albums_list
         return Response(data)
 
+    # Update album
+    elif request.method == 'PUT':
+
+        try:
+            album = Album.objects.get(album_id=request.GET.get('album_id'))
+        except Album.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.AlbumSerializer(album, data=request.data)
+        data = {}
+        if serializer.is_valid():
+            updated_album = serializer.save()
+            data = serializer.data
+            data['response'] = 'Update successful'
+        else:
+            data['response'] = "Update failed."        
+        
+        return Response(data)
+
+
     # Create new album
     elif request.method == 'POST':
         data = {}
@@ -100,6 +125,7 @@ def albums(request):
             image.name = pic
             image.album = album
             image.url = pictures[0][f'{pic}']['url']
+            image.remove_id = pictures[0][f'{pic}']['remote_id']
             image.save()
 
 
