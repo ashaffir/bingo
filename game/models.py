@@ -65,7 +65,8 @@ class Game(models.Model):
     started = models.BooleanField(default=False)
     ended = models.BooleanField(default=False)
     game_cost = models.FloatField(null=True, blank=True)
-    shown_pictures = models.JSONField(null=True, blank=True)
+    pictures_pool = models.JSONField(default=list)
+    shown_pictures = models.JSONField(default=list)
 
     is_finished = models.BooleanField(default=False)
 
@@ -95,4 +96,4 @@ class Board(models.Model):
     pictures = models.JSONField(null=True, blank=True)
 
     def __str__(self):
-        return self.player + " - " + self.size
+        return self.size

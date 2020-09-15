@@ -21,10 +21,11 @@
                     </div>
                     <div class="col-2"> </div>
                     <div class="col-5">
+
                         {% if user.is_authenticated %}
-                        <div class="col-12">
-                            <p>Game ID: <b>{{ game.game_id }}</b></p>
-                        </div>
+                            <div class="col-12">
+                                <p>Game ID: <b>{{ game.game_id }}</b></p>
+                            </div>
                         <form action="" name="gameForm" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% if game.started %}

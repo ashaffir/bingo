@@ -1,5 +1,5 @@
 import logging
-
+import random
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 
@@ -77,8 +77,6 @@ def albums(request):
     API endpoints: 
     /api/game/albums/album_id=<ALBUM ID> for particular user album (the one that is logged in)
     /api/game/albums/ for all user albums
-
-    Create 
     '''
     data = {}
     if request.method == 'GET':
@@ -198,24 +196,28 @@ def game_create(request):
         # info['is_public'] = request.data['is_public']
         # info['prizes'] = request.data['prizes']
 
+        album_id = request.data['album_id']
+        album = Album.objects.get(pk=album_id)
+        # print(f'ALBUM_SER: {album_ser}')
         
         serializer = serializers.GameSerializer(data=request.data)
 
         if serializer.is_valid():
             game = serializer.save()
 
+            game.album = album
+            game.pictures_pool = album.pictures
+            game.user = user
+            game.save()
+
             data['response'] = "Game is ready"
             data['game_id'] = game.game_id
-            data['album_id'] = game.album
+            data['album_id'] = game.album.pk
             data['winning_conditions'] = game.winning_conditions
             data['is_public'] = game.is_public
             data['prizes'] = game.prizes
             data['user_id'] = user.pk
-            # data['album_id'] = album_id.pk
 
-            game.user = user
-            # game.album_id = album_id
-            game.save()
             return Response(data)
         else:
             data['response'] = "Failed preping the game."
@@ -305,6 +307,75 @@ def game_confirm(request):
         return Response(status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET',])
+@permission_classes((IsAuthenticated,))
+def game_play(request):
+    '''
+    Handles the process for every click on the NEXT button
+    1) Get the pictures from the pictures_pool
+    2) Get a random picture from the pool
+    3) Pop that picture from the pool and write it back to the DB
+    4) Check which players met the winning condition
+    5) Continue until "BINGO"
+
+    Request:
+    - game id (error if there is no such game for the user)
+    
+    Return:
+    - Picture ID for display
+    - number of pictures pooled
+    - number of pictures left
+    - player IDs those who have winning conditions
+
+    '''
+    data = {}
+    if request.method == 'GET':
+        try:
+            game_id = request.GET.get('game_id')
+            game = Game.objects.get(user=request.user.pk, game_id=game_id)
+        except Exception as e:
+            print('No such game for this player')
+            logger.error(f'No such game for this player. ERROR: {e}')
+            return Response('Error game request', status=status.HTTP_400_BAD_REQUEST)
+
+
+        pictures_pool_dict = game.pictures_pool[0]
+        pictures_pool_list = []
+        items_list = []
+
+        # Creating a list of all keys in the dict
+        if len(pictures_pool_dict) > 0:
+            for pic in pictures_pool_dict:
+                items_list.append(pic)
+
+            # Drawing a random key from the dict
+            picture_draw_index = random.randint(0,len(items_list)-1)
+            rand_item = items_list[picture_draw_index]
+            picture_draw = pictures_pool_dict.pop(rand_item)
+            
+            # Updating the DB with the reduced list of pictures
+            pictures_pool_list.append(pictures_pool_dict)
+            game.pictures_pool = pictures_pool_list
+
+            current_shown_pictures = game.shown_pictures
+            current_shown_pictures.append({rand_item:picture_draw})
+            game.shown_pictures = current_shown_pictures
+
+            game.save()
+
+            data['remaining_pictures'] = len(pictures_pool_dict)
+            data['picture'] = picture_draw
+            return Response(data)
+        else:
+            return Response('No more pictures')
+    else:
+        print('Bad request at game play')
+        logger.error('Bad request at game play')
+        return Response(status.HTTP_400_BAD_REQUEST)
+
+
+
+
 @login_required
 def game_control(request):
     context = {}
@@ -366,7 +437,6 @@ def home(request):
 def game_room(request, game_id):
     ''' For testing purposes. Room game demo
     '''
-
     context = {}
     game = Game.objects.get(game_id=game_id)
 
