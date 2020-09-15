@@ -48,44 +48,67 @@ def pictures(request):
     else:
         return Response(data)
 
+
+@api_view(['GET',],)
+def public_albums(request):
+    """Access to public albums
+    """
+    data = {}
+    if request.method == 'GET':
+        _public_albums = Album.objects.filter(is_public=True)
+        albums_list = []
+        for album in _public_albums:
+            serializer = serializers.AlbumSerializer(album, data=request.data) 
+            if serializer.is_valid():
+                albums_list.append(serializer.data)
+            else:
+                print(f'Failed picture serializing. ERROR: {serializer.errors}')
+                logger.error(f'Failed picture serializing. ERROR: {serializer.errors}')
+
+        data['response'] = 'Public albums'
+        data['albums'] = albums_list
+        return Response(data)
+
 @api_view(['POST', 'GET', 'PUT'],)
 @permission_classes((IsAuthenticated,))
 def albums(request):
     '''
     Retreive albums: either public ones or per user
     API endpoints: 
-    /api/game/albums/ for particular user (the one that is logged in)
-    /api/game/albums/?albums=all for all public
+    /api/game/albums/album_id=<ALBUM ID> for particular user album (the one that is logged in)
+    /api/game/albums/ for all user albums
 
     Create 
     '''
     data = {}
     if request.method == 'GET':
-        query = request.GET.get('albums')
-        if query == 'public':
-            public_albums = Album.objects.filter(is_public=True)
-            albums_list = []
-            for album in public_albums:
-                serializer = serializers.AlbumSerializer(album, data=request.data) 
-                if serializer.is_valid():
-                    albums_list.append(serializer.data)
-                else:
-                    print(f'Failed picture serializing. ERROR: {serializer.errors}')
+        query = request.GET.get('album_id')
 
-            data['response'] = 'Public albums'
+        if query is not None:
+            user_album = Album.objects.get(pk=query)
+            serializer = serializers.AlbumSerializer(user_album, data=request.data)
+            if serializer.is_valid():
+                data['response'] = f'User album id {query}'
+                data['album'] = serializer.data
+                return Response(data)
+            else:
+                print(f'Failed picture serializing. ERROR: {serializer.errors}')
+                data['response'] = f'No album found for id {query}'
+                return Response(data)
         else:
-            albums = Album.objects.filter(Q(user=request.user))
+            print('>> Getting all user albums')
+            user_albums = Album.objects.filter(Q(user=request.user))
             albums_list = []
-            for album in albums:
-                serializer = serializers.AlbumSerializer(album, data=request.data) 
+            for album in user_albums:
+                serializer = serializers.AlbumSerializer(album, data=request.data)
                 if serializer.is_valid():
                     albums_list.append(serializer.data)
-            data['response'] = f'Albums for user: {request.user}'
+            data['response'] = f'All albums for user: {request.user}'
 
             # print(f'ERROR GETTNIG ALL ALBUMS')
             # data = serializer.errors
-        data['albums'] = albums_list
-        return Response(data)
+            data['albums'] = albums_list
+            return Response(data)
 
     # Update album
     elif request.method == 'PUT':
@@ -121,7 +144,7 @@ def albums(request):
         album.user = user
         album.pictures = pictures
         album.board = board
-        album.number_of_images = len(pictures[0])
+        album.number_of_pictures = len(pictures[0])
         album.save()
 
         for pic in pictures[0]:
@@ -138,11 +161,6 @@ def albums(request):
             data = serializer.data
         else:
             return Response('ERROR SERIALIZING NEW ALBUM')
-
-        # Card:{
-        # Row:nubmer,
-        # Column: number,
-        # isEmptyCenter: boolean
 
         return Response(data)
 

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from .views import (albums, pictures, UserAlbumsView, game_room, game_control, 
+from .views import (albums,public_albums, pictures, UserAlbumsView, game_room, game_control, 
                     players, game_create, game_request,game_confirm)
 
 router = routers.DefaultRouter()
@@ -12,6 +12,7 @@ app_name = 'game'
 urlpatterns = [
     path('', include(router.urls)),
     path('albums/', albums, name='albums'),
+    path('public-albums/', public_albums, name='public-albums'),
     path('pictures/', pictures, name='pictures'),
     path('game-control/', game_control, name='game-control'),
     path('game-create/', game_create, name='game-create'),
