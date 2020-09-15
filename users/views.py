@@ -55,7 +55,7 @@ def registration_view(request):
 
         else:
             data = serializer.errors
-            print(f'DATA: {data}')
+            print(f'Registration info: {data}')
         
         return Response(data)
         

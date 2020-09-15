@@ -10,11 +10,10 @@
     <div class="container" >
         <div class="row mt-5">
                     <div class="col-5">
-                        {% if game.started or game.is_finished or game.game_requested %}
+                        {% if game.is_finished or game.game_requested %}
                         <div class="row">
                             <h2>Game is Closed</h2>
                         </div>
-                    {% else %}
                             <img src="https://pbs.twimg.com/profile_images/446554044614852608/Ozo5Vcfx_400x400.jpeg" alt="">   
                             <!-- <textarea id="game-log" cols="100" rows="20"></textarea><br>
                             <input id="game-message-input" type="text" size="100"><br> -->    
@@ -29,12 +28,11 @@
                         <form action="" name="gameForm" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% if game.started %}
-                                <h4>Game Started</h4>
                                 <button class="btn btn-success" type="submit" id="nextPicture" name="nextPicture">Next Picture</button>        
                             {% endif %}
 
                             <div class="mt-3">
-                                {% if game.game_requested %}
+                                {% if game.game_requested and not game.started %}
                                     <h4>Price: {{ game.game_cost }}</h4>
                                     <button class="btn btn-primary" type="submit" id="conirmed" name="conirmed">Confirm</button>        
                                 {% elif not game.started %}

@@ -1,3 +1,5 @@
+import logging
+
 from django.shortcuts import render, redirect, reverse
 from django.http import HttpResponseRedirect
 
@@ -14,6 +16,8 @@ from rest_framework.decorators import action
 from users.models import User
 from .models import Album, Picture, Game, Player
 from . import serializers
+
+logger = logging.getLogger(__file__)
 
 @api_view(['GET','POST',],)
 @permission_classes((IsAuthenticated,))
@@ -106,7 +110,7 @@ def albums(request):
     # Create new album
     elif request.method == 'POST':
         data = {}
-        print(f'DATA: {request.data}')
+        print(f'New Album request: {request.data}')
         album_name = request.data['name']
         user = request.user
         pictures = request.data['pictures']
@@ -163,6 +167,126 @@ class UserAlbumsView(viewsets.ModelViewSet):
 
         return queryset_list
 
+@api_view(['POST',])
+@permission_classes((IsAuthenticated,))
+def game_create(request):
+    data = {}
+    # info = {}
+    if request.method == 'POST':
+        user = request.user
+        # album_id = Album.objects.get(user=request.user, name=request.data['album_name'])
+
+        # info['winning_conditions'] = request.data['winning_conditions']
+        # info['is_public'] = request.data['is_public']
+        # info['prizes'] = request.data['prizes']
+
+        
+        serializer = serializers.GameSerializer(data=request.data)
+
+        if serializer.is_valid():
+            game = serializer.save()
+
+            data['response'] = "Game is ready"
+            data['game_id'] = game.game_id
+            data['album_id'] = game.album
+            data['winning_conditions'] = game.winning_conditions
+            data['is_public'] = game.is_public
+            data['prizes'] = game.prizes
+            data['user_id'] = user.pk
+            # data['album_id'] = album_id.pk
+
+            game.user = user
+            # game.album_id = album_id
+            game.save()
+            return Response(data)
+        else:
+            data['response'] = "Failed preping the game."
+            data['errors'] = serializer.errors
+            return Response(data)
+
+@api_view(['POST',])
+@permission_classes((IsAuthenticated,))
+def game_request(request):
+    '''
+    Calculating the price for the game according to the number of players joined.
+    '''
+    data = {}
+    if request.method == 'POST':
+
+            game = Game.objects.get(user=request.user, game_id=request.data['game_id'])
+            game.game_requested = True
+
+            # Collecting the Players
+            try:
+                players = Player.objects.filter(player_game_id=request.data["game_id"])
+                players_list = []
+                for player in players:
+                    player_data = {}
+                    player_data['nickname'] = player.nickname
+                    player_data['player_id'] = str(player.player_id)
+                    players_list.append(player_data)
+
+                game.players_list = players_list
+
+                game.number_of_players = len(players)
+
+                #Setting up the price for the game
+                # TODO: Define pricing accurately
+                if players:
+                    if len(players) < 21:
+                        game_cost = round(len(players) * 1/20,2)
+                    elif len(players < 41):
+                        game_cost = round(len(players) * 1/25,2)
+                    else:
+                        game_cost = round(len(players) * 1/30,2)
+                else:
+                    game_cost = 0
+                
+                data['game_cost'] = game_cost
+                data['num_of_players'] = len(players)
+                game.game_cost = game_cost
+                game.save()
+                return Response(data)
+            except Exception as e:
+                print(f'There are no players. ERROR: {e}')
+                logger.error(f'No players found for this game. ERROR: {e}')
+                return Response(status.HTTP_503_SERVICE_UNAVAILABLE)
+    else:
+        return Response('Bad request', status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST',])
+@permission_classes((IsAuthenticated,))
+def game_confirm(request):
+    '''
+    - Host to confirm the game
+    - Checking that the user's balanace can cover the cost of the game
+    '''
+    data = {}
+    if request.method == 'POST':
+        user = User.objects.get(pk=request.user.pk)
+        game = Game.objects.get(user=request.user.pk, game_id=request.data['game_id'])
+
+        # Check user's balance and deduct the amount
+        current_balance = user.balance
+        game_cost = game.game_cost
+        new_balance = current_balance - game_cost
+        if new_balance > 0: 
+            # Updating user new balance
+            user.balance = new_balance
+            user.save()
+
+            # Start the game
+            game.started = True
+            game.save()
+            data['response'] = 'Game Started'
+            return Response(data, status=status.HTTP_200_OK)
+        else:
+            data['response'] = 'Not enough balance'
+            return Response(data)
+    else:
+        return Response(status.HTTP_400_BAD_REQUEST)
+
+
 @login_required
 def game_control(request):
     context = {}
@@ -181,7 +305,7 @@ def game_control(request):
                 context['album'] = album.name
                 context['winning_cond'] = 'ALL'
                 context['is_public'] = 'Public Game'
-            except:
+            except Exception as e:
                 context['game'] = new_game
                 context['album'] = 'There are no albums for this user'
                 context['winning_cond'] = 'ALL'
@@ -222,6 +346,9 @@ def home(request):
 
 
 def game_room(request, game_id):
+    ''' For testing purposes. Room game demo
+    '''
+
     context = {}
     game = Game.objects.get(game_id=game_id)
 
@@ -234,19 +361,20 @@ def game_room(request, game_id):
             game.game_requested = True
 
             # Collecting the Players
-            players = Player.objects.filter(player_game_id=game_id)
-            game.player_list = players
+            _players = Player.objects.filter(player_game_id=game_id)
+            game.player_list = _players
 
-            game.number_of_players = len(players)
+            game.number_of_players = len(_players)
 
             #Setting up the price for the game
             # TODO: Define pricing accurately
-            if len(players) < 21:
-                game.game_cost = round(len(players) * 1/20,2)
-            elif len(players < 41):
-                game.game_cost = round(len(players) * 1/25,2)
-            else:
-                game.game_cost = round(len(players) * 1/30,2)
+            if _players:
+                if len(_players) < 21:
+                    game.game_cost = round(len(_players) * 1/20,2)
+                elif len(_players < 41):
+                    game.game_cost = round(len(_players) * 1/25,2)
+                else:
+                    game.game_cost = round(len(_players) * 1/30,2)
 
             print(f'COST: {game.game_cost}')            
             game.save()
@@ -275,7 +403,9 @@ def game_room(request, game_id):
     return render(request, 'game/game_room.html',context)
 
 def players(request, user_id, game_id):
+    ''' For generating the dynamic players table created with websocket
+    '''
     context = {}
-    players = Player.objects.filter(player_game_id=game_id)
-    context['players'] = players
+    _players = Player.objects.filter(player_game_id=game_id)
+    context['players'] = _players
     return render(request, 'game/players.html', context)

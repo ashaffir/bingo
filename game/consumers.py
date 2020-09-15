@@ -34,7 +34,7 @@ class GameConsumer(AsyncWebsocketConsumer):
         message_type = text_data_json['message_type']
         data = text_data_json['data']
 
-        print(f'DATA: {data} TYPE: {message_type}')
+        print(f'Consumer input data: {data} TYPE: {message_type}')
 
         if message_type == 'add.player':
             new_player = await self.add_player(data)

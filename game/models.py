@@ -3,13 +3,6 @@ import uuid
 from django.db import models
 from users.models import User
 
-class Board(models.Model):
-    rows = models.IntegerField()
-    columns = models.IntegerField()
-
-    def __str__(self):
-        return 'Dimensions:' + str(self.rows) + "X" + str(self.columns)
-
 class Album(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     album_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -47,22 +40,27 @@ class Game(models.Model):
 
     WINNING_CONDITIONS = (
         ('ROWS', 'ROWS'),
-        ('COLUMNS', 'COLUMNS'),
+        ('2_ROWS', '2_ROWS'),
         ('FULL_ONLY', 'FULL_ONLY'),
         ('ALL', 'ALL'),
     )
+
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
     # Game prep
     game_id = models.CharField(max_length=4, default=random_string)
-    created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
 
-    album_id = models.ForeignKey(Album, null=True, blank=True, on_delete=models.CASCADE)
-    winning_conditions = models.CharField(max_length=10, choices=WINNING_CONDITIONS, default='ALL')
+    album = models.ForeignKey(Album, null=True, blank=True, on_delete=models.CASCADE)
+    board_size = models.IntegerField(blank=True, null=True)
+    winning_conditions = models.JSONField(default=list)
+    # winning_conditions = models.CharField(max_length=10, choices=WINNING_CONDITIONS, default='ALL')
     is_public = models.BooleanField(default=False)
-    number_of_players = models.IntegerField(null=True, blank=True)
-    players_list = models.JSONField(blank=True, null=True)
+    prizes = models.JSONField(null=True, blank=True)
 
     # Start Game
+    number_of_players = models.IntegerField(null=True, blank=True)
+    players_list = models.JSONField(blank=True, null=True)
     game_requested = models.BooleanField(default=False)
     started = models.BooleanField(default=False)
     ended = models.BooleanField(default=False)
@@ -90,3 +88,11 @@ class Player(models.Model):
 
     def __str__(self):
         return self.nickname
+
+class Board(models.Model):
+    size = models.IntegerField(null=True, blank=True)
+    # player = models.OneToOneField(Player, blank=True, null=True, on_delete=models.CASCADE)
+    pictures = models.JSONField(null=True, blank=True)
+
+    def __str__(self):
+        return self.player + " - " + self.size

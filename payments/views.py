@@ -66,7 +66,7 @@ def payment(request, amount=0.0):
 @login_required
 def charge(request):
     if request.method == 'POST':
-        print('Data:', request.POST)
+        print('Charge info:', request.POST)
         stripe.api_key = settings.STRIPE_SECRET_KEY
         user = User.objects.get(pk=request.user.pk)
         name = user.name
