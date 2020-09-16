@@ -407,21 +407,6 @@ def game_control(request):
             game = Game.objects.filter(user=request.user).last
             context['game'] = game
 
-
-        # elif 'enterGame' in request.POST:
-        #     try:
-        #         playerGameId = request.POST.get('playerGameId')
-        #         playerNickname = request.POST.get('nickname')
-        #         player = Player.objects.create(
-        #             game_id = playerGameId,
-        #             nickname = playerNickname if playerNickname != "" else "Bob"
-        #         )
-        #         print(f'Playing: {playerGameId}')
-        #         context['played_game'] = playerGameId
-        #     except Exception as e:
-        #         messages.error(request, 'Please enter a valid game id')
-        #         return redirect(request.META['HTTP_REFERER'])
-
         else:
             context['next'] = "NEXT IMAGE"
 

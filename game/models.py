@@ -49,11 +49,11 @@ class Game(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     # Game prep
-    game_id = models.CharField(max_length=4, default=random_string)
+    game_id = models.CharField(max_length=4, default=random_string,null=True, blank=True)
 
     album = models.ForeignKey(Album, null=True, blank=True, on_delete=models.CASCADE)
     board_size = models.IntegerField(blank=True, null=True)
-    winning_conditions = models.JSONField(default=list)
+    winning_conditions = models.JSONField(default=list,null=True, blank=True)
     # winning_conditions = models.CharField(max_length=10, choices=WINNING_CONDITIONS, default='ALL')
     is_public = models.BooleanField(default=False)
     prizes = models.JSONField(null=True, blank=True)
@@ -65,8 +65,8 @@ class Game(models.Model):
     started = models.BooleanField(default=False)
     ended = models.BooleanField(default=False)
     game_cost = models.FloatField(null=True, blank=True)
-    pictures_pool = models.JSONField(default=list)
-    shown_pictures = models.JSONField(default=list)
+    pictures_pool = models.JSONField(default=list,null=True, blank=True)
+    shown_pictures = models.JSONField(default=list,null=True, blank=True)
 
     is_finished = models.BooleanField(default=False)
 
