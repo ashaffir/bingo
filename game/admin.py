@@ -40,4 +40,11 @@ class PictureAdmin(ImportExportModelAdmin):
     search_fields = ['name','album','url',]
     ordering = ('name',)    
 
-admin.site.register(Board)
+@admin.register(Board)
+class BoardAdmin(admin.ModelAdmin):
+    list_display = ('pk','game_id','size', 'player',)
+    search_fields = ['game_id','player',]
+    ordering = ('game_id',)   
+
+
+# admin.site.register(Board)

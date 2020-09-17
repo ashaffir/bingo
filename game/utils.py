@@ -20,7 +20,7 @@ def create_2d_array(pictures, board_size):
     return extracted_array
 
 def check_players(picture_id,game_id):
-    """Checks the players that have the picture in their board
+    """Checks the players that have the drawn picture on their board
 
     Args:
         picture_id (str): 

@@ -90,6 +90,7 @@ class Player(models.Model):
     board_dict = models.JSONField(null=True, blank=True, default=list)
     # board = models.OneToOneField(Board, null=True, blank=True, on_delete=models.CASCADE)
     board_id = models.CharField(max_length=100, null=True, blank=True)
+    winnings = models.JSONField(null=True, blank=True, default=list)
 
     def __str__(self):
         return self.nickname
@@ -108,4 +109,4 @@ class Board(models.Model):
     )
 
     def __str__(self):
-        return str(self.pk) + " - Game: " + str(self.game_id)
+        return str(self.pk) 

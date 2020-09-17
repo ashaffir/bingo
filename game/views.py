@@ -234,44 +234,44 @@ def game_request(request):
     data = {}
     if request.method == 'POST':
 
-            game = Game.objects.get(user=request.user, game_id=request.data['game_id'])
-            game.game_requested = True
+        game = Game.objects.get(user=request.user, game_id=request.data['game_id'])
+        game.game_requested = True
 
-            # Collecting the Players
-            try:
-                players = Player.objects.filter(player_game_id=request.data["game_id"])
-                players_list = []
-                for player in players:
-                    player_data = {}
-                    player_data['nickname'] = player.nickname
-                    player_data['player_id'] = str(player.player_id)
-                    players_list.append(player_data)
+        # Collecting the Players
+        try:
+            players = Player.objects.filter(player_game_id=request.data["game_id"])
+            players_list = []
+            for player in players:
+                player_data = {}
+                player_data['nickname'] = player.nickname
+                player_data['player_id'] = str(player.player_id)
+                players_list.append(player_data)
 
-                game.players_list = players_list
+            game.players_list = players_list
 
-                game.number_of_players = len(players)
+            game.number_of_players = len(players)
 
-                #Setting up the price for the game
-                # TODO: Define pricing accurately
-                if players:
-                    if len(players) < 21:
-                        game_cost = round(len(players) * 1/20,2)
-                    elif len(players < 41):
-                        game_cost = round(len(players) * 1/25,2)
-                    else:
-                        game_cost = round(len(players) * 1/30,2)
+            #Setting up the price for the game
+            # TODO: Define pricing accurately
+            if players:
+                if len(players) < 21:
+                    game_cost = round(len(players) * 1/20,2)
+                elif len(players < 41):
+                    game_cost = round(len(players) * 1/25,2)
                 else:
-                    game_cost = 0
-                
-                data['game_cost'] = game_cost
-                data['num_of_players'] = len(players)
-                game.game_cost = game_cost
-                game.save()
-                return Response(data)
-            except Exception as e:
-                print(f'There are no players. ERROR: {e}')
-                logger.error(f'No players found for this game. ERROR: {e}')
-                return Response(status.HTTP_503_SERVICE_UNAVAILABLE)
+                    game_cost = round(len(players) * 1/30,2)
+            else:
+                game_cost = 0
+            
+            data['game_cost'] = game_cost
+            data['num_of_players'] = len(players)
+            game.game_cost = game_cost
+            game.save()
+            return Response(data)
+        except Exception as e:
+            print(f'There are no players. ERROR: {e}')
+            logger.error(f'No players found for this game. ERROR: {e}')
+            return Response(status.HTTP_503_SERVICE_UNAVAILABLE)
     else:
         return Response('Bad request', status=status.HTTP_400_BAD_REQUEST)
 
@@ -387,6 +387,80 @@ def game_play(request):
             active_boards = check_players(picture_id=picture_draw['remote_id'], game_id=game_id)
             print(f'ACTIVE BOARDS: {active_boards}')
 
+            picture_draw_id = picture_draw["remote_id"]
+
+            for board in active_boards:
+                print(f'>> Pic: {picture_draw_id}')
+                print(f'>> B: {board.pictures}')
+                x_count_full = 0
+                for i in range(board.size):
+                    x_count_row = 0
+    
+                    # 1) Replace the hits with an X
+                    board.pictures[i] = [pic if pic != picture_draw_id else 'X' for pic in board.pictures[i]]
+
+                    # Count the 'X's are on the row
+                    x_count_row += board.pictures[i].count('X')
+                    if x_count_row == board.size:
+                        player = Player.objects.get(board_id=board.pk)
+                        player.winnings.append(f'row_{i}')
+                        player.save()
+                        print(f'BINGO: Player {player.nickname} Row {i} board {board}!!!')
+
+                    # Count the 'X's are on the board
+                    x_count_full += board.pictures[i].count('X')
+
+                    # Update the board with the hits
+                    board.save()
+
+                    # Reset the row count for the next row
+                    x_count_row = 0
+
+                # Columns and diagnals winning condition check
+                x_count_diag_left_to_right = 0
+                x_count_diag_right_to_left = 0
+
+                for column in range(board.size):
+                    player = Player.objects.get(board_id=board.pk)
+                    x_count_column = 0
+
+                    for row in range(board.size):
+                        if board.pictures[row][column] == 'X':
+                            x_count_column += 1
+
+                    if x_count_column == board.size:
+                        player.winnings.append(f'col_{column}')
+                        print(f'BINGO: Player {player.nickname} Column {i} board {board}!!!')
+
+                    if board.pictures[column][column] == 'X':
+                        x_count_diag_left_to_right += 1
+
+                    if x_count_diag_left_to_right == board.size:
+                        player.winnings.append('diag_l2r')
+                        print(f'BINGO: Player {player.nickname} Diagonal L2R board {board}!!!')
+
+
+                    if board.pictures[-column-1][-column-1] == 'X':
+                        x_count_diag_right_to_left += 1
+
+                    if x_count_diag_right_to_left == board.size:
+                        player.winnings.append('diag_r2l')
+                        print(f'BINGO: Player {player.nickname} Diagonal R2L board {board}!!!')
+
+                    player.save()
+
+
+                # print(f'>> UPDATED B: {board.pictures}')
+                # print(f'>> X-FULL Count: {x_count_full}')
+                if x_count_full == board.size ** 2:
+                    player = Player.objects.get(board_id=board.pk)
+                    player.winnings.append('FULL')
+                    player.save()
+                    print(f'BINGO FULLLLL!!! Player {player.nickname} Board: {board}')
+
+                
+                
+
             return Response(data)
         else:
             return Response('No more pictures')
@@ -394,6 +468,37 @@ def game_play(request):
         print('Bad request at game play')
         logger.error('Bad request at game play')
         return Response(status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET',])
+@permission_classes((IsAuthenticated,))
+def game_winnings(request):
+    """Checks the winnings for particular player
+
+    Args:
+        player_id (str):
+
+    Returns:
+        list: List of all the winnings that the player currently has
+    """
+    if request.method == 'GET':
+        winnings_set = set()
+        board_id = request.GET.get('board_id')
+        game_id = request.GET.get('game_id')
+        try:
+            player = Player.objects.get(board_id=board_id)
+            for win in player.winnings:
+                winnings_set.add(win)
+            
+            if len(winnings_set) == 0:
+                return Response('No winnings')
+            else:
+                return Response(winnings_set)
+        except Exception as e:
+            print(f'There is no such player for that game. ERROR: {e}')
+            logger.error(f'There is no such player for that game. ERROR: {e}')
+            return Response('Player not found.', status=status.HTTP_200_CREATED)
+
 
 #################
 # DEMO ONLY
