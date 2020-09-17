@@ -1,12 +1,16 @@
 import json
 import random
+import logging
 import itertools
 from django.db.models.signals import post_save
 from django.dispatch import receiver, Signal
 from django.core.signals import request_finished
 from django.conf import settings
 
-from .models import Player, Album
+from .models import Player, Album, Board
+from .utils import create_2d_array
+
+logger = logging.getLogger(__file__)
 
 @receiver(post_save, sender=Player)
 def new_player_signal(sender, instance, update_fields, **kwargs):  
@@ -18,28 +22,38 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
     """
     if kwargs['created']:
         print(f'SIGNAL: Player {instance.pk} created')
+        logger.info(f'SIGNAL: Player {instance.pk} created')
+        
         game = instance.game
-        print(f'GAME: {game}')
         player_game_id = instance.player_game_id
-        print(f'Game ID: {player_game_id}')
         board_size = game.board_size
-        print(f'Board size: {board_size}')
         album = game.album
-        print(f'Album: {album}')
         pictures = album.pictures[0]
-        print(f'>> Pictures len: {len(pictures)}')
         pictures_list = []
         for i in range(1,len(pictures)+1):
             pictures_list.append(pictures[f'pic{i}'])
 
+        # Randomize the board
         shuffle_board = shuffle_pictures(pictures_list, board_size)
-        if shuffle_board:
-            print(f"Shuffled Board Size: {len(shuffle_board)}")
-            instance.board = shuffle_board
-            instance.save()
-        else:
-            print('Not enough pictures')
-            # TODO: take care of this situation
+        # print('SUFFLE', shuffle_board)
+
+        board_array = create_2d_array(shuffle_board, board_size)
+        print(f'PLAYER BOARD: {board_array}')
+
+        player_board = Board.objects.create(
+        player = instance,
+        game_id=player_game_id,
+        size = board_size,
+        pictures = board_array
+        )
+
+        logger.info(f'PLAYER BOARD CREATED: {board_array}')
+
+        instance.board_id = player_board.pk
+        # instance.board_dict = shuffle_board
+        instance.save()
+        
+        
 
 
 
@@ -58,7 +72,7 @@ def shuffle_pictures(pictures, board_size):
     shuffled_board = []
     if len(pictures) > board_size**2:
         for i in range(board_size**2):
-            shuffled_board.append(pictures[i])
+            shuffled_board.append(pictures[i]['remote_id'])
     else:
         print('ERROR: Not enough images in the album')
         return None

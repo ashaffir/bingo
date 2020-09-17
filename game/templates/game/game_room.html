@@ -14,6 +14,7 @@
                         <div class="row">
                             <h2>Game is Closed</h2>
                         </div>
+                        {% else %}
                             <img src="https://pbs.twimg.com/profile_images/446554044614852608/Ozo5Vcfx_400x400.jpeg" alt="">   
                             <!-- <textarea id="game-log" cols="100" rows="20"></textarea><br>
                             <input id="game-message-input" type="text" size="100"><br> -->    
@@ -21,7 +22,6 @@
                     </div>
                     <div class="col-2"> </div>
                     <div class="col-5">
-
                         {% if user.is_authenticated %}
                             <div class="col-12">
                                 <p>Game ID: <b>{{ game.game_id }}</b></p>
@@ -48,6 +48,10 @@
                                 {% endif %}    
                             </div>
                         </form>
+                    {% else %}
+                    <div class="col-12">
+                        <p>Game ID: <b>{{ game.game_id }}</b></p>
+                    </div>
 
 
                         {% endif %} <!--Authenticated-->

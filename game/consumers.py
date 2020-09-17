@@ -1,9 +1,12 @@
 import json
+import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
 from .models import Player, Game
 from .serializers import PlayerSerializer
+
+logger = logging.getLogger(__file__)
 
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -40,6 +43,8 @@ class GameConsumer(AsyncWebsocketConsumer):
             new_player = await self.add_player(data)
 
             print(f'NEW PLAYER: {new_player.pk}')
+            logger.info(f'NEW PLAYER: {new_player.pk}')
+
             player_data = PlayerSerializer(new_player).data
             game_room = f'game_{player_data["player_game_id"]}'
             await self.channel_layer.group_send(
@@ -62,9 +67,11 @@ class GameConsumer(AsyncWebsocketConsumer):
 
 
     async def add_player(self, event):
-        print(f'ADD: {event}')
+        print(f'CONSUMER ADD: {event}')
         new_player = await self._add_player(event)
         player_data = PlayerSerializer(new_player).data
+
+        print(f'CONSUMER PLAYER: {player_data}')
 
         # Send the room "new player" info
         await self.channel_layer.group_send(

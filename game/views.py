@@ -15,6 +15,7 @@ from rest_framework.decorators import action
 
 from users.models import User
 from .models import Album, Picture, Game, Player
+from .utils import check_players
 from . import serializers
 
 logger = logging.getLogger(__file__)
@@ -274,6 +275,22 @@ def game_request(request):
     else:
         return Response('Bad request', status=status.HTTP_400_BAD_REQUEST)
 
+
+@api_view(['GET',])
+@permission_classes((IsAuthenticated,))
+def game_info(request):
+    data = {}
+    if request.method == 'GET':
+        game_id = request.GET.get('game_id')
+        user = request.user
+        game = Game.objects.get(user=user, game_id=game_id)
+        serializer = serializers.GameSerializer(game)
+        data = serializer.data
+        return Response(data)
+    else:
+        return Response(status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['POST',])
 @permission_classes((IsAuthenticated,))
 def game_confirm(request):
@@ -365,6 +382,11 @@ def game_play(request):
 
             data['remaining_pictures'] = len(pictures_pool_dict)
             data['picture'] = picture_draw
+
+            # Check the players' boards:
+            active_boards = check_players(picture_id=picture_draw['remote_id'], game_id=game_id)
+            print(f'ACTIVE BOARDS: {active_boards}')
+
             return Response(data)
         else:
             return Response('No more pictures')
@@ -373,8 +395,9 @@ def game_play(request):
         logger.error('Bad request at game play')
         return Response(status.HTTP_400_BAD_REQUEST)
 
-
-
+#################
+# DEMO ONLY
+#################
 
 @login_required
 def game_control(request):

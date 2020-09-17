@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from .views import (albums,public_albums, pictures, UserAlbumsView, game_room, game_control, 
-                    players, game_create, game_request,game_confirm, game_play)
+                    players, game_create, game_request,game_confirm, game_play, game_info)
 
 router = routers.DefaultRouter()
 # router.register('albums', UserAlbumsView, basename='game')
@@ -19,6 +19,7 @@ urlpatterns = [
     path('game-request/', game_request, name='game-request'),
     path('game-confirm/', game_confirm, name='game-confirm'),
     path('game-play/', game_play, name='game-play'),
+    path('game-info/', game_info, name='game-info'),
     path('<str:game_id>/', game_room, name='game-room'),
     path('players/<str:user_id>/<str:game_id>/', players, name='players'),
 

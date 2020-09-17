@@ -2,6 +2,7 @@ import random
 import uuid
 from django.db import models
 from users.models import User
+from django.contrib.postgres.fields import ArrayField
 
 class Album(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -73,7 +74,8 @@ class Game(models.Model):
 
     def __str__(self):
         return self.game_id
- 
+
+
 class Player(models.Model):
     
     # Player Info
@@ -85,15 +87,25 @@ class Player(models.Model):
     game = models.ForeignKey(Game, null=True, blank=True, on_delete=models.CASCADE)
     player_game_id = models.CharField(max_length=5, null=True, blank=True)
     approved = models.BooleanField(default=False)
-    board = models.JSONField(null=True, blank=True)
+    board_dict = models.JSONField(null=True, blank=True, default=list)
+    # board = models.OneToOneField(Board, null=True, blank=True, on_delete=models.CASCADE)
+    board_id = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
         return self.nickname
 
+
 class Board(models.Model):
     size = models.IntegerField(null=True, blank=True)
-    # player = models.OneToOneField(Player, blank=True, null=True, on_delete=models.CASCADE)
-    pictures = models.JSONField(null=True, blank=True)
+    game_id = models.CharField(max_length=30, null=True, blank=True)
+    player = models.OneToOneField(Player, null=True, blank=True, on_delete=models.CASCADE)
+    pictures = ArrayField(
+        ArrayField(
+            models.CharField(max_length=100, blank=True, null=True),
+        ),
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
-        return self.size
+        return str(self.pk) + " - Game: " + str(self.game_id)
