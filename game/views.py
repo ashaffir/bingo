@@ -255,7 +255,10 @@ def game_request(request):
             #Setting up the price for the game
             # TODO: Define pricing accurately
 
-            base_price = Control.objects.get(name='base_price').value_float
+            try:
+                base_price = Control.objects.get(name='base_price').value_float
+            except:
+                base_price = 0.1
 
             if players:
                 if len(players) < 21:
