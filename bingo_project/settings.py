@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'users',
     'payments',
     'stripe',
+    'control',
     # REFERENCE: Djoser authentication: https://www.youtube.com/watch?v=ddB83a4jKSY
     # 'djoser' # Authentication. https://djoser.readthedocs.io/en/latest/index.html 
     # Other

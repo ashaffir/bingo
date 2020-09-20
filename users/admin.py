@@ -9,10 +9,6 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ('name','username',)
     ordering = ('-name',)
 
-    # fields = ( 
-    #     'created', 'updated','new_message',
-    # )
-
     list_filter = (
         'name','balance',
     )

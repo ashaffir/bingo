@@ -16,6 +16,7 @@ from rest_framework.decorators import action
 from users.models import User
 from .models import Album, Picture, Game, Player
 from .utils import check_players
+from control.models import Control
 from . import serializers
 
 logger = logging.getLogger(__file__)
@@ -253,13 +254,16 @@ def game_request(request):
 
             #Setting up the price for the game
             # TODO: Define pricing accurately
+
+            base_price = Control.objects.get(name='base_price').value_float
+
             if players:
                 if len(players) < 21:
-                    game_cost = round(len(players) * 1/20,2)
-                elif len(players < 41):
-                    game_cost = round(len(players) * 1/25,2)
+                    game_cost = round(len(players) * base_price,2)
+                elif len(players) < 41:
+                    game_cost = round(len(players) * base_price*0.80,2)
                 else:
-                    game_cost = round(len(players) * 1/30,2)
+                    game_cost = round(len(players) * base_price*0.66,2)
             else:
                 game_cost = 0
             
@@ -427,6 +431,7 @@ def game_play(request):
                     for row in range(board.size):
                         if board.pictures[row][column] == 'X':
                             x_count_column += 1
+                            player.winnings.append(f'row_{row}_col_{column}')
 
                     if x_count_column == board.size:
                         player.winnings.append(f'col_{column}')

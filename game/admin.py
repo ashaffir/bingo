@@ -8,7 +8,7 @@ from .models import Album, Board, Picture, Game, Player
 class AlbumAdmin(admin.ModelAdmin):
 
     list_display = ('album_id', 'name', 'created','number_of_pictures',)
-    search_fields = ('name','')
+    search_fields = ('name',)
     ordering = ('-created',)
 
     # fields = ( 
@@ -16,7 +16,7 @@ class AlbumAdmin(admin.ModelAdmin):
     # )
 
     list_filter = (
-        'pictures','user',
+        'user',
     )
     # readonly_fields = (
     #     'order_id', 'created', 'updated',
@@ -25,26 +25,29 @@ class AlbumAdmin(admin.ModelAdmin):
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
     list_display = ('pk', 'user','created','game_id','album_id','started','number_of_players','is_finished',)
-    search_fields = ('user',)
+    search_fields = ('user__email','number_of_players','game_id',)
     ordering = ('-created',)
+    list_filter = ('user','number_of_players', )
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
     list_display = ('player_id','created','player_game_id', 'nickname',)
-    search_fields = ['player_id','nickname','game__game_id','created',]
+    search_fields = ('nickname','game__game_id',)
     ordering = ('-created',)
 
 @admin.register(Picture)
 class PictureAdmin(ImportExportModelAdmin):
     list_display = ('name','album', 'url',)
-    search_fields = ['name','album','url',]
-    ordering = ('name',)    
+    search_fields = ['name','album__name','url',]
+    ordering = ('name',)
+    list_filter = ('album',)
 
 @admin.register(Board)
 class BoardAdmin(admin.ModelAdmin):
     list_display = ('pk','game_id','size', 'player',)
-    search_fields = ['game_id','player',]
-    ordering = ('game_id',)   
+    list_filter = ('game_id','size',)
+    search_fields = ['game_id','player__player_id','pk',]
+    ordering = ('game_id',)
 
 
 # admin.site.register(Board)
