@@ -5,7 +5,6 @@ __pycache__/
 *$py.class
 
 references.md
-
 material/
 test/
 
@@ -119,3 +118,4 @@ media/
 # **/migrations/**
 # !**/migrations
 # !**/migrations/__init__.py
+
