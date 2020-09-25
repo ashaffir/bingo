@@ -12,7 +12,7 @@ urlpatterns = [
     path('api/', include('api.urls', namespace='api')),
     path('game/', include('game.urls', namespace='game')),
     path('users/', include('users.urls', namespace='users')),
-    path('api/users/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    # path('api/users/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
     
 
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='users/password_change.html'), name='password_change'),
