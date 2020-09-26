@@ -58,6 +58,22 @@ def registration_view(request):
             print(f'Registration info: {data}')
         
         return Response(data)
+
+@api_view(['POST',])
+@permission_classes((IsAuthenticated,))
+def auth_view(request):
+    data = {}
+    if request.method == 'POST':
+        user_info = User.objects.get(pk=request.user.pk)            
+
+        data['username' ] = user_info.username
+        data['email'] = user_info.username
+        data['phone'] = user_info.phone
+        data['first_name'] = user_info.first_name
+        data["last_name"] = user_info.last_name
+        
+        # TODO: Return all user data
+        return Response(data, status=200)
         
 class LoginView(APIView):
     def post(self, request):
