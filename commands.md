@@ -15,3 +15,8 @@ sudo service nginx restart
 sudo systemctl restart redis.service
 sudo /etc/init.d/redis-server restart
 redis-server -v  # Version check
+
+# NPM
+pm2 ls
+pm2 start (from within the Vue project directory)
+pm2 restart

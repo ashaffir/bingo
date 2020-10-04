@@ -225,6 +225,8 @@ def game_create(request):
             data['response'] = "Failed preping the game."
             data['errors'] = serializer.errors
             return Response(data)
+    else:
+        return Response(status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST',])
 @permission_classes((IsAuthenticated,))
@@ -340,7 +342,7 @@ def game_play(request):
     2) Get a random picture from the pool
     3) Pop that picture from the pool and write it back to the DB
     4) Check which players met the winning condition
-    5) Continue until "BINGO"
+    5) Continue until "BINGO" or untill all pictures were drawn
 
     Request:
     - game id (error if there is no such game for the user)
@@ -465,13 +467,15 @@ def game_play(request):
                     player.winnings.append('FULL')
                     player.save()
                     print(f'BINGO FULLLLL!!! Player {player.nickname} Board: {board}')
-
-                
                 
 
             return Response(data)
         else:
-            return Response('No more pictures')
+            game.ended = True
+            game.is_finished = True
+            game.save()
+
+            return Response('Game Finished. No more pictures')
     else:
         print('Bad request at game play')
         logger.error('Bad request at game play')
@@ -506,6 +510,68 @@ def game_winnings(request):
             print(f'There is no such player for that game. ERROR: {e}')
             logger.error(f'There is no such player for that game. ERROR: {e}')
             return Response('Player not found.', status=status.HTTP_200_CREATED)
+
+@api_view(['GET',])
+@permission_classes((IsAuthenticated,))
+def get_players(request):
+    ''' Getting the current players listed for a gam
+    '''
+    data = {}
+    if request.method == 'GET':
+        game_id = request.GET.get('game_id')
+        game_players = []
+        _players = Player.objects.filter(game_id=game_id)
+        for player in _players:
+            player_obj = {}
+            player_obj['id'] = player.pk
+            player_obj['nickname'] = player.nickname
+            player_obj['approved'] = player.approved
+            game_players.append(player_obj)
+        data['players'] = game_players
+        return Response(data)
+    else:
+        return Response(status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET','PUT',])
+@permission_classes((IsAuthenticated,))
+def player(request):
+    """Get information about a particular player, and update his approved status
+
+    Args:
+        player_id (str): 
+        game_id (str): 
+
+    Returns:
+        approved: bool
+        board_id: str
+    """
+    if request.method == 'GET':
+        player_id = request.GET.get('player_id')
+        game_id = request.GET.get('game_id')
+        print(f"Getting Player: {player_id}")
+
+        data = {}
+        player = Player.objects.get(player_game_id=game_id, pk=player_id)
+        data['approved'] = player.approved
+        data['board_id'] = player.board_id
+        return Response(data)
+    elif request.method == 'PUT':
+        print(f'PU: {request.data}')
+        player_id = request.data['player_id']
+        game_id = request.data['game_id']
+        player = Player.objects.get(player_game_id=game_id, pk=player_id)
+        if request.data['approved'] == 'True':
+            player.approved = True
+        elif request.data['approved'] == 'False':
+            player.approved = False
+        else:
+            return Response('Bad data formating', status.HTTP_400_BAD_REQUEST)
+        player.save()
+
+        return Response(f'Player approved status: {player.approved}', status=status.HTTP_200_OK)
+    else:
+        return Response(status.HTTP_400_BAD_REQUEST)
 
 
 #################

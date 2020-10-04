@@ -41,3 +41,4 @@ django-rest-passwordreset==1.1.0
 django-paypal==1.0.0
 stripe==2.51.0
 django-import-export==2.3.0
+django-cors-headers==3.5.0
