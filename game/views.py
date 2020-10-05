@@ -378,7 +378,7 @@ def game_play(request):
             picture_draw_index = random.randint(0,len(items_list)-1)
             rand_item = items_list[picture_draw_index]
             picture_draw = pictures_pool_dict.pop(rand_item)
-            
+
             # Updating the DB with the reduced list of pictures
             pictures_pool_list.append(pictures_pool_dict)
             game.pictures_pool = pictures_pool_list
@@ -391,6 +391,7 @@ def game_play(request):
 
             data['remaining_pictures'] = len(pictures_pool_dict)
             data['picture'] = picture_draw
+            data['pic_index'] = rand_item
 
             # Check the players' boards:
             active_boards = check_players(picture_id=picture_draw['remote_id'], game_id=game_id)
@@ -509,7 +510,7 @@ def game_winnings(request):
         except Exception as e:
             print(f'There is no such player for that game. ERROR: {e}')
             logger.error(f'There is no such player for that game. ERROR: {e}')
-            return Response('Player not found.', status=status.HTTP_200_CREATED)
+            return Response('Player not found.', status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET',])
 @permission_classes((IsAuthenticated,))
