@@ -1,0 +1,14 @@
+{% extends 'bingo_main/base_general.html' %}
+{% load static %}
+{% block content %}
+
+<div style="width: 100%; margin-top:2rem ">
+    <span class="descriptionTitle">
+        About
+    </span>
+    <div style="margin-top: 1rem;">
+        {{ about.content |safe }}
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatrixBingo</title>
+    <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="navbarTop">
+        <img class="logo" src="{% static 'dashboard/../images/logo.svg' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
+        <div class="menuItems">
+            <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
+                <i class="fa fa-plus-square" aria-hidden="true"></i> €50
+            </div>
+            <img class="logo" src="{% static 'dashboard/../images/placeholder.png' %}" onclick="openSidebar()">
+        </div>
+    </div>
+
+    
+
+    <div class="lowerNav">
+        <span class="active">
+            <a href="{% url "bingo_main:dashboard" %}">
+                Public Bingo's
+            </a>
+        </span>
+        <span>
+            <a href="{% url 'bingo_main:create_bingo' %}">
+                Create Bingo
+            </a>
+        </span>
+        <span>
+            <a href="{% url 'bingo_main:my_bingos' %}">
+                My Bingo's
+            </a>
+        </span>
+    </div>
+
+    <div class="sidebarProfile">
+        <div id="closeButton" onclick="openSidebar()">
+            <i class="fa fa-times"></i>
+        </div>
+        <form class="modal">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+            <label for="email">Add your logo</label>
+            <input type="file" name="complogo" id="complogo">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" minlength="5">
+            <label for="country">Country</label>
+            <br>
+            <select name="country" id="country" required>
+                <option value="">Choose your country...</option>
+            </select>
+            <br>
+            <label for="company">Company Name</label>
+            <input type="text" name="company" id="company">
+            <label for="vat">VAT Number</label>
+            <input type="text" name="vat" id="vat">
+            <input type="submit" class="button grey" value="Update Details">
+            <input type="button" class="button red" value="Log out" onclick="window.open('{% url "bingo_main:logout_view" %}');">
+        </form>
+    </div>
+    <div class="bingoContainer">
+        <div class="bingoBox">
+            <div class="bingoTable box3x3">
+
+            </div>
+            <div class="bingoTableBottom">
+                3x3 Bingo Name
+                <div class="gameButton" onclick="createGame()">make game</div>
+            </div>
+        </div>
+        <div class="bingoBox">
+            <div class="bingoTable box4x4">
+
+            </div>
+            <div class="bingoTableBottom">
+                4x4 Bingo Name
+                <div class="gameButton" onclick="createGame()">make game</div>
+            </div>
+        </div>
+        <div class="bingoBox">
+            <div class="bingoTable box5x5">
+
+            </div>
+            <div class="bingoTableBottom">
+                5x5 Bingo Name
+                <div class="gameButton" onclick="createGame()">make game</div>
+            </div>
+        </div>
+    </div>
+    <div class="lowerNavigation">
+        <ul>
+            <li><a href="{% url 'bingo_main:about' %}">About</a></li>
+            <li><a href="{% url 'bingo_main:why_and_how' %}">Why and How</a></li>
+            <li><a href="{% url 'bingo_main:pricing' %}">Pricing</a></li>
+            <li><a href="{% url 'bingo_main:terms' %}">Terms and Conditions</a></li>
+            <li><a href="{% url 'bingo_main:contact' %}">Contact</a></li>
+        </ul>
+    </div>
+    <script>
+        function openSidebar() {
+            let el = document.querySelector('.sidebarProfile');
+            
+            if (el.style.display == '') {
+                return el.style.display = 'block'
+            }
+            
+            el.style.display = '';
+        }
+
+        function createGame(id) {
+            // Redirect to start game screen with game id
+        }
+
+        function getBingos() {
+
+            // Get bingos from server and format
+
+            // Delete on live
+            let imageList = ["https://picsum.photos/id/0/5616/3744"]
+            imageList = imageList.sort(() => Math.random() - 0.5)
+
+            // 3x3 Box
+            for (let x = 0; x != 18; x++) {
+
+                document.querySelector('.box3x3').innerHTML +=
+                    `<div class="field"><img src="${(!imageList[x])? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
+            }
+
+            imageList = imageList.sort(() => Math.random() - 0.5)
+            // 4x4 Box
+            for (let x = 0; x != 32; x++) {
+                document.querySelector('.box4x4').innerHTML +=
+                    `<div class="field"><img src="${(!imageList[x])? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
+            }
+
+            imageList = imageList.sort(() => Math.random() - 0.5)
+            // 5x5 Box
+            for (let x = 0; x != 54; x++) {
+                document.querySelector('.box5x5').innerHTML +=
+                    `<div class="field"><img src="${(!imageList[x])? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
+            }
+
+            resizeBox();
+        }
+
+        function resizeBox() {
+            // 3x3 Box
+            let width3x3 = document.querySelector('.box3x3 .field').offsetWidth;
+            document.querySelector('.box3x3').style.gridTemplateRows = `repeat(3, ${width3x3}px)`
+
+            // 4x4 Box
+            let width4x4 = document.querySelector('.box4x4 .field').offsetWidth;
+            document.querySelector('.box4x4').style.gridTemplateRows = `repeat(4, ${width4x4}px)`
+
+            // 5x5 Box
+            let width5x5 = document.querySelector('.box5x5 .field').offsetWidth;
+            document.querySelector('.box5x5').style.gridTemplateRows = `repeat(6, ${width5x5}px)`
+
+        }
+
+        window.addEventListener('resize', function (e) {
+            resizeBox();
+        });
+        getBingos();
+    </script>
+</body>
+
+</html>

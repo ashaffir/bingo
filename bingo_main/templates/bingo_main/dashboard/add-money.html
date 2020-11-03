@@ -1,0 +1,136 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatrixBingo</title>
+    <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/addMoney.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/../css/dropzone.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
+</head>
+
+<body>
+    <div class="navbarTop">
+        <img class="logo" src="{% static 'dashboard/../images/logo.svg' %}" alt="" onclick="window.location.href = './'">
+        <div class="menuItems">
+            <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
+                <i class="fa fa-plus-square" aria-hidden="true"></i> €50
+            </div>
+            <img class="logo" src="{% static 'dashboard/../images/placeholder.png' %}" onclick="openSidebar()">
+        </div>
+    </div>
+
+    <div class="lowerNav">
+        <span>
+            <a href='{% url "bingo_main:dashboard" %}'>
+                Public Bingo's
+            </a>
+        </span>
+        <span>
+            <a href="{% url 'bingo_main:create_bingo' %}">
+                Create Bingo
+            </a>
+        </span>
+        <span>
+            <a href="{% url 'bingo_main:my_bingos' %}">
+                My Bingo's
+            </a>
+        </span>
+    </div>
+
+    <div class="sidebarProfile">
+        <div id="closeButton" onclick="openSidebar()">
+            <i class="fa fa-times"></i>
+        </div>
+        <form class="modal">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+            <label for="email">Add your logo</label>
+            <input type="file" name="complogo" id="complogo">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" minlength="5">
+            <label for="country">Country</label>
+            <br>
+            <select name="country" id="country" required>
+                <option value="">Choose your country...</option>
+            </select>
+            <br>
+            <label for="company">Company Name</label>
+            <input type="text" name="company" id="company">
+            <label for="vat">VAT Number</label>
+            <input type="text" name="vat" id="vat">
+            <input type="submit" class="button grey" value="Update Details">
+            <input type="button" class="button red" value="Log out" onclick="window.open('{% url "bingo_main:logout_view" %}');">
+        </form>
+    </div>
+
+<div class="container">
+    <div class="modal">
+        <h3>Add Money</h3>
+        <div class="title">How much money would you like to add to your account?</div>
+        <select name="amount" id="amount">
+            <option value="">Choose an amount...</option>
+            <option value="10">€10</option>
+            <option value="20">€20</option>
+            <option value="50">€50</option>
+            <option value="100">€100</option>
+            <option value="other">Other</option>
+        </select>
+        <label for="money">Enter a custom amount</label>
+        <input type="number" name="money" id="money">
+        <div class="buttonSplit">
+            <div class="button green" onclick="pay('paypal')">Pay with PayPal</div>
+            <div class="button green" onclick="pay('stripe')">Pay with Stripe</div>
+        </div>
+        <div class="errorBox">
+            Hello world
+        </div>
+    </div>
+</div>
+
+    <div class="lowerNavigation">
+        <ul>
+            <li><a href="{% url 'bingo_main:about' %}">About</a></li>
+            <li><a href="{% url 'bingo_main:why_and_how' %}">Why and How</a></li>
+            <li><a href="{% url 'bingo_main:pricing' %}">Pricing</a></li>
+            <li><a href="{% url 'bingo_main:terms' %}">Terms and Conditions</a></li>
+            <li><a href="{% url 'bingo_main:contact' %}">Contact</a></li>
+        </ul>
+    </div>
+    <script>
+
+        function pay(method) {
+            document.querySelector('.errorBox').style.display = ""
+            let value;
+
+            if (document.querySelector('#amount').value == "" | (document.querySelector('#amount').value == 'other' && document.querySelector('#money').value == "")) {
+                document.querySelector('.errorBox').innerHTML = "Please enter a value!"
+                return document.querySelector('.errorBox').style.display = "block"
+            } 
+
+            (document.querySelector('#amount').value == 'other') ? value = document.querySelector('#money').value : document.querySelector('#amount').value;
+        }
+        function openSidebar() {
+            let el = document.querySelector('.sidebarProfile');
+
+            if (el.style.display == '') {
+                return el.style.display = 'block'
+            }
+
+            el.style.display = '';
+        }
+
+      
+    </script>
+</body>
+
+</html>

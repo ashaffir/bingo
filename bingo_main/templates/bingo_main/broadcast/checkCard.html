@@ -1,0 +1,278 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatrixBingo</title>
+    <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/cardCheck.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div id="landscapeOnly">
+        <span>
+            Please rotate your device to continue...
+        </span>
+    </div>
+    <div class="alignCenter">
+        <div class="sidebar">
+            <div id="prizeContainer">
+                <div class="prizeBox" id="prize">
+                    Prize Name
+                    <br>
+                    <img class="prizeImage"
+                        src="https://i.picsum.photos/id/977/200/200.jpg?hmac=bhLVu-kBB_plx-DkWXz4gYn-ViPAhDjTtGFwu143FiA"></img>
+                </div>
+                <div class="prizeBox" id="winCondition">
+                    Bingo
+                    <br>
+                    <div class="bingoTable"></div>
+                </div>
+            </div>
+            <img src="{% static 'dashboard/../images/speakerCheck.png' %}" class="speaker" alt="">
+        </div>
+        <div id="positionWrapping">
+            <div class="innerContainer" id="enterPin">
+                <div class="topArea">
+                    <div id="topContainer">
+                        <span>Card Number</span>
+                        <br>
+                        <input type="text" name="cardNumber" id="cardNumber" maxlength="4" oninput="checkInput()">
+                    </div>
+                </div>
+                <div id="ticketArea">
+                    <div class="button Check" onclick="checkCard()">Check Bingo</div>
+                </div>
+            </div>
+            <div class="innerContainer" id="checkPin">
+                <div class="cardContainer">
+                    <div class="cardTop">
+                        <img src="{% static 'dashboard/../images/logo.svg' %}" id="companyLogo" alt="">
+                        Player Name
+                        <img src="{% static 'dashboard/../images/placeholder.png' %}" id="bingoLogo" alt="">
+
+                        <div class="cardNumber">
+                            Ticket Number 00
+                        </div>
+                    </div>
+                    <div class="bingoTable" id="3x3"></div>
+                </div>
+                <div class="resultContainer">
+                    <div id="winResult">
+                        Congratulations!
+                        <img src="{% static 'dashboard/../images/successImage.png' %}" alt="">
+                    </div>
+                    <div id="noResult">
+                        No Bingo...
+                        <br>
+                        <span class="sml">This square hasn't appeared yet!</span>
+                    </div>
+                    <div class="bottomButtons">
+                        <div class="button Check" onclick="checkPin()">Check another</div>
+                        <div class="button green">Continue</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="buttonContainer">
+        <div class="castButton">
+            <google-cast-launcher id="share" --connected-color="white"></google-cast-launcher>
+        </div>
+    </div>
+
+    <img src="{% static 'dashboard/../images/backgroundCheck.png' %}" class="speakerImage" alt="">
+    </div>
+    <script src="{% static 'dashboard/js/broadcastFunctions.js' %}"></script>
+    <script>
+        window.addEventListener('resize', function (e) {
+            resize();
+        });
+
+        window['__onGCastApiAvailable'] = function (isAvailable) {
+            if (isAvailable) {
+                initializeCastApi();
+            }
+        };
+
+        initializeCastApi = function () {
+            cast.framework.CastContext.getInstance().setOptions({
+                receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
+            });
+            if (!cast) {
+                document.querySelector('.castButton').style.display = 'none';
+            }
+
+            document.querySelector('#share').style.display = "block";
+        };
+
+        function next(el, value) {
+            if (isNaN(el.value)) return el.value = "";
+        }
+
+        function toggleList() {
+            let el = document.querySelector('#userList');
+
+            if (el.style.display == 'grid') {
+                el.style.display = 'none';
+            } else {
+                el.style.display = 'grid';
+            }
+        }
+
+        function resize() {
+            // Reset
+            document.querySelector('#prizeContainer').style = '';
+            document.querySelector('#winCondition').style = '';
+            document.querySelector('.innerContainer').style = '';
+            document.querySelector('.speaker').style = '';
+
+            document.querySelector('body').style.height = window.innerHeight + 'px';
+            document.querySelector('.sidebar').style.height = window.innerHeight - 10 + 'px';
+
+            // Resize bingo box to be the same height as the image
+            document.querySelector('#prizeContainer').style.maxHeight = document.querySelector('#prize').clientHeight /
+                3 +
+                'px';
+            document.querySelector('#winCondition').style.maxHeight = document.querySelector('.innerContainer')
+                .clientHeight + 'px';
+
+
+            document.querySelector('.innerContainer').style.height = window.innerHeight - 20 - document.querySelector(
+                '.speakerImage').clientHeight + 'px';
+
+
+            // Resize the speaker to not overlap the display box
+            document.querySelector('.speaker').style.maxHeight = window.innerHeight - document.querySelector(
+                '#prize').clientHeight + 'px';
+            document.querySelector('#landscapeOnly').style.height = window.innerHeight + 'px';
+        }
+
+        function getData() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
+            let content = "";
+            if (winCondition == 'bingo') {
+                for (let index = 0; index != 9; index++) {
+                    content +=
+                        '<div class="field"><div class="circle"></div></div>';
+                }
+            }
+
+            if (winCondition == '1line') {
+                for (let index = 0; index != 3; index++) {
+                    content +=
+                        '<div class="field"><div class="circle"></div></div>';
+                }
+                for (let index = 0; index != 6; index++) {
+                    content +=
+                        '<div class="field"></div>';
+                }
+            }
+
+            if (winCondition == '2line') {
+                for (let index = 0; index != 6; index++) {
+                    content +=
+                        '<div class="field"><div class="circle"></div></div>';
+                }
+                for (let index = 0; index != 3; index++) {
+                    content +=
+                        '<div class="field"></div>';
+                }
+            }
+
+            document.querySelector('.bingoTable').innerHTML = content;
+        }
+
+        function checkCard() {
+            document.querySelector('#checkPin').style.top = 0;
+            setTimeout(() => {
+                document.querySelector('#enterPin').style.top = '-100vh';
+            }, 100);
+            getCard();
+        }
+
+        function checkPin() {
+            document.querySelector('.speakerImage').src = "{% static 'dashboard/../images/backgroundCheck.png' %}";
+            document.querySelector('.speaker').src = "{% static 'dashboard/../images/speakerCheck.png' %}";
+            document.querySelector('#checkPin').style.top = '-100vh';
+            document.querySelector('#enterPin').style.top = 0;
+        }
+
+        function getCard(ticketNumber, gameCode) {
+            // Get game size from api
+            let size;
+            let markedSquares = [3, 8, 13, 16, 17, 18, 19, 20];
+            if (!size) size = '25';
+
+            // Testing only DELETE FOR LIVE
+            let success = true;
+
+            if (success) {
+                document.querySelector('.speakerImage').src = "{% static 'dashboard/../images/backgroundSuccess.png' %}";
+                document.querySelector('.speaker').src = "{% static 'dashboard/../images/speakerSuccess.png' %}";
+                document.querySelector('#winResult').style.display = 'grid';
+                document.querySelector('#noResult').style.display = 'none';
+            } else {
+                document.querySelector('#winResult').style.display = 'none';
+                document.querySelector('#noResult').style.display = 'grid';
+            }
+
+            document.querySelector('#checkPin').style.height = window.innerHeight - document.querySelector(
+                '.speakerImage').clientHeight + 'px';
+
+            document.querySelector('#checkPin .bingoTable').style.maxHeight = document.querySelector('#checkPin')
+                .clientHeight - 100 + 'px';
+
+            switch (size) {
+                case '16':
+                    document.querySelector('#checkPin .bingoTable').style.gridTemplateRows = 'repeat(4, 1fr)';
+                    genTable(16, markedSquares);
+                    document.querySelector('#checkPin .bingoTable').style.gridTemplateColumns =
+                        `repeat(4, ${document.querySelector('#checkPin .field').clientHeight}px)`
+                    break;
+
+                case '25':
+                    document.querySelector('#checkPin .bingoTable').style.gridTemplateRows = 'repeat(5, 1fr)';
+                    genTable(25, markedSquares);
+                    document.querySelector('#checkPin .bingoTable').style.gridTemplateColumns =
+                        `repeat(5, ${document.querySelector('#checkPin .field').clientHeight}px)`
+                    break;
+
+                default:
+                    document.querySelector('#checkPin .bingoTable').style.gridTemplateRows = 'repeat(3, 1fr)';
+                    genTable(9, markedSquares);
+                    document.querySelector('#checkPin .bingoTable').style.gridTemplateColumns =
+                        `repeat(3, ${document.querySelector('#checkPin .field').clientHeight}px)`
+                    break;
+            }
+        }
+
+        function genTable(size, markedSquares) {
+            let content = '';
+            for (let x = 1; x != size + 1; x++) {
+                if (markedSquares.includes(x)) {
+                    content +=
+                        '<div class="field"><div class="circle"></div></div>';
+                } else {
+                    content +=
+                        '<div class="field"></div>';
+                }
+            }
+            document.querySelector('#checkPin .bingoTable').innerHTML = content;
+        }
+    </script>
+</body>
+
+</html>

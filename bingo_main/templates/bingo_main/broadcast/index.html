@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatrixBingo</title>
+    <link rel="stylesheet" href="{% static 'broadcast/../css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'broadcast/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'broadcast/css/broadcastIndex.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' %}"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="{% static 'broadcast/../js/dropzone.js' %}"></script>
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js' %}"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+    <div id="landscapeOnly">
+        <span>
+            Please rotate your device to continue...
+        </span>
+    </div>
+    <div class="alignCenter">
+        <div class="sidebar">
+            <div id="prizeContainer">
+                <div class="prizeBox" id="prize">
+                    Prize Name
+                    <br>
+                    <img class="prizeImage"
+                        src="https://i.picsum.photos/id/977/200/200.jpg?hmac=bhLVu-kBB_plx-DkWXz4gYn-ViPAhDjTtGFwu143FiA"></img>
+                </div>
+                <div class="prizeBox" id="winCondition">
+                    Bingo
+                    <br>
+                    <div class="bingoTable"></div>
+                </div>
+            </div>
+            <img src="{% static 'broadcast/../images/speakerHome.png' %}" class="speaker" alt="">
+        </div>
+        <div class="innerContainer">
+            <div class="topArea">
+                <div id="topContainer">
+                    <span>MatrixBingo.com</span>
+                    <br>
+                    <div class="gamePin">1234</div>
+
+                </div>
+            </div>
+            <div id="ticketArea">
+                Tickets: 50
+                <div class="button Next" onclick="startGame()">Start Game (Price $5)</div>
+            </div>
+        </div>
+
+        <div class="buttonContainer">
+            <div class="castButton">
+                <google-cast-launcher id="share" --connected-color="white"></google-cast-launcher>
+            </div>
+            <div class="castButton">
+                <i class="fa fa-users" onclick="toggleList()"></i>
+                <div id="userList">
+                    Approve Users:
+                    <div class="user">
+                        Username
+                        <span>
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </div>
+                    <div class="user">
+                        Username
+                        <span>
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </div>
+                    <div class="user">
+                        Username
+                        <span>
+                            <i class="fa fa-check"></i>
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <img src="{% static 'broadcast/../images/backgroundBroadcast.png' %}" class="speakerImage" alt="">
+    </div>
+    <script src="{% static 'broadcast/js/broadcastFunctions.js' %}" defer></script>
+
+    <script>
+        window.addEventListener('resize', function (e) {
+            resize();
+        });
+
+        function toggleList() {
+            let el = document.querySelector('#userList');
+
+            if (el.style.display == 'grid') {
+                el.style.display = 'none';
+            } else {
+                el.style.display = 'grid';
+            }
+        }
+        window['__onGCastApiAvailable'] = function (isAvailable) {
+            if (isAvailable) {
+                initializeCastApi();
+            }
+        };
+
+        initializeCastApi = function () {
+            cast.framework.CastContext.getInstance().setOptions({
+                receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
+            });
+            if (!cast) {
+                document.querySelector('.castButton').style.display = 'none';
+            }
+
+            document.querySelector('#share').style.display = "block";
+        };
+
+        function startGame() {
+            window.location.href = './game';
+        }
+
+        function resize() {
+            // Reset
+            document.querySelector('#prizeContainer').style = '';
+            document.querySelector('#winCondition').style = '';
+            document.querySelector('.innerContainer').style = '';
+            document.querySelector('.speaker').style = '';
+
+            document.querySelector('body').style.height = window.innerHeight + 'px';
+
+            // Resize bingo box to be the same height as the image
+
+            document.querySelector('#prizeContainer').style.maxHeight = document.querySelector('#prize').clientHeight /
+                3 + 'px';
+            document.querySelector('#winCondition').style.maxHeight = document.querySelector('.innerContainer')
+                .clientHeight + 'px';
+
+            document.querySelector('.innerContainer').style.height = window.innerHeight - document.querySelector(
+                '.speakerImage').clientHeight + 'px';
+
+            // Resize the speaker to not overlap the display box
+            document.querySelector('.speaker').style.maxHeight = window.innerHeight - document.querySelector(
+                '#prize').clientHeight + 'px';
+            document.querySelector('#landscapeOnly').style.height = window.innerHeight + 'px';
+        }
+
+        function getData() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
+            let content = "";
+            if (winCondition == 'bingo') {
+                for (let index = 0; index != 9; index++) {
+                    content +=
+                        '<div class="field"><div class="circle"></div></div>';
+                }
+            }
+
+            if (winCondition == '1line') {
+                for (let index = 0; index != 3; index++) {
+                    content +=
+                        '<div class="field"><div class="circle"></div></div>';
+                }
+                for (let index = 0; index != 6; index++) {
+                    content +=
+                        '<div class="field"></div>';
+                }
+            }
+
+            if (winCondition == '2line') {
+                for (let index = 0; index != 6; index++) {
+                    content +=
+                        '<div class="field"><div class="circle"></div></div>';
+                }
+                for (let index = 0; index != 3; index++) {
+                    content +=
+                        '<div class="field"></div>';
+                }
+            }
+
+            document.querySelectorAll('.bingoTable').forEach(el => {
+                el.innerHTML = content;
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'api',
     'channels',
     # 'game',
+    'bingo_main',
     'game.apps.GameConfig',
     'users',
     'payments',
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
     # 'djoser' # Authentication. https://djoser.readthedocs.io/en/latest/index.html 
     # Other
     'import_export',
+    'ckeditor',
 
 ]
 
@@ -81,6 +83,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             os.path.join(BASE_DIR,'users/templates'),
+            os.path.join(BASE_DIR,'bingo_main/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

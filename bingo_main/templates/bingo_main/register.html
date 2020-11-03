@@ -1,0 +1,137 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatrixBingo</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+
+<body class="registerBackground">
+    <div class="navbarIndex">
+        <img class="logo" src="{% static 'images/logo.svg' %}" alt="" onclick="window.location.href = './'">
+        <div class="menuItems">
+            <div class="playButton desktop" onclick="openPlay()">Play!</div>
+            <div class="buttonHost" onclick="window.location.href='./register'">Become Host</div>
+            <span>
+                <a href="login">
+                    Sign In
+                </a>
+            </span>
+        </div>
+    </div>
+    <div class="playButton playBackground mobile" onclick="openPlay()">
+        Play!
+    </div>
+
+    <div class="registerForm">
+        <form class="modal" action="{% url 'users:register' %}" method="POST">
+            {% csrf_token %}
+            <label for="name">Name *</label>
+            <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
+            <label for="email">Add your logo</label>
+            <input type="file" name="complogo" id="complogo">
+            <label for="email">Username *</label>
+            <input type="text" name="username" id="username" required>
+            <label for="email">Email *</label>
+            <input type="email" name="email" id="email" required>
+            <label for="password">Password *</label>
+            <input type="password" name="password1" id="password1" required minlength="5">
+            <label for="password">Confirm Password *</label>
+            <input type="password" name="password2" id="password1" required minlength="5">
+            <label for="country">Country *</label>
+            <br>
+            <select name="country" id="country" required>
+                <option value="">Choose your country...</option>
+            </select>
+            <br>
+            <label for="company">Company Name</label>
+            <input type="text" name="company" id="company">
+            <label for="vat">VAT Number</label>
+            <input type="text" name="vat" id="vat">
+            <input type="submit" class="playButton grey" value="Register!">
+        </form>
+    </div>
+
+    <div class="lowerNavigation">
+        <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Why and How</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Terms and Conditions</a></li>
+            <li><a href="./contact">Contact</a></li>
+        </ul>
+    </div>
+    <div class="playCode">
+        <form class="modal">
+            <div class="logoContainer">
+                <img class="logo" src="{% static 'images/logo.svg' %}" alt="">
+                <i class="fa fa-arrow-left" aria-hidden="true" id="backarrow" onclick="closePlay()"></i>
+            </div>
+
+            <label for="pin">Game Pin</label>
+            <div class="pinContainer">
+                <input type="text" name="pin1" id="pin1" maxlength="1" size="1" pattern="\d*" inputmode="numeric"
+                    class="pinNumber" oninput="next(this, 'pin2')" required>
+                <input type="text" name="pin2" id="pin2" maxlength="1" size="1" pattern="\d*" inputmode="numeric"
+                    class="pinNumber" oninput="next(this, 'pin3')" required>
+                <input type="text" name="pin3" id="pin3" maxlength="1" size="1" pattern="\d*" inputmode="numeric"
+                    class="pinNumber" oninput="next(this, 'pin4')" required>
+                <input type="text" name="pin4" id="pin4" maxlength="1" size="1" pattern="\d*" inputmode="numeric"
+                    class="pinNumber" oninput="next(this, 'name')" required>
+            </div>
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
+            <input type="submit" class="playButton" value="Play!">
+            <div class="errorBox" id="submitError">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
+            </div>
+        </form>
+    </div>
+    <script src="{% static 'js/loadGame.js' %}"></script>
+
+    <script>
+        function getHeight() {
+            if (window.innerWidth < 600) return document.querySelector('.registerForm').style.height = '';
+            document.querySelector('.registerForm').style.minHeight = window.innerHeight - document.querySelector(
+                '.lowerNavigation').clientHeight - document.querySelector('.navbarIndex').clientHeight - 60 + 'px';
+        }
+
+        getHeight();
+
+        $.ajax({
+            method: 'GET',
+            url: 'https://restcountries.eu/rest/v2/all?fields=name;',
+            success: res => {
+                res.forEach(country => {
+                    document.querySelector('#country').innerHTML +=
+                        `<option value=${country.name}>${country.name}</option>`;
+                })
+                getLocation();
+            }
+        })
+
+        function getLocation() {
+            fetch('https://extreme-ip-lookup.com/json/')
+                .then(res => res.json())
+                .then(response => {
+                    document.querySelector(`option[value=${response.country}`).setAttribute('selected', 'selected');
+                })
+                .catch((data, status) => {})
+        }
+
+        window.addEventListener('resize', function (e) {
+            getHeight();
+        });
+    </script>
+</body>
+
+</html>

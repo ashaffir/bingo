@@ -1,5 +1,6 @@
+import logging
 from datetime import datetime
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.exceptions import ImproperlyConfigured
 from django.core import serializers as d_serializers
 from django.contrib.auth import login as django_login, logout as django_logout
@@ -23,6 +24,8 @@ from rest_framework.pagination import (LimitOffsetPagination, PageNumberPaginati
 
 from .utils import send_mail
 
+logger = logging.getLogger(__file__)
+
 
 from . import serializers
 from .models import User
@@ -39,6 +42,8 @@ def registration_view(request):
     '''
     Register a new user with the API
     '''
+    print(f'USERS VIEWS: Register')
+    logger.info(f'USERS VIEWS: Register')
     if request.method == 'POST':
         serializer = serializers.UserSerializer(data=request.data)
         data = {}
@@ -52,6 +57,8 @@ def registration_view(request):
             data['europeCitizenship'] = account.europeCitizenship
             token = Token.objects.get(user=account).key
             data['token'] = token
+            
+            return redirect('bingo_main:bingo_main')
 
         else:
             data = serializer.errors
@@ -78,6 +85,10 @@ def auth_view(request):
 class LoginView(APIView):
     def post(self, request):
         data = {}
+        
+        print(f'USERS VIEWS: Login')
+        logger.info(f'USERS VIEWS: Login')
+
         serializer = serializers.LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True) # Block the code from continue if raised exception
         user = serializer.validated_data['user']
@@ -97,6 +108,8 @@ class LoginView(APIView):
         data["last_name"] = user_info.last_name
         data['token'] = token.key
         
+        return redirect('bingo_main:dashboard')
+
         # TODO: Return all user data
         return Response(data, status=200)
 

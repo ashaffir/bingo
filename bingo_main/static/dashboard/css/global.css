@@ -1,0 +1,214 @@
+.modal input[type="text"],
+.modal input[type="email"],
+.modal input[type="password"], .modal input[type="number"] {
+    width: 100%;
+    padding: 10px 5px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid black;
+}
+
+.modal select {
+    width: 100%;
+    padding: 10px 0px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid black;
+}
+
+.modal input[type="submit"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+}
+
+.modal {
+    padding: 20px;
+    max-width: 400px;
+}
+
+
+.modal label {
+    display: inline-block;
+    padding: 10px 0;
+}
+
+.button {
+    cursor: pointer;
+    padding: 10px;
+    color: white;
+    width: 100%;
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: inherit;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#closeButton {
+    cursor: pointer;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+}
+
+.grey {
+    background: linear-gradient(180deg, rgb(70 70 70) 0%, rgb(100 101 100) 100%) !important;
+}
+
+.red {
+    background: linear-gradient(180deg, rgb(229 9 9) 0%, rgb(128 11 11) 100%) !important;
+}
+
+.green {
+    background: linear-gradient(180deg, rgba(63, 128, 32, 1) 0%, rgba(25, 58, 14, 1) 100%);
+}
+
+.sidebarProfile {
+    display: none;
+    position: absolute;
+    right: 0;
+    height: 100%;
+    background-color: #fff;
+    padding: 20px;
+    z-index: 1;
+}
+
+body {
+    padding-top: 90px;
+}
+
+.navbarTop {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #fff;
+    align-items: center;
+}
+
+.menuItems {
+    display: grid;
+    grid-template-columns: 1fr 45px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.menuItems img {
+    min-height: 0;
+    min-width: 0;
+}
+
+.navbarTop img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.lowerNav {
+    position: fixed;
+    top: 45px;
+    height: 30px;
+    width: 100%;
+    box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 0 5px;
+    background-color: #fff;
+}
+
+.bingoTable {
+    display: grid;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+}
+
+.lowerNav span {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 0.8em;
+    justify-self: center;
+    cursor: pointer;
+}
+.lowerNav span:hover {
+    text-decoration: underline;
+}
+
+.lowerNav a {
+    color: inherit;
+    text-decoration: none;
+}
+.field {
+    border: 1px solid #34802d;
+    transition: 0.5s all;
+}
+
+.field img {
+    -o-object-fit: cover;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+}
+
+.bingoBox {
+    padding: 20px 10px;
+    background-color: #fff;
+}
+
+.active {
+    background-color: green;
+    color: white;
+}
+
+.modal input[type="file"] {
+    padding: 10px 0;
+    width: 100%;
+}
+
+#addMoney {
+    cursor: pointer;
+}
+
+
+@media only screen and (min-width: 800px) {
+
+    .bingoContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 20px 30px;
+        -moz-column-gap: 20px;
+             column-gap: 20px;
+        row-gap: 20px;
+    }
+    .bingoBox {
+        padding: 0;
+    }
+
+    .lowerNav {
+        text-align: left;
+        padding: 0 30px;
+        top: 60px;
+        height: 40px;
+    }
+    .lowerNav span {
+        padding: 10px;
+    }
+
+    .navbarTop {
+        padding: 10px 30px;
+        height: 60px;
+    }
+
+    .lowerNav span {
+        font-size: 1em;
+    }
+}
