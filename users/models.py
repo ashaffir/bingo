@@ -15,16 +15,25 @@ class User(AbstractUser):
     username = models.CharField(max_length=200, blank=False)
     name = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=200, unique=True, blank=False)
+
+    first_name = models.CharField('First Name', max_length=20, blank=True,
+                                  null=False)
+    last_name = models.CharField('Last Name', max_length=20, blank=True,
+                                 null=False)
+
     phone = models.CharField(max_length=100, null=True, blank=True)
+    company_name = models.CharField(max_length=100, blank=True, null=True)
+    profile_pic = models.ImageField(null=True, blank=True, upload_to="profile_pics", default = 'profile_pics/placeholder.png')
+    country = models.CharField(max_length=50, blank=True, null=True)
+
+    vat_number = models.CharField(max_length=50, null=True, blank=True)
     paypal = models.CharField(max_length=100, null=True, blank=True)
     balance = models.FloatField(null=True, blank=True, default=0)
     europeCitizenship = models.BooleanField(null=True, blank=True)
-    first_name = models.CharField('First Name', max_length=255, blank=True,
-                                  null=False)
-    last_name = models.CharField('Last Name', max_length=255, blank=True,
-                                 null=False)
 
     stripe_customer_key = models.CharField(max_length=100, null=True, blank=True)                                 
+
+
     # require the email to be the unique identifier
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username',]

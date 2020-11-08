@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,25 +6,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MatrixBingo</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/bingoStart.css">
+    <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/bingoStart.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/dropzone.css">
+    <link rel="stylesheet" href="{% static 'dashboard/../css/dropzone.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src="../js/dropzone.js"></script>
+    <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
 </head>
 
 <body>
     <div class="navbarTop">
-        <img class="logo" src="../images/logo.svg" alt="" onclick="window.location.href = './'">
+        <img class="logo" src="{% static 'dashboard/../images/logo.svg' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
         <div class="menuItems">
-            <div id="addMoney" onclick="window.location.href = './add-money'">
+            <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
                 <i class="fa fa-plus-square" aria-hidden="true"></i> €50
             </div>
-            <img class="logo" src="../images/placeholder.png" onclick="openSidebar()">
+            <img class="logo" src="{% static 'dashboard/../images/placeholder.png' %}" onclick="openSidebar()">
         </div>
     </div>
 
@@ -77,7 +78,7 @@
                             <input type="text" class="title" placeholder="Prize name" id="prizeTitle"
                                 maxlength="12"></input>
                             <form action="/file-upload" class="dropzone" id="images">
-                                <div class="dz-message" data-dz-message><img src="../images/imageUpload.png" alt="">
+                                <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt="">
                                     <br>
                                     Upload or drop prize image here!</div>
                             </form>
@@ -167,7 +168,7 @@
                         element +=
                             `<div><div class="title">Prize #${x+1}</div><div class="prizeItem"><div class="imageContainer"><input type="text" class="title" placeholder="Prize name" id="prizeTitle"></input>
                         <form action="/file-upload" class="dropzone" id="images-${x+1}">
-                            <div class="dz-message" data-dz-message><img src="../images/imageUpload.png" alt=""><br>Upload or drop prize
+                            <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt=""><br>Upload or drop prize
                                 image here!</div>
                         </form>
                     </div>
@@ -205,7 +206,7 @@
                                 <div class="imageContainer">
                                     <input type="text" class="title" placeholder="Prize name" id="prizeTitle"></input>
                                 <form action="/file-upload" class="dropzone" id="images-${x+1}">
-                                    <div class="dz-message" data-dz-message><img src="../images/imageUpload.png" alt=""><br>Upload or drop prize image here!</div>
+                                    <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt=""><br>Upload or drop prize image here!</div>
                                 </form>
                             </div>
                             <div class="winCondition">
@@ -249,7 +250,7 @@
                     element =
                         `<div><div class="title">Prize #1</div><div class="prizeItem"><div class="imageContainer"><input type="text" class="title" placeholder="Prize name" id="prizeTitle" maxlength="12"></input>
                         <form action="/file-upload" class="dropzone" id="images">
-                            <div class="dz-message" data-dz-message><img src="../images/imageUpload.png" alt=""><br>Upload or drop prize
+                            <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt=""><br>Upload or drop prize
                                 image here!</div>
                         </form>
                     </div>

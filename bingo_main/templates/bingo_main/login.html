@@ -1,37 +1,11 @@
+{% extends 'bingo_main/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MatrixBingo</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-</head>
+    {% include 'bingo_main/partials/_navbar_index.html' %}
 
-<body class="registerBackground">
-    <div class="navbarIndex">
-        <img class="logo" src="{% static 'images/logo.svg' %}" alt="" onclick="window.location.href = './'">
-        <div class="menuItems">
-            <div class="playButton desktop" onclick="openPlay()">Play!</div>
-            <div class="buttonHost" onclick="window.location.href='./register'">Become Host</div>
-            <span>
-                <a href="login">
-                    Sign In
-                </a>
-            </span>
-        </div>
-    </div>
-    <div class="playButton playBackground mobile" onclick="openPlay()">
-        Play!
-    </div>
     <div class="registerForm" id="">
-        <form class="modal" method="POST" action="{% url 'users:login' %}">
+        <form class="modal" method="POST" action="{% url 'bingo_main:bingo_main_login' %}">
             {% csrf_token %}
             <label for="email">Email</label>
             <input type="email" name="username" id="email" required>
@@ -43,76 +17,4 @@
             </div>
         </form>
     </div>
-
-    <div class="lowerNavigation">
-        <ul>
-            <li><a href="{% url 'bingo_main:about' %}">About</a></li>
-            <li><a href="{% url 'bingo_main:why_and_how' %}">Why and How</a></li>
-            <li><a href="{% url 'bingo_main:pricing' %}">Pricing</a></li>
-            <li><a href="{% url 'bingo_main:terms' %}">Terms and Conditions</a></li>
-            <li><a href="{% url 'bingo_main:contact' %}">Contact</a></li>
-        </ul>
-    </div>
-    <div class="playCode">
-        <form class="modal">
-            <div class="logoContainer">
-                <img class="logo" src="{% static 'images/logo.svg' %}" alt="">
-                <i class="fa fa-arrow-left" aria-hidden="true" id="backarrow" onclick="closePlay()"></i>
-            </div>
-
-            <label for="pin">Game Pin</label>
-            <div class="pinContainer">
-                <input type="text" name="pin1" id="pin1" maxlength="1" size="1" pattern="\d*" inputmode="numeric"
-                    class="pinNumber" oninput="next(this, 'pin2')" required>
-                <input type="text" name="pin2" id="pin2" maxlength="1" size="1" pattern="\d*" inputmode="numeric"
-                    class="pinNumber" oninput="next(this, 'pin3')" required>
-                <input type="text" name="pin3" id="pin3" maxlength="1" size="1" pattern="\d*" inputmode="numeric"
-                    class="pinNumber" oninput="next(this, 'pin4')" required>
-                <input type="text" name="pin4" id="pin4" maxlength="1" size="1" pattern="\d*" inputmode="numeric"
-                    class="pinNumber" oninput="next(this, 'name')" required>
-            </div>
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
-            <input type="submit" class="playButton" value="Play!">
-            <div class="errorBox" id="submitError">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
-            </div>
-        </form>
-    </div>
-    <script src="{% static 'js/loadGame.js' %}"></script>
-    <script>
-        function getHeight() {
-            if (window.innerWidth < 600) return document.querySelector('.registerForm').style.height = '';
-            document.querySelector('.registerForm').style.height = window.innerHeight - document.querySelector(
-                '.lowerNavigation').clientHeight - document.querySelector('.navbarIndex').clientHeight - 60 + 'px';
-        }
-
-        getHeight();
-
-        window.addEventListener('resize', function (e) {
-            getHeight();
-        });
-
-        document.querySelector('#loginForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            valid = false;
-            if (!valid) {
-                document.querySelector('#submitError').innerHTML = 'Please enter a valid email/password!'
-                return document.querySelector('#submitError').style.display = 'block';
-            }
-
-            localStorage.setItem('userID')
-        })
-
-        function openPlay() {
-            document.querySelector('.playCode').style.right = 0;
-            document.querySelector('#pin1').focus();
-        }
-
-        function closePlay() {
-            document.querySelector('.playCode').style.right = '100vw';
-        }
-    </script>
-</body>
-
-</html>
+{% endblock content %}

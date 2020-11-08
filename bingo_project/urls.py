@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.conf.urls import handler404, handler500
+from django.conf.urls.static import static
+from django.conf import settings
 
 from game import views as game_views
 admin.site.site_header = 'Bingo Matrix'
@@ -9,7 +11,7 @@ admin.site.site_header = 'Bingo Matrix'
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', game_views.home, name='home'),
-    path('', include('bingo_main.urls', namespace='bingo_main')),
+    path('', include('bingo_main.urls', namespace='home')),
     path('payments/', include('payments.urls', namespace='payments')),
     path('api/', include('api.urls', namespace='api')),
     path('game/', include('game.urls', namespace='game')),
@@ -27,6 +29,9 @@ urlpatterns = [
     # path('accounts/', include('allauth.urls')),
 
 ]
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 handler500 = 'bingo_main.views.handler500'
 handler404 = 'bingo_main.views.handler404'

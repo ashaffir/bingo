@@ -4,6 +4,10 @@ from django.db import models
 from users.models import User
 from django.contrib.postgres.fields import ArrayField
 
+
+def picture_image_path(instance, filename):
+    return f'pictures/{instance.album_id}/{instance.pk}.{filename}'
+
 class Album(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     album_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -12,8 +16,9 @@ class Album(models.Model):
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100, blank=True, null=True)
     number_of_pictures = models.IntegerField(blank=True, null=True)
-    pictures = models.JSONField(blank=True, null=True)
+    pictures = models.JSONField(blank=True, null=True, default=list)
     board = models.JSONField(blank=True, null=True)
+    board_size = models.IntegerField(blank=True, null=True)
 
 
     class Meta:
@@ -26,9 +31,11 @@ class Album(models.Model):
 class Picture(models.Model):
     image_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, null=True, blank=True)
-    album = models.ForeignKey(Album, on_delete=models.CASCADE, null=True, blank=True)
+    # album = models.ForeignKey(Album, on_delete=models.CASCADE, null=True, blank=True)
+    album_id = models.CharField(max_length=100, null=True, blank=True)
     url = models.CharField(max_length=500, null=True, blank=True)
     remote_id = models.CharField(max_length=100, null=True, blank=True)
+    image_file = models.ImageField(upload_to=picture_image_path, blank=True, null=True)
 
     def __str__(self):
         return str(self.image_id)

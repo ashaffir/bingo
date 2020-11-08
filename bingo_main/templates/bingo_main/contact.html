@@ -1,8 +1,9 @@
 {% extends 'bingo_main/base.html' %}
 {% load static %}
 {% block content %}
+{% include 'bingo_main/partials/_navbar_index.html' %}
 
-<div class="contactusForm" id="loginForm">
+<div class="contactusForm" id="loginForm" style="padding-bottom: 5%;">
     <form class="modal" method="POST">
         {% csrf_token %}
         Got a question for us? Send a message via our form!

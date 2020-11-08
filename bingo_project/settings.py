@@ -210,6 +210,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'users.User'
+USERNAME_FIELD = 'email'
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -239,6 +242,12 @@ DEFAULT_FROM_EMAIL = 'bingomatrix1@gmail.com'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DATA_UPLOAD_MAX_MEMORY_SIZE =  config['DATA_UPLOAD_MAX_MEMORY_SIZE'] 
 
 CURRENCY = config['CURRENCY']
 WEBSITE_URL = config['WEBSITE_URL']

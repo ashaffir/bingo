@@ -24,12 +24,16 @@
 
         <div class="menuItems">
             <div class="playButton desktop" onclick="openPlay()">Play!</div>
+            {% if user.is_authenticated %}
+                <div class="buttonHost" onclick="window.location.href='{% url "bingo_main:dashboard" %}'">Dashboard</div>
+            {% else %}
             <div class="buttonHost" onclick="window.location.href='{% url "bingo_main:bingo_main_register" %}'">Become Host</div>
             <span>
                 <a href="login">
                     Sign In
                 </a>
             </span>
+            {% endif %}
         </div>
     </div>
     <div class="playButton playBackground mobile" onclick="openPlay()">

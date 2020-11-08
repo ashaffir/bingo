@@ -1,182 +1,122 @@
+{% extends 'bingo_main/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MatrixBingo</title>
+{% block css %}
     <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
     <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'dashboard/css/create.css' %}">
     <link rel="stylesheet" href="{% static 'dashboard/../css/dropzone.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+{% endblock css %}
+
+{% block js %}
     <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
-</head>
+{% endblock js %}
 
-<body>
-    <div class="navbarTop">
-        <img class="logo" src="{% static 'dashboard/../images/logo.svg' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
-        <div class="menuItems">
-            <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
-                <i class="fa fa-plus-square" aria-hidden="true"></i> €50
+{% block content %}
+
+{% include 'bingo_main/partials/_navbar_top.html' with active_tab='create_bingo' %}
+
+<div class="topBar">
+    <div class="titleBar">
+        Card sizes
+    </div>
+    <div class="bingoSizes">
+        <div class="chooseSize">
+            <div class="box3x3 bingoTable">
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
             </div>
-            <img class="logo" src="{% static 'dashboard/../images/placeholder.png' %}" onclick="openSidebar()">
+            3x3 (18 - 31 images uploaded)
         </div>
-    </div>
-
-    <div class="lowerNav">
-        <span>
-            <a href='{% url "bingo_main:dashboard" %}'>
-                Public Bingo's
-            </a>
-        </span>
-        <span class="active">
-            <a href="{% url 'bingo_main:create_bingo' %}">
-                Create Bingo
-            </a>
-        </span>
-        <span>
-            <a href="{% url 'bingo_main:my_bingos' %}">
-                My Bingo's
-            </a>
-        </span>
-    </div>
-
-    <div class="sidebarProfile">
-        <div id="closeButton" onclick="openSidebar()">
-            <i class="fa fa-times"></i>
-        </div>
-        <form class="modal" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
-            <label for="email">Add your logo</label>
-            <input type="file" name="complogo" id="complogo">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" minlength="5">
-            <label for="country">Country</label>
-            <br>
-            <select name="country" id="country">
-                <option value="">Choose your country...</option>
-            </select>
-            <br>
-            <label for="company">Company Name</label>
-            <input type="text" name="company" id="company">
-            <label for="vat">VAT Number</label>
-            <input type="text" name="vat" id="vat">
-            <input type="submit" class="button grey" value="Update Details" name="updateProfile">
-            <input type="button" class="button red" value="Log out" onclick="window.open('{% url "bingo_main:logout_view" %}');">
-        </form>
-    </div>
-
-    <div class="topBar">
-        <div class="titleBar">
-            Card sizes
-        </div>
-        <div class="bingoSizes">
-            <div class="chooseSize">
-                <div class="box3x3 bingoTable">
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                </div>
-                3x3 (18 - 31 images uploaded)
+        <div class="chooseSize">
+            <div class="box4x4 bingoTable">
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
             </div>
-            <div class="chooseSize">
-                <div class="box4x4 bingoTable">
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                </div>
-                4x4 (32 - 53 images uploaded)
+            4x4 (32 - 53 images uploaded)
+        </div>
+        <div class="chooseSize">
+            <div class="box5x5 bingoTable">
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
             </div>
-            <div class="chooseSize">
-                <div class="box5x5 bingoTable">
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                    <div class="field"></div>
-                </div>
-                5x5 (54 - 99 images uploaded)
-            </div>
-        </div>
-        <div class="titleBar" id="imagesUploaded">
-            Upload images (0 Uploaded)
-        </div>
-        <form action="/file-upload" class="dropzone" id="images">
-            <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt=""> Upload or drop images
-                here!</div>
-        </form>
-        <div class="uploadedImages"></div>
-
-        <div class="titleBar">Where should it be saved?</div>
-        <input type="radio" name="bingoType" value="private" id="private" checked onclick="checkCopyright(this)">
-        <label for="private">My Bingo's</label>
-        <input type="radio" name="bingoType" value="public" id="public" onclick="checkCopyright(this)">
-        <label for="public">Public Bingo's</label>
-        <div class="errorBox" id="copyright">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
-        </div>
-        <br>
-        <div class="saveButton" onclick="createBingo()">Save</div>
-        <div class="errorBox" id="submitError">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
+            5x5 (54 - 99 images uploaded)
         </div>
     </div>
-
-    <div class="lowerNavigation">
-        <ul>
-            <li><a href="{% url 'bingo_main:about' %}">About</a></li>
-            <li><a href="{% url 'bingo_main:why_and_how' %}">Why and How</a></li>
-            <li><a href="{% url 'bingo_main:pricing' %}">Pricing</a></li>
-            <li><a href="{% url 'bingo_main:terms' %}">Terms and Conditions</a></li>
-            <li><a href="{% url 'bingo_main:contact' %}">Contact</a></li>
-        </ul>
+    <div class="titleBar" id="imagesUploaded">
+        Upload images (0 Uploaded)
     </div>
+    <form action="/file-upload" class="dropzone" id="images">
+        <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt=""> Upload or drop images
+            here!</div>
+    </form>
+    <div class="uploadedImages"></div>
+
+    <div class="titleBar">Where should it be saved?</div>
+    <input type="radio" name="bingoType" value="private" id="private" checked onclick="checkCopyright(this)">
+    <label for="private">My Bingo's</label>
+    <input type="radio" name="bingoType" value="public" id="public" onclick="checkCopyright(this)">
+    <label for="public">Public Bingo's</label>
+    <div class="errorBox" id="copyright">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
+    </div>
+    <br>
+    <div style="margin-top:2rem; border: solid 2px; max-width: 20%">
+        <input type="text" maxlength="12" placeholder="Enter bingo album name" style="padding: 5px;" id="album-name">
+    </div>
+    <div class="saveButton" onclick="createBingo()">Save</div>
+    <div class="errorBox" id="submitError">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js_bottom %}
     <script>
         function openSidebar() {
             let el = document.querySelector('.sidebarProfile');
@@ -228,7 +168,7 @@
                 <img data-dz-thumbnail>
                 <div class="imageBottom">
                     <input type="text" maxlength="12" placeholder="Enter name">
-                    <i class="fa fa-trash" data-dz-remove></i>
+                    <i class="fa fa-trash" data-dz-remove onclick="removePicture()"></i>
                 </div>
             </div>`,
             thumbnailHeight: null,
@@ -254,20 +194,30 @@
             }
         };
 
+        function removePicture(){
+            imagesUploaded --;
+        };
+
         function createBingo() {
+            /* LOADER DISPLAY */
+            $('.loading').show()
+
+            let album_name = document.querySelector('input[id="album-name"]').value;
             let images = myDropzone.files;
             const errorBox = document.querySelector('#submitError');
             let postData = {
                 images: [],
-                saveLocation: document.querySelector('input[name="bingoType"]:checked').value
+                saveLocation: document.querySelector('input[name="bingoType"]:checked').value,
+                album_name: album_name
             };
             errorBox.style.display = '';
-            if (imagesUploaded < 18) {
+            if (imagesUploaded < 5) {
                 errorBox.innerHTML =
                     `You have uploaded ${imagesUploaded} out of the minimum required 18 images! Please upload the required files and re-submit!`;
                 return errorBox.style.display = 'block';
             }
             let error = false;
+            /*
             document.querySelectorAll('.imageBottom input').forEach(el => {
                 if (el.value == "") {
                     errorBox.innerHTML =
@@ -276,7 +226,7 @@
                     return errorBox.style.display = 'block';
                 }
             });
-
+            */
             if (error) return;
 
             for (let x = 0; x < document.querySelectorAll('.image img').length; x++) {
@@ -292,11 +242,36 @@
                     image: imageData
                 })
             }
+            //console.log(`DATA: ${postData.images[0].image.dataURL}`)
+            var createBingoUrl = "{% url 'bingo_main:create_bingo' %}"
+            var formData = new FormData();
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+            formData.append('images', JSON.stringify(postData))
+            $.ajax({
+                type: 'POST',
+                url: createBingoUrl,
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                success: function (){
+                    alert('Album saved!')
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ":" + xhr.responseText)
+                    var w = window.open('about:blank');
+                    w.document.open();
+                    w.document.write(xhr.responseText);
+                    w.document.close();
+                }
+            })
+
+            /* Loader hide */
+            $('.loading').hide()
 
             // Send request to server with whatever server requires.
-            window.location.href = './';
+            window.location.href = '{% url "bingo_main:create_bingo" %}';
         }
     </script>
-</body>
-
-</html>
+{% endblock js_bottom %}

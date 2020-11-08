@@ -6,6 +6,7 @@
     "WEBSITE_URL":"",
     "CURRENCY": "USD",
     "ADMIN_EMAIL": "alfred.shaffir@gmail.com",
+    "DATA_UPLOAD_MAX_MEMORY_SIZE": 524288000,
     "STRIPE_SECRET_KEY": "",
     "STRIPE_PUBLISHABLE_KEY": ""
 }

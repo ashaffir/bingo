@@ -9,7 +9,7 @@ app_name = 'bingo_main'
 urlpatterns = [
     path('', bingo_main_views.bingo_main, name='bingo_main'),
     path('register', bingo_main_views.bingo_main_register, name='bingo_main_register'),
-    path('login', bingo_main_views.bingo_main_login, name='bingo_main_login'),
+    path('login/', bingo_main_views.bingo_main_login, name='bingo_main_login'),
     path('logout_view', bingo_main_views.logout_view, name='logout_view'),
     path('contact', bingo_main_views.contact, name='contact'),
     path('terms', bingo_main_views.terms, name='terms'),
@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('dashboard', bingo_main_views.dashboard, name='dashboard'),
     path('create_bingo', bingo_main_views.create_bingo, name='create_bingo'),
+    path('start_bingo', bingo_main_views.start_bingo, name='start_bingo'),
     path('my_bingos', bingo_main_views.my_bingos, name='my_bingos'),
     path('bingo', bingo_main_views.bingo, name='bingo'),
     path('add_money', bingo_main_views.add_money, name='add_money'),
