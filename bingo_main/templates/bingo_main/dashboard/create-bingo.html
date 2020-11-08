@@ -256,7 +256,9 @@
                 contentType: false,
                 enctype: 'multipart/form-data',
                 success: function (){
-                    alert('Album saved!')
+                    alert('Album saved!');
+                    window.location.href = '{% url "bingo_main:create_bingo" %}';
+
                 },
                 error: function(xhr, errmsg, err) {
                     console.log(xhr.status + ":" + xhr.responseText)
@@ -271,7 +273,8 @@
             $('.loading').hide()
 
             // Send request to server with whatever server requires.
-            window.location.href = '{% url "bingo_main:create_bingo" %}';
+            //window.location.href = '{% url "bingo_main:create_bingo" %}';
+            console.log('CREATED!!!!')
         }
     </script>
 {% endblock js_bottom %}

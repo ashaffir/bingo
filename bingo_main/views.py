@@ -185,8 +185,9 @@ def create_bingo(request):
                     
                     album.save()
                     messages.success(request, 'Album saved')
-                    # return redirect(request.META['HTTP_REFERER'])
-                    return redirect(redirect, 'bingo_main:create_bingo')
+                    logger.info(f'Album for user {request.user} name >> {album_name} << created')
+                    print(f'Album for user {request.user} name >> {album_name} << created')
+                    return redirect(request.META['HTTP_REFERER'])
 
                 except Exception as e:
                     print(f'>>> Bingo main: failed to save the pictures to the album. ERROR: {e}')
@@ -204,7 +205,7 @@ def my_bingos(request):
 
     # Get the 3x3 album pictures
     try:
-        album_3x3 = Album.objects.get(user=user, board_size=3)
+        album_3x3 = Album.objects.filter(user=user, board_size=3).last()
         pictures_3x3 = []
         for pic_id in album_3x3.pictures:
             pictures_3x3.append(Picture.objects.get(pk=pic_id))
@@ -217,7 +218,7 @@ def my_bingos(request):
 
     # Get the 4x4 album pictures
     try:
-        album_4x4 = Album.objects.get(user=user, board_size=4)
+        album_4x4 = Album.objects.filter(user=user, board_size=4).last()
         pictures_4x4 = []
         for pic_id in album_4x4.pictures:
             pictures_4x4.append(Picture.objects.get(pk=pic_id))
@@ -230,7 +231,7 @@ def my_bingos(request):
 
     # Get the 5x5 album pictures
     try:
-        album_5x5 = Album.objects.get(user=user, board_size=5)
+        album_5x5 = Album.objects.filter(user=user, board_size=5).last()
         pictures_5x5 = []
         for pic_id in album_5x5.pictures:
             pictures_5x5.append(Picture.objects.get(pk=pic_id))

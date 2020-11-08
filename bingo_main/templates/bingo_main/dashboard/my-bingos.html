@@ -66,29 +66,43 @@
 
     function getBingos() {
         // 3x3 Box
-        /*
-        for (let index = 0; index != 18; index++) {
-            document.querySelector('.box3x3').innerHTML +=
-            '<div class="field"><img src="{% static 'dashboard/../images/placeholder.png' %}" alt=""></div>';
-        }
-        */
-        {% for pic in pictures_3x3 %}
-            //console.log(`${pic}`)
-            document.querySelector('.box3x3').innerHTML +=
+        {% if pictures_3x3 %}
+            {% for pic in pictures_3x3 %}
+                document.querySelector('.box3x3').innerHTML +=
                 '<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>';
-        {% endfor %}
-
+            {% endfor %}
+        {% else %}
+            for (let index = 0; index != 18; index++) {
+                document.querySelector('.box3x3').innerHTML +=
+                '<div class="field"><img src="{% static 'dashboard/../images/placeholder.png' %}" alt=""></div>';
+            }
+        {% endif %}
 
         // 4x4 Box
-        for (let index = 0; index != 32; index++) {
-            document.querySelector('.box4x4').innerHTML +=
-                '<div class="field"><img src="{% static 'dashboard/../images/placeholder.png' %}" alt=""></div>';
-        }
+        {% if pictures_4x4 %}
+            {% for pic in pictures_4x4 %}
+                document.querySelector('.box4x4').innerHTML +=
+                '<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>';
+            {% endfor %}
+        {% else %}
+            for (let index = 0; index != 32; index++) {
+                document.querySelector('.box4x4').innerHTML +=
+                    '<div class="field"><img src="{% static 'dashboard/../images/placeholder.png' %}" alt=""></div>';
+            }
+        {% endif %}
+
         // 5x5 Box
-        for (let index = 0; index != 54; index++) {
-            document.querySelector('.box5x5').innerHTML +=
-                '<div class="field"><img src="{% static 'dashboard/../images/placeholder.png' %}" alt=""></div>';
-        }
+        {% if pictures_5x5 %}
+            {% for pic in pictures_5x5 %}
+                document.querySelector('.box5x5').innerHTML +=
+                '<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>';
+            {% endfor %}
+        {% else %}
+            for (let index = 0; index != 54; index++) {
+                document.querySelector('.box5x5').innerHTML +=
+                    '<div class="field"><img src="{% static 'dashboard/../images/placeholder.png' %}" alt=""></div>';
+            }
+        {% endif %}
 
         resizeBox();
     }
