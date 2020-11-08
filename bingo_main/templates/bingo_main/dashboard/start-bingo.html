@@ -1,60 +1,20 @@
+{% extends 'bingo_main/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MatrixBingo</title>
-    <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
+{% block css %}
     <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'dashboard/css/bingoStart.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'dashboard/../css/dropzone.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+{% endblock css %}
+
+{% block js %}
     <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
-</head>
+{% endblock js %}
 
-<body>
-    <div class="navbarTop">
-        <img class="logo" src="{% static 'dashboard/../images/logo.svg' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
-        <div class="menuItems">
-            <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
-                <i class="fa fa-plus-square" aria-hidden="true"></i> €50
-            </div>
-            <img class="logo" src="{% static 'dashboard/../images/placeholder.png' %}" onclick="openSidebar()">
-        </div>
-    </div>
+{% block content %}
 
-    <div class="sidebarProfile">
-        <div id="closeButton" onclick="openSidebar()">
-            <i class="fa fa-times"></i>
-        </div>
-        <form class="modal">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" required>
-            <label for="email">Add your logo</label>
-            <input type="file" name="complogo" id="complogo">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" minlength="5">
-            <label for="country">Country</label>
-            <br>
-            <select name="country" id="country" required>
-                <option value="">Choose your country...</option>
-            </select>
-            <br>
-            <label for="company">Company Name</label>
-            <input type="text" name="company" id="company">
-            <label for="vat">VAT Number</label>
-            <input type="text" name="vat" id="vat">
-            <input type="submit" class="button grey" value="Update Details">
-            <input type="button" class="button red" value="Log out" onclick="window.open('{% url "bingo_main:logout_view" %}');">
-        </form>
-    </div>
+{% include 'bingo_main/partials/_navbar_top.html' with active_tab='none' %}
+
     <div class="prizeContainer">
         <div>
             <div class="prizeNumber">
@@ -136,15 +96,10 @@
         </div>
     </div>
 
-    <div class="lowerNavigation">
-        <ul>
-            <li><a href="{% url 'bingo_main:about' %}">About</a></li>
-            <li><a href="{% url 'bingo_main:why_and_how' %}">Why and How</a></li>
-            <li><a href="{% url 'bingo_main:pricing' %}">Pricing</a></li>
-            <li><a href="{% url 'bingo_main:terms' %}">Terms and Conditions</a></li>
-            <li><a href="{% url 'bingo_main:contact' %}">Contact</a></li>
-        </ul>
-    </div>
+{% endblock content %}
+
+{% block js_bottom %}
+
     <script>
         let prizes = '1';
         let dropzone, dropzone2, dropzone3;
@@ -166,7 +121,7 @@
                     element = "";
                     for (let x = 0; x < prizes; x++) {
                         element +=
-                            `<div><div class="title">Prize #${x+1}</div><div class="prizeItem"><div class="imageContainer"><input type="text" class="title" placeholder="Prize name" id="prizeTitle"></input>
+                            `<div><div class="title">Prize #${x+1}</div><div class="prizeItem"><div class="imageContainer"><input type="text" class="title" placeholder="Prize name" id="prizeTitle-${x}"></input>
                         <form action="/file-upload" class="dropzone" id="images-${x+1}">
                             <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt=""><br>Upload or drop prize
                                 image here!</div>
@@ -204,7 +159,7 @@
                             <div class="title">Prize #${x+1}</div>
                             <div class="prizeItem">
                                 <div class="imageContainer">
-                                    <input type="text" class="title" placeholder="Prize name" id="prizeTitle"></input>
+                                    <input type="text" class="title" placeholder="Prize name" id="prizeTitle-${x}"></input>
                                 <form action="/file-upload" class="dropzone" id="images-${x+1}">
                                     <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt=""><br>Upload or drop prize image here!</div>
                                 </form>
@@ -408,77 +363,77 @@
             errorBox.style.display = "none";
             switch (prizes) {
                 case '3':
-                    if (dropzone.files.length == 0 | document.querySelector('#prizeTitle').value == "" | dropzone2
+                    if (dropzone[0].files.length == 0 | document.querySelector('#prizeTitle-0').value == "" | dropzone[1]
                         .files
-                        .length == 0 | document.querySelector('#prizeTitle-2').value == "" | dropzone3.files
+                        .length == 0 | document.querySelector('#prizeTitle-1').value == "" | dropzone[2].files
                         .length ==
-                        0 | document.querySelector('#prizeTitle-3').value == "") {
+                        0 | document.querySelector('#prizeTitle-2').value == "") {
                         errorBox.innerHTML =
                             "You are missing the image/title for the prizes! Please upload an image/title before submitting!";
                         return errorBox.style.display = "block";
                     }
 
                     imageData = {
-                        dataURL: dropzone.files[0].dataURL,
-                        lastModified: dropzone.files[0].lastModified,
-                        name: dropzone.files[0].name,
-                        size: dropzone.files[0].size
+                        dataURL: dropzone[0].files[0].dataURL,
+                        lastModified: dropzone[0].files[0].lastModified,
+                        name: dropzone[0].files[0].name,
+                        size: dropzone[0].files[0].size
                     };
                     requestData.prizes.push({
-                        "prizeName": document.querySelector('#prizeTitle').value,
+                        "prizeName": document.querySelector('#prizeTitle-0').value,
                         "prizeImage": imageData
                     });
 
                     imageData = {
-                        dataURL: dropzone2.files[0].dataURL,
-                        lastModified: dropzone2.files[0].lastModified,
-                        name: dropzone2.files[0].name,
-                        size: dropzone2.files[0].size
+                        dataURL: dropzone[1].files[0].dataURL,
+                        lastModified: dropzone[1].files[0].lastModified,
+                        name: dropzone[1].files[0].name,
+                        size: dropzone[1].files[0].size
+                    };
+                    requestData.prizes.push({
+                        "prizeName": document.querySelector('#prizeTitle-1').value,
+                        "prizeImage": imageData
+                    });
+
+                    imageData = {
+                        dataURL: dropzone[2].files[0].dataURL,
+                        lastModified: dropzone[2].files[0].lastModified,
+                        name: dropzone[2].files[0].name,
+                        size: dropzone[2].files[0].size
                     };
                     requestData.prizes.push({
                         "prizeName": document.querySelector('#prizeTitle-2').value,
-                        "prizeImage": imageData
-                    });
-
-                    imageData = {
-                        dataURL: dropzone3.files[0].dataURL,
-                        lastModified: dropzone3.files[0].lastModified,
-                        name: dropzone3.files[0].name,
-                        size: dropzone3.files[0].size
-                    };
-                    requestData.prizes.push({
-                        "prizeName": document.querySelector('#prizeTitle-3').value,
                         "prizeImage": imageData
                     });
                     break;
                 case '2':
-                    if (dropzone.files.length == 0 | document.querySelector('#prizeTitle').value == "" | dropzone2
+                    if (dropzone[0].files.length == 0 | document.querySelector('#prizeTitle-0').value == "" | dropzone[1]
                         .files
-                        .length == 0 | document.querySelector('#prizeTitle-2').value == "") {
+                        .length == 0 | document.querySelector('#prizeTitle-1').value == "") {
                         errorBox.innerHTML =
                             "You are missing the image/title for the prizes! Please upload an image/title before submitting!";
                         return errorBox.style.display = "block";
                     }
 
                     imageData = {
-                        dataURL: dropzone.files[0].dataURL,
-                        lastModified: dropzone.files[0].lastModified,
-                        name: dropzone.files[0].name,
-                        size: dropzone.files[0].size
+                        dataURL: dropzone[0].files[0].dataURL,
+                        lastModified: dropzone[0].files[0].lastModified,
+                        name: dropzone[0].files[0].name,
+                        size: dropzone[0].files[0].size
                     };
                     requestData.prizes.push({
-                        "prizeName": document.querySelector('#prizeTitle').value,
+                        "prizeName": document.querySelector('#prizeTitle-0').value,
                         "prizeImage": imageData
                     });
 
                     imageData = {
-                        dataURL: dropzone2.files[0].dataURL,
-                        lastModified: dropzone2.files[0].lastModified,
-                        name: dropzone2.files[0].name,
-                        size: dropzone2.files[0].size
+                        dataURL: dropzone[1].files[0].dataURL,
+                        lastModified: dropzone[1].files[0].lastModified,
+                        name: dropzone[1].files[0].name,
+                        size: dropzone[1].files[0].size
                     };
                     requestData.prizes.push({
-                        "prizeName": document.querySelector('#prizeTitle-2').value,
+                        "prizeName": document.querySelector('#prizeTitle-1').value,
                         "prizeImage": imageData
                     });
                     break;
@@ -504,8 +459,36 @@
             }
 
             // Send data to API and get game code in return.
+            var createBingoUrl = "{% url 'bingo_main:start_bingo' %}"
+            var formData = new FormData();
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+            formData.append('images', JSON.stringify(requestData))
+            $.ajax({
+                type: 'POST',
+                url: createBingoUrl,
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
 
-            window.open('../broadcast/', 'Matrix Bingo', "location")
+                success: function (){
+                // alert('Album saved!');
+                // window.location.href = '{% url "bingo_main:create_bingo" %}';
+                console.log('START BROADCAST...')
+
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ":" + xhr.responseText)
+                    var w = window.open('about:blank');
+                    w.document.open();
+                    w.document.write(xhr.responseText);
+                    w.document.close();
+                }
+            })
+
+            window.open('{% url "bingo_main:broadcast" %}', 'Matrix Bingo', "location")
+
             // window.location = './'
 
         }
@@ -520,6 +503,4 @@
             el.style.display = '';
         }
     </script>
-</body>
-
-</html>
+{% endblock js_bottom %}

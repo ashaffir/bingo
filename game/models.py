@@ -8,6 +8,10 @@ from django.contrib.postgres.fields import ArrayField
 def picture_image_path(instance, filename):
     return f'pictures/{instance.album_id}/{instance.pk}.{filename}'
 
+def prize_image_path(instance, filename):
+    return f'games/{instance.game_id}/{filename}'
+
+
 class Album(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     album_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -65,6 +69,14 @@ class Game(models.Model):
     # winning_conditions = models.CharField(max_length=10, choices=WINNING_CONDITIONS, default='ALL')
     is_public = models.BooleanField(default=False)
     prizes = models.JSONField(null=True, blank=True)
+
+    auto_join_approval = models.BooleanField(default=False)
+    prize_1_name = models.CharField(max_length=50, null=True, blank=True)
+    prize_1_image_file = models.ImageField(upload_to=prize_image_path, blank=True, null=True)
+    prize_2_name = models.CharField(max_length=50, null=True, blank=True)
+    prize_2_image_file = models.ImageField(upload_to=prize_image_path, blank=True, null=True)
+    prize_3_name = models.CharField(max_length=50, null=True, blank=True)
+    prize_3_image_file = models.ImageField(upload_to=prize_image_path, blank=True, null=True)
 
     # Start Game
     number_of_players = models.IntegerField(null=True, blank=True)

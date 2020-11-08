@@ -5,32 +5,38 @@
         {% include 'bingo_main/partials/_messages.html' %} 
     </div>
 
+    
     <div class="menuItems">
         <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
             <i class="fa fa-plus-square" aria-hidden="true"></i> €50
         </div>
         <img class="logo" src="{% static 'dashboard/../images/placeholder.png' %}" onclick="openSidebar()">
+        
     </div>
 </div>
 
+{% if active_tab == 'none' %}
 <div class="lowerNav">
-    <span {% if active_tab == 'dashboard' %} class="active" {% endif %}>
-        <a href='{% url "bingo_main:dashboard" %}'>
-            Public Bingo's
-        </a>
-    </span>
-    <span {% if active_tab == 'create_bingo' %} class="active" {% endif %}>
-        <a href="{% url 'bingo_main:create_bingo' %}">
-            Create Bingo
-        </a>
-    </span>
-    <span {% if active_tab == 'my_bingos' %} class="active" {% endif %}>
-        <a href="{% url 'bingo_main:my_bingos' %}">
-            My Bingo's
-        </a>
-    </span>
 </div>
-
+{% else %}
+    <div class="lowerNav">
+        <span {% if active_tab == 'dashboard' %} class="active" {% endif %}>
+            <a href='{% url "bingo_main:dashboard" %}'>
+                Public Bingo's
+            </a>
+        </span>
+        <span {% if active_tab == 'create_bingo' %} class="active" {% endif %}>
+            <a href="{% url 'bingo_main:create_bingo' %}">
+                Create Bingo
+            </a>
+        </span>
+        <span {% if active_tab == 'my_bingos' %} class="active" {% endif %}>
+            <a href="{% url 'bingo_main:my_bingos' %}">
+                My Bingo's
+            </a>
+        </span>
+    </div>
+{% endif %}
 <div class="sidebarProfile">
     <div id="closeButton" onclick="openSidebar()">
         <i class="fa fa-times"></i>

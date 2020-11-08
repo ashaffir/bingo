@@ -18,14 +18,14 @@ urlpatterns = [
     path('about', bingo_main_views.about, name='about'),
 
 
-    path('dashboard', bingo_main_views.dashboard, name='dashboard'),
-    path('create_bingo', bingo_main_views.create_bingo, name='create_bingo'),
-    path('start_bingo', bingo_main_views.start_bingo, name='start_bingo'),
-    path('my_bingos', bingo_main_views.my_bingos, name='my_bingos'),
-    path('bingo', bingo_main_views.bingo, name='bingo'),
-    path('add_money', bingo_main_views.add_money, name='add_money'),
-    path('game_index', bingo_main_views.game_index, name='game_index'),
-    path('game/<str:game_id>', bingo_main_views.game, name='game'),
+    path('dashboard/', bingo_main_views.dashboard, name='dashboard'),
+    path('create_bingo/', bingo_main_views.create_bingo, name='create_bingo'),
+    path('start_bingo/', bingo_main_views.start_bingo, name='start_bingo'),
+    path('my_bingos/', bingo_main_views.my_bingos, name='my_bingos'),
+    path('bingo/', bingo_main_views.bingo, name='bingo'),
+    path('add_money/', bingo_main_views.add_money, name='add_money'),
+    path('broadcast/', bingo_main_views.broadcast, name='broadcast'),
+    path('game/<str:game_id>/', bingo_main_views.game, name='game'),
     path('check_card/', bingo_main_views.check_card, name='check_card'),
 
 ]

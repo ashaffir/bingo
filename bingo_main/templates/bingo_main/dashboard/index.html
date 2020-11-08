@@ -15,35 +15,41 @@
 
 {% include 'bingo_main/partials/_navbar_top.html' with active_tab='dashboard' %}
 
-<div class="bingoContainer">
-    <div class="bingoBox">
-        <div class="bingoTable box3x3">
-
+<form action="{% url "bingo_main:start_bingo" %}" method="POST">
+    {% csrf_token %}
+    <div class="bingoContainer">
+        <div class="bingoBox">
+            <div class="bingoTable box3x3">
+    
+            </div>
+            <div class="bingoTableBottom">
+                3x3 Bingo Name
+                <!-- <div class="gameButton" onclick="createGame(3)">make game</div> -->
+                <button class="gameButton" style="font-family: inherit;" value=3 name="make_game">make game</button>
+            </div>
         </div>
-        <div class="bingoTableBottom">
-            3x3 Bingo Name
-            <div class="gameButton" onclick="createGame()">make game</div>
+        <div class="bingoBox">
+            <div class="bingoTable box4x4">
+    
+            </div>
+            <div class="bingoTableBottom">
+                4x4 Bingo Name
+                <!-- <div class="gameButton" onclick="createGame(4)">make game</div> -->
+                <button class="gameButton" style="font-family: inherit;" value=4 name="make_game">make game</button>
+            </div>
+        </div>
+        <div class="bingoBox">
+            <div class="bingoTable box5x5">
+    
+            </div>
+            <div class="bingoTableBottom">
+                5x5 Bingo Name
+                <!-- <div class="gameButton" onclick="createGame(5)">make game</div> -->
+                <button class="gameButton" style="font-family: inherit;" value=5 name="make_game">make game</button>
+            </div>
         </div>
     </div>
-    <div class="bingoBox">
-        <div class="bingoTable box4x4">
-
-        </div>
-        <div class="bingoTableBottom">
-            4x4 Bingo Name
-            <div class="gameButton" onclick="createGame()">make game</div>
-        </div>
-    </div>
-    <div class="bingoBox">
-        <div class="bingoTable box5x5">
-
-        </div>
-        <div class="bingoTableBottom">
-            5x5 Bingo Name
-            <div class="gameButton" onclick="createGame()">make game</div>
-        </div>
-    </div>
-</div>
+</form>
 
 {% endblock content %}
 
@@ -61,6 +67,37 @@
 
     function createGame(id) {
         // Redirect to start game screen with game id
+
+        startGameUrl = '{% url "bingo_main:start_bingo" %}';
+        var formData = new FormData();
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+        formData.append('id', id)
+
+        $.ajax({
+            type: 'POST',
+            url: startGameUrl,
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            success: function (){
+                //alert('Album saved!');
+                console.log('CREATING GAME...');
+                window.location.href = '{% url "bingo_main:start_bingo" %}';
+
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ":" + xhr.responseText)
+                var w = window.open('about:blank');
+                w.document.open();
+                w.document.write(xhr.responseText);
+                w.document.close();
+            }
+        })
+        /*
+        */
+
     }
 
     function getBingos() {

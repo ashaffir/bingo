@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .forms import ContactForm, HostSignupForm, LoginForm
 from .models import ContentPage
 from .utils import get_image_from_data_url
-from game.models import Picture, Album
+from game.models import Picture, Album, Game
 
 logger = logging.getLogger(__file__)
 
@@ -248,7 +248,67 @@ def my_bingos(request):
 @login_required
 def start_bingo(request):
     context = {}
+
+    if request.method == 'POST':
+        if 'make_game' in request.POST:
+            # Create a game
+            try:
+                print(f'ID: {request.POST["make_game"]}')
+                album_id = request.POST["make_game"]
+                album = Album.objects.filter(board_size=album_id).last()
+
+                game = Game()
+                game.album = album
+                game.board_size = album.board_size
+                game.pictures_pool = album.pictures
+                game.user = request.user
+                game.save()
+                messages.success(request, 'A new bingo game was created')
+            except Exception as e:
+                print(f'>>> bingo main: failed creating a new game. ERROR: {e}')
+                logger.error(f'>>> bingo main: failed creating a new game. ERROR: {e}')
+                messages.error(request, 'Failed creating the new bingo game. Please try again later')
+                return render(request, 'bingo_main/dashboard/start-bingo.html')
+        else:
+            game = Game.objects.last()
+            print(f'START BROADCAST DATA')
+
+            join_status = json.loads(request.POST.get('images'))['joinStatus']  # Auto/Request
+            game.auto_join_approval = True if join_status == 'Auto' else False   
+
+            prizes = json.loads(request.POST.get('images'))['prizes']
+            if len(prizes) == 1:
+                game.prize_1_name =prizes[0]["prizeName"]
+                game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
+                logger.info('One prize game selected')
+                print('One prize game selected')
+            elif len(prizes) == 2:    
+                game.prize_1_name =prizes[0]["prizeName"]
+                game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
+                game.prize_2_name =prizes[1]["prizeName"]
+                game.prize_2_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
+                logger.info('Two prize game selected')
+                print('Two prize game selected')
+            elif len(prizes) == 3: 
+                game.prize_1_name =prizes[0]["prizeName"]
+                game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
+                game.prize_2_name =prizes[1]["prizeName"]
+                game.prize_2_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
+                game.prize_3_name =prizes[2]["prizeName"]
+                game.prize_3_image_file = get_image_from_data_url(prizes[2]["prizeImage"]['dataURL'])[0]
+                logger.info('Three prize game selected')
+                print('Three prize game selected')
+
+            game.save()
+
     return render(request, 'bingo_main/dashboard/start-bingo.html')
+
+@login_required
+def broadcast(request):
+    context = {}
+    current_game = Game.objects.filter(user=request.user).last()
+    context['current_game'] = current_game
+    return render(request, 'bingo_main/broadcast/index.html', context=context)
 
 
 @login_required
@@ -268,14 +328,12 @@ def logout_view(request):
     return redirect('bingo_main:bingo_main')
 
 
-def game_index(request):
-    context = {}
-    return render(request, 'bingo_main/broadcast/index.html')
-
+@login_required
 def game(request, game_id):
     context = {}
     return render(request, 'bingo_main/broadcast/game.html')
 
+@login_required
 def check_card(request):
     context = {}
     return render(request, 'bingo_main/broadcast/checkCard.html')
