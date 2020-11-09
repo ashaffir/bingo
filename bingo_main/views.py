@@ -140,10 +140,14 @@ def contact(request):
 @login_required
 def dashboard(request):
     context = {}
-    pictures = Picture.objects.filter(public=True)
     public_3x3 = []
     public_4x4 = []
     public_5x5 = []
+    try:
+        pictures = Picture.objects.filter(public=True)
+    except:
+        pass
+    
     try:
         for i in range(18):
             public_3x3.append(pictures[i])
