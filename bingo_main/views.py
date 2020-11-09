@@ -140,32 +140,35 @@ def contact(request):
 @login_required
 def dashboard(request):
     context = {}
-    public_3x3 = []
-    public_4x4 = []
-    public_5x5 = []
     try:
         pictures = Picture.objects.filter(public=True)
-    except:
-        pass
-    
-    try:
+    except Exception as e:
+        messages.info(request, '>> VIEWS MAIN: Failed getting pictures from DB. ERROR: {e}')
+        logger.error(f'>> VIEWS MAIN: Failed getting pictures from DB. ERROR: {e}')
+        return render(request, 'bingo_main/dashboard/index.html', context)
+
+    if len(pictures) >= 18:    
+        public_3x3 = []
         for i in range(18):
             public_3x3.append(pictures[i])
-    except Exception as e:
-        public_3x3 == 'none'
+    else:
+        public_3x3 = 'none'
 
-    try:
+    if len(pictures) >= 32:    
+        public_4x4 = []
         for i in range(32):
             public_4x4.append(pictures[i])
-    except Exception as e:
+    else:
         public_4x4 = 'none'
     
-    try:
+    if len(pictures) >= 54:    
+        public_5x5 = []
         for i in range(54):
             public_5x5.append(pictures[i])
-    except Exception as e:
+    else:
         public_5x5 = 'none'
 
+    print(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
     context['public_3x3'] = public_3x3
     context['public_4x4'] = public_4x4
     context['public_5x5'] = public_5x5
@@ -237,15 +240,18 @@ def my_bingos(request):
     # Get the 3x3 album pictures
     try:
         album_3x3 = Album.objects.filter(user=user, board_size=3).last()
+        print('1')
         pictures_3x3 = []
         for pic_id in album_3x3.pictures:
+            print(f'pic id: {pic_id}')
             pictures_3x3.append(Picture.objects.get(pk=pic_id))
             context['pictures_3x3'] = pictures_3x3
-    except:
+            print('3')
+    except Exception as e:
         # There are no 3x3 album pictures
-        logger.info('No 3x3 album pictures found')
-        print('No 3x3 album pictures found')
-        pass
+        logger.error(f'No 3x3 album pictures found. ERROR: {e}')
+        print(f'No 3x3 album pictures found. ERROR: {e}')
+        context['pictures_3x3'] = 'none'
 
     # Get the 4x4 album pictures
     try:
@@ -258,7 +264,8 @@ def my_bingos(request):
         # There are no 4x4 album pictures
         logger.info('No 4x4 album pictures found')
         print('No 4x4 album pictures found')
-        pass
+        context['pictures_4x4'] = 'none'
+        
 
     # Get the 5x5 album pictures
     try:
@@ -271,8 +278,7 @@ def my_bingos(request):
         # There are no 5x5 album pictures
         logger.info('No 5x5 album pictures found')
         print('No 5x5 album pictures found')
-        pass
-
+        context['pictures_5x5'] = 'none'
 
     return render(request, 'bingo_main/dashboard/my-bingos.html', context)
 

@@ -37,7 +37,7 @@ class PlayerAdmin(admin.ModelAdmin):
 
 @admin.register(Picture)
 class PictureAdmin(ImportExportModelAdmin):
-    list_display = ('name','album_id', 'url',)
+    list_display = ('pk','name','album_id', 'url',)
     search_fields = ['name','url',]
     ordering = ('name',)
     list_filter = ('album_id',)

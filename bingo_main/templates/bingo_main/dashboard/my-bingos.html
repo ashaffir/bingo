@@ -72,7 +72,7 @@
 
     function getBingos() {
         // 3x3 Box
-        {% if pictures_3x3 %}
+        {% if pictures_3x3 != 'none' %}
             {% for pic in pictures_3x3 %}
                 document.querySelector('.box3x3').innerHTML +=
                 '<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>';
@@ -85,7 +85,7 @@
         {% endif %}
 
         // 4x4 Box
-        {% if pictures_4x4 %}
+        {% if pictures_4x4 != 'none' %}
             {% for pic in pictures_4x4 %}
                 document.querySelector('.box4x4').innerHTML +=
                 '<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>';
@@ -98,7 +98,7 @@
         {% endif %}
 
         // 5x5 Box
-        {% if pictures_5x5 %}
+        {% if pictures_5x5  != 'none' %}
             {% for pic in pictures_5x5 %}
                 document.querySelector('.box5x5').innerHTML +=
                 '<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>';
