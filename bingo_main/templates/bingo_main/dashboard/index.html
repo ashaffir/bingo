@@ -109,7 +109,7 @@
         imageList = imageList.sort(() => Math.random() - 0.5)
 
         // 3x3 Box
-        {% if public_3x3 %}
+        {% if public_3x3 != 'none' %}
             {% for pic in public_3x3 %}
             document.querySelector('.box3x3').innerHTML +=
                 `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
@@ -124,7 +124,7 @@
         imageList = imageList.sort(() => Math.random() - 0.5)
         // 4x4 Box
 
-        {% if public_4x4 %}
+        {% if public_4x4 != 'none' %}
             {% for pic in public_4x4 %}
             document.querySelector('.box4x4').innerHTML +=
                 `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
@@ -138,7 +138,7 @@
 
         imageList = imageList.sort(() => Math.random() - 0.5)
         // 5x5 Box
-        {% if public_5x5 %}
+        {% if public_5x5 != 'none' %}
             {% for pic in public_5x5 %}
                 document.querySelector('.box5x5').innerHTML +=
                     `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;

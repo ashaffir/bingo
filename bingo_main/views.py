@@ -151,23 +151,24 @@ def dashboard(request):
     try:
         for i in range(18):
             public_3x3.append(pictures[i])
-        context['public_3x3'] = public_3x3
     except Exception as e:
-        public_3x3 == None
+        public_3x3 == 'none'
 
     try:
         for i in range(32):
             public_4x4.append(pictures[i])
-        context['public_4x4'] = public_4x4
     except Exception as e:
-        public_4x4 = None
+        public_4x4 = 'none'
     
     try:
         for i in range(54):
             public_5x5.append(pictures[i])
-        context['public_5x5'] = public_5x5
     except Exception as e:
-        public_5x5 = None
+        public_5x5 = 'none'
+
+    context['public_3x3'] = public_3x3
+    context['public_4x4'] = public_4x4
+    context['public_5x5'] = public_5x5
 
     return render(request, 'bingo_main/dashboard/index.html', context)
 
