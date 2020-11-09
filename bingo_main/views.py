@@ -169,6 +169,7 @@ def dashboard(request):
         public_5x5 = 'none'
 
     print(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
+    logger.info(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
     context['public_3x3'] = public_3x3
     context['public_4x4'] = public_4x4
     context['public_5x5'] = public_5x5
