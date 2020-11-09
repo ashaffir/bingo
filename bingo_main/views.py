@@ -140,7 +140,33 @@ def contact(request):
 @login_required
 def dashboard(request):
     context = {}
-    return render(request, 'bingo_main/dashboard/index.html')
+    pictures = Picture.objects.filter(public=True)
+    public_3x3 = []
+    public_4x4 = []
+    public_5x5 = []
+    try:
+        for i in range(18):
+            public_3x3.append(pictures[i])
+    except Exception as e:
+        public_3x3 == None
+
+    try:
+        for i in range(32):
+            public_4x4.append(pictures[i])
+    except Exception as e:
+        public_4x4 = None
+    
+    try:
+        for i in range(54):
+            public_5x5.append(pictures[i])
+    except Exception as e:
+        public_5x5 = None
+
+    context['public_3x3'] = public_3x3
+    context['public_4x4'] = public_4x4
+    context['public_5x5'] = public_5x5
+
+    return render(request, 'bingo_main/dashboard/index.html', context)
 
 @login_required(login_url='bingo_main:bingo_main_login')
 def create_bingo(request):
@@ -150,7 +176,7 @@ def create_bingo(request):
             print(f'UPDATE: {request.POST}')
         else:
             images_dict = json.loads(request.POST.get('images'))
-            album_type = images_dict["saveLocation"] # Rovate or public
+            album_type = images_dict["saveLocation"] # Private or public
             album_name = images_dict['album_name']
             
             print(f'Creating a {album_type} album for user: {request.user} name {album_name}')
@@ -169,6 +195,7 @@ def create_bingo(request):
                     picture.image_file = get_image_from_data_url(image['image']['dataURL'])[0]
                     picture.name = image['image']['name']
                     picture.album_id = album.album_id
+                    picture.public = True if album_type == 'public' else False
                     picture.save()
 
                     album_images.append(str(picture.image_id))

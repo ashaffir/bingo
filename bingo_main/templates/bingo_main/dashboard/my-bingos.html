@@ -15,40 +15,46 @@
 
 {% include 'bingo_main/partials/_navbar_top.html' with active_tab='my_bingos' %}
 
-<div class="bingoContainer">
-    <div class="bingoBox">
-        <div class="bingoTable box3x3">
+<form action="{% url "bingo_main:start_bingo" %}" method="POST">
+    {% csrf_token %}
+    <div class="bingoContainer">
+        <div class="bingoBox">
+            <div class="bingoTable box3x3">
 
+            </div>
+            <div class="bingoTableBottom">
+                3x3 Bingo Name
+                <div>
+                    <!-- <div class="gameButton">
+                        <i class="fa fa-edit"></i>
+                    </div> -->
+                    <!-- <div class="gameButton">make game</div> -->
+                    <button class="gameButton" style="font-family: inherit;" value=3 name="make_game">make game</button>
+                </div>
+            </div>
         </div>
-        <div class="bingoTableBottom">
-            3x3 Bingo Name
-            <div>
-                <!-- <div class="gameButton">
-                    <i class="fa fa-edit"></i>
-                </div> -->
-                <div class="gameButton">make game</div>
+        <div class="bingoBox">
+            <div class="bingoTable box4x4">
+
+            </div>
+            <div class="bingoTableBottom">
+                4x4 Bingo Name
+                <!-- <div class="gameButton">make game</div> -->
+                <button class="gameButton" style="font-family: inherit;" value=4 name="make_game">make game</button>
+            </div>
+        </div>
+        <div class="bingoBox">
+            <div class="bingoTable box5x5">
+
+            </div>
+            <div class="bingoTableBottom">
+                5x5 Bingo Name
+                <!-- <div class="gameButton">make game</div> -->
+                <button class="gameButton" style="font-family: inherit;" value=5 name="make_game">make game</button>
             </div>
         </div>
     </div>
-    <div class="bingoBox">
-        <div class="bingoTable box4x4">
-
-        </div>
-        <div class="bingoTableBottom">
-            4x4 Bingo Name
-            <div class="gameButton">make game</div>
-        </div>
-    </div>
-    <div class="bingoBox">
-        <div class="bingoTable box5x5">
-
-        </div>
-        <div class="bingoTableBottom">
-            5x5 Bingo Name
-            <div class="gameButton">make game</div>
-        </div>
-    </div>
-</div>
+</form>
 
 {% endblock content %}
 
