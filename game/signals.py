@@ -28,17 +28,24 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
         player_game_id = instance.player_game_id
         board_size = game.board_size
         album = game.album
-        pictures = album.pictures[0]
+        pictures = album.pictures
         pictures_list = []
-        for i in range(1,len(pictures)+1):
-            pictures_list.append(pictures[f'pic{i}'])
+        print(f'PICTURES: {pictures}')
+        for i in range(len(pictures)):
+            # pictures_list.append(pictures[f'pic{i}']) # Cloudinary stuff
+            pictures_list.append(pictures[i])
 
         # Randomize the board
         shuffle_board = shuffle_pictures(pictures_list, board_size)
         # print('SUFFLE', shuffle_board)
 
-        board_array = create_2d_array(shuffle_board, board_size)
-        print(f'PLAYER BOARD: {board_array}')
+        try:
+            board_array = create_2d_array(shuffle_board, board_size)
+            print(f'PLAYER BOARD: {board_array}')
+        except Exception as e:
+            print(f'>>> SIGNALS: failed creating a board for a player. ERROR: {e}')
+            logger.error(f'>>> SIGNALS: failed creating a board for a player. ERROR: {e}')
+            board_array = []
 
         player_board = Board.objects.create(
         player = instance,

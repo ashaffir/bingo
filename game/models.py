@@ -81,7 +81,7 @@ class Game(models.Model):
 
     # Start Game
     number_of_players = models.IntegerField(null=True, blank=True)
-    players_list = models.JSONField(blank=True, null=True)
+    players_list = models.JSONField(blank=True, null=True, default=list)
     game_requested = models.BooleanField(default=False)
     started = models.BooleanField(default=False)
     ended = models.BooleanField(default=False)
@@ -112,8 +112,8 @@ class Player(models.Model):
     board_id = models.CharField(max_length=100, null=True, blank=True)
     winnings = models.JSONField(null=True, blank=True, default=list)
 
-    def __str__(self):
-        return self.nickname
+    # def __str__(self):
+    #     return self.nickname
 
 
 class Board(models.Model):

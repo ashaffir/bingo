@@ -515,7 +515,7 @@ def game_winnings(request):
 @api_view(['GET',])
 @permission_classes((IsAuthenticated,))
 def get_players(request):
-    ''' Getting the current players listed for a gam
+    ''' Getting the current players listed for a game
     '''
     data = {}
     if request.method == 'GET':

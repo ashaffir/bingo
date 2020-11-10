@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view, permission_classes
 from .forms import ContactForm, HostSignupForm, LoginForm
 from .models import ContentPage
 from .utils import get_image_from_data_url
-from game.models import Picture, Album, Game
+from game.models import Picture, Album, Game, Player
 from users.models import User
 
 logger = logging.getLogger(__file__)
@@ -184,6 +184,11 @@ def update_profile(request):
 def dashboard(request):
     context = {}
 
+    albums = Album.objects.filter(is_public=True)
+    print(f'ALBUMS: {albums}')
+
+    context['albums'] = albums
+
     # if request.method == 'POST':
     try:
         pictures = Picture.objects.filter(public=True)
@@ -329,9 +334,30 @@ def my_bingos(request):
 
 @api_view(['GET',])
 def check_game_id(request):
-    print(f'GAME REQUEST: {request.GET.get("code")}')
+    print(f'GAME REQUEST: {request.GET.keys()}')
     try:
         game = Game.objects.get(game_id=request.GET.get("code"))
+        name = request.GET.get("name")
+        print(f'NAME: {request.GET.get("name")}. TYPE: {type(name)}')
+        game_id = game.game_id
+        print(f'GAME ID: {game_id}')
+        
+        # If game exists, create new player and add it to the game players list
+        player = Player.objects.create(
+            nickname=name,
+            game=game,
+            player_game_id=game_id
+        )
+
+        # print(f'PLAYER: {player}')
+        # if game.players_list:
+        #     game.players_list.append(player.pk)
+        #     game.save()
+        # else:
+        #     game.players_list = []
+        #     game.players_list.append(player.pk)
+        #     game.save()
+        
         print(f'GAME: {game}')
         return Response(status=200)
     except Exception as e:
@@ -424,7 +450,6 @@ def logout_view(request):
     return redirect('bingo_main:bingo_main')
 
 
-@login_required
 def game(request, game_id):
     context = {}
     return render(request, 'bingo_main/broadcast/game.html')

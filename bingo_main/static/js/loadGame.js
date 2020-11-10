@@ -21,9 +21,11 @@ function openBingo(url) {
     document.querySelector('#submitError').style.display = '';
     let code = document.querySelector('#pin1').value + document.querySelector('#pin2').value + document
         .querySelector('#pin3').value + document.querySelector('#pin4').value;
+   
     let name = document.querySelector('#name').value;
 
     console.log(`URL: ${url}`)
+    console.log(`NAME: ${name}`)
     // Check with the API if the game pin is valid
     //
     //
@@ -35,7 +37,8 @@ function openBingo(url) {
     $.ajax({
         url: url,
         data: {
-            'code':code
+            'code':code,
+            'name': name
         },
         success: function (){
             // alert('Album saved!');
