@@ -10,7 +10,7 @@
         <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
             <i class="fa fa-plus-square" aria-hidden="true"></i> €50
         </div>
-        <img class="logo" src="{% static 'dashboard/../images/placeholder.png' %}" onclick="openSidebar()">
+        <img class="logo" src="{% if user.profile_pic %} {{ user.profile_pic.url }} {% else %} {% static 'dashboard/../images/placeholder.png' %} {% endif %}" onclick="openSidebar()">
         
     </div>
 </div>
@@ -41,12 +41,12 @@
     <div id="closeButton" onclick="openSidebar()">
         <i class="fa fa-times"></i>
     </div>
-    <form class="modal" method="POST" enctype="multipart/form-data">
+    <form class="modal" action="{% url 'bingo_main:update_profile' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="name">Name</label>
-        <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
+        <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" value="{{ user.name }}" >
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" required>
+        <input type="email" name="email" id="email" >
         <label for="email">Add your logo</label>
         <input type="file" name="complogo" id="complogo">
         <label for="password">Password</label>
@@ -54,14 +54,53 @@
         <label for="country">Country</label>
         <br>
         <select name="country" id="country">
-            <option value="">Choose your country...</option>
+            <option value="none">Choose your country...</option>
         </select>
         <br>
         <label for="company">Company Name</label>
-        <input type="text" name="company" id="company">
+        <input type="text" name="company" id="company" value="{{ user.company_name }}">
         <label for="vat">VAT Number</label>
-        <input type="text" name="vat" id="vat">
+        <input type="text" name="vat" id="vat" value="{{ user.vat_number }}">
         <input type="submit" class="button grey" value="Update Details" name="updateProfile">
+        <!-- <input type="button" onclick="update_profile()" class="button grey" value="Update Details" name="updateProfile"> -->
         <input type="button" class="button red" value="Log out" onclick="window.open('{% url "bingo_main:logout_view" %}');">
     </form>
 </div>
+
+<script>
+    function update_profile(){        
+        var formData = new FormData();
+        var img = document.querySelector('input[type="file"]');
+        console.log(`IMAGE: ${img.value}`)
+        //img.src = URL.createObjectURL(this.files[0]);
+        let profile_update_url = '{% url "bingo_main:update_profile" %}'
+        let postData = {
+            name: document.querySelector('input[name="name"]').value,
+            company_name: document.querySelector('input[name="company"]').value,
+            country: document.querySelector('select[name="country"]').value,
+            profile_image: img,
+            vat: document.querySelector('input[name="vat"]').value
+        };
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+        formData.append('profile_data', JSON.stringify(postData))
+        $.ajax({
+            type: 'POST',
+            url: profile_update_url,
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            success: function (){
+                alert('Profile Updated!');
+            },
+            error: function(xhr, errmsg, err) {
+                console.log(xhr.status + ":" + xhr.responseText)
+                var w = window.open('about:blank');
+                w.document.open();
+                w.document.write(xhr.responseText);
+                w.document.close();
+            }
+        });
+    }
+</script>

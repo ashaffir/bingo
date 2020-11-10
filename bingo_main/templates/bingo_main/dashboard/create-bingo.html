@@ -106,7 +106,7 @@
     </div>
     <br>
     <div style="margin-top:2rem; border: solid 2px; max-width: 20%">
-        <input type="text" maxlength="12" placeholder="Enter bingo album name" style="padding: 5px;" id="album-name">
+        <input type="text" maxlength="12" placeholder="Name" style="padding: 5px;" id="album-name">
     </div>
     <div class="saveButton" onclick="createBingo()">Save</div>
     <div class="errorBox" id="submitError">
@@ -199,11 +199,10 @@
         };
 
         function createBingo() {
-            /* LOADER DISPLAY */
-            $('.loading').show()
 
             let album_name = document.querySelector('input[id="album-name"]').value;
             let images = myDropzone.files;
+            let album_type = document.querySelector('input[name="bingoType"]:checked').value
             const errorBox = document.querySelector('#submitError');
             let postData = {
                 images: [],
@@ -256,8 +255,12 @@
                 contentType: false,
                 enctype: 'multipart/form-data',
                 success: function (){
-                    alert('Album saved!');
-                    window.location.href = '{% url "bingo_main:create_bingo" %}';
+                    //alert('Album saved!');
+                    if (album_type == 'private'){
+                        window.location.href = '{% url "bingo_main:my_bingos" %}';
+                    } else {
+                        window.location.href = '{% url "bingo_main:dashboard" %}';
+                    }
 
                 },
                 error: function(xhr, errmsg, err) {
@@ -268,9 +271,6 @@
                     w.document.close();
                 }
             })
-
-            /* Loader hide */
-            $('.loading').hide()
 
             // Send request to server with whatever server requires.
             //window.location.href = '{% url "bingo_main:create_bingo" %}';

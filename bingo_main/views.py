@@ -10,6 +10,7 @@ from .forms import ContactForm, HostSignupForm, LoginForm
 from .models import ContentPage
 from .utils import get_image_from_data_url
 from game.models import Picture, Album, Game
+from users.models import User
 
 logger = logging.getLogger(__file__)
 
@@ -138,8 +139,43 @@ def contact(request):
     return render(request, 'bingo_main/contact.html')
 
 @login_required
+def update_profile(request):
+    print(f'>> VIEWS MAIN: Profile data: {request.POST}')
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        company_name = request.POST.get('company')
+        country = request.POST.get('country')
+        vat = request.POST.get('vat')
+        profile_pic = request.FILES.get("complogo")
+
+        user = request.user
+        if name != '':
+            user.name = name
+        
+        if company_name != '':
+            print(f'COMPANY NAME: {company_name}')
+            user.company_name = company_name
+        
+        if country != 'none':
+            user.country = country
+        
+        if vat != '':
+            user.vat_number = vat
+        
+        if profile_pic:
+            user.profile_pic = profile_pic
+
+        user.save()
+
+        messages.success(request, 'Profile Updated')
+
+    return redirect(request.META['HTTP_REFERER'])
+
+@login_required
 def dashboard(request):
     context = {}
+
+    # if request.method == 'POST':
     try:
         pictures = Picture.objects.filter(public=True)
     except Exception as e:
@@ -168,7 +204,7 @@ def dashboard(request):
     else:
         public_5x5 = 'none'
 
-    print(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
+    # print(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
     logger.info(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
     context['public_3x3'] = public_3x3
     context['public_4x4'] = public_4x4
@@ -222,7 +258,12 @@ def create_bingo(request):
                     messages.success(request, 'Album saved')
                     logger.info(f'Album for user {request.user} name >> {album_name} << created')
                     print(f'Album for user {request.user} name >> {album_name} << created')
-                    return redirect(request.META['HTTP_REFERER'])
+                    if album_type == 'public':
+                        return redirect('bingo_admin:dashboard')
+                    elif album_type == 'private':
+                        return redirect('bingo_admin:my_bingos')
+                    else:    
+                        return redirect(request.META['HTTP_REFERER'])
 
                 except Exception as e:
                     print(f'>>> Bingo main: failed to save the pictures to the album. ERROR: {e}')

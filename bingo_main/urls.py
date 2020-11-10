@@ -16,6 +16,8 @@ urlpatterns = [
     path('pricing', bingo_main_views.pricing, name='pricing'),
     path('why_and_how', bingo_main_views.why_and_how, name='why_and_how'),
     path('about', bingo_main_views.about, name='about'),
+    path('update_profile', bingo_main_views.update_profile, name='update_profile'),
+    
 
 
     path('dashboard/', bingo_main_views.dashboard, name='dashboard'),
