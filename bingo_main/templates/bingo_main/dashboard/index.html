@@ -18,16 +18,56 @@
 <form action="{% url "bingo_main:start_bingo" %}" method="POST">
     {% csrf_token %}
     <div class="bingoContainer">
+        {% for album in albums %}
+            {% if album.board_size == 3 %}
+                <div class="bingoBox">
+                    <div class="bingoTable box3x3">
+                        {% for image in album.pictures %}
+                            <div class="field"><img src="{{ image }}" alt=""></div>
+                        {% endfor %}
+                    </div>
+                    <div class="bingoTableBottom">
+                        {{ album.name }}
+                        <button class="gameButton" style="font-family: inherit;" value='{{ album.pk }}' name="make_game">make game</button>
+                    </div>
+                </div>
+            {% elif album.board_size == 4 %}
+                <div class="bingoBox">
+                    <div class="bingoTable box4x4">
+                        {% for image in album.pictures %}
+                            <div class="field"><img src="{{ image }}" alt=""></div>
+                        {% endfor %}
+                    </div>
+                    <div class="bingoTableBottom">
+                        {{ album.name }}
+                        <button class="gameButton" style="font-family: inherit;" value='{{ album.pk }}' name="make_game">make game</button>
+                    </div>
+                </div>
+            {% elif album.board_size == 5 %}
+                <div class="bingoBox">
+                    <div class="bingoTable box5x5">
+                        {% for image in album.pictures %}
+                            <div class="field"><img src="{{ image }}" alt=""></div>
+                        {% endfor %}
+                    </div>
+                    <div class="bingoTableBottom">
+                        {{ album.name }}
+                        <button class="gameButton" style="font-family: inherit;" value='{{ album.pk }}' name="make_game">make game</button>
+                    </div>
+                </div>                
+            {% endif %}
+        {% endfor %}
         <div class="bingoBox">
             <div class="bingoTable box3x3">
     
             </div>
             <div class="bingoTableBottom">
                 3x3 Bingo Name
-                <!-- <div class="gameButton" onclick="createGame(3)">make game</div> -->
+                <!-- <div class="gameButton" onclick="createGame(4)">make game</div> -->
                 <button class="gameButton" style="font-family: inherit;" value='3p' name="make_game">make game</button>
             </div>
         </div>
+
         <div class="bingoBox">
             <div class="bingoTable box4x4">
     
@@ -170,6 +210,9 @@
     window.addEventListener('resize', function (e) {
         resizeBox();
     });
-    getBingos();
+
+    resizeBox();
+
+    //getBingos();
 </script>
 {% endblock js_bottom %}

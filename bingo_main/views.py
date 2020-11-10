@@ -190,39 +190,39 @@ def dashboard(request):
     context['albums'] = albums
 
     # if request.method == 'POST':
-    try:
-        pictures = Picture.objects.filter(public=True)
-    except Exception as e:
-        messages.info(request, '>> VIEWS MAIN: Failed getting pictures from DB. ERROR: {e}')
-        logger.error(f'>> VIEWS MAIN: Failed getting pictures from DB. ERROR: {e}')
-        return render(request, 'bingo_main/dashboard/index.html', context)
+    # try:
+    #     pictures = Picture.objects.filter(public=True)
+    # except Exception as e:
+    #     messages.info(request, '>> VIEWS MAIN: Failed getting pictures from DB. ERROR: {e}')
+    #     logger.error(f'>> VIEWS MAIN: Failed getting pictures from DB. ERROR: {e}')
+    #     return render(request, 'bingo_main/dashboard/index.html', context)
 
-    if len(pictures) >= 18:    
-        public_3x3 = []
-        for i in range(18):
-            public_3x3.append(pictures[i])
-    else:
-        public_3x3 = 'none'
+    # if len(pictures) >= 18:    
+    #     public_3x3 = []
+    #     for i in range(18):
+    #         public_3x3.append(pictures[i])
+    # else:
+    #     public_3x3 = 'none'
 
-    if len(pictures) >= 32:    
-        public_4x4 = []
-        for i in range(32):
-            public_4x4.append(pictures[i])
-    else:
-        public_4x4 = 'none'
+    # if len(pictures) >= 32:    
+    #     public_4x4 = []
+    #     for i in range(32):
+    #         public_4x4.append(pictures[i])
+    # else:
+    #     public_4x4 = 'none'
     
-    if len(pictures) >= 54:    
-        public_5x5 = []
-        for i in range(54):
-            public_5x5.append(pictures[i])
-    else:
-        public_5x5 = 'none'
+    # if len(pictures) >= 54:    
+    #     public_5x5 = []
+    #     for i in range(54):
+    #         public_5x5.append(pictures[i])
+    # else:
+    #     public_5x5 = 'none'
 
-    # print(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
-    logger.info(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
-    context['public_3x3'] = public_3x3
-    context['public_4x4'] = public_4x4
-    context['public_5x5'] = public_5x5
+    # # print(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
+    # logger.info(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
+    # context['public_3x3'] = public_3x3
+    # context['public_4x4'] = public_4x4
+    # context['public_5x5'] = public_5x5
 
     return render(request, 'bingo_main/dashboard/index.html', context)
 
@@ -287,7 +287,8 @@ def create_bingo(request):
 def my_bingos(request):
     context = {}
     user = request.user
-
+    albums = Album.objects.filter(user=user)
+    context['albums'] = albums
     # Get the 3x3 album pictures
     try:
         album_3x3 = Album.objects.filter(user=user, board_size=3).last()
@@ -377,7 +378,7 @@ def start_bingo(request):
             try:
                 print(f'ID: {request.POST["make_game"]}')
                 album_id = request.POST["make_game"]
-                album = Album.objects.filter(board_size=album_id).last()
+                album = Album.objects.get(pk=album_id)
 
                 game = Game()
                 game.album = album
