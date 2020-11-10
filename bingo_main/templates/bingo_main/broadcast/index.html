@@ -6,14 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MatrixBingo</title>
-    <link rel="stylesheet" href="{% static 'broadcast/../css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'broadcast/css/global.css' %}">
-    <link rel="stylesheet" href="{% static 'broadcast/css/broadcastIndex.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' %}"
+    <link rel="stylesheet" href="{% static 'broadcast/css/broadcastIndex.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src="{% static 'broadcast/../js/dropzone.js' %}"></script>
+    <script src="{% static 'js/dropzone.js' %}"></script>
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js' %}"
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 </head>
 
@@ -28,10 +28,10 @@
         <div class="sidebar">
             <div id="prizeContainer">
                 <div class="prizeBox" id="prize">
-                    Prize Name
+                    {{ current_game.prize_1_name }}
                     <br>
                     <img class="prizeImage"
-                        src="https://i.picsum.photos/id/977/200/200.jpg?hmac=bhLVu-kBB_plx-DkWXz4gYn-ViPAhDjTtGFwu143FiA"></img>
+                        src="{{ current_game.prize_1_image_file.url }}"></img>
                 </div>
                 <div class="prizeBox" id="winCondition">
                     Bingo
@@ -39,14 +39,14 @@
                     <div class="bingoTable"></div>
                 </div>
             </div>
-            <img src="{% static 'broadcast/../images/speakerHome.png' %}" class="speaker" alt="">
+            <img src="{% static 'images/speakerHome.png' %}" class="speaker" alt="">
         </div>
         <div class="innerContainer">
             <div class="topArea">
                 <div id="topContainer">
                     <span>MatrixBingo.com</span>
                     <br>
-                    <div class="gamePin">{{ current_game.game_id }}</div>
+                    <div class="gamePin" id="gamePin">{{ current_game.game_id }}</div>
 
                 </div>
             </div>
@@ -60,35 +60,39 @@
             <div class="castButton">
                 <google-cast-launcher id="share" --connected-color="white"></google-cast-launcher>
             </div>
-            <div class="castButton">
-                <i class="fa fa-users" onclick="toggleList()"></i>
-                <div id="userList">
-                    Approve Users:
-                    <div class="user">
-                        Username
-                        <span>
-                            <i class="fa fa-check"></i>
-                            <i class="fa fa-times"></i>
-                        </span>
-                    </div>
-                    <div class="user">
-                        Username
-                        <span>
-                            <i class="fa fa-check"></i>
-                            <i class="fa fa-times"></i>
-                        </span>
-                    </div>
-                    <div class="user">
-                        Username
-                        <span>
-                            <i class="fa fa-check"></i>
-                            <i class="fa fa-times"></i>
-                        </span>
+            {% if current_game.auto_join_approval %}
+
+            {% else %}
+                <div class="castButton">
+                    <i class="fa fa-users" onclick="toggleList()"></i>
+                    <div id="userList">
+                        Approve Users:
+                        <div class="user">
+                            Username
+                            <span>
+                                <i class="fa fa-check"></i>
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </div>
+                        <div class="user">
+                            Username
+                            <span>
+                                <i class="fa fa-check"></i>
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </div>
+                        <div class="user">
+                            Username
+                            <span>
+                                <i class="fa fa-check"></i>
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
-        <img src="{% static 'broadcast/../images/backgroundBroadcast.png' %}" class="speakerImage" alt="">
+        <img src="{% static 'images/backgroundBroadcast.png' %}" class="speakerImage" alt="">
     </div>
     <script src="{% static 'broadcast/js/broadcastFunctions.js' %}" defer></script>
 
@@ -190,6 +194,45 @@
                 el.innerHTML = content;
             });
         }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            const gameId = JSON.parse(document.getElementById('gamePin').textContent);
+    
+            const scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+            console.log(`Game ${gameId} WS is ready!`)
+            const gameSocket = new WebSocket(
+                scheme
+                + window.location.host
+                + '/ws/game/'
+                + gameId
+                + '/'
+            );    
+
+            gameSocket.onmessage = function(e) {
+                update_players();
+    //            const data = JSON.parse(e.data);
+    //            console.log(`DATA RECEIVED: ${e.data}`);
+    //            document.querySelector('#game-log').value += (data.message.nickname + '\n');
+    
+            };
+    
+            gameSocket.onclose = function(e) {
+                console.error('game socket closed unexpectedly');
+            };
+    
+            /*
+            update_players = function(){
+                $.ajax({
+                    url: "{ url 'game:players' user_id=user.pk game_id=game.game_id }",
+                    success: function(response) {
+                        $('#players').html(response);
+                    }
+                });								            
+            }
+            */
+        })
     </script>
 </body>
 

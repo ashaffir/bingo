@@ -6,12 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MatrixBingo</title>
-    <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
-    <link rel="stylesheet" href="{% static 'dashboard/css/game.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/successImage.png' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'broadcast/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'broadcast/css/game.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
+    <script src="{% static 'js/dropzone.js' %}"></script>
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
@@ -38,13 +39,13 @@
                     <div class="bingoTable"></div>
                 </div>
             </div>
-            <img src="{% static 'dashboard/../images/speakerPlay.png' %}" class="speaker" alt="">
+            <img src="{% static 'images/speakerPlay.png' %}" class="speaker" alt="">
             <blockquote class="speech bubble" id="message">
                 <em>Bananas!</em>
             </blockquote>
         </div>
         <div class="innerContainer" id="bingoGrid">
-            <img src="{% static 'dashboard/../images/placeholder.png' %}" id="currentImage" alt="">
+            <img src="{% static 'images/placeholder.png' %}" id="currentImage" alt="">
             <div class="imageList">
                 <div class="middle">
                     <div class="field">
@@ -84,10 +85,10 @@
                 <google-cast-launcher id="share" --connected-color="white"></google-cast-launcher>
             </div>
         </div>
-        <img src="{% static 'dashboard/../images/inGame.png' %}" class="speakerImage" alt="">
+        <img src="{% static 'images/inGame.png' %}" class="speakerImage" alt="">
 
     </div>
-    <script src="{% static 'dashboard/js/broadcastFunctions.js' %}"></script>
+    <script src="{% static 'broadcast/js/broadcastFunctions.js' %}"></script>
     <script>
         window.addEventListener('resize', function (e) {
             resize();

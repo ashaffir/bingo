@@ -61,7 +61,8 @@
             </div>
             <label for="name">Name</label>
             <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
-            <input type="submit" class="playButton" value="Play!">
+            <!-- <input type="submit" class="playButton" value="Play!"> -->
+            <input type="button" onclick="openBingo(url={% url 'bingo_main:check_game_id' %})" class="playButton" value="Play!">
             <div class="errorBox" id="submitError">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
             </div>

@@ -8,44 +8,48 @@
     <div class="descriptionContainer">
         <div class="infoBox">
             <div class="imageContainer">
-                <img src="{% static 'images/placeholder.png' %}" class="infoImage" alt="">
-                <img src="{% static 'images/bingoScreen.png' %}" class="infoImage" alt="">
+                <!-- <img src="{% static 'images/placeholder.png' %}" class="infoImage" alt="">
+                <img src="{% static 'images/bingoScreen.png' %}" class="infoImage" alt=""> -->
+                <img src="{{ section_a.image_1.url }}" class="infoImage" alt="">
+                <img src="{{ section_a.image_2.url }}" class="infoImage" alt="">
+
             </div>
             <div class="descriptionText">
                 <span class="descriptionTitle">
-                    Host a game
+                    {{ section_a.title | safe}}
                 </span>
                 <p></p>
-                YOU can host a bingo game made of pictures (instead of numbers). Broadcast the game on the big screen
-                and your guests will be able to join and get tickets to play with their own devices.
+                {{ section_a.content |safe}}
             </div>
         </div>
         <div class="infoBox infoBoxLeft">
             <div class="imageContainer">
-                <img src="{% static 'images/placeholder.png' %}" class="infoImage" alt="">
-                <img src="{% static 'images/publicBingos.png' %}" class="infoImage" alt="">
+                <!-- <img src="{% static 'images/placeholder.png' %}" class="infoImage" alt="">
+                <img src="{% static 'images/publicBingos.png' %}" class="infoImage" alt=""> -->
+                <img src="{{ section_b.image_1.url }}" class="infoImage" alt="">
+                <img src="{{ section_b.image_2.url }}" class="infoImage" alt="">
             </div>
             <div class="descriptionText">
                 <span class="descriptionTitle">
-                    Choose the prizes
+                    {{ section_b.title | safe}}
                 </span>
                 <p></p>
-                JUST create the bingo from pictures yourself or choose one of our public bingo's. Choose the prize each
-                game with our custom bingo system (you can add prize image)!
+                {{ section_b.content |safe}}
             </div>
         </div>
         <div class="infoBox">
             <div class="imageContainer">
-                <img src="{% static 'images/placeholder.png' %}" class="infoImage" alt="">
-                <img src="{% static 'images/prizeCheck.png' %}" class="infoImage" alt="">
+                <!-- <img src="{% static 'images/placeholder.png' %}" class="infoImage" alt="">
+                <img src="{% static 'images/prizeCheck.png' %}" class="infoImage" alt=""> -->
+                <img src="{{ section_c.image_1.url }}" class="infoImage" alt="">
+                <img src="{{ section_c.image_2.url }}" class="infoImage" alt="">
             </div>
             <div class="descriptionText">
                 <span class="descriptionTitle">
-                    Bingo!
+                    {{ section_c.title | safe}}
                 </span>
                 <p></p>
-                When someone says BINGO , type in the ticket number and check with everyone on the main screen if they
-                have won, after the game ends don't stop there! Start a new game straight away HOW FUN!
+                {{ section_c.content |safe}}
             </div>
         </div>
     </div>

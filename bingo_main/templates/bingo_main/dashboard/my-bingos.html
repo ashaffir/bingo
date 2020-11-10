@@ -25,9 +25,9 @@
             <div class="bingoTableBottom">
                 3x3 Bingo Name
                 <div>
-                    <!-- <div class="gameButton">
+                    <div class="gameButton">
                         <i class="fa fa-edit"></i>
-                    </div> -->
+                    </div>
                     <!-- <div class="gameButton">make game</div> -->
                     <button class="gameButton" style="font-family: inherit;" value=3 name="make_game">make game</button>
                 </div>
@@ -75,7 +75,7 @@
         {% if pictures_3x3 != 'none' %}
             {% for pic in pictures_3x3 %}
                 document.querySelector('.box3x3').innerHTML +=
-                '<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>';
+                '<div class="field"><img src="{{ pic }}" alt=""></div>';
             {% endfor %}
         {% else %}
             for (let index = 0; index != 18; index++) {

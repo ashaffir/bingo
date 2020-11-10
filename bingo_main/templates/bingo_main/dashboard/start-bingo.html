@@ -462,7 +462,7 @@
             var createBingoUrl = "{% url 'bingo_main:start_bingo' %}"
             var formData = new FormData();
             formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
-            formData.append('images', JSON.stringify(requestData))
+            formData.append('game_data', JSON.stringify(requestData))
             $.ajax({
                 type: 'POST',
                 url: createBingoUrl,

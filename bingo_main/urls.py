@@ -17,7 +17,6 @@ urlpatterns = [
     path('why_and_how', bingo_main_views.why_and_how, name='why_and_how'),
     path('about', bingo_main_views.about, name='about'),
     path('update_profile', bingo_main_views.update_profile, name='update_profile'),
-    
 
 
     path('dashboard/', bingo_main_views.dashboard, name='dashboard'),
@@ -28,6 +27,7 @@ urlpatterns = [
     path('add_money/', bingo_main_views.add_money, name='add_money'),
     path('broadcast/', bingo_main_views.broadcast, name='broadcast'),
     path('game/<str:game_id>/', bingo_main_views.game, name='game'),
+    path('check_game_id/', bingo_main_views.check_game_id, name='check_game_id'),
     path('check_card/', bingo_main_views.check_card, name='check_card'),
 
 ]

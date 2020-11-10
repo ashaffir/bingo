@@ -8,11 +8,15 @@ class ContentPage(models.Model):
 		('English', 'en'),
 	)
 	name = models.CharField(max_length=100, null=True, blank=True)
+	title = models.CharField(max_length=100, null=True, blank=True)
 	content = RichTextField(max_length=100000, null=True, blank=True)
 	language = models.CharField(max_length=20, choices=LANGUAGES, default='English')
 	section = models.CharField(max_length=100, null=True, blank=True)
 	active = models.BooleanField(default=True)
-	image = models.CharField(max_length=200, null=True, blank=True)
+	image_id = models.CharField(max_length=200, null=True, blank=True)
+	image_1 = models.ImageField(null=True, blank=True, upload_to="content_images", default = 'profile_pics/placeholder.png')
+	image_2 = models.ImageField(null=True, blank=True, upload_to="content_images", default = 'profile_pics/placeholder.png')
+
 
 	def __str__(self):
 	 return self.name

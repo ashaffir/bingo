@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
 
 from .forms import ContactForm, HostSignupForm, LoginForm
 from .models import ContentPage
@@ -16,7 +18,14 @@ logger = logging.getLogger(__file__)
 
 def bingo_main(request):
     context = {}
-    return render(request, 'bingo_main/index.html')
+    section_a = ContentPage.objects.get(section='a')
+    context['section_a'] = section_a
+    section_b = ContentPage.objects.get(section='b')
+    context['section_b'] = section_b
+    section_c = ContentPage.objects.get(section='c')
+    context['section_c'] = section_c
+
+    return render(request, 'bingo_main/index.html', context)
 
 def bingo_main_register(request):
     context = {}
@@ -242,7 +251,7 @@ def create_bingo(request):
                     picture.public = True if album_type == 'public' else False
                     picture.save()
 
-                    album_images.append(str(picture.image_id))
+                    album_images.append(str(picture.image_file.url))
                 
                 try:
                     album.pictures = album_images
@@ -258,12 +267,7 @@ def create_bingo(request):
                     messages.success(request, 'Album saved')
                     logger.info(f'Album for user {request.user} name >> {album_name} << created')
                     print(f'Album for user {request.user} name >> {album_name} << created')
-                    if album_type == 'public':
-                        return redirect('bingo_admin:dashboard')
-                    elif album_type == 'private':
-                        return redirect('bingo_admin:my_bingos')
-                    else:    
-                        return redirect(request.META['HTTP_REFERER'])
+                    return redirect(request.META['HTTP_REFERER'])
 
                 except Exception as e:
                     print(f'>>> Bingo main: failed to save the pictures to the album. ERROR: {e}')
@@ -282,13 +286,12 @@ def my_bingos(request):
     # Get the 3x3 album pictures
     try:
         album_3x3 = Album.objects.filter(user=user, board_size=3).last()
-        print('1')
+        albums_3x3 = Album.objects.filter(user=user, board_size=3)
+        context['albums_3x3'] = albums_3x3
         pictures_3x3 = []
-        for pic_id in album_3x3.pictures:
-            print(f'pic id: {pic_id}')
-            pictures_3x3.append(Picture.objects.get(pk=pic_id))
+        for pic in album_3x3.pictures:
+            pictures_3x3.append(pic)
             context['pictures_3x3'] = pictures_3x3
-            print('3')
     except Exception as e:
         # There are no 3x3 album pictures
         logger.error(f'No 3x3 album pictures found. ERROR: {e}')
@@ -324,6 +327,20 @@ def my_bingos(request):
 
     return render(request, 'bingo_main/dashboard/my-bingos.html', context)
 
+@api_view(['GET',])
+def check_game_id(request):
+    print(f'GAME REQUEST: {request.GET.get("code")}')
+    try:
+        game = Game.objects.get(game_id=request.GET.get("code"))
+        print(f'GAME: {game}')
+        return Response(status=200)
+    except Exception as e:
+        print(f'NO GAME: {e}')
+        return Response(data={'message':"Game ID does not exist"} , status=400)
+    # return redirect(request.META['HTTP_REFERER'])
+    
+
+
 @login_required
 def start_bingo(request):
     context = {}
@@ -352,10 +369,10 @@ def start_bingo(request):
             game = Game.objects.last()
             print(f'START BROADCAST DATA')
 
-            join_status = json.loads(request.POST.get('images'))['joinStatus']  # Auto/Request
+            join_status = json.loads(request.POST.get('game_data'))['joinStatus']  # Auto/Request
             game.auto_join_approval = True if join_status == 'Auto' else False   
 
-            prizes = json.loads(request.POST.get('images'))['prizes']
+            prizes = json.loads(request.POST.get('game_data'))['prizes']
             if len(prizes) == 1:
                 game.prize_1_name =prizes[0]["prizeName"]
                 game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]

@@ -6,12 +6,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MatrixBingo</title>
-    <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
-    <link rel="stylesheet" href="{% static 'dashboard/css/cardCheck.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'broadcast/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'broadcast/css/cardCheck.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
+    <script src="{% static 'js/dropzone.js' %}"></script>
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
@@ -39,7 +39,7 @@
                     <div class="bingoTable"></div>
                 </div>
             </div>
-            <img src="{% static 'dashboard/../images/speakerCheck.png' %}" class="speaker" alt="">
+            <img src="{% static 'images/speakerCheck.png' %}" class="speaker" alt="">
         </div>
         <div id="positionWrapping">
             <div class="innerContainer" id="enterPin">
@@ -57,9 +57,9 @@
             <div class="innerContainer" id="checkPin">
                 <div class="cardContainer">
                     <div class="cardTop">
-                        <img src="{% static 'dashboard/../images/logo.svg' %}" id="companyLogo" alt="">
+                        <img src="{% static 'images/logo.svg' %}" id="companyLogo" alt="">
                         Player Name
-                        <img src="{% static 'dashboard/../images/placeholder.png' %}" id="bingoLogo" alt="">
+                        <img src="{% static 'images/placeholder.png' %}" id="bingoLogo" alt="">
 
                         <div class="cardNumber">
                             Ticket Number 00
@@ -70,7 +70,7 @@
                 <div class="resultContainer">
                     <div id="winResult">
                         Congratulations!
-                        <img src="{% static 'dashboard/../images/successImage.png' %}" alt="">
+                        <img src="{% static 'images/successImage.png' %}" alt="">
                     </div>
                     <div id="noResult">
                         No Bingo...
@@ -91,9 +91,9 @@
         </div>
     </div>
 
-    <img src="{% static 'dashboard/../images/backgroundCheck.png' %}" class="speakerImage" alt="">
+    <img src="{% static 'images/backgroundCheck.png' %}" class="speakerImage" alt="">
     </div>
-    <script src="{% static 'dashboard/js/broadcastFunctions.js' %}"></script>
+    <script src="{% static 'broadcast/js/broadcastFunctions.js' %}"></script>
     <script>
         window.addEventListener('resize', function (e) {
             resize();
@@ -204,8 +204,8 @@
         }
 
         function checkPin() {
-            document.querySelector('.speakerImage').src = "{% static 'dashboard/../images/backgroundCheck.png' %}";
-            document.querySelector('.speaker').src = "{% static 'dashboard/../images/speakerCheck.png' %}";
+            document.querySelector('.speakerImage').src = "{% static 'images/backgroundCheck.png' %}";
+            document.querySelector('.speaker').src = "{% static 'images/speakerCheck.png' %}";
             document.querySelector('#checkPin').style.top = '-100vh';
             document.querySelector('#enterPin').style.top = 0;
         }
@@ -220,8 +220,8 @@
             let success = true;
 
             if (success) {
-                document.querySelector('.speakerImage').src = "{% static 'dashboard/../images/backgroundSuccess.png' %}";
-                document.querySelector('.speaker').src = "{% static 'dashboard/../images/speakerSuccess.png' %}";
+                document.querySelector('.speakerImage').src = "{% static 'images/backgroundSuccess.png' %}";
+                document.querySelector('.speaker').src = "{% static 'images/speakerSuccess.png' %}";
                 document.querySelector('#winResult').style.display = 'grid';
                 document.querySelector('#noResult').style.display = 'none';
             } else {
