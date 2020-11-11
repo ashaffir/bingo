@@ -556,9 +556,7 @@ def game(request, game_id):
         # Drawing a random key from the dict
         picture_draw_index = random.randint(0,len(items_list)-1)
         rand_item = items_list[picture_draw_index]
-        print(f'RAND ITEM: {rand_item}')
         picture_draw = pictures_pool_list.pop(picture_draw_index)
-        print(f'RAND ITEM: {rand_item}')
 
         # Updating the DB with the reduced list of pictures
         game.pictures_pool = pictures_pool_list
