@@ -21,13 +21,19 @@ urlpatterns = [
 
     path('dashboard/', bingo_main_views.dashboard, name='dashboard'),
     path('create_bingo/', bingo_main_views.create_bingo, name='create_bingo'),
+    path('create_bingo/<str:album_id>', bingo_main_views.create_bingo, name='create_bingo'),
     path('start_bingo/', bingo_main_views.start_bingo, name='start_bingo'),
     path('my_bingos/', bingo_main_views.my_bingos, name='my_bingos'),
-    path('bingo/', bingo_main_views.bingo, name='bingo'),
+    path('bingo/<str:player_id>', bingo_main_views.bingo, name='bingo'),
     path('add_money/', bingo_main_views.add_money, name='add_money'),
     path('broadcast/', bingo_main_views.broadcast, name='broadcast'),
     path('game/<str:game_id>/', bingo_main_views.game, name='game'),
     path('check_game_id/', bingo_main_views.check_game_id, name='check_game_id'),
     path('check_card/', bingo_main_views.check_card, name='check_card'),
+    path('player_approval/<str:player_id>/<str:approval>', bingo_main_views.player_approval, name='player_approval'),
+
+    path('game_status/<str:game_id>', bingo_main_views.game_status, name='game_status'),
+    path('players_approval_list/<str:game_id>', bingo_main_views.players_approval_list, name='players_approval_list'),
+
 
 ]

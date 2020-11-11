@@ -1,4 +1,5 @@
 import logging
+import random
 import json
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -11,7 +12,7 @@ from rest_framework.decorators import api_view, permission_classes
 from .forms import ContactForm, HostSignupForm, LoginForm
 from .models import ContentPage
 from .utils import get_image_from_data_url
-from game.models import Picture, Album, Game, Player
+from game.models import Picture, Album, Game, Player, Board
 from users.models import User
 
 logger = logging.getLogger(__file__)
@@ -227,8 +228,14 @@ def dashboard(request):
     return render(request, 'bingo_main/dashboard/index.html', context)
 
 @login_required(login_url='bingo_main:bingo_main_login')
-def create_bingo(request):
+def create_bingo(request, album_id=''):
     context = {}
+
+    if album_id != '':
+        album = Album.objects.get(pk=album_id)
+        print(f'ALBUM: {album}')
+        context['current_album'] = album
+
     if request.method == 'POST':
         if 'updateProfile' in request.POST:
             print(f'UPDATE: {request.POST}')
@@ -281,7 +288,7 @@ def create_bingo(request):
                 print(f'>>> bingo main: failed to create the album for {request.user}. ERROR: {e}')
                 logger.error(f'>>> bingo main: failed to create the album for {request.user}. ERROR: {e}')
             
-    return render(request, 'bingo_main/dashboard/create-bingo.html')
+    return render(request, 'bingo_main/dashboard/create-bingo.html', context)
 
 @login_required
 def my_bingos(request):
@@ -360,12 +367,86 @@ def check_game_id(request):
         #     game.save()
         
         print(f'GAME: {game}')
-        return Response(status=200)
+        return Response(data=player.pk, status=200)
     except Exception as e:
         print(f'NO GAME: {e}')
         return Response(data={'message':"Game ID does not exist"} , status=400)
     # return redirect(request.META['HTTP_REFERER'])
+
+def players_approval_list(request, game_id):
+    context = {}
+    unapproved_players_list = Player.objects.filter(player_game_id=game_id, approved=False, not_approved=False)
+    context['unapproved_players_list'] = unapproved_players_list
+
+    return render(request, 'bingo_main/partials/_players_approval_list.html', context=context)
+
+
+@login_required
+def game_status(request, game_id):
+    context = {}
+    game = Game.objects.get(user=request.user, game_id=game_id)    
+
+    # Collecting the Players
+    try:
+        if game.auto_join_approval:
+            players = Player.objects.filter(player_game_id=game_id)
+        else:
+            players = Player.objects.filter(player_game_id=game_id, approved=True)
+
+        players_list = []
+        for player in players:
+            player_data = {}
+            player_data['nickname'] = player.nickname
+            player_data['player_id'] = str(player.player_id)
+            players_list.append(player_data)
+
+        game.players_list = players_list
+
+        game.number_of_players = len(players)
+
+        #Setting up the price for the game
+        # TODO: Define pricing accurately
+
+        try:
+            base_price = Control.objects.get(name='base_price').value_float
+        except:
+            base_price = 0.1
+
+        if players:
+            if len(players) < 21:
+                game_cost = round(len(players) * base_price,2)
+            elif len(players) < 41:
+                game_cost = round(len(players) * base_price*0.80,2)
+            else:
+                game_cost = round(len(players) * base_price*0.66,2)
+        else:
+            game_cost = 0
+        
+        game.game_cost = game_cost
+        game.save()
+
+    except Exception as e:
+        print(f'There are no players. ERROR: {e}')
+        logger.error(f'No players found for this game. ERROR: {e}')
     
+    context['num_players'] = len(game.players_list)
+    context['game_cost'] = game.game_cost
+
+    return render(request, 'bingo_main/partials/_game_status.html', context)
+
+@login_required
+def player_approval(request, player_id, approval):
+    context = {}
+    player = Player.objects.get(pk=player_id)
+    print(f'Player: {player}')
+    print(f'Approval: {approval}')
+    if approval == 'ok':
+        player.approved = True
+    elif approval == 'no':
+        player.not_approved = True
+    
+    player.save()
+    return redirect(request.META['HTTP_REFERER'])
 
 
 @login_required
@@ -431,13 +512,91 @@ def broadcast(request):
     context = {}
     current_game = Game.objects.filter(user=request.user).last()
     context['current_game'] = current_game
+
+    unapproved_players_list = Player.objects.filter(player_game_id=current_game.game_id, approved=False, not_approved=False)
+    context['unapproved_players_list'] = unapproved_players_list
+
     return render(request, 'bingo_main/broadcast/index.html', context=context)
 
 
-@login_required
-def bingo(request):
+def game(request, game_id):
     context = {}
-    return render(request, 'bingo_main/bingo.html')
+    game = Game.objects.get(user=request.user, game_id=game_id)
+
+    if game.is_finished or game.ended:
+        context['game_ended'] = True
+        return redirect(request.META['HTTP_REFERER'])
+
+    host = request.user
+    print(f'GAME COST: {game.game_cost}')
+    
+    # Billing: Check user's balance and deduct the amount
+    current_balance = host.balance
+    game_cost = game.game_cost
+    new_balance = current_balance - game_cost
+    if new_balance > 0: 
+        # Updating user new balance
+        host.balance = new_balance
+        host.save()
+
+        # Start the game
+        game.started = True
+        game.save()
+    else:
+        messages.error(request, 'There is not enough funding for this game. Please deposit more funds.')
+        return redirect('bingo_main:add_money')
+
+    # Game Play
+    pictures_pool_list = game.pictures_pool
+    items_list = []
+    if len(pictures_pool_list) > 0:
+        for pic in pictures_pool_list:
+            items_list.append(pic)
+
+        # Drawing a random key from the dict
+        picture_draw_index = random.randint(0,len(items_list)-1)
+        rand_item = items_list[picture_draw_index]
+        print(f'RAND ITEM: {rand_item}')
+        picture_draw = pictures_pool_list.pop(picture_draw_index)
+        print(f'RAND ITEM: {rand_item}')
+
+        # Updating the DB with the reduced list of pictures
+        game.pictures_pool = pictures_pool_list
+
+        current_shown_pictures = game.shown_pictures
+        current_shown_pictures.append(rand_item)
+        game.shown_pictures = current_shown_pictures
+
+        game.save()
+
+        context['remaining_pictures'] = len(pictures_pool_list)
+        context['current_picture'] = picture_draw
+        context['current_shown_pictures'] = current_shown_pictures
+    else:
+        game.ended = True
+        game.is_finished = True
+        game.save()
+
+
+    context['current_game'] = game
+    return render(request, 'bingo_main/broadcast/game.html', context)
+
+
+# Player's bingo card/ticket/board
+def bingo(request, player_id): 
+    context = {}
+    player = Player.objects.get(pk=player_id)
+    board = Board.objects.get(pk=player.board_id)
+    context['player'] = player
+    context['board'] = board
+    pictures = []
+    for pic in board.pictures:
+        for p in pic:
+            pictures.append(p)
+    
+    # print(f'{pictures} \n')
+    context['pictures'] = pictures
+    return render(request, 'bingo_main/bingo.html', context)
 
 @login_required
 def add_money(request):
@@ -450,10 +609,6 @@ def logout_view(request):
     logout(request)
     return redirect('bingo_main:bingo_main')
 
-
-def game(request, game_id):
-    context = {}
-    return render(request, 'bingo_main/broadcast/game.html')
 
 @login_required
 def check_card(request):

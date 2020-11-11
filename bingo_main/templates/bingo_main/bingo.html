@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MatrixBingo</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/successImage.png' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/bingo.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -18,7 +19,7 @@
     <div class="bingoContainer">
         <div class="bingoIndex">
             <img class="profilePic" src="{% static 'images/logo.svg' %}" alt="" onclick="window.location.href = './'">
-            <div class="lrgText" id="playerName">Player Name</div>
+            <div class="lrgText" id="playerName">{{ player.nickname }}</div>
             <img class="profilePic" src="{% static 'images/logo.svg' %}" alt="" onclick="window.location.href = './'">
             <!-- <img class="bingoLogo" src="{% static 'images/logo.svg' %} alt="" onclick="window.location.href = './'"> -->
         </div>
@@ -32,10 +33,10 @@
             </div>
             <div id="card">
                 <div class="header">
-                    Ticket Number 1224
+                    Ticket Number {{ board.pk }}
                 </div>
                 <div class="bingoTable">
-
+                    
                 </div>
             </div>
         </div>
@@ -113,7 +114,7 @@
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             document.querySelector('#playerName').innerHTML = urlParams.get('name') ? urlParams.get('name') :
-                'Player Name';
+                '{{ player.nickname }}';
 
             setTimeout(() => {
 
@@ -194,14 +195,23 @@
                 "https://picsum.photos/id/1053/3596/2393", "https://picsum.photos/id/1054/3079/1733",
                 "https://picsum.photos/id/1055/5472/3648", "https://picsum.photos/id/1056/3988/2720"
             ]
+
             imageList = imageList.sort(() => Math.random() - 0.5)
 
-            for (let x = 0; x != size; x++) {
-                let image;
-                (imageList[x]) ? image = imageList[x]: image = 'https://picsum.photos/200/300';
+            {% if pictures %}
+                {% for pic in pictures %}
                 table.innerHTML +=
-                    `<div class="field" onclick="markBingo(this)"><img src="${image}" alt=""></div>`;
-            }
+                   `<div class="field" onclick="markBingo(this)"><img src="{{ pic }}" alt=""></div>`;
+                {% endfor %}        
+            {% else %}
+                for (let x = 0; x != size; x++) {
+                    let image;
+                    (imageList[x]) ? image = imageList[x]: image = 'https://picsum.photos/200/300';
+                    table.innerHTML +=
+                        `<div class="field" onclick="markBingo(this)"><img src="${image}" alt=""></div>`;
+                }            
+            {% endif %}
+            
             document.querySelector('.winCondition').innerHTML = "";
 
             if (winCondition == 'bingo') {

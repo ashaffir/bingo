@@ -28,10 +28,10 @@
         <div class="sidebar">
             <div id="prizeContainer">
                 <div class="prizeBox" id="prize">
-                    Prize Name
+                    {{ current_game.prize_1_name }}
                     <br>
                     <img class="prizeImage"
-                        src="https://i.picsum.photos/id/977/200/200.jpg?hmac=bhLVu-kBB_plx-DkWXz4gYn-ViPAhDjTtGFwu143FiA"></img>
+                        src="{{ current_game.prize_1_image_file.url }}"></img>
                 </div>
                 <div class="prizeBox" id="winCondition">
                     Bingo
@@ -45,8 +45,21 @@
             </blockquote>
         </div>
         <div class="innerContainer" id="bingoGrid">
-            <img src="{% static 'images/placeholder.png' %}" id="currentImage" alt="">
+            {% if game_ended %}
+                <img src="{% static 'images/placeholder.png' %}" id="currentImage" alt="">
+            {% else %}
+                <img src="{{ current_picture }}" id="currentImage" alt="">
+            {% endif %}
             <div class="imageList">
+                {% for pic in current_shown_pictures %}
+                    <div class="middle">
+                        <div class="field">
+                            <img src="{{ pic }}" alt="">
+                        </div>
+                        <div class="field">
+                        </div>
+                    </div>
+                {% endfor %}
                 <div class="middle">
                     <div class="field">
                     </div>
@@ -70,7 +83,7 @@
                         0 Out
                     </span>
                     <div class="buttons">
-                        <div class="button Next">Next</div>
+                        <div class="button Next" onclick="location.reload();">Next</div>
                         <div class="button Check" onclick="checkBingo()">
                             <span class="smlText">Check</span>
                             Bingo

@@ -51,8 +51,8 @@
                 </div>
             </div>
             <div id="ticketArea">
-                Tickets: 50
-                <div class="button Next" onclick="startGame()">Start Game (Price $5)</div>
+                <!-- Tickets: 50
+                <div class="button Next" onclick="startGame()">Start Game (Price $5)</div> -->
             </div>
         </div>
 
@@ -66,7 +66,6 @@
                 <div class="castButton">
                     <i class="fa fa-users" onclick="toggleList()"></i>
                     <div id="userList">
-                        Approve Users:
                         <div class="user">
                             Username
                             <span>
@@ -128,7 +127,7 @@
         };
 
         function startGame() {
-            window.location.href = './game';
+            window.location.href = "{% url 'bingo_main:game' game_id=current_game.game_id %}";
         }
 
         function resize() {
@@ -233,6 +232,36 @@
             }
             */
         })
+    </script>
+
+    <script>
+    $(document).ready(function() {
+        pollGameStatus();
+        pollPlayersList();
+    });
+
+    function pollPlayersList () {
+        
+        $.ajax({
+            url: "{% url 'bingo_main:players_approval_list' game_id=current_game.game_id %}",
+            success: function(response) {
+                console.log("polling players");
+                $('#userList').html(response);
+            }
+        })							
+    };
+
+    function pollGameStatus () {
+        $.ajax({
+            url: "{% url 'bingo_main:game_status' game_id=current_game.game_id %}",
+            success: function(response) {
+                console.log("polling");
+                $('#ticketArea').html(response);
+            }
+        })							
+    };
+    setInterval(function(){ pollGameStatus(); pollPlayersList(); }, 5000);
+
     </script>
 </body>
 

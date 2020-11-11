@@ -28,7 +28,12 @@
                     </div>
                     <div class="bingoTableBottom">
                         {{ album.name }}
-                        <button class="gameButton" style="font-family: inherit;" value='{{ album.pk }}' name="make_game">make game</button>
+                        <div>
+                            <div class="gameButton">
+                                <i class="fa fa-edit" onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.pk %}'"></i>
+                            </div>        
+                            <button class="gameButton" style="font-family: inherit;" value='{{ album.pk }}' name="make_game">make game</button>
+                        </div>
                     </div>
                 </div>
             {% elif album.board_size == 4 %}
@@ -52,7 +57,12 @@
                     </div>
                     <div class="bingoTableBottom">
                         {{ album.name }}
-                        <button class="gameButton" style="font-family: inherit;" value='{{ album.pk }}' name="make_game">make game</button>
+                        <div>
+                            <div class="gameButton">
+                                <i class="fa fa-edit"></i>
+                            </div>        
+                            <button class="gameButton" style="font-family: inherit;" value='{{ album.pk }}' name="make_game">make game</button>
+                        </div>
                     </div>
                 </div>
             {% endif %}
@@ -99,6 +109,7 @@
 {% endblock content %}
 
 {% block js_bottom %}
+
 <script>
     function openSidebar() {
         let el = document.querySelector('.sidebarProfile');
@@ -175,5 +186,12 @@
     resizeBox();
 
     //getBingos();
+</script>
+
+<script>
+    function editAlbum(album_id){
+        console.log(`${album_id}`);
+        location.href = "{% url 'bingo_main:create_bingo' album_id=123 %}";
+    }
 </script>
 {% endblock js_bottom %}

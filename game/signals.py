@@ -30,9 +30,10 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
         album = game.album
         pictures = album.pictures
         pictures_list = []
-        print(f'PICTURES: {pictures}')
+        # print(f'PICTURES: {pictures}')
         for i in range(len(pictures)):
             # pictures_list.append(pictures[f'pic{i}']) # Cloudinary stuff
+            # print(f'PIC: {pictures[i]}')
             pictures_list.append(pictures[i])
 
         # Randomize the board
@@ -41,7 +42,7 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
 
         try:
             board_array = create_2d_array(shuffle_board, board_size)
-            print(f'PLAYER BOARD: {board_array}')
+            # print(f'PLAYER BOARD: {board_array}')
         except Exception as e:
             print(f'>>> SIGNALS: failed creating a board for a player. ERROR: {e}')
             logger.error(f'>>> SIGNALS: failed creating a board for a player. ERROR: {e}')
@@ -79,7 +80,9 @@ def shuffle_pictures(pictures, board_size):
     shuffled_board = []
     if len(pictures) > board_size**2:
         for i in range(board_size**2):
-            shuffled_board.append(pictures[i]['remote_id'])
+            # shuffled_board.append(pictures[i]['remote_id']) # Cloudinary
+            # print(f'PIC: {pictures[i]}')
+            shuffled_board.append(pictures[i])
     else:
         print('ERROR: Not enough images in the album')
         return None

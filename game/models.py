@@ -6,7 +6,7 @@ from django.contrib.postgres.fields import ArrayField
 
 
 def picture_image_path(instance, filename):
-    return f'pictures/{instance.album_id}/{instance.pk}.{filename}'
+    return f'pictures/album.{instance.album_id}/{instance.pk}.{filename}'
 
 def prize_image_path(instance, filename):
     return f'games/{instance.game_id}/{filename}'
@@ -107,6 +107,7 @@ class Player(models.Model):
     game = models.ForeignKey(Game, null=True, blank=True, on_delete=models.CASCADE)
     player_game_id = models.CharField(max_length=5, null=True, blank=True)
     approved = models.BooleanField(default=False)
+    not_approved = models.BooleanField(default=False)
     board_dict = models.JSONField(null=True, blank=True, default=list)
     # board = models.OneToOneField(Board, null=True, blank=True, on_delete=models.CASCADE)
     board_id = models.CharField(max_length=100, null=True, blank=True)
@@ -122,7 +123,7 @@ class Board(models.Model):
     player = models.OneToOneField(Player, null=True, blank=True, on_delete=models.CASCADE)
     pictures = ArrayField(
         ArrayField(
-            models.CharField(max_length=100, blank=True, null=True),
+            models.CharField(max_length=200, blank=True, null=True),
         ),
         null=True,
         blank=True

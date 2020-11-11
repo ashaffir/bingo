@@ -94,7 +94,22 @@
         <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt=""> Upload or drop images
             here!</div>
     </form>
-    <div class="uploadedImages"></div>
+    {% if current_album %}
+        <br>
+        <h2>Edit images</h2>
+        <div class="">
+            {% for pic in current_album.pictures %}
+                <div class="image">
+                        <img data-dz-thumbnail src="{{ pic }}">
+                        <div class="imageBottom">
+                            <i class="fa fa-trash" data-dz-remove onclick="removePicture()"></i>
+                        </div>
+                    </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="uploadedImages"></div>
+    {% endif %}
 
     <div class="titleBar">Where should it be saved?</div>
     <input type="radio" name="bingoType" value="private" id="private" checked onclick="checkCopyright(this)">
@@ -191,6 +206,7 @@
 
                     }
                 });
+                
             }
         };
 

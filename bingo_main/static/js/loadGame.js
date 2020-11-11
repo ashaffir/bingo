@@ -40,12 +40,17 @@ function openBingo(url) {
             'code':code,
             'name': name
         },
-        success: function (){
+        success: function (player_id){
             // alert('Album saved!');
             // window.location.href = '{% url "bingo_main:create_bingo" %}';
             console.log('START BROADCAST...')
             valid = true;
-            window.location.href = `${location.href}game/${code}`;
+            console.log(`RESPONSE: ${player_id}`)
+            
+            window.location.href = `${location.href}bingo/${player_id}`;
+
+
+
         },
         error: function(xhr, errmsg, err) {
             valid = false;
