@@ -35,6 +35,7 @@ class Album(models.Model):
 class Picture(models.Model):
     image_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, null=True, blank=True)
+    title = models.CharField(max_length=100, null=True, blank=True)
     # album = models.ForeignKey(Album, on_delete=models.CASCADE, null=True, blank=True)
     album_id = models.CharField(max_length=100, null=True, blank=True)
     url = models.CharField(max_length=500, null=True, blank=True)
@@ -87,6 +88,7 @@ class Game(models.Model):
     ended = models.BooleanField(default=False)
     game_cost = models.FloatField(null=True, blank=True)
     pictures_pool = models.JSONField(default=list,null=True, blank=True)
+    current_picture = models.ForeignKey(Picture, blank=True, null=True, on_delete=models.CASCADE)
     shown_pictures = models.JSONField(default=list,null=True, blank=True)
 
     is_finished = models.BooleanField(default=False)

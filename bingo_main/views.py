@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 
+from control.models import Control
 from .forms import ContactForm, HostSignupForm, LoginForm
 from .models import ContentPage
 from .utils import get_image_from_data_url
@@ -186,6 +187,16 @@ def dashboard(request):
     context = {}
 
     albums = Album.objects.filter(is_public=True)
+    albums_images = []
+    for album in albums:
+        pictures = []
+        for pic in album.pictures:
+            pictures.append(Picture.objects.get(pk=pic))
+        
+        albums_images.append({'album_name':album.name, 'album_id':str(album.pk), 'board_size':album.board_size, 'pictures':pictures})
+
+    context['albums_images'] = albums_images
+
     print(f'ALBUMS: {albums}')
 
     context['albums'] = albums
@@ -259,11 +270,13 @@ def create_bingo(request, album_id=''):
                     picture = Picture()
                     picture.image_file = get_image_from_data_url(image['image']['dataURL'])[0]
                     picture.name = image['image']['name']
+                    picture.title = image["imageName"]
                     picture.album_id = album.album_id
                     picture.public = True if album_type == 'public' else False
                     picture.save()
 
-                    album_images.append(str(picture.image_file.url))
+                    # album_images.append(str(picture.image_file.url))
+                    album_images.append(str(picture.pk))
                 
                 try:
                     album.pictures = album_images
@@ -294,8 +307,19 @@ def create_bingo(request, album_id=''):
 def my_bingos(request):
     context = {}
     user = request.user
-    albums = Album.objects.filter(user=user)
-    context['albums'] = albums
+    albums = Album.objects.filter(user=user)    
+    albums_images = []
+    for album in albums:
+        pictures = []
+        for pic in album.pictures:
+            pictures.append(Picture.objects.get(pk=pic))
+        
+        albums_images.append({'album_name':album.name, 'album_id':str(album.pk), 'board_size':album.board_size, 'pictures':pictures})
+
+    context['albums_images'] = albums_images
+    # print(f'ALBUMS: {albums_images}')
+
+
     # Get the 3x3 album pictures
     try:
         album_3x3 = Album.objects.filter(user=user, board_size=3).last()
@@ -350,6 +374,9 @@ def check_game_id(request):
         game_id = game.game_id
         print(f'GAME ID: {game_id}')
         
+        if game.is_finished or game.started or game.ended:
+            return Response(data={"message":"Game entry finished"} , status=400)
+
         # If game exists, create new player and add it to the game players list
         player = Player.objects.create(
             nickname=name,
@@ -528,6 +555,17 @@ def game(request, game_id):
         return redirect(request.META['HTTP_REFERER'])
 
     host = request.user
+    
+    # Checking if there are minimum players
+    try:
+        min_players = Control.objects.get(name='min_players').value_integer
+    except Exception as e:
+        min_players = 2
+    
+    if len(game.players_list) < min_players:
+        messages.error(request, f"Not enough players... Need at leaset {min_players} tikets")
+        return redirect(request.META['HTTP_REFERER'])
+
     print(f'GAME COST: {game.game_cost}')
     
     # Billing: Check user's balance and deduct the amount
@@ -561,15 +599,22 @@ def game(request, game_id):
         # Updating the DB with the reduced list of pictures
         game.pictures_pool = pictures_pool_list
 
-        current_shown_pictures = game.shown_pictures
-        current_shown_pictures.append(rand_item)
-        game.shown_pictures = current_shown_pictures
+        current_shown_pictures_id = game.shown_pictures
+        current_shown_pictures_id.append(rand_item)
+        game.shown_pictures = current_shown_pictures_id
+        game.current_picture = Picture.objects.get(pk=picture_draw)
 
         game.save()
 
+        current_shown_pictures = []
+        for p in current_shown_pictures_id:
+            current_shown_pictures.append(Picture.objects.get(pk=p))
+        
         context['remaining_pictures'] = len(pictures_pool_list)
-        context['current_picture'] = picture_draw
+        context['current_picture'] = Picture.objects.get(pk=picture_draw)
         context['current_shown_pictures'] = current_shown_pictures
+        context['current_shown_pictures_count'] = len(current_shown_pictures)
+
     else:
         game.ended = True
         game.is_finished = True
@@ -585,16 +630,53 @@ def bingo(request, player_id):
     context = {}
     player = Player.objects.get(pk=player_id)
     board = Board.objects.get(pk=player.board_id)
-    context['player'] = player
-    context['board'] = board
-    pictures = []
-    for pic in board.pictures:
-        for p in pic:
-            pictures.append(p)
+    game = Game.objects.get(pk=player.game.pk)
+    host = game.user
+    host_logo = host.profile_pic
+    context['host_logo'] = host_logo
     
-    # print(f'{pictures} \n')
-    context['pictures'] = pictures
+    context['player'] = player
+    
+    context['board'] = board
+    board_pictures = []
+    for row in board.pictures:
+        for pic in row:
+            board_pictures.append(Picture.objects.get(pk=pic))
+    context['board_pictures'] = board_pictures
+    
+    if game.is_public:
+        context['approval_required'] = 'false' 
+    elif not game.is_public and player.approved:
+        context['approval_required'] = 'false' 
+    else:
+        context['approval_required'] = 'true' 
+
+    context['game'] = game
+    shown_pictures_ids = game.shown_pictures
+    shown_pictures = []
+    print(f'>>> MAIN: SHOWN PICS: {shown_pictures}')
+    if len(shown_pictures_ids) >= 1:
+        for pic in shown_pictures_ids:
+            shown_pictures.append(Picture.objects.get(pk=pic))
+        context['current_picture'] = shown_pictures[-1]
+    else:
+        context['current_picture'] = None
+
+    # pictures = []
+    # for pic in board.pictures:
+    #     for p in pic:
+    #         pictures.append(p)
+    
+    # # print(f'{pictures} \n')
+    # context['pictures'] = pictures
     return render(request, 'bingo_main/bingo.html', context)
+
+def current_displayed_picture(request, game_id):
+    context = {}
+    host = request.user
+    game = Game.objects.get(user=host, game_id=game_id)
+    context['game'] = game
+    return render(request, 'bingo_main/partials/_current_displayed_picture.html', context)
 
 @login_required
 def add_money(request):
@@ -609,9 +691,13 @@ def logout_view(request):
 
 
 @login_required
-def check_card(request):
+def check_card(request, game_id):
     context = {}
-    return render(request, 'bingo_main/broadcast/checkCard.html')
+    host = request.user
+    current_game = Game.objects.get(user=host, game_id=game_id)
+    context['current_game'] = current_game
+    context['host'] = host
+    return render(request, 'bingo_main/broadcast/checkCard.html', context)
 
 
 

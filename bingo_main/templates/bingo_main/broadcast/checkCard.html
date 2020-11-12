@@ -30,8 +30,7 @@
                 <div class="prizeBox" id="prize">
                     Prize Name
                     <br>
-                    <img class="prizeImage"
-                        src="https://i.picsum.photos/id/977/200/200.jpg?hmac=bhLVu-kBB_plx-DkWXz4gYn-ViPAhDjTtGFwu143FiA"></img>
+                    <img class="prizeImage" src="{{ current_game.prize_1_image_file.url }}"></img>
                 </div>
                 <div class="prizeBox" id="winCondition">
                     Bingo
@@ -59,7 +58,11 @@
                     <div class="cardTop">
                         <img src="{% static 'images/logo.svg' %}" id="companyLogo" alt="">
                         Player Name
-                        <img src="{% static 'images/placeholder.png' %}" id="bingoLogo" alt="">
+                        {% if host.profile_pic.url %}
+                            <img src="{{ host.profile_pic.url }}" id="bingoLogo" alt="">
+                        {% else %}
+                            <img src="{% static 'images/placeholder.png' %}" id="bingoLogo" alt="">
+                        {% endif %}
 
                         <div class="cardNumber">
                             Ticket Number 00

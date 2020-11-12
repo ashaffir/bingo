@@ -31,10 +31,10 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
         pictures = album.pictures
         pictures_list = []
         # print(f'PICTURES: {pictures}')
-        for i in range(len(pictures)):
+        for pic in pictures:
             # pictures_list.append(pictures[f'pic{i}']) # Cloudinary stuff
             # print(f'PIC: {pictures[i]}')
-            pictures_list.append(pictures[i])
+            pictures_list.append(pic)
 
         # Randomize the board
         shuffle_board = shuffle_pictures(pictures_list, board_size)

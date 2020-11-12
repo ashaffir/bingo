@@ -226,7 +226,7 @@
                 album_name: album_name
             };
             errorBox.style.display = '';
-            if (imagesUploaded < 18) {
+            if (imagesUploaded < 3) {
                 errorBox.innerHTML =
                     `You have uploaded ${imagesUploaded} out of the minimum required 18 images! Please upload the required files and re-submit!`;
                 return errorBox.style.display = 'block';
@@ -236,7 +236,7 @@
             document.querySelectorAll('.imageBottom input').forEach(el => {
                 if (el.value == "") {
                     errorBox.innerHTML =
-                        `Please enter a title for the images!`;
+                    `Please enter a title for the images!`;
                     error = true;
                     return errorBox.style.display = 'block';
                 }

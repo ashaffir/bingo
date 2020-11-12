@@ -18,21 +18,21 @@
 <form action="{% url "bingo_main:start_bingo" %}" method="POST">
     {% csrf_token %}
     <div class="bingoContainer">
-        {% for album in albums %}
+        {% for album in albums_images %}
             {% if album.board_size == 3 %}
                 <div class="bingoBox">
                     <div class="bingoTable box3x3">
                         {% for image in album.pictures %}
-                            <div class="field"><img src="{{ image }}" alt=""></div>
+                            <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
                         {% endfor %}
                     </div>
                     <div class="bingoTableBottom">
-                        {{ album.name }}
+                        {{ album.album_name }}
                         <div>
                             <div class="gameButton">
-                                <i class="fa fa-edit" onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.pk %}'"></i>
+                                <i class="fa fa-edit" onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
                             </div>        
-                            <button class="gameButton" style="font-family: inherit;" value='{{ album.pk }}' name="make_game">make game</button>
+                            <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="make_game">make game</button>
                         </div>
                     </div>
                 </div>
@@ -40,69 +40,38 @@
                 <div class="bingoBox">
                     <div class="bingoTable box4x4">
                         {% for image in album.pictures %}
-                            <div class="field"><img src="{{ image }}" alt=""></div>
+                            <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
                         {% endfor %}
                     </div>
                     <div class="bingoTableBottom">
-                        {{ album.name }}
-                        <button class="gameButton" style="font-family: inherit;" value='{{ album.pk }}' name="make_game">make game</button>
+                        {{ album.album_name }}
+                            <div>
+                                <div class="gameButton">
+                                <i class="fa fa-edit" onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
+                            </div>        
+                            <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="make_game">make game</button>
+                        </div>
                     </div>
                 </div>
             {% elif album.board_size == 5 %}
                 <div class="bingoBox">
                     <div class="bingoTable box5x5">
                         {% for image in album.pictures %}
-                            <div class="field"><img src="{{ image }}" alt=""></div>
+                            <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
                         {% endfor %}
                     </div>
                     <div class="bingoTableBottom">
-                        {{ album.name }}
+                        {{ album.album_name }}
                         <div>
                             <div class="gameButton">
-                                <i class="fa fa-edit"></i>
+                                <i class="fa fa-edit" onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
                             </div>        
-                            <button class="gameButton" style="font-family: inherit;" value='{{ album.pk }}' name="make_game">make game</button>
+                            <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="make_game">make game</button>
                         </div>
                     </div>
                 </div>
             {% endif %}
         {% endfor %}
-
-        <div class="bingoBox">
-            <div class="bingoTable box3x3">
-
-            </div>
-            <div class="bingoTableBottom">
-                3x3 Bingo Name
-                <div>
-                    <div class="gameButton">
-                        <i class="fa fa-edit"></i>
-                    </div>
-                    <!-- <div class="gameButton">make game</div> -->
-                    <button class="gameButton" style="font-family: inherit;" value=3 name="make_game">make game</button>
-                </div>
-            </div>
-        </div>
-        <div class="bingoBox">
-            <div class="bingoTable box4x4">
-
-            </div>
-            <div class="bingoTableBottom">
-                4x4 Bingo Name
-                <!-- <div class="gameButton">make game</div> -->
-                <button class="gameButton" style="font-family: inherit;" value=4 name="make_game">make game</button>
-            </div>
-        </div>
-        <div class="bingoBox">
-            <div class="bingoTable box5x5">
-
-            </div>
-            <div class="bingoTableBottom">
-                5x5 Bingo Name
-                <!-- <div class="gameButton">make game</div> -->
-                <button class="gameButton" style="font-family: inherit;" value=5 name="make_game">make game</button>
-            </div>
-        </div>
     </div>
 </form>
 

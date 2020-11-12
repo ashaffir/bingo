@@ -20,7 +20,7 @@
         <div class="bingoIndex">
             <img class="profilePic" src="{% static 'images/logo.svg' %}" alt="" onclick="window.location.href = './'">
             <div class="lrgText" id="playerName">{{ player.nickname }}</div>
-            <img class="profilePic" src="{% static 'images/logo.svg' %}" alt="" onclick="window.location.href = './'">
+            <img class="profilePic" src="{{ host_logo.url }}" alt="" onclick="window.location.href = './'">
             <!-- <img class="bingoLogo" src="{% static 'images/logo.svg' %} alt="" onclick="window.location.href = './'"> -->
         </div>
         <div id="cardStages">
@@ -42,14 +42,20 @@
         </div>
         <div class="bingoBottom">
             <div>
-                Win Condition
+                Win Condition 
             </div>
             <div>
                 Current Image
             </div>
             <div></div>
             <div class="winCondition"></div>
-            <img src="https://picsum.photos/id/1026/4621/3070" alt="" class="currentImage">
+            {% if current_picture %}
+                <!-- <img src="{{ current_picture.image_file.url }}" id="currentImage" alt="" class="currentImage"> -->
+                <img src="" id="currentImage" alt="" class="currentImage">
+            {% else %}
+                <img src="{% static 'images/placeholder.png' %}" alt="" class="currentImage">
+            {% endif %}
+
             <div>
                 <div class="stump black" onclick="changeStump(this,'black')"></div>
                 <div class="stump green" style="border: 3px solid #00d0ff" onclick="changeStump(this,'green')"></div>
@@ -78,7 +84,7 @@
             }
 
             function allImagesLoaded() {
-                document.querySelector('#startingSoon').style.display = 'none';
+                //document.querySelector('#startingSoon').style.display = 'none';
             }
         });
 
@@ -129,17 +135,19 @@
             // if (!urlParams.get('code')) return window.location.href = './';
 
             // Create a request to the backend to get the data from the card based on the code provided;
-            let size = urlParams.get('size') ? urlParams.get('size') : '9';
+            let size = urlParams.get('size') ? urlParams.get('size') : {{ board.size }};
             let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
-            let approvalRequired = urlParams.get('approval') ? urlParams.get('approval') : 'true';
-            approvalRequired = false;
+            //let approvalRequired = urlParams.get('approval') ? urlParams.get('approval') : 'true';
+            
+            //approvalRequired = false;
+            
+            
             let table = document.querySelector('.bingoTable');
 
-            if (!approvalRequired) document.querySelector('#approval').style.display = 'none';
+            //if (!approvalRequired) document.querySelector('#approval').style.display = 'none';
 
             // Create a loop to check if the game has started yet
-            document.querySelector('#startingSoon').style.display = 'none';
-
+            //document.querySelector('#startingSoon').style.display = 'none';
             if (window.innerWidth < 800) {
                 switch (size) {
                     case '16':
@@ -198,18 +206,37 @@
 
             imageList = imageList.sort(() => Math.random() - 0.5)
 
-            {% if pictures %}
-                {% for pic in pictures %}
-                table.innerHTML +=
-                   `<div class="field" onclick="markBingo(this)"><img src="{{ pic }}" alt=""></div>`;
+            console.log(`started: {{ game.started }}`);
+            console.log(`auto join: {{ game.auto_join_approval }}`);
+            console.log(`player approved: {{ player.approved }}`);
+
+            {% if game.started and game.auto_join_approval or game.started and not game.auto_join_approval and player.approved%}
+                console.log('Game Started');
+                document.querySelector('#approval').style.display = 'none';
+                document.querySelector('#startingSoon').style.display = 'none';
+                {% for pic in board_pictures %}
+                    table.innerHTML +=
+                       `<div class="field" onclick="markBingo(this)"><img src="{{ pic.image_file.url }}" alt=""></div>`;
                 {% endfor %}        
+            {% elif not game.auto_join_approval and not player.approved %}
+                    console.log('Player not approved');
+                    document.querySelector('#approval').style.display = true;
+                    document.querySelector('#startingSoon').style.display = 'none';
+            {% elif not game.auto_join_approval and player.approved and not game.started%}
+                    console.log('Game not started');
+                    document.querySelector('#approval').style.display = 'none';
+                    document.querySelector('#startingSoon').style.display = true;
             {% else %}
+                console.log('Error logic')
+                document.querySelector('#startingSoon').style.display = true;
+            /*
                 for (let x = 0; x != size; x++) {
                     let image;
                     (imageList[x]) ? image = imageList[x]: image = 'https://picsum.photos/200/300';
                     table.innerHTML +=
                         `<div class="field" onclick="markBingo(this)"><img src="${image}" alt=""></div>`;
-                }            
+                }
+                */            
             {% endif %}
             
             document.querySelector('.winCondition').innerHTML = "";
@@ -265,6 +292,27 @@
             document.querySelector('.bingoContainer').style.height = window.innerHeight + 'px';
             getData('resize');
         });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            pollCurrentPicture();
+        });
+    
+        function pollCurrentPicture () {
+            currentPicture = document.getElementById('currentImage');
+            $.ajax({
+                url: "{% url 'bingo_main:current_displayed_picture' game_id=game.game_id %}",
+                success: function(response) {
+                    //console.log(`polling current picture: ${response}`);
+                    //$('#currentImage').html(response);
+                    document.getElementById('currentImage').src = response;
+                }
+            })							
+        };
+    
+        setInterval(function(){ pollCurrentPicture(); }, 2000);
+    
     </script>
 </body>
 
