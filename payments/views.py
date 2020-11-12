@@ -24,15 +24,15 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 # INVOICE = "unique_invoice_00001"
 
 @login_required
-def payment(request, amount=0.0):
+def paypal_payment(request, amount=0.0):
     deposit_id = request.session.get('order_id')
     context = {}
     host = request.get_host()
-    user = User.objects.get(pk=request.user.pk)
+    host = request.user
 
     invoice = Payment.objects.create(
         amount = amount,
-        user = request.user
+        user = host
     )
 
     # PayPal Payments
@@ -61,7 +61,17 @@ def payment(request, amount=0.0):
     context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
 
     context['form'] = form
-    return render(request, 'payments/payment.html', context)
+    context['amount'] = amount
+    # return render(request, 'payments/payment.html', context)
+    return render(request, 'payments/paypal_payment.html', context)
+
+
+@login_required
+def stripe_payment(request, amount=0.0):
+    context = {}
+    context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
+    context['amount'] = amount
+    return render(request, 'payments/stripe_payment.html', context)
 
 @login_required
 def charge(request):
@@ -83,7 +93,7 @@ def charge(request):
                 stripe.Charge.create(
                     customer=customer,
                     amount=int(amount * 100),
-                    currency="usd", # TODO: make dynamic according to browser language
+                    currency="eur", # TODO: make dynamic according to browser language
                     description="Bingo Matrix funds deposit",
                     )
 
@@ -156,44 +166,6 @@ def credit_card_payment(request):
         name = request.POST.get('name')
 
     return render(request,'payments/credit_card_payment.html')
-
-def rivhit_payment(request):
-    context = {}
-
-    if settings.DEBUG:
-        payment_request_page = 'https://testicredit.rivhit.co.il/API/PaymentPageRequest.svc/GetUrl'
-    else:
-        payment_request_page = 'https://icredit.rivhit.co.il/API/PaymentPageRequest.svc/GetUrl'
-
-    payment_data = {
-        "GroupPrivateToken":"80283c37-1e16-4fe3-8977-203d5180d1fa",
-        "Items":[{
-            "Id":1001,
-            "Quantity":32,
-            "UnitPrice":55.9,
-            "CatalogNumber":"123abc",
-            }],
-        "DocumentLanguage":'en',
-        "Saletype":1
-        }
-
-    # headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:65.0) Gecko/20100101 Firefox/65.0'}
-    headers = {
-        'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36', 
-        'Content-Type':'application/json',
-        'Content-Length':'306',
-        'Accept':'/',
-        'Accept-Encoding':'gzip, deflate, br',
-        'Connection':'keep-alive',
-        'Host': '127.0.0.1:8000'
-        }
-
-    payment_request = requests.post(payment_request_page,json=payment_data, headers=headers)
-    print(f"***************{payment_request.status_code}****************")
-    print(f"***************{payment_request.content}****************")
-
-    return render(request,'payment/rivhit.html')
-
 
 def payment_success(request):
     context = {}

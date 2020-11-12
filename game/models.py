@@ -67,7 +67,8 @@ class Game(models.Model):
 
     album = models.ForeignKey(Album, null=True, blank=True, on_delete=models.CASCADE)
     board_size = models.IntegerField(blank=True, null=True)
-    winning_conditions = models.JSONField(default=list,null=True, blank=True)
+    # winning_conditions = models.JSONField(default=list,null=True, blank=True)
+    winning_conditions = models.CharField(max_length=10, default='bingo',null=True, blank=True)
     # winning_conditions = models.CharField(max_length=10, choices=WINNING_CONDITIONS, default='ALL')
     is_public = models.BooleanField(default=False)
     prizes = models.JSONField(null=True, blank=True)

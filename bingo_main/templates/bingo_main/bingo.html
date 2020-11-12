@@ -136,7 +136,9 @@
 
             // Create a request to the backend to get the data from the card based on the code provided;
             let size = urlParams.get('size') ? urlParams.get('size') : {{ board.size }};
-            let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
+            //let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
+            let winCondition = '{{ game.winning_conditions }}';
+            
             //let approvalRequired = urlParams.get('approval') ? urlParams.get('approval') : 'true';
             
             //approvalRequired = false;

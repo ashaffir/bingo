@@ -16,28 +16,31 @@
 
 {% include 'bingo_main/partials/_navbar_top.html' %}
 
-<div class="container">
-    <div class="modal" style="margin-top: 5%;">
-        <h3>Add Money</h3>
-        <div class="title">How much money would you like to add to your account?</div>
-        <select name="amount" id="amount">
-            <option value="">Choose an amount...</option>
-            <option value="10">€10</option>
-            <option value="20">€20</option>
-            <option value="50">€50</option>
-            <option value="100">€100</option>
-            <option value="other">Other</option>
-        </select>
-        <label for="money">Enter a custom amount</label>
-        <input type="number" name="money" id="money">
-        <div class="buttonSplit">
-            <div class="button green" onclick="pay('paypal')">Pay with PayPal</div>
-            <div class="button green" onclick="pay('stripe')">Pay with Stripe</div>
-        </div>
-        <div class="errorBox">
-            Hello world
+<form action="" name="depositForm" id="depositForm" method="POST">
+    {% csrf_token %}
+    <div class="container">
+        <div class="modal" style="margin-top: 5%;">
+            <h3>Add Money</h3>
+            <div class="title">How much money would you like to add to your account?</div>
+            <select name="deposit_amount" id="deposit_amount">
+                <option value="">Choose an amount...</option>
+                <option value="10">€10</option>
+                <option value="20">€20</option>
+                <option value="50">€50</option>
+                <option value="100">€100</option>
+                <option value="other">Other</option>
+            </select>
+            <label for="money">Enter a custom amount</label>
+            <input type="number" name="money" id="money">
+            <div class="buttonSplit">
+                <button class="button green" type="submit" name="paypal_payment">Pay with PayPal</button>
+                <button class="button green" type="submit" name="stripe_payment">Pay with Stripe</button>
+            </div>
+            <div class="errorBox">
+                Hello world
+            </div>
         </div>
     </div>
-</div>
+</form>
 
 {% endblock content %}

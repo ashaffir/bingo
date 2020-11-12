@@ -4,7 +4,7 @@
     "PAYPAL_RECEIVER_EMAIL": "bingobulls1@gmail.com",
     "EMAIL_HOST_PASSWORD": "BingoMatrix2020!",
     "WEBSITE_URL":"",
-    "CURRENCY": "USD",
+    "CURRENCY": "EUR",
     "ADMIN_EMAIL": "alfred.shaffir@gmail.com",
     "DATA_UPLOAD_MAX_MEMORY_SIZE": 524288000,
     "STRIPE_SECRET_KEY": "",

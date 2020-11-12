@@ -14,7 +14,9 @@ urlpatterns = [
 
 
     # Paypal
-    path('payment/<int:amount>', payment_views.payment, name='payment'),
+    # path('payment/<int:amount>', payment_views.payment, name='payment'),
+    path('paypal_payment/<int:amount>', payment_views.paypal_payment, name='paypal_payment'),
+    path('stripe_payment/<int:amount>', payment_views.stripe_payment, name='stripe_payment'),
     # Stripe
     path('charge/', payment_views.charge, name='charge'),
     path('success/<str:args>/', payment_views.successMsg, name="success"),

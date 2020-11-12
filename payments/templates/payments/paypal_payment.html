@@ -1,0 +1,150 @@
+{% load i18n %}
+{% get_current_language as lang %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
+    <style type="text/css">
+        /**
+        * The CSS shown here will not be introduced in the Quickstart guide, but shows
+        * how you can use CSS to style your Element's container.
+        */
+        .StripeElement {
+            box-sizing: border-box;
+        
+            height: 40px;
+        
+            padding: 10px 12px;
+        
+            border: 1px solid transparent;
+            border-radius: 4px;
+            background-color: white;
+        
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            -webkit-transition: box-shadow 150ms ease;
+            transition: box-shadow 150ms ease;
+        }
+        
+        .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+        
+        .StripeElement--invalid {
+            border-color: #fa755a;
+        }
+        
+        .StripeElement--webkit-autofill {
+            background-color: #fefde5 !important;
+        }
+
+    </style>
+
+    <!-- STRIPE -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    <div class="container" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;"{% endif %}>
+        <div class="row" style="padding: 3rem; text-align:center">
+            <h1>{% trans 'Deposit' %}</h1>
+        </div>
+        <div class="row p-5">
+            <h3>{% trans 'Options to make the deposit' %} € {{ amount }} </h3>
+        </div>
+        <div class="row p-3" style="text-align: center;">
+            <div class="col" style="border: 2px solid black">
+                <center class="p-2"><h5 for="paypal">{% trans 'Paypal' %}</h5></center>
+                <center>{{ form.render }}</center>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stripe -->
+    <script>
+        // Create a Stripe client.
+        stripe_publishable_key = '{{ stripe_publishable_key }}'
+        var stripe = Stripe(stripe_publishable_key);
+
+        // Create an instance of Elements.
+        var elements = stripe.elements();
+
+        // Custom styling can be passed to options when creating an Element.
+        // (Note that this demo uses a wider set of styles than the guide below.)
+        var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+            color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+        };
+
+        // Create an instance of the card Element.
+        var card = elements.create('card', {style: style});
+
+        // Add an instance of the card Element into the `card-element` <div>.
+        card.mount('#card-element');
+
+        // Handle real-time validation errors from the card Element.
+        card.on('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+        });
+
+        // Handle form submission.
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+            // Inform the user if there was an error.
+            var errorElement = document.getElementById('card-errors');
+            errorElement.textContent = result.error.message;
+            } else {
+            // Send the token to your server.
+            stripeTokenHandler(result.token);
+            }
+        });
+        });
+
+        // Submit the form with the token ID.
+        function stripeTokenHandler(token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        // Submit the form
+        form.submit();
+        }
+    </script>
+
+        <!-- Bootstrap -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+    
+</body>
+</html>
+
+

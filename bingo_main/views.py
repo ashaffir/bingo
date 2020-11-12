@@ -1,11 +1,12 @@
 import logging
 import random
 import json
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout, login, authenticate
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 
@@ -155,7 +156,7 @@ def update_profile(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         company_name = request.POST.get('company')
-        country = request.POST.get('country')
+        # country = request.POST.get('country')
         vat = request.POST.get('vat')
         profile_pic = request.FILES.get("complogo")
 
@@ -167,8 +168,8 @@ def update_profile(request):
             print(f'COMPANY NAME: {company_name}')
             user.company_name = company_name
         
-        if country != 'none':
-            user.country = country
+        # if country != 'none':
+        #     user.country = country
         
         if vat != '':
             user.vat_number = vat
@@ -511,6 +512,7 @@ def start_bingo(request):
             if len(prizes) == 1:
                 game.prize_1_name =prizes[0]["prizeName"]
                 game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
+                game.winning_conditions = 'bingo'
                 logger.info('One prize game selected')
                 print('One prize game selected')
             elif len(prizes) == 2:    
@@ -518,6 +520,7 @@ def start_bingo(request):
                 game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
                 game.prize_2_name =prizes[1]["prizeName"]
                 game.prize_2_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
+                game.winning_conditions = '1line'
                 logger.info('Two prize game selected')
                 print('Two prize game selected')
             elif len(prizes) == 3: 
@@ -527,6 +530,7 @@ def start_bingo(request):
                 game.prize_2_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
                 game.prize_3_name =prizes[2]["prizeName"]
                 game.prize_3_image_file = get_image_from_data_url(prizes[2]["prizeImage"]['dataURL'])[0]
+                game.winning_conditions = '2line'
                 logger.info('Three prize game selected')
                 print('Three prize game selected')
 
@@ -681,6 +685,32 @@ def current_displayed_picture(request, game_id):
 @login_required
 def add_money(request):
     context = {}
+    if request.method == 'POST':
+        if 'paypal_payment' in request.POST:
+            money = request.POST.get('money')
+            if money:
+                amount = money
+            else:
+                amount = request.POST.get('deposit_amount')
+
+            if amount is not '':
+                return HttpResponseRedirect(reverse('payments:paypal_payment', args=[amount]))
+            else:
+                messages.error(request, 'Please enter an amount, or pick pf the predefined amounts.')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        elif 'stripe_payment' in request.POST:
+            money = request.POST.get('money')
+            if money:
+                amount = money
+            else:
+                amount = request.POST.get('deposit_amount')
+
+            if amount is not '':
+                return HttpResponseRedirect(reverse('payments:stripe_payment', args=[amount]))
+            else:
+                messages.error(request, 'Please enter an amount, or pick pf the predefined amounts.')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
     return render(request, 'bingo_main/dashboard/add-money.html')
 
 @login_required
