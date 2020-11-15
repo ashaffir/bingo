@@ -107,7 +107,7 @@
         });
 
         function checkBingo() {
-            window.location.href = "{% url 'bingo_main:check_card' game_id=current_game.game_id %}"
+            window.location.href = "{% url 'bingo_main:check_board' game_id=current_game.game_id %}"
         }
         window['__onGCastApiAvailable'] = function (isAvailable) {
             if (isAvailable) {

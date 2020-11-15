@@ -41,23 +41,34 @@
             <img src="{% static 'images/speakerCheck.png' %}" class="speaker" alt="">
         </div>
         <div id="positionWrapping">
-            <div class="innerContainer" id="enterPin">
-                <div class="topArea">
-                    <div id="topContainer">
-                        <span>Card Number</span>
-                        <br>
-                        <input type="text" name="cardNumber" id="cardNumber" maxlength="4" oninput="checkInput()">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="innerContainer" id="enterPin">
+                    <div class="topArea">
+                        {% include 'bingo_main/partials/_messages.html' %}      
+                        <div id="topContainer">
+                            <span>Card Number: {{ board_number }}</span>
+                            <br>
+                            <!-- <input type="text" name="cardNumber" id="cardNumber" maxlength="4" oninput="checkInput()"> -->
+                            <input type="text" name="cardNumber" id="cardNumber" maxlength="4">
+                        </div>
+                    </div>
+                    <div id="ticketArea">
+                        <div class="bottomButtons">
+                            <button class="button Check" style="font-family: inherit;" type="submit" name="check_card">Check Bingo</button>
+                            <a class="button green"  style="font-family: inherit;" href="{% url 'bingo_main:game' game_id=current_game.game_id %}">Continue</a>
+                        </div>
+    
+                        <!-- <button class="button Check" style="font-family: inherit; width:100%" type="submit" name="check_card">Check Bingo</button> -->
                     </div>
                 </div>
-                <div id="ticketArea">
-                    <div class="button Check" onclick="checkCard()">Check Bingo</div>
-                </div>
-            </div>
-            <div class="innerContainer" id="checkPin">
+            </form>
+
+            <!-- <div class="innerContainer" id="checkPin">
                 <div class="cardContainer">
                     <div class="cardTop">
                         <img src="{% static 'images/logo.svg' %}" id="companyLogo" alt="">
-                        Player Name
+                        Name: {{ player.nickname }}
                         {% if host.profile_pic.url %}
                             <img src="{{ host.profile_pic.url }}" id="bingoLogo" alt="">
                         {% else %}
@@ -65,7 +76,7 @@
                         {% endif %}
 
                         <div class="cardNumber">
-                            Ticket Number 00
+                            Ticket Number {{ board_number }}
                         </div>
                     </div>
                     <div class="bingoTable" id="3x3"></div>
@@ -85,7 +96,7 @@
                         <button class="button green"  style="font-family: inherit;" onclick="history.back()">Continue</button>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <div class="buttonContainer">
@@ -140,19 +151,17 @@
             document.querySelector('.innerContainer').style = '';
             document.querySelector('.speaker').style = '';
 
-            document.querySelector('body').style.height = window.innerHeight + 'px';
+            //document.querySelector('body').style.height = window.innerHeight + 'px';
             document.querySelector('.sidebar').style.height = window.innerHeight - 10 + 'px';
 
             // Resize bingo box to be the same height as the image
             document.querySelector('#prizeContainer').style.maxHeight = document.querySelector('#prize').clientHeight /
                 3 +
                 'px';
-            document.querySelector('#winCondition').style.maxHeight = document.querySelector('.innerContainer')
-                .clientHeight + 'px';
+            //document.querySelector('#winCondition').style.maxHeight = document.querySelector('.innerContainer').clientHeight + 'px';
 
 
-            document.querySelector('.innerContainer').style.height = window.innerHeight - 20 - document.querySelector(
-                '.speakerImage').clientHeight + 'px';
+            document.querySelector('.innerContainer').style.height = window.innerHeight - 20 - document.querySelector('.speakerImage').clientHeight + 'px';
 
 
             // Resize the speaker to not overlap the display box
@@ -198,13 +207,6 @@
             document.querySelector('.bingoTable').innerHTML = content;
         }
 
-        function checkCard() {
-            document.querySelector('#checkPin').style.top = 0;
-            setTimeout(() => {
-                document.querySelector('#enterPin').style.top = '-100vh';
-            }, 100);
-            getCard();
-        }
 
         function checkPin() {
             document.querySelector('.speakerImage').src = "{% static 'images/backgroundCheck.png' %}";

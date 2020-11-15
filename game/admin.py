@@ -47,7 +47,7 @@ class BoardAdmin(admin.ModelAdmin):
     list_display = ('pk','game_id','size', 'player',)
     list_filter = ('game_id','size',)
     search_fields = ['game_id','player__player_id','pk',]
-    ordering = ('game_id',)
+    ordering = ('-created',)
 
 
 # admin.site.register(Board)

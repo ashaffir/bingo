@@ -121,6 +121,7 @@ class Player(models.Model):
 
 
 class Board(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
     size = models.IntegerField(null=True, blank=True)
     game_id = models.CharField(max_length=30, null=True, blank=True)
     player = models.OneToOneField(Player, null=True, blank=True, on_delete=models.CASCADE)
@@ -131,6 +132,15 @@ class Board(models.Model):
         null=True,
         blank=True
     )
+
+    pictures_draw = ArrayField(
+        ArrayField(
+            models.CharField(max_length=200, blank=True, null=True),
+        ),
+        null=True,
+        blank=True
+    )
+
 
     def __str__(self):
         return str(self.pk) 

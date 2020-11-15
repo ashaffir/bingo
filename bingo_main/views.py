@@ -15,6 +15,7 @@ from .forms import ContactForm, HostSignupForm, LoginForm
 from .models import ContentPage
 from .utils import get_image_from_data_url
 from game.models import Picture, Album, Game, Player, Board
+from game.utils import check_players
 from users.models import User
 
 logger = logging.getLogger(__file__)
@@ -570,7 +571,7 @@ def game(request, game_id):
         messages.error(request, f"Not enough players... Need at leaset {min_players} tikets")
         return redirect(request.META['HTTP_REFERER'])
 
-    print(f'GAME COST: {game.game_cost}')
+    # print(f'GAME COST: {game.game_cost}')
     
     # Billing: Check user's balance and deduct the amount
     current_balance = host.balance
@@ -619,6 +620,100 @@ def game(request, game_id):
         context['current_shown_pictures'] = current_shown_pictures
         context['current_shown_pictures_count'] = len(current_shown_pictures)
 
+        # Check the players' boards:
+        active_boards = check_players(picture_id=picture_draw, game_id=game_id)
+        print(f'ACTIVE BOARDS: {active_boards}')
+
+        picture_draw_id = picture_draw
+
+        for board in active_boards:
+            # print(f'>> Pic: {picture_draw_id}')
+            # print(f'>> B: {board.pictures_draw}')
+            player = Player.objects.get(board_id=board.pk)
+            x_count_full = 0
+            for i in range(board.size):
+                x_count_row = 0
+
+                # 1) Replace the hits with an X
+                board.pictures_draw[i] = [pic if pic != picture_draw_id else 'X' for pic in board.pictures_draw[i]]
+
+                # Count the 'X's are on the board
+                x_count_full += board.pictures_draw[i].count('X')
+                print(f'X count: {x_count_full} Player: {player.nickname}')
+
+                # Count the 'X's are on the row
+                x_count_row += board.pictures_draw[i].count('X')
+                
+                if x_count_row == board.size:
+                    
+                    if player.winnings == []:
+                        print(f'BINGO ROW: Player {player.nickname} Row {i} board {board}!!!')
+                        player.winnings.append(f'1line')
+                    elif '1line' in player.winnings and x_count_full % board.size == 0:
+                        print(f'BINGO TWO ROWS: Player {player.nickname} board {board}!!!')
+                        player.winnings.append(f'2line')
+                    else:
+                        pass
+                    
+                    player.save()
+
+
+                # Update the board with the hits
+                board.save()
+
+                # Reset the row count for the next row
+                x_count_row = 0
+
+            # Columns and diagnals winning condition check
+            x_count_diag_left_to_right = 0
+            x_count_diag_right_to_left = 0
+
+            for column in range(board.size):
+                player = Player.objects.get(board_id=board.pk)
+                x_count_column = 0
+
+                for row in range(board.size):
+                    if board.pictures_draw[row][column] == 'X':
+                        x_count_column += 1
+                        # player.winnings.append(f'row_{row}_col_{column}') #Appending all points for later special bingo forms
+
+                if x_count_column == board.size:
+                    # player.winnings.append(f'col_{column}') # Column bingo support
+                    # print(f'BINGO Column! Player {player.nickname} Column {i} board {board}!!!')
+                    # logger.info(f'BINGO Column! Player {player.nickname} Column {i} board {board}!!!')
+                    pass
+
+                if board.pictures_draw[column][column] == 'X':
+                    x_count_diag_left_to_right += 1
+
+                if x_count_diag_left_to_right == board.size:
+                    # player.winnings.append('diag_l2r') # L2R Diagonal bingo support 
+                    # print(f'BINGO Left 2 Right Diagonal! Player {player.nickname} Diagonal L2R board {board}!!!')
+                    # logger.info(f'BINGO Left 2 Right Diagonal! Player {player.nickname} Diagonal L2R board {board}!!!')
+                    pass
+
+
+                if board.pictures_draw[-column-1][-column-1] == 'X':
+                    x_count_diag_right_to_left += 1
+
+                if x_count_diag_right_to_left == board.size:
+                    # player.winnings.append('diag_r2l') # R2L Diagonal bingo support
+                    # print(f'BINGO Right to Left Diagonal! Player {player.nickname} Diagonal R2L board {board}!!!')
+                    # logger.info(f'BINGO Right to Left Diagonal! Player {player.nickname} Diagonal R2L board {board}!!!')
+                    pass
+
+                player.save()
+
+
+            # print(f'>> UPDATED B: {board.pictures_draw}')
+            # print(f'>> X-FULL Count: {x_count_full}')
+            if x_count_full == board.size ** 2:
+                player = Player.objects.get(board_id=board.pk)
+                player.winnings.append('bingo')
+                player.save()
+                print(f'BINGO FULLLLL!!! Player {player.nickname} Board: {board}')
+                logger.info(f'BINGO FULLLLL!!! Player {player.nickname} Board: {board}')
+
     else:
         game.ended = True
         game.is_finished = True
@@ -627,6 +722,73 @@ def game(request, game_id):
 
     context['current_game'] = game
     return render(request, 'bingo_main/broadcast/game.html', context)
+
+
+@login_required
+def check_board(request, game_id):
+    context = {}
+
+    host = request.user
+    current_game = Game.objects.get(user=host, game_id=game_id)
+
+    context['current_game'] = current_game
+    context['host'] = host
+
+    if request.method == 'POST':
+        if request.POST.get('cardNumber') == '':
+            messages.error(request, "Please enter a valid card number")
+            return render(request, 'bingo_main/broadcast/check_board.html', context)
+        
+        check_board_id = request.POST.get('cardNumber')
+        context['board_number'] = check_board_id
+
+        try:
+            player = Player.objects.get(board_id=check_board_id)
+            board = Board.objects.get(player=player)
+        except Exception as e:
+            print(f'No player has this board ID')
+            messages.error(request, "Board does not exists")
+            return render(request, 'bingo_main/broadcast/check_board.html', context)
+
+        context['player'] = player
+
+        if player.winnings != []:
+            if 'bingo' in player.winnings:
+                context['prize_1'] = True            
+            elif '2line' in player.winnings:
+                context['prize_3'] = True
+            elif '1line' in player.winnings:
+                context['prize_2'] = True
+
+        winning_players = []
+        winning_boards = []
+        winning_boards_id = []
+        for player in Player.objects.filter(player_game_id=game_id):
+            if player.winnings != []:
+                winning_players.append(player)
+                winning_boards.append(Board.objects.get(pk=player.board_id))
+                winning_boards_id.append(player.board_id)
+
+        if check_board_id in winning_boards_id:
+            print(f'RESULT: WIN')
+            context['check_result'] = 'WIN'
+            return render(request, 'bingo_main/broadcast/checkResult.html', context)
+        else:
+            print(f'RESULT: Wrong')
+            context['check_result'] = 'Wrong'
+            return render(request, 'bingo_main/broadcast/checkResult.html', context)
+
+        print(f'Check card: {check_board_id}')
+        print(f'Winning players: {winning_players}')
+        print(f'Winning boards: {winning_boards}')
+        context['winning_players'] = winning_players
+        context['winning_boards'] = winning_boards
+
+    return render(request, 'bingo_main/broadcast/check_board.html', context)
+
+@login_required
+def check_result(request, game_id):
+    pass
 
 
 # Player's bingo card/ticket/board
@@ -682,6 +844,26 @@ def current_displayed_picture(request, game_id):
     context['game'] = game
     return render(request, 'bingo_main/partials/_current_displayed_picture.html', context)
 
+@api_view(['GET',])
+def player_card(request, game_id, player_id, user_id):
+    print('Polling game start status....')
+    context = {}
+    host = User.objects.get(pk=user_id)
+    try:
+        game = Game.objects.get(user=host, game_id=game_id)
+    except Exception as e:
+        print(f'ERROR: {e}')
+    # player = Player.objects.get(pk=player_id)
+    # board = Board.objects.get(player=player)
+    # context['game'] = game
+    # context['board'] = board
+    if game.started:
+        return Response(status=200)
+    else:
+        return Response(status=500)
+    # return render(request, 'bingo_main/partials/_player_board.html', context)
+
+
 @login_required
 def add_money(request):
     context = {}
@@ -693,7 +875,7 @@ def add_money(request):
             else:
                 amount = request.POST.get('deposit_amount')
 
-            if amount is not '':
+            if amount != '':
                 return HttpResponseRedirect(reverse('payments:paypal_payment', args=[amount]))
             else:
                 messages.error(request, 'Please enter an amount, or pick pf the predefined amounts.')
@@ -705,7 +887,7 @@ def add_money(request):
             else:
                 amount = request.POST.get('deposit_amount')
 
-            if amount is not '':
+            if amount != '':
                 return HttpResponseRedirect(reverse('payments:stripe_payment', args=[amount]))
             else:
                 messages.error(request, 'Please enter an amount, or pick pf the predefined amounts.')
@@ -718,17 +900,6 @@ def logout_view(request):
     context = {}
     logout(request)
     return redirect('bingo_main:bingo_main')
-
-
-@login_required
-def check_card(request, game_id):
-    context = {}
-    host = request.user
-    current_game = Game.objects.get(user=host, game_id=game_id)
-    context['current_game'] = current_game
-    context['host'] = host
-    return render(request, 'bingo_main/broadcast/checkCard.html', context)
-
 
 
 def handler404(request, exception, template_name="404.html"):

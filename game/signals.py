@@ -52,7 +52,8 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
         player = instance,
         game_id=player_game_id,
         size = board_size,
-        pictures = board_array
+        pictures = board_array,
+        pictures_draw = board_array,
         )
 
         logger.info(f'PLAYER BOARD CREATED: {board_array}')
