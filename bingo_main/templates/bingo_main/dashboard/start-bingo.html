@@ -488,6 +488,7 @@
             })
 
             setTimeout(function(){
+                window.location.href = "{% url 'bingo_main:dashboard' %}";
                 window.open('{% url "bingo_main:broadcast" %}', 'Matrix Bingo', "location")
             }, 5000);
 

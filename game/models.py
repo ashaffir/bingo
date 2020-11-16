@@ -48,7 +48,11 @@ class Picture(models.Model):
 
    
 def random_string():
-    return str(random.randint(1001, 9999))
+    for i in range(5):
+        code = str(random.randint(1001, 9999))
+        if not Game.objects.filter(game_id=code).exists():
+            return code
+    raise ValueError('Too many attempts to generate the code')
 
 class Game(models.Model):
 
@@ -63,7 +67,7 @@ class Game(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     # Game prep
-    game_id = models.CharField(max_length=4, default=random_string,null=True, blank=True)
+    game_id = models.CharField(max_length=4,null=True, blank=True)
 
     album = models.ForeignKey(Album, null=True, blank=True, on_delete=models.CASCADE)
     board_size = models.IntegerField(blank=True, null=True)
@@ -86,11 +90,13 @@ class Game(models.Model):
     players_list = models.JSONField(blank=True, null=True, default=list)
     game_requested = models.BooleanField(default=False)
     started = models.BooleanField(default=False)
+    in_progress = models.BooleanField(default=False)
     ended = models.BooleanField(default=False)
     game_cost = models.FloatField(null=True, blank=True)
     pictures_pool = models.JSONField(default=list,null=True, blank=True)
     current_picture = models.ForeignKey(Picture, blank=True, null=True, on_delete=models.CASCADE)
     shown_pictures = models.JSONField(default=list,null=True, blank=True)
+    prizes_won = models.JSONField(blank=True, null=True, default=list)
 
     is_finished = models.BooleanField(default=False)
 
@@ -123,6 +129,7 @@ class Player(models.Model):
 class Board(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     size = models.IntegerField(null=True, blank=True)
+    board_number = models.IntegerField(null=True, blank=True)
     game_id = models.CharField(max_length=30, null=True, blank=True)
     player = models.OneToOneField(Player, null=True, blank=True, on_delete=models.CASCADE)
     pictures = ArrayField(

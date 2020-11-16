@@ -82,7 +82,12 @@
                         {{ current_shown_pictures_count }} Out
                     </span>
                     <div class="buttons">
-                        <div class="button Next" onclick="location.reload();">Next</div>
+                        
+                        <form action="" name="nextPictureForm" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" name="nextPicture" style="font-family: inherit; width:100%; height:90%"  class="button Next" >Next</button>
+                        </form>
+
                         <div class="button Check" onclick="checkBingo()">
                             <span class="smlText">Check</span>
                             Bingo

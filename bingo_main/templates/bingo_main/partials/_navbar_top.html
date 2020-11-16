@@ -8,7 +8,7 @@
     
     <div class="menuItems">
         <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
-            <i class="fa fa-plus-square" aria-hidden="true"></i> €50
+            <i class="fa fa-plus-square" aria-hidden="true"></i> €{{ user.balance|floatformat }}
         </div>
         <img class="logo" src="{% if user.profile_pic %} {{ user.profile_pic.url }} {% else %} {% static 'dashboard/../images/placeholder.png' %} {% endif %}" onclick="openSidebar()">
         

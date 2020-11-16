@@ -55,10 +55,14 @@
 
                 </div>
             </div>
-            <div id="ticketArea">
-                <!-- Tickets: 50
-                <div class="button Next" onclick="startGame()">Start Game (Price $5)</div> -->
-            </div>
+            <form action="" name="startGameForm" method="POST">
+                {% csrf_token %}
+                <div id="ticketArea">
+                    <!-- Dynamically loaded from _game_status.html -->
+                    <!-- Tickets: 50
+                    <div class="button Next" onclick="startGame()">Start Game (Price $5)</div> -->
+                </div>
+            </form>
         </div>
 
         <div class="buttonContainer">
@@ -199,7 +203,7 @@
             });
         }
     </script>
-
+<!-- 
     <script>
         $(document).ready(function() {
             const gameId = JSON.parse(document.getElementById('gamePin').textContent);
@@ -237,7 +241,7 @@
             }
             */
         })
-    </script>
+    </script> -->
 
     <script>
     $(document).ready(function() {

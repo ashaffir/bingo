@@ -33,7 +33,7 @@
             </div>
             <div id="card">
                 <div class="header">
-                    Ticket Number {{ board.pk }}
+                    Ticket Number {{ board.board_number }}
                 </div>
                 <div class="bingoTable" id="card_area">
                     
@@ -315,7 +315,6 @@
         };
     
         function pollPlayerBoard () {
-            //currentPicture = document.getElementById('currentImage');
             $.ajax({
                 url: "{% url 'bingo_main:player_card' game_id=game.game_id player_id=player.pk user_id=user.pk %}",
                 success: function(response) {
@@ -327,7 +326,24 @@
                 }
             })							
         };
-    
+
+        function pollPlayerApprovalStatus () {
+            $.ajax({
+                url: "{% url 'bingo_main:player_approval_status' game_id=game.game_id player_id=player.pk %}",
+                success: function(response) {
+                    console.log(`Player Approved: ${response}`);
+                    location.reload();
+                },
+                error: function(response){
+                    console.log(`Polling player approval status....`);
+                }
+            })							
+        };
+
+        {% if player.approved %}
+        {% else %}
+            setInterval(function(){ pollPlayerApprovalStatus(); }, 2000);
+        {% endif %}
         
         {% if game.started %}
             setInterval(function(){ pollCurrentPicture(); }, 2000);

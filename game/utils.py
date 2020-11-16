@@ -1,4 +1,6 @@
-from .models import Board
+import random
+from .models import Board, Game
+from users.models import User
 
 def create_2d_array(pictures, board_size):
     """This routin will run for every new player, and will generate
@@ -31,3 +33,11 @@ def check_players(picture_id,game_id):
     """
     boards = Board.objects.filter(game_id=game_id, pictures__contains=[picture_id])
     return boards
+
+  
+def random_game_id(user):
+    for i in range(5):
+        code = str(random.randint(1001, 9999))
+        if not Game.objects.filter(game_id=code, user=user).exists():
+            return code
+    raise ValueError('Too many attempts to generate the code')

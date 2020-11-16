@@ -15,7 +15,7 @@ from .forms import ContactForm, HostSignupForm, LoginForm
 from .models import ContentPage
 from .utils import get_image_from_data_url
 from game.models import Picture, Album, Game, Player, Board
-from game.utils import check_players
+from game.utils import check_players, random_game_id
 from users.models import User
 
 logger = logging.getLogger(__file__)
@@ -495,6 +495,7 @@ def start_bingo(request):
                 game.board_size = album.board_size
                 game.pictures_pool = album.pictures
                 game.user = request.user
+                game.game_id = random_game_id(request.user)
                 game.save()
                 messages.success(request, 'A new bingo game was created')
             except Exception as e:
@@ -548,7 +549,27 @@ def broadcast(request):
     unapproved_players_list = Player.objects.filter(player_game_id=current_game.game_id, approved=False, not_approved=False)
     context['unapproved_players_list'] = unapproved_players_list
 
+    if request.method == 'POST':
+        # Start the game
+        current_game.started = True
+        current_game.save()
+
+        return HttpResponseRedirect(reverse('bingo_main:game', args=[current_game.game_id]))
+
     return render(request, 'bingo_main/broadcast/index.html', context=context)
+
+@api_view(['GET',])
+def player_approval_status(request, game_id, player_id):
+    print('Polling player approval status....')
+    context = {}
+    try:
+        player = Player.objects.get(pk=player_id)
+    except Exception as e:
+        print(f'ERROR: {e}')
+    if player.approved:
+        return Response(status=200)
+    else:
+        return Response(status=500)
 
 
 def game(request, game_id):
@@ -557,6 +578,7 @@ def game(request, game_id):
 
     if game.is_finished or game.ended:
         context['game_ended'] = True
+        messages.error(request, 'Game already played.')
         return redirect(request.META['HTTP_REFERER'])
 
     host = request.user
@@ -582,142 +604,155 @@ def game(request, game_id):
         host.balance = new_balance
         host.save()
 
-        # Start the game
-        game.started = True
-        game.save()
     else:
         messages.error(request, 'There is not enough funding for this game. Please deposit more funds.')
         return redirect('bingo_main:add_money')
 
-    # Game Play
-    pictures_pool_list = game.pictures_pool
-    items_list = []
-    if len(pictures_pool_list) > 0:
-        for pic in pictures_pool_list:
-            items_list.append(pic)
+    if request.method == 'POST' or not game.in_progress:
+        # Game Play
+        pictures_pool_list = game.pictures_pool
+        items_list = []
+        if len(pictures_pool_list) > 0:
+            for pic in pictures_pool_list:
+                items_list.append(pic)
 
-        # Drawing a random key from the dict
-        picture_draw_index = random.randint(0,len(items_list)-1)
-        rand_item = items_list[picture_draw_index]
-        picture_draw = pictures_pool_list.pop(picture_draw_index)
+            # Drawing a random key from the dict
+            picture_draw_index = random.randint(0,len(items_list)-1)
+            rand_item = items_list[picture_draw_index]
+            picture_draw = pictures_pool_list.pop(picture_draw_index)
 
-        # Updating the DB with the reduced list of pictures
-        game.pictures_pool = pictures_pool_list
+            # Updating the DB with the reduced list of pictures
+            game.pictures_pool = pictures_pool_list
 
-        current_shown_pictures_id = game.shown_pictures
-        current_shown_pictures_id.append(rand_item)
-        game.shown_pictures = current_shown_pictures_id
-        game.current_picture = Picture.objects.get(pk=picture_draw)
+            current_shown_pictures_id = game.shown_pictures
+            current_shown_pictures_id.append(rand_item)
+            game.shown_pictures = current_shown_pictures_id
+            game.current_picture = Picture.objects.get(pk=picture_draw)
 
-        game.save()
+            game.save()
 
-        current_shown_pictures = []
-        for p in current_shown_pictures_id:
-            current_shown_pictures.append(Picture.objects.get(pk=p))
-        
-        context['remaining_pictures'] = len(pictures_pool_list)
-        context['current_picture'] = Picture.objects.get(pk=picture_draw)
-        context['current_shown_pictures'] = current_shown_pictures
-        context['current_shown_pictures_count'] = len(current_shown_pictures)
+            current_shown_pictures = []
+            for p in current_shown_pictures_id:
+                current_shown_pictures.append(Picture.objects.get(pk=p))
+            
+            context['remaining_pictures'] = len(pictures_pool_list)
+            context['current_picture'] = Picture.objects.get(pk=picture_draw)
+            context['current_shown_pictures'] = current_shown_pictures
+            context['current_shown_pictures_count'] = len(current_shown_pictures)
 
-        # Check the players' boards:
-        active_boards = check_players(picture_id=picture_draw, game_id=game_id)
-        print(f'ACTIVE BOARDS: {active_boards}')
+            # Check the players' boards:
+            active_boards = check_players(picture_id=picture_draw, game_id=game_id)
+            print(f'ACTIVE BOARDS: {active_boards}')
 
-        picture_draw_id = picture_draw
+            picture_draw_id = picture_draw
 
-        for board in active_boards:
-            # print(f'>> Pic: {picture_draw_id}')
-            # print(f'>> B: {board.pictures_draw}')
-            player = Player.objects.get(board_id=board.pk)
-            x_count_full = 0
-            for i in range(board.size):
-                x_count_row = 0
+            for board in active_boards:
+                # print(f'>> Pic: {picture_draw_id}')
+                # print(f'>> B: {board.pictures_draw}')
+                player = Player.objects.get(board_id=board.pk)
+                x_count_full = 0
+                for i in range(board.size):
+                    x_count_row = 0
 
-                # 1) Replace the hits with an X
-                board.pictures_draw[i] = [pic if pic != picture_draw_id else 'X' for pic in board.pictures_draw[i]]
+                    # 1) Replace the hits with an X
+                    board.pictures_draw[i] = [pic if pic != picture_draw_id else 'X' for pic in board.pictures_draw[i]]
 
-                # Count the 'X's are on the board
-                x_count_full += board.pictures_draw[i].count('X')
-                print(f'X count: {x_count_full} Player: {player.nickname}')
+                    # Count the 'X's are on the board
+                    x_count_full += board.pictures_draw[i].count('X')
+                    print(f'X count: {x_count_full} Player: {player.nickname}')
 
-                # Count the 'X's are on the row
-                x_count_row += board.pictures_draw[i].count('X')
-                
-                if x_count_row == board.size:
+                    # Count the 'X's are on the row
+                    x_count_row += board.pictures_draw[i].count('X')
                     
-                    if player.winnings == []:
-                        print(f'BINGO ROW: Player {player.nickname} Row {i} board {board}!!!')
-                        player.winnings.append(f'1line')
-                    elif '1line' in player.winnings and x_count_full % board.size == 0:
-                        print(f'BINGO TWO ROWS: Player {player.nickname} board {board}!!!')
-                        player.winnings.append(f'2line')
-                    else:
+                    if x_count_row == board.size:
+                        
+                        print(f'BINGO ROW: Player {player.nickname} Row {i} board {board} Ticket: {board.board_number}!!!')
+
+                        if game.prizes_won == []:
+                            game.prizes_won.append('1line')
+                            player.winnings.append('1line')
+
+                        elif '1line' in player.winnings and x_count_full % board.size == 0:
+                            player.winnings.append('2line')
+                            game.prizes_won.append('2line')
+                            print(f'BINGO TWO ROWS: Player {player.nickname} board {board}!!!')
+                        
+                        else:
+                            player.winnings.append('1line')
+                        
+                        player.save()
+                        game.save()
+
+
+                    # Update the board with the hits
+                    board.save()
+
+                    # Reset the row count for the next row
+                    x_count_row = 0
+
+                # Columns and diagnals winning condition check
+                x_count_diag_left_to_right = 0
+                x_count_diag_right_to_left = 0
+
+                for column in range(board.size):
+                    player = Player.objects.get(board_id=board.pk)
+                    x_count_column = 0
+
+                    for row in range(board.size):
+                        if board.pictures_draw[row][column] == 'X':
+                            x_count_column += 1
+                            # player.winnings.append(f'row_{row}_col_{column}') #Appending all points for later special bingo forms
+
+                    if x_count_column == board.size:
+                        # player.winnings.append(f'col_{column}') # Column bingo support
+                        # print(f'BINGO Column! Player {player.nickname} Column {i} board {board}!!!')
+                        # logger.info(f'BINGO Column! Player {player.nickname} Column {i} board {board}!!!')
                         pass
-                    
+
+                    if board.pictures_draw[column][column] == 'X':
+                        x_count_diag_left_to_right += 1
+
+                    if x_count_diag_left_to_right == board.size:
+                        # player.winnings.append('diag_l2r') # L2R Diagonal bingo support 
+                        # print(f'BINGO Left 2 Right Diagonal! Player {player.nickname} Diagonal L2R board {board}!!!')
+                        # logger.info(f'BINGO Left 2 Right Diagonal! Player {player.nickname} Diagonal L2R board {board}!!!')
+                        pass
+
+
+                    if board.pictures_draw[-column-1][-column-1] == 'X':
+                        x_count_diag_right_to_left += 1
+
+                    if x_count_diag_right_to_left == board.size:
+                        # player.winnings.append('diag_r2l') # R2L Diagonal bingo support
+                        # print(f'BINGO Right to Left Diagonal! Player {player.nickname} Diagonal R2L board {board}!!!')
+                        # logger.info(f'BINGO Right to Left Diagonal! Player {player.nickname} Diagonal R2L board {board}!!!')
+                        pass
+
                     player.save()
 
 
-                # Update the board with the hits
-                board.save()
+                # print(f'>> UPDATED B: {board.pictures_draw}')
+                # print(f'>> X-FULL Count: {x_count_full}')
+                if x_count_full == board.size ** 2:
+                    player = Player.objects.get(board_id=board.pk)
+                    player.winnings.append('bingo')
+                    player.save()
+                    print(f'BINGO FULLLLL!!! Player {player.nickname} Board: {board}')
+                    logger.info(f'BINGO FULLLLL!!! Player {player.nickname} Board: {board}')
 
-                # Reset the row count for the next row
-                x_count_row = 0
-
-            # Columns and diagnals winning condition check
-            x_count_diag_left_to_right = 0
-            x_count_diag_right_to_left = 0
-
-            for column in range(board.size):
-                player = Player.objects.get(board_id=board.pk)
-                x_count_column = 0
-
-                for row in range(board.size):
-                    if board.pictures_draw[row][column] == 'X':
-                        x_count_column += 1
-                        # player.winnings.append(f'row_{row}_col_{column}') #Appending all points for later special bingo forms
-
-                if x_count_column == board.size:
-                    # player.winnings.append(f'col_{column}') # Column bingo support
-                    # print(f'BINGO Column! Player {player.nickname} Column {i} board {board}!!!')
-                    # logger.info(f'BINGO Column! Player {player.nickname} Column {i} board {board}!!!')
-                    pass
-
-                if board.pictures_draw[column][column] == 'X':
-                    x_count_diag_left_to_right += 1
-
-                if x_count_diag_left_to_right == board.size:
-                    # player.winnings.append('diag_l2r') # L2R Diagonal bingo support 
-                    # print(f'BINGO Left 2 Right Diagonal! Player {player.nickname} Diagonal L2R board {board}!!!')
-                    # logger.info(f'BINGO Left 2 Right Diagonal! Player {player.nickname} Diagonal L2R board {board}!!!')
-                    pass
-
-
-                if board.pictures_draw[-column-1][-column-1] == 'X':
-                    x_count_diag_right_to_left += 1
-
-                if x_count_diag_right_to_left == board.size:
-                    # player.winnings.append('diag_r2l') # R2L Diagonal bingo support
-                    # print(f'BINGO Right to Left Diagonal! Player {player.nickname} Diagonal R2L board {board}!!!')
-                    # logger.info(f'BINGO Right to Left Diagonal! Player {player.nickname} Diagonal R2L board {board}!!!')
-                    pass
-
-                player.save()
-
-
-            # print(f'>> UPDATED B: {board.pictures_draw}')
-            # print(f'>> X-FULL Count: {x_count_full}')
-            if x_count_full == board.size ** 2:
-                player = Player.objects.get(board_id=board.pk)
-                player.winnings.append('bingo')
-                player.save()
-                print(f'BINGO FULLLLL!!! Player {player.nickname} Board: {board}')
-                logger.info(f'BINGO FULLLLL!!! Player {player.nickname} Board: {board}')
-
+        else:
+            game.ended = True
+            game.is_finished = True
+            game.save()
+        
     else:
-        game.ended = True
-        game.is_finished = True
-        game.save()
+        current_shown_pictures = []
+        for p in game.shown_pictures:
+            current_shown_pictures.append(Picture.objects.get(pk=p))
+
+        context['current_shown_pictures'] = current_shown_pictures
+        context['current_picture'] = game.current_picture
+        context['current_shown_pictures_count'] = len(current_shown_pictures)
 
 
     context['current_game'] = game
@@ -729,37 +764,28 @@ def check_board(request, game_id):
     context = {}
 
     host = request.user
+    
     current_game = Game.objects.get(user=host, game_id=game_id)
+    current_game.in_progress = True
+    current_game.save()
 
     context['current_game'] = current_game
     context['host'] = host
 
     if request.method == 'POST':
-        if request.POST.get('cardNumber') == '':
+
+        ticket_number = request.POST.get('cardNumber')
+        context['board_number'] = ticket_number
+
+        # Validating ticket number
+        if ticket_number == '' or int(ticket_number) < 0:
             messages.error(request, "Please enter a valid card number")
             return render(request, 'bingo_main/broadcast/check_board.html', context)
-        
-        check_board_id = request.POST.get('cardNumber')
-        context['board_number'] = check_board_id
-
-        try:
-            player = Player.objects.get(board_id=check_board_id)
-            board = Board.objects.get(player=player)
-        except Exception as e:
-            print(f'No player has this board ID')
-            messages.error(request, "Board does not exists")
+        elif int(ticket_number) > len(current_game.players_list):
+            messages.error(request, "Ticket is not a part of this game")
             return render(request, 'bingo_main/broadcast/check_board.html', context)
 
-        context['player'] = player
-
-        if player.winnings != []:
-            if 'bingo' in player.winnings:
-                context['prize_1'] = True            
-            elif '2line' in player.winnings:
-                context['prize_3'] = True
-            elif '1line' in player.winnings:
-                context['prize_2'] = True
-
+        # Collecting the winning players/boards so far        
         winning_players = []
         winning_boards = []
         winning_boards_id = []
@@ -769,20 +795,30 @@ def check_board(request, game_id):
                 winning_boards.append(Board.objects.get(pk=player.board_id))
                 winning_boards_id.append(player.board_id)
 
-        if check_board_id in winning_boards_id:
-            print(f'RESULT: WIN')
-            context['check_result'] = 'WIN'
-            return render(request, 'bingo_main/broadcast/checkResult.html', context)
-        else:
-            print(f'RESULT: Wrong')
-            context['check_result'] = 'Wrong'
-            return render(request, 'bingo_main/broadcast/checkResult.html', context)
+        # Checking ticket
+        for b in winning_boards:
+            if b.board_number == int(ticket_number):
+                print(f'Winning Ticket {ticket_number}')
+                winning_board = b
+                winning_player = Player.objects.get(board_id=b.pk)
 
-        print(f'Check card: {check_board_id}')
-        print(f'Winning players: {winning_players}')
-        print(f'Winning boards: {winning_boards}')
-        context['winning_players'] = winning_players
-        context['winning_boards'] = winning_boards
+                context['player'] = winning_player
+
+                if 'bingo' in winning_player.winnings:
+                    context['prize_1'] = True            
+                elif '2line' in winning_player.winnings:
+                    context['prize_3'] = True
+                elif '1line' in winning_player.winnings:
+                    context['prize_2'] = True
+
+
+                print(f'RESULT: WIN')
+                context['check_result'] = 'WIN'
+                return render(request, 'bingo_main/broadcast/checkResult.html', context)
+
+        print(f'RESULT: Wrong')
+        context['check_result'] = 'Wrong'
+        return render(request, 'bingo_main/broadcast/checkResult.html', context)
 
     return render(request, 'bingo_main/broadcast/check_board.html', context)
 

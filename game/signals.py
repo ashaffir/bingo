@@ -29,6 +29,9 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
         board_size = game.board_size
         album = game.album
         pictures = album.pictures
+        players = game.players_list
+        players_count = len(players)
+
         pictures_list = []
         # print(f'PICTURES: {pictures}')
         for pic in pictures:
@@ -48,9 +51,11 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
             logger.error(f'>>> SIGNALS: failed creating a board for a player. ERROR: {e}')
             board_array = []
 
+
         player_board = Board.objects.create(
         player = instance,
         game_id=player_game_id,
+        board_number=players_count+1,
         size = board_size,
         pictures = board_array,
         pictures_draw = board_array,
