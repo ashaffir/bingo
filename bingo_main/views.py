@@ -550,11 +550,20 @@ def broadcast(request):
     context['unapproved_players_list'] = unapproved_players_list
 
     if request.method == 'POST':
-        # Start the game
-        current_game.started = True
-        current_game.save()
-
-        return HttpResponseRedirect(reverse('bingo_main:game', args=[current_game.game_id]))
+    # Checking if there are minimum players
+        try:
+            min_players = Control.objects.get(name='min_players').value_integer
+        except Exception as e:
+            min_players = 2
+        
+        if len(current_game.players_list) < min_players:
+            messages.error(request, f"Not enough players... Need at leaset {min_players} tikets")
+            return redirect(request.META['HTTP_REFERER'])
+        else:
+            # Start the game
+            current_game.started = True
+            current_game.save()
+            return HttpResponseRedirect(reverse('bingo_main:game', args=[current_game.game_id]))
 
     return render(request, 'bingo_main/broadcast/index.html', context=context)
 
@@ -579,7 +588,8 @@ def game(request, game_id):
     if game.is_finished or game.ended:
         context['game_ended'] = True
         messages.error(request, 'Game already played.')
-        return redirect(request.META['HTTP_REFERER'])
+        # return redirect(request.META['HTTP_REFERER'])
+        return HttpResponseRedirect(reverse('bingo_main:game_over', args=[game.game_id]))
 
     host = request.user
     
@@ -744,6 +754,7 @@ def game(request, game_id):
             game.ended = True
             game.is_finished = True
             game.save()
+            return HttpResponseRedirect(reverse('bingo_main:game_over', args=[game.game_id]))
         
     else:
         current_shown_pictures = []
@@ -811,25 +822,41 @@ def check_board(request, game_id):
                     if 'bingo' in winning_player.winnings:
                         context['prize_1'] = True
                         win = True
+                    
+                        current_game.is_finished = True
+                        current_game.save()
+
                 
                 elif game_winning_conditions == '1line':
                     if 'bingo' in winning_player.winnings:
                         context['prize_1'] = True
                         win = True
-                    elif '1line' in winning_player.winnings:
+                        current_game.is_finished = True
+                    elif '1line' in winning_player.winnings and not current_game.prize_2_won:
                         context['prize_2'] = True
                         win = True
+                        current_game.prize_2_won = True
+                    
+                    current_game.save()
+                    
 
                 elif game_winning_conditions == '2line':
                     if 'bingo' in winning_player.winnings:
                         context['prize_1'] = True
                         win = True
-                    elif '2line' in winning_player.winnings:
+                        current_game.is_finished = True
+                        current_game.save()
+                    elif '2line' in winning_player.winnings and not current_game.prize_3_won:
                         context['prize_3'] = True
                         win = True
-                    elif '1line' in winning_player.winnings:
+                        current_game.prize_3_won = True
+                    elif '1line' in winning_player.winnings and not current_game.prize_3_won:
                         context['prize_2'] = True
                         win = True
+                        current_game.prize_2_won = True
+
+                    current_game.save()
+
                 else:
                     win = False
                 
@@ -845,8 +872,12 @@ def check_board(request, game_id):
     return render(request, 'bingo_main/broadcast/check_board.html', context)
 
 @login_required
-def check_result(request, game_id):
-    pass
+def game_over(request, game_id):
+    context = {}
+    host = request.user
+    context['current_game'] = Game.objects.get(user=host, game_id=game_id)
+    return render(request, 'bingo_main/broadcast/game_over.html', context)
+
 
 
 # Player's bingo card/ticket/board

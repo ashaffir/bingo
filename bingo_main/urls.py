@@ -33,7 +33,7 @@ urlpatterns = [
     path('player_approval_status/<str:game_id>/<str:player_id>/', bingo_main_views.player_approval_status, name='player_approval_status'),
     path('check_game_id/', bingo_main_views.check_game_id, name='check_game_id'),
     path('check_board/<str:game_id>', bingo_main_views.check_board, name='check_board'),
-    path('check_result/<str:game_id>', bingo_main_views.check_result, name='check_result'),
+    path('game_over/<str:game_id>', bingo_main_views.game_over, name='game_over'),
     path('player_approval/<str:player_id>/<str:approval>', bingo_main_views.player_approval, name='player_approval'),
 
     path('game_status/<str:game_id>', bingo_main_views.game_status, name='game_status'),
