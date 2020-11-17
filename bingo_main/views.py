@@ -772,6 +772,8 @@ def check_board(request, game_id):
     context['current_game'] = current_game
     context['host'] = host
 
+    game_winning_conditions = current_game.winning_conditions
+
     if request.method == 'POST':
 
         ticket_number = request.POST.get('cardNumber')
@@ -796,6 +798,7 @@ def check_board(request, game_id):
                 winning_boards_id.append(player.board_id)
 
         # Checking ticket
+        win = False
         for b in winning_boards:
             if b.board_number == int(ticket_number):
                 print(f'Winning Ticket {ticket_number}')
@@ -804,17 +807,36 @@ def check_board(request, game_id):
 
                 context['player'] = winning_player
 
-                if 'bingo' in winning_player.winnings:
-                    context['prize_1'] = True            
-                elif '2line' in winning_player.winnings:
-                    context['prize_3'] = True
-                elif '1line' in winning_player.winnings:
-                    context['prize_2'] = True
+                if game_winning_conditions == 'bingo':
+                    if 'bingo' in winning_player.winnings:
+                        context['prize_1'] = True
+                        win = True
+                
+                elif game_winning_conditions == '1line':
+                    if 'bingo' in winning_player.winnings:
+                        context['prize_1'] = True
+                        win = True
+                    elif '1line' in winning_player.winnings:
+                        context['prize_2'] = True
+                        win = True
 
-
-                print(f'RESULT: WIN')
-                context['check_result'] = 'WIN'
-                return render(request, 'bingo_main/broadcast/checkResult.html', context)
+                elif game_winning_conditions == '2line':
+                    if 'bingo' in winning_player.winnings:
+                        context['prize_1'] = True
+                        win = True
+                    elif '2line' in winning_player.winnings:
+                        context['prize_3'] = True
+                        win = True
+                    elif '1line' in winning_player.winnings:
+                        context['prize_2'] = True
+                        win = True
+                else:
+                    win = False
+                
+                if win:
+                    print(f'RESULT: WIN')
+                    context['check_result'] = 'WIN'
+                    return render(request, 'bingo_main/broadcast/checkResult.html', context)
 
         print(f'RESULT: Wrong')
         context['check_result'] = 'Wrong'
@@ -876,8 +898,13 @@ def bingo(request, player_id):
 def current_displayed_picture(request, game_id):
     context = {}
     host = request.user
-    game = Game.objects.get(user=host, game_id=game_id)
-    context['game'] = game
+    try:
+        game = Game.objects.get(user=host, game_id=game_id)
+        context['game'] = game
+    except Exception as e:
+        logger.error(f'>>> Bingo Main: Failed to find game with ID {game_id} for host {host}. ERROR: {e}')
+        print(f'>>> Bingo Main: Failed to find game with ID {game_id} for host {host}. ERROR: {e}')
+    
     return render(request, 'bingo_main/partials/_current_displayed_picture.html', context)
 
 @api_view(['GET',])

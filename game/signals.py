@@ -24,7 +24,12 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
         print(f'SIGNAL: Player {instance.pk} created')
         logger.info(f'SIGNAL: Player {instance.pk} created')
         
+
         game = instance.game
+
+        instance.approved = True if game.auto_join_approval else False
+        instance.save()
+
         player_game_id = instance.player_game_id
         board_size = game.board_size
         album = game.album
