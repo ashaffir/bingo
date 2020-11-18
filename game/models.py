@@ -83,9 +83,11 @@ class Game(models.Model):
     prize_2_name = models.CharField(max_length=50, null=True, blank=True)
     prize_2_image_file = models.ImageField(upload_to=prize_image_path, blank=True, null=True)
     prize_2_won = models.BooleanField(null=True, blank=True, default=False)
+    prize_2_locked = models.BooleanField(null=True, blank=True, default=False)
     prize_3_name = models.CharField(max_length=50, null=True, blank=True)
     prize_3_image_file = models.ImageField(upload_to=prize_image_path, blank=True, null=True)
     prize_3_won = models.BooleanField(null=True, blank=True, default=False)
+    prize_3_locked = models.BooleanField(null=True, blank=True, default=False)
 
     # Start Game
     number_of_players = models.IntegerField(null=True, blank=True)

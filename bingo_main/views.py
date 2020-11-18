@@ -618,6 +618,15 @@ def game(request, game_id):
         messages.error(request, 'There is not enough funding for this game. Please deposit more funds.')
         return redirect('bingo_main:add_money')
 
+    # Locking prizes already won
+    if game.prize_2_won:
+        game.prize_2_locked = True
+
+    if game.prize_3_won:
+        game.prize_3_locked = True
+    
+    game.save()
+
     if request.method == 'POST' or not game.in_progress:
         # Game Play
         pictures_pool_list = game.pictures_pool
@@ -824,7 +833,8 @@ def check_board(request, game_id):
                         win = True
                     
                         current_game.is_finished = True
-                        current_game.save()
+                    
+                    current_game.save()
 
                 
                 elif game_winning_conditions == '1line':
@@ -832,7 +842,7 @@ def check_board(request, game_id):
                         context['prize_1'] = True
                         win = True
                         current_game.is_finished = True
-                    elif '1line' in winning_player.winnings and not current_game.prize_2_won:
+                    elif '1line' in winning_player.winnings and not current_game.prize_2_locked:
                         context['prize_2'] = True
                         win = True
                         current_game.prize_2_won = True
@@ -846,11 +856,11 @@ def check_board(request, game_id):
                         win = True
                         current_game.is_finished = True
                         current_game.save()
-                    elif '2line' in winning_player.winnings and not current_game.prize_3_won:
+                    elif '2line' in winning_player.winnings and not current_game.prize_3_locked:
                         context['prize_3'] = True
                         win = True
                         current_game.prize_3_won = True
-                    elif '1line' in winning_player.winnings and not current_game.prize_3_won:
+                    elif '1line' in winning_player.winnings and not current_game.prize_2_locked:
                         context['prize_2'] = True
                         win = True
                         current_game.prize_2_won = True
