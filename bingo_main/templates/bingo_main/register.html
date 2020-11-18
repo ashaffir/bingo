@@ -34,3 +34,41 @@
         </form>
     </div>
 {% endblock content %}
+
+{% block js_bottom %}
+
+<script>
+    function getHeight() {
+        if (window.innerWidth < 600) return document.querySelector('.registerForm').style.height = '';
+        document.querySelector('.registerForm').style.minHeight = window.innerHeight - document.querySelector(
+            '.lowerNavigation').clientHeight - document.querySelector('.navbarIndex').clientHeight - 60 + 'px';
+    }
+
+    getHeight();
+
+    $.ajax({
+        method: 'GET',
+        url: 'https://restcountries.eu/rest/v2/all?fields=name;',
+        success: res => {
+            res.forEach(country => {
+                document.querySelector('#country').innerHTML +=
+                    `<option value=${country.name}>${country.name}</option>`;
+            })
+            getLocation();
+        }
+    })
+
+    function getLocation() {
+        fetch('https://extreme-ip-lookup.com/json/')
+            .then(res => res.json())
+            .then(response => {
+                document.querySelector(`option[value=${response.country}`).setAttribute('selected', 'selected');
+            })
+            .catch((data, status) => {})
+    }
+
+    window.addEventListener('resize', function (e) {
+        getHeight();
+    });
+</script>
+{% endblock js_bottom %}
