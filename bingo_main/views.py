@@ -493,6 +493,15 @@ def start_bingo(request):
                 game = Game()
                 game.album = album
                 game.board_size = album.board_size
+
+                # Check if there are enough images in the Album
+                if len(album.pictures) < 18:
+                    print(f'>>> bingo main: failed creating a new game. ERROR: Not enough images in Album {album.name}')
+                    logger.error(f'>>> bingo main: failed creating a new game. ERROR: Not enough images in Album {album.name}')
+                    messages.error(request, f'Failed creating the new bingo game. Not enough images in Album {album.name}')
+                    return redirect(request.META['HTTP_REFERER'])
+
+
                 game.pictures_pool = album.pictures
                 game.user = request.user
                 game.game_id = random_game_id(request.user)
