@@ -79,3 +79,6 @@ From your machine, in the project directory:
 git remote add origin ubuntu@18.216.128.97:/home/ubuntu/vue_bingo/bingo
 
 chmod +x post_receive
+
+# REFERENCE: signals based on field change
+- https://stackoverflow.com/questions/36719566/identify-the-changed-fields-in-django-post-save-signal

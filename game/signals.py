@@ -2,15 +2,66 @@ import json
 import random
 import logging
 import itertools
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver, Signal
 from django.core.signals import request_finished
 from django.conf import settings
 
-from .models import Player, Album, Board
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
+from .models import Player, Album, Board, Game
 from .utils import create_2d_array
 
 logger = logging.getLogger(__file__)
+
+# @receiver(post_save, sender=Game)
+@receiver(pre_save, sender=Game)
+def game_start(sender, instance, update_fields, **kwargs):
+    ''' Triggers when game starts
+    '''
+    if instance.pk is None:
+        print(">>> SIGNALS: Game not created yet. Skipping")
+
+    else:
+        previous = Game.objects.get(id=instance.id)
+        if previous.started != instance.started: 
+        # if instance.started:
+            print(f">>> SIGNALS: Games started ID {instance.game_id}")
+            logger.info(f">>> SIGNALS: Games started ID {instance.game_id}")
+            # Updating WS
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                    str(instance.game_id), {
+                        'type': 'game.message',
+                        'data': {
+                            'data': 'game_started'
+                        }
+                    }
+                )
+
+@receiver(pre_save, sender=Game)
+def next_picture(sender, instance: Game, **kwargs):
+    print("----------- 1 --------------")
+    if instance.pk is None:
+        print("----------- 2 --------------")
+
+    else:
+        previous = Game.objects.get(game_id=instance.game_id)
+        if previous.current_picture != instance.current_picture: 
+            print(f"PIC: {instance.current_picture}, URL {instance.current_picture.image_file.url}")
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                    str(instance.game_id), {
+                        'type': 'game.message',
+                        'data': {
+                            'data': instance.current_picture.image_file.url
+                        }
+                    }
+                )
+        else:
+            print("----------- 3 --------------")
+
 
 @receiver(post_save, sender=Player)
 def new_player_signal(sender, instance, update_fields, **kwargs):  

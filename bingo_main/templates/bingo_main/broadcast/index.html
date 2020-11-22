@@ -138,7 +138,9 @@
         function startGame() {
             window.location.href = "{% url 'bingo_main:game' game_id=current_game.game_id %}";
         }
-
+        /*
+        */
+        
         function resize() {
             // Reset
             document.querySelector('#prizeContainer').style = '';
@@ -203,10 +205,11 @@
             });
         }
     </script>
-<!-- 
+
     <script>
+        let gameId;
         $(document).ready(function() {
-            const gameId = JSON.parse(document.getElementById('gamePin').textContent);
+            gameId = JSON.parse(document.getElementById('gamePin').textContent);
     
             const scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
             console.log(`Game ${gameId} WS is ready!`)
@@ -219,9 +222,9 @@
             );    
 
             gameSocket.onmessage = function(e) {
-                update_players();
-    //            const data = JSON.parse(e.data);
-    //            console.log(`DATA RECEIVED: ${e.data}`);
+                //update_players();
+                const data = JSON.parse(e.data);
+                console.log(`DATA RECEIVED: ${e.data}`);
     //            document.querySelector('#game-log').value += (data.message.nickname + '\n');
     
             };
@@ -230,7 +233,6 @@
                 console.error('game socket closed unexpectedly');
             };
     
-            /*
             update_players = function(){
                 $.ajax({
                     url: "{ url 'game:players' user_id=user.pk game_id=game.game_id }",
@@ -239,9 +241,25 @@
                     }
                 });								            
             }
+            /*
             */
         })
-    </script> -->
+
+        
+        document.querySelector('#startGame').onclick = function(e) {
+            //gameId = document.querySelector('#playerGameId').value;
+            console.log(`Starting game: ${gameId}`);
+            
+            gameSocket.send(JSON.stringify({
+                //'message_type': 'add.player', 
+                'message_type': 'start.game', 
+                'game_id': gameId,
+            }));
+
+            //window.location.pathname = '/game/' + gameId + '/';
+        };
+
+    </script>
 
     <script>
     $(document).ready(function() {
@@ -264,12 +282,13 @@
         $.ajax({
             url: "{% url 'bingo_main:game_status' game_id=current_game.game_id %}",
             success: function(response) {
-                console.log("polling");
+                console.log("polling game tickets and start status");
                 $('#ticketArea').html(response);
             }
         })							
     };
-    setInterval(function(){ pollGameStatus(); pollPlayersList(); }, 5000);
+    setInterval(function(){ pollGameStatus(); }, 5000);
+    setInterval(function(){ pollPlayersList(); }, 5000);
 
     </script>
 </body>

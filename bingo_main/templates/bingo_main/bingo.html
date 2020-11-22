@@ -53,7 +53,7 @@
                 <!-- <img src="{{ current_picture.image_file.url }}" id="currentImage" alt="" class="currentImage"> -->
                 <img src="" id="currentImage" alt="" class="currentImage">
             {% else %}
-                <img src="{% static 'images/placeholder.png' %}" alt="" class="currentImage">
+                <img id="currentImage" src="{% static 'images/placeholder.png' %}" alt="" class="currentImage">
             {% endif %}
 
             <div>
@@ -346,12 +346,66 @@
         {% endif %}
         
         {% if game.started %}
-            setInterval(function(){ pollCurrentPicture(); }, 2000);
+            //setInterval(function(){ pollCurrentPicture(); }, 2000);
         {% else %}
-            setInterval(function(){ pollPlayerBoard(); }, 2000);
+            //setInterval(function(){ pollPlayerBoard(); }, 2000);
         {% endif %}
     
     </script>
-</body>
+        
+    <script>
+        let gameId = '{{ game.game_id }}';
+        $(document).ready(function() {
+    
+            const scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+            console.log(`Game ${gameId} WS is ready!`)
+            const gameSocket = new WebSocket(
+                scheme
+                + window.location.host
+                + '/ws/game/'
+                + gameId
+                + '/'
+            );    
+
+            gameSocket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+
+                console.log(`DATA RECEIVED: ${e.data}`);
+                if (data.message == 'game_started'){
+                    location.reload();
+                } else {
+                    console.log(`CURRENT PICTURE : ${data.message}`);
+
+                    /*
+                    document.getElementById('currentImage').src = data.message;
+                    location.reload();
+                    */		
+                    $.ajax({
+                        url: "{% url 'bingo_main:current_displayed_picture' game_id=game.game_id %}",
+                        success: function(response) {
+                            //console.log(`polling current picture: ${response}`);
+                            //$('#currentImage').html(response);
+                            document.getElementById('currentImage').src = response;
+                        }
+                    })
+                }
+                
+
+    //            document.querySelector('#game-log').value += (data.message.nickname + '\n');
+    
+            };
+    
+            gameSocket.onclose = function(e) {
+                console.error('game socket closed unexpectedly');
+            };
+    
+            /*
+            */
+        })
+
+        
+        
+    </script>
+
 
 </html>

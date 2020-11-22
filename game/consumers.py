@@ -54,11 +54,18 @@ class GameConsumer(AsyncWebsocketConsumer):
                     'message': player_data
                 }
             )
+        elif message_type == 'start.game':
+            print(f"STARRTING GAME.....ID: {data['game_id']} ")
+
+    # Sending JSON messages 
+    # async def echo_message(self, event):
+    #     logger.info(f'>>> ECHO 1: {event}')
+    #     await self.send_json(event)
 
     # Receive message from room group
     async def game_message(self, event):
         print(f'SENT MESSAGE: {event}')
-        message = event['message']
+        message = event['data']['data']
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
