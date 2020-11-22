@@ -18,9 +18,9 @@
 <body>
     <div class="bingoContainer">
         <div class="bingoIndex">
-            <img class="profilePic" src="{% static 'images/logo.svg' %}" alt="" onclick="window.location.href = './'">
+            <img class="profilePic" src="{% static 'images/logo.svg' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
             <div class="lrgText" id="playerName">{{ player.nickname }}</div>
-            <img class="profilePic" src="{{ host_logo.url }}" alt="" onclick="window.location.href = './'">
+            <img class="profilePic" src="{{ host_logo.url }}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
             <!-- <img class="bingoLogo" src="{% static 'images/logo.svg' %} alt="" onclick="window.location.href = './'"> -->
         </div>
         <div id="cardStages">
@@ -44,17 +44,14 @@
             <div>
                 Win Condition 
             </div>
-            <div>
-                Current Image
+            <div id="currentImageTitle">
+                
             </div>
             <div></div>
             <div class="winCondition"></div>
-            {% if current_picture %}
                 <!-- <img src="{{ current_picture.image_file.url }}" id="currentImage" alt="" class="currentImage"> -->
                 <img src="" id="currentImage" alt="" class="currentImage">
-            {% else %}
-                <img id="currentImage" src="{% static 'images/placeholder.png' %}" alt="" class="currentImage">
-            {% endif %}
+                <!-- <img id="currentImage" src="{% static 'images/placeholder.png' %}" alt="" class="currentImage"> -->
 
             <div>
                 <div class="stump black" onclick="changeStump(this,'black')"></div>
@@ -127,9 +124,7 @@
                 document.querySelector('.bingoTable').style.width = document.querySelector('.bingoTable')
                     .clientHeight +
                     'px';
-                document.querySelector('.currentImage').style.width = document.querySelector('.currentImage')
-                    .clientHeight +
-                    'px';
+                //document.querySelector('.currentImage').style.width = document.querySelector('.currentImage').clientHeight + 'px';
             }, 100);
 
             // if (!urlParams.get('code')) return window.location.href = './';
@@ -298,9 +293,16 @@
 
     <script>
         $(document).ready(function() {
-            pollCurrentPicture();
+          //  pollCurrentPicture();
+        currentPicture = '{{ current_picture.image_file.url }}';
+        currentImageTitle = '{{ current_picture.title }}';
+        console.log(`polling current picture...${currentPicture}`);
+        console.log(`polling current picture title...${currentImageTitle}`);
+        document.getElementById('currentImage').src = currentPicture;
+        document.getElementById('currentImageTitle').innerHTML = currentImageTitle
+        
         });
-    
+        /*
         function pollCurrentPicture () {
             //currentPicture = document.getElementById('currentImage');
             console.log(`polling current picture...`);
@@ -313,6 +315,7 @@
                 }
             })							
         };
+        */
     
         function pollPlayerBoard () {
             $.ajax({
@@ -376,10 +379,10 @@
                 } else {
                     console.log(`CURRENT PICTURE : ${data.message}`);
 
-                    /*
                     document.getElementById('currentImage').src = data.message;
-                    location.reload();
-                    */		
+                    document.getElementById('currentImageTitle').innerHTML = data.title;
+                    //location.reload();
+                    /*
                     $.ajax({
                         url: "{% url 'bingo_main:current_displayed_picture' game_id=game.game_id %}",
                         success: function(response) {
@@ -388,6 +391,7 @@
                             document.getElementById('currentImage').src = response;
                         }
                     })
+                    */		
                 }
                 
 

@@ -55,7 +55,9 @@ def next_picture(sender, instance: Game, **kwargs):
                     str(instance.game_id), {
                         'type': 'game.message',
                         'data': {
-                            'data': instance.current_picture.image_file.url
+                            'data': instance.current_picture.image_file.url,
+                            'title': instance.current_picture.title
+
                         }
                     }
                 )
