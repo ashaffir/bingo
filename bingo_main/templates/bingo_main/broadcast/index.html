@@ -135,10 +135,10 @@
             document.querySelector('#share').style.display = "block";
         };
 
+        /*
         function startGame() {
             window.location.href = "{% url 'bingo_main:game' game_id=current_game.game_id %}";
         }
-        /*
         */
         
         function resize() {
@@ -241,11 +241,10 @@
                     }
                 });								            
             }
-            /*
-            */
         })
-
         
+        
+        /*
         document.querySelector('#startGame').onclick = function(e) {
             //gameId = document.querySelector('#playerGameId').value;
             console.log(`Starting game: ${gameId}`);
@@ -255,9 +254,10 @@
                 'message_type': 'start.game', 
                 'game_id': gameId,
             }));
-
+            
             //window.location.pathname = '/game/' + gameId + '/';
         };
+        */
 
     </script>
 

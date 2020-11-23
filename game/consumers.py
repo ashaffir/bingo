@@ -66,12 +66,21 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def game_message(self, event):
         print(f'SENT MESSAGE: {event}')
         message = event['data']['data']
-        title = event['data']['title']
+        try:
+            title = event['data']['title']
+        except:
+            title = ''
+        
+        try:
+            status = event['data']['status']
+        except:
+            status = ''
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
             'message': message,
-            'title': title
+            'title': title,
+            'status': status
         }))
 
 

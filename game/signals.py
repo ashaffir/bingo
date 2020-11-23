@@ -64,6 +64,48 @@ def next_picture(sender, instance: Game, **kwargs):
         else:
             print("----------- 3 --------------")
 
+@receiver(pre_save, sender=Player)
+def player_approval_signal(sender, instance: Player, **kwargs):
+    if instance.pk is None:
+        print(f"Skip Player Instance")
+
+    else:
+        print(f"Checking player: {instance}")
+        try:
+            previous = Player.objects.get(pk=instance.pk)
+            if previous.approved != instance.approved: 
+                print(f"Player: {instance.pk} approved")
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                        str(instance.player_game_id), {
+                            'type': 'game.message',
+                            'data': {
+                                'data': str(instance.pk),
+                                'status': 'approved'
+
+                            }
+                        }
+                    )
+            elif previous.not_approved != instance.not_approved: 
+                print(f"Player: {instance.pk} NOT approved")
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                        str(instance.player_game_id), {
+                            'type': 'game.message',
+                            'data': {
+                                'data': {
+                                    'player_id': str(instance.pk),
+                                    'status': 'not_approved'
+                                }
+
+                            }
+                        }
+                    )
+            else:
+                print("----------- Default --------------")
+        except Exception as e:
+            print(f">> SIGNALS: player approval check. E: {e}")
+
 
 @receiver(post_save, sender=Player)
 def new_player_signal(sender, instance, update_fields, **kwargs):  

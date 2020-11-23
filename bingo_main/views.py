@@ -442,7 +442,9 @@ def game_status(request, game_id):
             base_price = 0.1
 
         if players:
-            if len(players) < 21:
+            if len(players) <= Control.objects.get(name="free_players").value_integer:
+                game_cost = 0.0
+            elif len(players) < 21:
                 game_cost = round(len(players) * base_price,2)
             elif len(players) < 41:
                 game_cost = round(len(players) * base_price*0.80,2)
@@ -455,8 +457,8 @@ def game_status(request, game_id):
         game.save()
 
     except Exception as e:
-        print(f'There are no players. ERROR: {e}')
-        logger.error(f'No players found for this game. ERROR: {e}')
+        print(f'>> BING MAIN: There are no players. ERROR: {e}')
+        logger.error(f'>> BINGO MAIN: No players found for this game. ERROR: {e}')
     
     context['num_players'] = len(game.players_list)
     context['game_cost'] = game.game_cost

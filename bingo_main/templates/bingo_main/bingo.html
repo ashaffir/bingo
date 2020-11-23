@@ -62,6 +62,10 @@
     </div>
 
     <script>
+
+        let player_id;
+        let player_status;
+
         $(document).ready(function () {
             document.querySelector('.bingoContainer').style.height = window.innerHeight + 'px';
             getData();
@@ -289,9 +293,7 @@
             document.querySelector('.bingoContainer').style.height = window.innerHeight + 'px';
             getData('resize');
         });
-    </script>
 
-    <script>
         $(document).ready(function() {
           //  pollCurrentPicture();
         currentPicture = '{{ current_picture.image_file.url }}';
@@ -345,7 +347,7 @@
 
         {% if player.approved %}
         {% else %}
-            setInterval(function(){ pollPlayerApprovalStatus(); }, 2000);
+            //setInterval(function(){ pollPlayerApprovalStatus(); }, 2000);
         {% endif %}
         
         {% if game.started %}
@@ -354,9 +356,7 @@
             //setInterval(function(){ pollPlayerBoard(); }, 2000);
         {% endif %}
     
-    </script>
         
-    <script>
         let gameId = '{{ game.game_id }}';
         $(document).ready(function() {
     
@@ -376,9 +376,17 @@
                 console.log(`DATA RECEIVED: ${e.data}`);
                 if (data.message == 'game_started'){
                     location.reload();
+                } else if (data.status == 'approved' && data.message == '{{ player.pk }}'){
+                    console.log(`player ID : ${data.message}`);
+                    console.log(`player status : ${data.status}`);
+
+                    console.log('Game not started YET');
+                    document.querySelector('#approval').style.display = 'none';
+                    document.querySelector('#startingSoon').style.display = true;
+                    location.reload();
+
                 } else {
                     console.log(`CURRENT PICTURE : ${data.message}`);
-
                     document.getElementById('currentImage').src = data.message;
                     document.getElementById('currentImageTitle').innerHTML = data.title;
                     //location.reload();

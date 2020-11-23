@@ -226,9 +226,9 @@
                 album_name: album_name
             };
             errorBox.style.display = '';
-            if (imagesUploaded < 3) {
+            if (imagesUploaded < 18 || imagesUploaded > 99) {
                 errorBox.innerHTML =
-                    `You have uploaded ${imagesUploaded} out of the minimum required 18 images! Please upload the required files and re-submit!`;
+                    `You have uploaded ${imagesUploaded} out of the minimum required 18 images or higher than 99! Please upload the required files and re-submit!`;
                 return errorBox.style.display = 'block';
             }
             let error = false;

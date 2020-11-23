@@ -278,8 +278,8 @@ def game_request(request):
             game.save()
             return Response(data)
         except Exception as e:
-            print(f'There are no players. ERROR: {e}')
-            logger.error(f'No players found for this game. ERROR: {e}')
+            print(f'GAME: There are no players. ERROR: {e}')
+            logger.error(f'GAME: No players found for this game. ERROR: {e}')
             return Response(status.HTTP_503_SERVICE_UNAVAILABLE)
     else:
         return Response('Bad request', status=status.HTTP_400_BAD_REQUEST)
