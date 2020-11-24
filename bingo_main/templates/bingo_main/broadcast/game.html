@@ -50,19 +50,28 @@
                 <img src="{{ current_picture.image_file.url }}" id="currentImage" alt="">
             {% endif %}
             <div class="imageList">
-                {% for pic in current_shown_pictures %}
-                    <div class="middle">
-                        <div class="field">
-                            <img src="{{ pic.image_file.url }}" alt="">
-                        </div>
-                        <div class="field">
-                        </div>
-                    </div>
-                {% endfor %}
                 <div class="middle">
                     <div class="field">
+                        <img src="{{ current_shown_pictures.0.image_file.url }}" alt="">
                     </div>
                     <div class="field">
+                        <img src="{{ current_shown_pictures.1.image_file.url }}" alt="">
+                    </div>
+                </div>
+                <div class="middle">
+                    <div class="field">
+                        <img src="{{ current_shown_pictures.2.image_file.url }}" alt="">
+                    </div>
+                    <div class="field">
+                        <img src="{{ current_shown_pictures.3.image_file.url }}" alt="">
+                    </div>
+                </div>
+                <div class="middle">
+                    <div class="field">
+                        <img src="{{ current_shown_pictures.4.image_file.url }}" alt="">
+                    </div>
+                    <div class="field">
+                        <img src="{{ current_shown_pictures.5.image_file.url }}" alt="">
                     </div>
                 </div>
                 <div class="middle">
@@ -70,13 +79,8 @@
                     </div>
                     <div class="field">
                     </div>
-                </div>
-                <div class="middle">
-                    <div class="field">
-                    </div>
-                    <div class="field">
-                    </div>
-                </div>
+                </div>                
+                
                 <div class="paddingField">
                     <span id="imagesOut">
                         {{ current_shown_pictures_count }} Out

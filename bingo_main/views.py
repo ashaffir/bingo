@@ -667,7 +667,9 @@ def game(request, game_id):
             
             context['remaining_pictures'] = len(pictures_pool_list)
             context['current_picture'] = Picture.objects.get(pk=picture_draw)
-            context['current_shown_pictures'] = current_shown_pictures
+            # context['current_shown_pictures'] = current_shown_pictures
+            context['current_shown_pictures'] = current_shown_pictures if len(current_shown_pictures) <= 6 else current_shown_pictures[-6:]
+
             context['current_shown_pictures_count'] = len(current_shown_pictures)
 
             # Check the players' boards:
@@ -781,7 +783,7 @@ def game(request, game_id):
         for p in game.shown_pictures:
             current_shown_pictures.append(Picture.objects.get(pk=p))
 
-        context['current_shown_pictures'] = current_shown_pictures
+        context['current_shown_pictures'] = current_shown_pictures if len(current_shown_pictures) <= 6 else current_shown_pictures[-6:]
         context['current_picture'] = game.current_picture
         context['current_shown_pictures_count'] = len(current_shown_pictures)
 
