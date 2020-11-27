@@ -1,8 +1,8 @@
 {
-    "SECRET_KEY": "(0q#ng%ze&#4xs9qi8_vm=$m6b*gbz%h7a^u@0i_9-5^bhre#)",
-    "POSTGRES_PASS":"BingoMatrix2020!",
-    "PAYPAL_RECEIVER_EMAIL": "bingobulls1@gmail.com",
-    "EMAIL_HOST_PASSWORD": "BingoMatrix2020!",
+    "SECRET_KEY": "ucrw1joqrjz+qivf3xp915s2tsl^)_y=_)z-blo^esyy9-8x9_",
+    "POSTGRES_PASS":"!Q2w3e4r%T",
+    "PAYPAL_RECEIVER_EMAIL": "alfred.shaffir@gmail.com",
+    "EMAIL_HOST_PASSWORD": "!Q2w3e4r%T",
     "WEBSITE_URL":"",
     "CURRENCY": "EUR",
     "ADMIN_EMAIL": "alfred.shaffir@gmail.com",
