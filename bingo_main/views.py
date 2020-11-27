@@ -22,12 +22,15 @@ logger = logging.getLogger(__file__)
 
 def bingo_main(request):
     context = {}
-    section_a = ContentPage.objects.get(section='a')
-    context['section_a'] = section_a
-    section_b = ContentPage.objects.get(section='b')
-    context['section_b'] = section_b
-    section_c = ContentPage.objects.get(section='c')
-    context['section_c'] = section_c
+    try:
+        section_a = ContentPage.objects.get(section='a')
+        context['section_a'] = section_a
+        section_b = ContentPage.objects.get(section='b')
+        context['section_b'] = section_b
+        section_c = ContentPage.objects.get(section='c')
+        context['section_c'] = section_c
+    except Exception as e:
+        pass
 
     return render(request, 'bingo_main/index.html', context)
 
