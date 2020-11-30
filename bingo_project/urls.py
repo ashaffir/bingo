@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from game import views as game_views
-admin.site.site_header = 'Bingo Matrix'
+admin.site.site_header = 'PolyBingo'
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -81,7 +81,7 @@ body {
 .hostTitle {
     padding: 30px 20px;
     text-align: center;
-    background: linear-gradient(180deg, rgba(63, 128, 32, 0.4) 0%, rgba(25, 58, 14, 0.4) 100%), url(../images/TopBanner.jpg);
+    background: linear-gradient(180deg, rgba(63, 128, 32, 0.4) 0%, rgba(25, 58, 14, 0.4) 100%), url(../images/TopBanner_new.jpg);
     background-size: cover;
     background-position: center center;
     display: flex;

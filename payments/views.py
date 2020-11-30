@@ -94,7 +94,7 @@ def charge(request):
                     customer=customer,
                     amount=int(amount * 100),
                     currency="eur", # TODO: make dynamic according to browser language
-                    description="Bingo Matrix funds deposit",
+                    description="PolyBingo funds deposit",
                     )
 
                 # Adding stripe customer key to the user
@@ -104,7 +104,7 @@ def charge(request):
                     customer=user.stripe_customer_key,
                     amount=int(amount * 100),
                     currency="usd", # TODO: make dynamic according to browser language
-                    description="Bingo Matrix funds deposit",
+                    description="PolyBingo funds deposit",
                     )
         except Exception as e:
                 print('Failed to charge Stripe account')
