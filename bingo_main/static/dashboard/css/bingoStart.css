@@ -1,197 +1,195 @@
 .lowerNav {
-    text-align: left;
-    padding: 0 15px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+  text-align: left;
+  padding: 0 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .navbarTop {
-    box-shadow: -2px -3px 9px 3px rgba(0, 0, 0, 0.3);
-
+  box-shadow: -2px -3px 9px 3px rgba(0, 0, 0, 0.3);
 }
 
 .prize {
-    display: inline-block;
-    padding: 20px;
-    cursor: pointer;
-    border-radius: 5px;
+  display: inline-block;
+  padding: 20px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 .prizeNumber .title {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .prizeNumber {
-    padding: 20px;
-    padding-bottom: 0;
-    text-align: center;
+  padding: 20px;
+  padding-bottom: 0;
+  text-align: center;
 }
 
-
 .prizeList img {
-    max-width: 100%;
-    -o-object-fit: cover;
-       object-fit: cover;
-    max-height: 100%;
+  max-width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  max-height: 100%;
 }
 
 .prizeList {
-    padding: 20px;
-    display: grid;
-    row-gap: 20px;
+  padding: 20px;
+  display: grid;
+  row-gap: 20px;
 }
 
 .bottomPrize {
-    padding: 10px 20px;
-    padding-bottom: 20px;
-    text-align: center;
+  padding: 10px 20px;
+  padding-bottom: 20px;
+  text-align: center;
 }
 
 .prizeItem {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    -moz-column-gap: 10px;
-    column-gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  -moz-column-gap: 10px;
+  column-gap: 10px;
 }
 
 .dz-message img {
-    max-height: 50px;
-    margin-bottom: 10px;
+  max-height: 50px;
+  margin-bottom: 10px;
 }
 
 .dz-message {
-    margin: 0 !important;
-    padding: 20px;
-    font-size: inherit;
+  margin: 0 !important;
+  padding: 20px;
+  font-size: inherit;
 }
 
 .dropzone {
-    margin-top: 10px;
-    min-height: 0 !important;
-    padding: 0 !important;
-    border: none !important;
+  margin-top: 10px;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
 .dz-image-preview {
-    position: relative;
+  position: relative;
 }
 
 .delete {
-    position: absolute;
-    color: white;
-    left: 10px;
-    bottom: 10px;
+  position: absolute;
+  color: white;
+  left: 10px;
+  bottom: 10px;
 }
 
 .box3x3 {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 50px);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 50px);
 }
 
 .bingoTable {
-    padding-top: 10px;
+  padding-top: 10px;
 }
 
 .title {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    width: 100%;
-    display: inline-block;
-    text-align: center;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
 }
 
 .circle {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: green;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: green;
 }
 
 .field {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .saveButton {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background: linear-gradient(180deg, rgba(63, 128, 32, 1) 0%, rgba(25, 58, 14, 1) 100%);
-    color: white;
-    font-size: 1em;
-    display: inline-block;
-    cursor: pointer;
-    border-radius: 5px;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(63, 128, 32, 1) 0%,
+    rgba(25, 58, 14, 1) 100%
+  );
+  color: white;
+  font-size: 1em;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 input {
-    border: none;
-    outline: none;
+  border: none;
+  outline: none;
 }
 
 .errorBox {
-    display: none;
-    width: 100%;
-    padding: 20px;
-    border: 2px #925858 solid;
-    margin-top: 10px;
-    border-radius: 5px;
-    color: #925858;
+  display: none;
+  width: 100%;
+  padding: 20px;
+  border: 2px #925858 solid;
+  margin-top: 10px;
+  border-radius: 5px;
+  color: #925858;
 }
 
-
 .imageContainer {
-    display: grid;
-    grid-template-rows: auto 1fr;
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 
 @media only screen and (min-width: 800px) {
+  .prizeContainer {
+    align-self: center;
+    padding: 30px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+  }
 
+  .prizeList {
+    display: grid;
+    grid-auto-flow: column;
+    -moz-column-gap: 20px;
+    column-gap: 20px;
+    justify-content: center;
+    grid-auto-columns: minmax(300px, 500px);
+  }
 
-    .prizeContainer {
-        align-self: center;
-        padding: 30px 20px;
-        display: flex;
-        flex-wrap: wrap;
-        height: 100%;
-        align-items: center;
-        justify-content: center;
-        margin: auto;
-    }
+  .circle {
+    width: 30px;
+    height: 30px;
+  }
 
-    .prizeList {
-        display: grid;
-        grid-auto-flow: column;
-        -moz-column-gap: 20px;
-        column-gap: 20px;
-        justify-content: center;
-        grid-auto-columns: minmax(300px, 500px);
-    }
+  .dropzone {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .circle {
-        width: 30px;
-        height: 30px;
-    }
+  .dz-image-preview,
+  .dz-image-preview img {
+    height: 100%;
+    width: 100%;
+  }
 
-    .dropzone {
-        display: flex;
-        align-content: center;
-        justify-content: center;
-        align-items: center;
-    }
+  .title {
+    font-size: 1.5em;
+  }
 
-    .dz-image-preview,
-    .dz-image-preview img {
-        height: 100%;
-        width: 100%;
-    }
-
-    .title {
-        font-size: 1.5em;
-    }
-
-    .saveButton {
-        font-size: 1.3em;
-    }
-
+  .saveButton {
+    font-size: 1.3em;
+  }
 }
