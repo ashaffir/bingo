@@ -18,10 +18,10 @@
 <body>
     <div class="bingoContainer">
         <div class="bingoIndex">
-            <img class="profilePic" src="{% static 'images/logo.svg' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
+            <img class="profilePic" src="{% static 'images/polybingo-logo.png' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
             <div class="lrgText" id="playerName">{{ player.nickname }}</div>
             <img class="profilePic" src="{{ host_logo.url }}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
-            <!-- <img class="bingoLogo" src="{% static 'images/logo.svg' %} alt="" onclick="window.location.href = './'"> -->
+            <!-- <img class="bingoLogo" src="{% static 'images/polybingo-logo.png' %} alt="" onclick="window.location.href = './'"> -->
         </div>
         <div id="cardStages">
 

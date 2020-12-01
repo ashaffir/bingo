@@ -520,8 +520,9 @@ def get_players(request):
     data = {}
     if request.method == 'GET':
         game_id = request.GET.get('game_id')
+        print(f'>> API: Accessing players list on game {game_id}')
         game_players = []
-        _players = Player.objects.filter(game_id=game_id)
+        _players = Player.objects.filter(player_game_id=game_id)
         for player in _players:
             player_obj = {}
             player_obj['id'] = player.pk
@@ -531,6 +532,7 @@ def get_players(request):
         data['players'] = game_players
         return Response(data)
     else:
+        print(f'>> API: Failed Accessing players list')
         return Response(status.HTTP_400_BAD_REQUEST)
 
 

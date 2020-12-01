@@ -1,5 +1,5 @@
 .menuItems {
-  font-family: "Blob Spongey Lowercase";
+  font-family: "March Madness";
 }
 
 body {
@@ -50,7 +50,7 @@ body {
 .playButton {
   justify-content: center;
   cursor: pointer;
-  font-family: "Blob Spongey Lowercase";
+  font-family: "March Madness";
   color: #fff;
   padding: 5px 30px;
   position: relative;
@@ -75,7 +75,7 @@ body {
   grid-template-rows: 100px auto;
   row-gap: 5px;
   justify-content: flex-start;
-  font-family: "Blob Spongey Lowercase";
+  font-family: "March Madness";
   align-items: center;
   align-content: center;
   width: 100%;

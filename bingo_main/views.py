@@ -500,7 +500,7 @@ def start_bingo(request):
                 game.board_size = album.board_size
 
                 # Check if there are enough images in the Album
-                if len(album.pictures) < 18:
+                if len(album.pictures) < 5:
                     print(f'>>> bingo main: failed creating a new game. ERROR: Not enough images in Album {album.name}')
                     logger.error(f'>>> bingo main: failed creating a new game. ERROR: Not enough images in Album {album.name}')
                     messages.error(request, f'Failed creating the new bingo game. Not enough images in Album {album.name}')
