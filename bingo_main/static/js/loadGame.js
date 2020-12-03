@@ -18,6 +18,8 @@ function closePlay() {
 
 function openBingo(url) {
     // e.preventDefault();
+    playButton = document.getElementById('playButton');
+    playButton.disabled = true;
     document.querySelector('#submitError').style.display = '';
     let code = document.querySelector('#pin1').value + document.querySelector('#pin2').value + document
         .querySelector('#pin3').value + document.querySelector('#pin4').value;
@@ -30,7 +32,7 @@ function openBingo(url) {
     //
     //
     //
-
+    
     let valid = false;
 
     // Send data to API and get game code in return.

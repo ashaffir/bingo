@@ -116,12 +116,13 @@
           required
         />
         <!-- <input type="submit" class="playButton" value="Play!"> -->
-        <input
+        <button
           type="button"
+          id="playButton"
           onclick="openBingo(url={% url 'bingo_main:check_game_id' %})"
           class="playButton"
           value="Play!"
-        />
+        />Play! </button>
         <div class="errorBox" id="submitError">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto,
           repellendus.

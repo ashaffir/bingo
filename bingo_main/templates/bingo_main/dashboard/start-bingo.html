@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
     <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'dashboard/css/bingoStart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}">
 {% endblock css %}
 
 {% block js %}
@@ -16,6 +17,8 @@
 {% include 'bingo_main/partials/_navbar_top.html' with active_tab='none' %}
 
     <div class="prizeContainer">
+        <div class="loading" id="loader"></div>
+
         <div>
             <div class="prizeNumber">
                 <div class="title">How many prizes are you offering?</div>
@@ -463,6 +466,10 @@
             var formData = new FormData();
             formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
             formData.append('game_data', JSON.stringify(requestData))
+
+            loader = document.getElementById('loader');
+            loader.style.display = 'block';
+
             $.ajax({
                 type: 'POST',
                 url: createBingoUrl,
@@ -475,7 +482,7 @@
                 success: function (){
                 // alert('Album saved!');
                 // window.location.href = '{% url "bingo_main:create_bingo" %}';
-                console.log('START BROADCAST...')
+                    console.log('START BROADCAST...')
 
                 },
                 error: function(xhr, errmsg, err) {

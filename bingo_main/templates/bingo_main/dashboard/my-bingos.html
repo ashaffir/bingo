@@ -21,7 +21,7 @@
         {% for album in albums_images %}
             {% if album.board_size == 3 %}
                 <div class="bingoBox">
-                    <div class="bingoTable box3x3">
+                    <div class="bingoTable box3x3" style="grid-template-rows: repeat(3, 152px);">
                         {% for image in album.pictures %}
                             <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
                         {% endfor %}
@@ -38,7 +38,7 @@
                 </div>
             {% elif album.board_size == 4 %}
                 <div class="bingoBox">
-                    <div class="bingoTable box4x4">
+                    <div class="bingoTable box4x4" style="grid-template-rows: repeat(4, 114px);">
                         {% for image in album.pictures %}
                             <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
                         {% endfor %}
@@ -55,7 +55,7 @@
                 </div>
             {% elif album.board_size == 5 %}
                 <div class="bingoBox">
-                    <div class="bingoTable box5x5">
+                    <div class="bingoTable box5x5" style="grid-template-rows: repeat(6, 101px);">
                         {% for image in album.pictures %}
                             <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
                         {% endfor %}

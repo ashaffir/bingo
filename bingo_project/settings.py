@@ -28,8 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',    
-    
+    'django.contrib.staticfiles',
+
     # Allauth
     # 'django.contrib.sites',
     # 'allauth',
@@ -57,8 +57,9 @@ INSTALLED_APPS = [
     'payments',
     'stripe',
     'control',
+    'frontend',
     # REFERENCE: Djoser authentication: https://www.youtube.com/watch?v=ddB83a4jKSY
-    # 'djoser' # Authentication. https://djoser.readthedocs.io/en/latest/index.html 
+    # 'djoser' # Authentication. https://djoser.readthedocs.io/en/latest/index.html
     # Other
     'import_export',
     'ckeditor',
@@ -82,8 +83,9 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR,'users/templates'),
-            os.path.join(BASE_DIR,'bingo_main/templates'),
+            os.path.join(BASE_DIR, 'users/templates'),
+            os.path.join(BASE_DIR, 'bingo_main/templates'),
+            os.path.join(BASE_DIR, 'frontend/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -144,8 +146,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         # 'rest_framework.authentication.SessionAuthentication'
-        ),
-    
+    ),
+
     # 'DEFAULT_PERMISSION_CLASSES': (
     #     'rest_framework.permissions.IsAuthenticated',
     #     ),
@@ -183,7 +185,7 @@ DATABASES = {
         # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bingo_db', #LIVE DAATABASE
+        'NAME': 'bingo_db',  # LIVE DAATABASE
         'USER': 'bingo_admin',
         'PASSWORD': config['POSTGRES_PASS'],
         'HOST': 'localhost',
@@ -237,6 +239,8 @@ EMAIL_HOST_USER = 'polybingocom@gmail.com'
 EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
 DEFAULT_FROM_EMAIL = 'polybingocom@gmail.com'
 
+ADMIN_EMAIL = config['ADMIN_EMAIL']
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -247,7 +251,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-DATA_UPLOAD_MAX_MEMORY_SIZE =  config['DATA_UPLOAD_MAX_MEMORY_SIZE'] 
+DATA_UPLOAD_MAX_MEMORY_SIZE = config['DATA_UPLOAD_MAX_MEMORY_SIZE']
 
 CURRENCY = config['CURRENCY']
 WEBSITE_URL = config['WEBSITE_URL']
@@ -259,10 +263,11 @@ CANCEL_URL = WEBSITE_URL + '/paypal_cancel/'
 if DEBUG:
     # PayPal
     # Enable PayPal Sandbox - Get it from the account at: https://developer.paypal.com/developer/accounts/
-    PAYPAL_RECEIVER_EMAIL = 'bingobulls1-facilitator@gmail.com'  # This is the test BUSINESS account.
+    # This is the test BUSINESS account.
+    PAYPAL_RECEIVER_EMAIL = 'bingobulls1-facilitator@gmail.com'
     # Buyer account: bingobulls1-buyer@gmail.com / 88776655
-    PAYPAL_TEST = True 
-    
+    PAYPAL_TEST = True
+
     # Stripe
     STRIPE_SECRET_KEY = 'sk_test_Ot00cg3oiXBCmssiHmgd1zfz00OoIVzxBV'
     STRIPE_PUBLISHABLE_KEY = 'pk_test_SaQ9IHfske2orxsm3qpyAgnh00V5ILDySH'

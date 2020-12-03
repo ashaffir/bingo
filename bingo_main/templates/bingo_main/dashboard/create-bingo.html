@@ -3,9 +3,10 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
-    <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'dashboard/css/create.css' %}">
-    <link rel="stylesheet" href="{% static 'dashboard/../css/dropzone.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dropzone.css' %}">
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}">
 {% endblock css %}
 
 {% block js %}
@@ -14,9 +15,12 @@
 
 {% block content %}
 
+
 {% include 'bingo_main/partials/_navbar_top.html' with active_tab='create_bingo' %}
 
 <div class="topBar">
+<div class="loading" id="loader"></div>
+
     <div class="titleBar">
         Card sizes
     </div>
@@ -226,7 +230,7 @@
                 album_name: album_name
             };
             errorBox.style.display = '';
-            if (imagesUploaded < 5 || imagesUploaded > 99) {
+            if (imagesUploaded < 18 || imagesUploaded > 99) {
                 errorBox.innerHTML =
                     `You have uploaded ${imagesUploaded} out of the minimum required 18 images or higher than 99! Please upload the required files and re-submit!`;
                 return errorBox.style.display = 'block';
@@ -262,6 +266,9 @@
             var formData = new FormData();
             formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
             formData.append('images', JSON.stringify(postData))
+            console.log('START UPLOAD');
+            loader = document.getElementById('loader');
+            loader.style.display = 'block';
             $.ajax({
                 type: 'POST',
                 url: createBingoUrl,
@@ -287,7 +294,9 @@
                     w.document.close();
                 }
             })
-
+            console.log('END UPLOAD');
+            //$('.loading').display = 'none'
+            
             // Send request to server with whatever server requires.
             //window.location.href = '{% url "bingo_main:create_bingo" %}';
             console.log('CREATED!!!!')
