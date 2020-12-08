@@ -10,7 +10,7 @@
 {% endblock css %}
 
 {% block js %}
-    <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
+    <script src="{% static 'js/dropzone.js' %}"></script>
 {% endblock js %}
 
 {% block content %}
@@ -37,7 +37,7 @@
                 <div class="field"></div>
                 <div class="field"></div>
             </div>
-            3x3 (18 - 31 images uploaded)
+            3x3 (18 - 33 images uploaded)
         </div>
         <div class="chooseSize">
             <div class="box4x4 bingoTable">
@@ -58,7 +58,7 @@
                 <div class="field"></div>
                 <div class="field"></div>
             </div>
-            4x4 (32 - 53 images uploaded)
+            4x4 (34 - 66 images uploaded)
         </div>
         <div class="chooseSize">
             <div class="box5x5 bingoTable">
@@ -88,11 +88,11 @@
                 <div class="field"></div>
                 <div class="field"></div>
             </div>
-            5x5 (54 - 99 images uploaded)
+            5x5 (67 - 99 images uploaded)
         </div>
     </div>
     <div class="titleBar" id="imagesUploaded">
-        Upload images (0 Uploaded)
+        Upload images ({{ current_album_pictures|length }} Uploaded)
     </div>
     <form action="/file-upload" class="dropzone" id="images">
         <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt=""> Upload or drop images
@@ -101,15 +101,7 @@
     {% if current_album %}
         <br>
         <h2>Edit images</h2>
-        <div class="">
-            {% for pic in current_album.pictures %}
-                <div class="image">
-                        <img data-dz-thumbnail src="{{ pic }}">
-                        <div class="imageBottom">
-                            <i class="fa fa-trash" data-dz-remove onclick="removePicture()"></i>
-                        </div>
-                    </div>
-            {% endfor %}
+        <div class="uploadedImages">
         </div>
     {% else %}
         <div class="uploadedImages"></div>
@@ -125,7 +117,7 @@
     </div>
     <br>
     <div style="margin-top:2rem; border: solid 2px; max-width: 20%">
-        <input type="text" maxlength="12" placeholder="Name" style="padding: 5px;" id="album-name">
+      <input type="text" maxlength="12" placeholder="Name" style="padding: 5px;" id="album-name" value="{{ current_album.name }}">
     </div>
     <div class="saveButton" onclick="createBingo()">Save</div>
     <div class="errorBox" id="submitError">
@@ -179,9 +171,10 @@
 
         let myDropzone;
         let imagesUploaded = 0;
+        let deletePKs = [];
 
         Dropzone.options.images = {
-            maxFilesize: 2, // MB
+            maxFilesize: 10, // MB
             previewsContainer: document.querySelector('.uploadedImages'),
             previewTemplate: `<div class="image">
                 <img data-dz-thumbnail>
@@ -196,26 +189,67 @@
             autoProcessQueue: false,
             init: function () {
                 myDropzone = this;
+               this.on("addedfiles", function(listFiles) {
+                 console.log('hide save');
+               });
                 this.on("addedfile", function (file) {
                     if (this.files.length) {
                         for (let x = 0; x < myDropzone.files.length - 1; x++) {
                             if (this.files[x].name == file.name) {
                                 alert("You have already uploaded this file!");
+                                // Enable Save button
                                 return this.removeFile(file);
                             }
                         }
-                        imagesUploaded++;
-                        document.querySelector('#imagesUploaded').innerHTML =
-                            ` 2. Upload images (${imagesUploaded} Uploaded)`;
-
                     }
+                    if (typeof file.title !== 'undefined') {
+                      file.previewElement.getElementsByTagName("input")[0].value = file.title;
+                    }
+                      imagesUploaded++;
+                  if (file.pk) {
+                    add_to_length = 1;
+                  } else {
+                    add_to_length = 0;
+                  }
+                      document.querySelector('#imagesUploaded').innerHTML =
+                          ` 2. Upload images (${this.files.length+add_to_length} Uploaded)`;
                 });
                 
-            }
+              {% for pic in current_album_pictures %}
+                var mockFile = { 
+                  name: "{{ pic.name }}", 
+                    size: 12345, 
+                    type: 'image/jpeg', 
+                    status: Dropzone.ADDED, 
+                    pk: "{{ pic.pk}}",
+                    title: "{{ pic.title }}"
+                };
+
+                // Call the default addedfile event handler
+                myDropzone.emit("addedfile", mockFile);
+
+                // And optionally show the thumbnail of the file:
+                myDropzone.emit("thumbnail", mockFile, "{{ pic.image_file.url }}");
+
+                myDropzone.files.push(mockFile);
+              {% endfor %}
+
+								
+
+            this.on("removedfile", function (file) {
+            // Only files that have been programmatically added should
+            // have a pk property.
+                if (file.pk && file.pk.trim().length > 0) {
+                    deletePKs.push(file.pk);
+                    }
+                });
+            } 
         };
 
         function removePicture(){
             imagesUploaded --;
+            document.querySelector('#imagesUploaded').innerHTML =
+            ` 2. Upload images (${myDropzone.files.length-1} Uploaded)`;            
         };
 
         function createBingo() {
@@ -258,15 +292,23 @@
                 };
                 postData.images.push({
                     imageName: el.nextElementSibling.querySelector('input').value,
-                    image: imageData
+                    image: imageData,
+                    pk: images[x].pk
                 })
             }
             //console.log(`DATA: ${postData.images[0].image.dataURL}`)
+            
+        {% if current_album %}
+            var createBingoUrl = "{% url 'bingo_main:create_bingo' album_id=current_album.pk %}"
+          {% else %}
             var createBingoUrl = "{% url 'bingo_main:create_bingo' %}"
+          {% endif %}
             var formData = new FormData();
             formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
             formData.append('images', JSON.stringify(postData))
-            console.log('START UPLOAD');
+            formData.append('delete_images', deletePKs)
+            formData.append('name', album_name)
+
             loader = document.getElementById('loader');
             loader.style.display = 'block';
             $.ajax({

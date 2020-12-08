@@ -1,68 +1,86 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/addMoney.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/../css/dropzone.css' %}">
+
+<style>
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 40px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+#card-element {
+  min-width: 300px;
+}
+</style>
+{% endblock css %}
+
+{% block js %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static 'js/form_actions.js' %}"></script>
+{% endblock js %}
 {% load i18n %}
 {% get_current_language as lang %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous"> -->
-    <style type="text/css">
-        /**
-        * The CSS shown here will not be introduced in the Quickstart guide, but shows
-        * how you can use CSS to style your Element's container.
-        */
-        .StripeElement {
-            box-sizing: border-box;
-        
-            height: 40px;
-        
-            padding: 10px 12px;
-        
-            border: 1px solid transparent;
-            border-radius: 4px;
-            background-color: white;
-        
-            box-shadow: 0 1px 3px 0 #e6ebf1;
-            -webkit-transition: box-shadow 150ms ease;
-            transition: box-shadow 150ms ease;
-        }
-        
-        .StripeElement--focus {
-            box-shadow: 0 1px 3px 0 #cfd7df;
-        }
-        
-        .StripeElement--invalid {
-            border-color: #fa755a;
-        }
-        
-        .StripeElement--webkit-autofill {
-            background-color: #fefde5 !important;
-        }
+{% block content %}
+{% include 'bingo_main/partials/_navbar_top.html' %}
 
-    </style>
+<div class="container">
+  <div class="modal" style="margin-top: 5%; max-width:100%">
 
-    <!-- STRIPE -->
-    <script src="https://js.stripe.com/v3/"></script>
+<div style="padding: 20px 30px; display: flex; align-items: center;">
+  <div style="max-width: 600px;">
+  <h2 style="margin-bottom: 20px;">Total payment amount ${{ amount }}</h2>
+  <div>
+    <!-- STRIPE FORM-->
+    <form action="{% url 'payments:charge' %}" method="post" id="payment-form"> 
+      <div style="display: flex; align-items: flex-end; flex-wrap: wrap;">
+        <div style="flex-grow: 2;">
+          {% csrf_token %}
+          <input type="hidden" id="amount" name="amount" value="{{ amount }}">
+          <label for="card-element">
+            Credit or debit card
+          </label>
+          <div id="card-element">
+            <!-- A Stripe Element will be inserted here. -->
+          </div>
 
-    <title>Document</title>
-</head>
-<body>
-    <div class="container" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;"{% endif %}>
-        <div class="row" style="padding: 3rem; text-align:center">
-            <h1>{% trans 'Deposit' %}</h1>
+          <!-- Used to display form errors. -->
+          <div id="card-errors" role="alert"></div>
         </div>
-        <div class="row p-5">
-            <h3>{% trans 'Options to make the deposit' %} € {{ amount }} </h3>
-        </div>
-        <div class="row p-3" style="text-align: center;">
-            <div class="col" style="border: 2px solid black">
-                <center class="p-2"><h5 for="paypal">{% trans 'Paypal' %}</h5></center>
-                <center>{{ form.render }}</center>
-            </div>
-        </div>
-    </div>
 
+        <div style="padding: 5px;"><button style="font-size: 1.2em;font-family: 'March Madness';" class="gameButton">Submit Payment</button></div>
+      </div>
+
+    </form>    
+  </div>
     <!-- Stripe -->
     <script>
         // Create a Stripe client.
@@ -138,13 +156,17 @@
         }
     </script>
 
-        <!-- Bootstrap -->
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    
-    
-</body>
-</html>
 
 
+    <div style="margin-top: 2rem; border-top:solid black 1px">
+      <div style="padding-bottom: 20px; padding-top:30px" for="paypal">
+        Paypal
+      </div>
+      {{ form.render }}
+    </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+  {% endblock %}

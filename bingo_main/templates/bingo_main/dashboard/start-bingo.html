@@ -9,7 +9,7 @@
 {% endblock css %}
 
 {% block js %}
-    <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
+    <script src="{% static 'js/dropzone.js' %}"></script>
 {% endblock js %}
 
 {% block content %}
@@ -232,13 +232,29 @@
         }
 
         let dropzoneOptions = {
-            maxFilesize: 2, // MB
+            maxFilesize: 10, // MB
             previewTemplate: `<div><img data-dz-thumbnail><i class="fa fa-trash delete" data-dz-remove></i></div>`,
             acceptedFiles: 'image/*',
-            maxFiles: '1',
+            maxFiles: 1,
             autoProcessQueue: false,
             thumbnailHeight: null,
-            thumbnailWidth: null
+            thumbnailWidth: null,
+            init: function () {
+								this.on("maxfilesexceeded", function(file) {
+											this.removeAllFiles();
+											this.addFile(file);
+								});
+                this.on('maxfilesreached', function() {
+                  $('.dz-message', this.element).hide();
+                });
+                this.on('removedfile', function (file) {
+                  $('.dz-message', this.element).show();
+                });
+                this.on("error", function(file, message) { 
+                  alert(message);
+                  this.removeFile(file); 
+                });
+            }            
         };
 
 
@@ -343,11 +359,12 @@
         }
 
         Dropzone.options.images = {
-            ...dropzoneOptions,
-            init: function () {
-                dropzone = this;
-            }
+            ...dropzoneOptions
         };
+
+        dropzone = new Dropzone("#images", {
+            ...dropzoneOptions
+        })
 
         window.addEventListener('resize', function (e) {
             resizeBox();
@@ -513,4 +530,6 @@
             el.style.display = '';
         }
     </script>
+    <script src="{% static 'js/bingo_tables.js' %}"></script>
+
 {% endblock js_bottom %}

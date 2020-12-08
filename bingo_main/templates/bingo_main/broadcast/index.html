@@ -26,20 +26,54 @@
     </div>
     <div class="alignCenter">
         <div class="sidebar">
-            <div id="prizeContainer">
-                <div class="prizeBox" id="prize">
-                    {{ current_game.prize_1_name }}
-                    <br>
-                    <img class="prizeImage"
-                        src="{{ current_game.prize_1_image_file.url }}"></img>
+            {% if current_game.prize_1_name %}
+                <div id="prizeContainer">
+                    <div class="prizeBox" id="prize">
+                        {{ current_game.prize_1_name }}
+                        <br>
+                        <img class="prizeImage"
+                            src="{{ current_game.prize_1_image_file.url }}"></img>
+                    </div>
+                    <div class="prizeBox" id="winCondition">
+                        Bingo
+                        <br>
+                        <div class="bingoTable"></div>
+                    </div>
                 </div>
-                <div class="prizeBox" id="winCondition">
-                    Bingo
-                    <br>
-                    <div class="bingoTable"></div>
+            {% endif %}
+            {% if current_game.prize_2_name %}
+                <div id="prizeContainer">
+                    <div class="prizeBox" id="prize">
+                        {{ current_game.prize_2_name }}
+                        <br>
+                        <img class="prizeImage"
+                            src="{{ current_game.prize_2_image_file.url }}"></img>
+                    </div>
+                    <div class="prizeBox" id="winCondition">
+                        Bingo
+                        <br>
+                        <div class="bingoTable"></div>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
+            {% if current_game.prize_3_name %}
+                <div id="prizeContainer">
+                    <div class="prizeBox" id="prize">
+                        {{ current_game.prize_3_name }}
+                        <br>
+                        <img class="prizeImage"
+                            src="{{ current_game.prize_3_image_file.url }}"></img>
+                    </div>
+                    <div class="prizeBox" id="winCondition">
+                        Bingo
+                        <br>
+                        <div class="bingoTable"></div>
+                    </div>
+                </div>
+            {% endif %}
+
             <img src="{% static 'images/speakerHome.png' %}" class="speaker" alt="">
+            <!-- <img src="{% static 'images/speakerHome1.png' %}" class="speaker" alt=""> -->
         </div>
         <div class="innerContainer">
             <div class="topArea">

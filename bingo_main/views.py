@@ -218,41 +218,6 @@ def dashboard(request):
 
     context['albums'] = albums
 
-    # if request.method == 'POST':
-    # try:
-    #     pictures = Picture.objects.filter(public=True)
-    # except Exception as e:
-    #     messages.info(request, '>> VIEWS MAIN: Failed getting pictures from DB. ERROR: {e}')
-    #     logger.error(f'>> VIEWS MAIN: Failed getting pictures from DB. ERROR: {e}')
-    #     return render(request, 'bingo_main/dashboard/index.html', context)
-
-    # if len(pictures) >= 18:
-    #     public_3x3 = []
-    #     for i in range(18):
-    #         public_3x3.append(pictures[i])
-    # else:
-    #     public_3x3 = 'none'
-
-    # if len(pictures) >= 32:
-    #     public_4x4 = []
-    #     for i in range(32):
-    #         public_4x4.append(pictures[i])
-    # else:
-    #     public_4x4 = 'none'
-
-    # if len(pictures) >= 54:
-    #     public_5x5 = []
-    #     for i in range(54):
-    #         public_5x5.append(pictures[i])
-    # else:
-    #     public_5x5 = 'none'
-
-    # # print(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
-    # logger.info(f'P3: {public_3x3} P4: {public_4x4} P5: {public_5x5}')
-    # context['public_3x3'] = public_3x3
-    # context['public_4x4'] = public_4x4
-    # context['public_5x5'] = public_5x5
-
     return render(request, 'bingo_main/dashboard/index.html', context)
 
 
@@ -260,14 +225,56 @@ def dashboard(request):
 def create_bingo(request, album_id=''):
     context = {}
 
-    if album_id != '':
+    if album_id:
         album = Album.objects.get(pk=album_id)
-        print(f'ALBUM: {album}')
         context['current_album'] = album
 
+        album_pictures = []
+        for pic in album.pictures:
+            album_pictures.append(Picture.objects.get(pk=pic))
+        context['current_album_pictures'] = album_pictures
+
     if request.method == 'POST':
-        if 'updateProfile' in request.POST:
-            print(f'UPDATE: {request.POST}')
+        if album_id:
+            # Update an existing album
+            album.name = request.POST.get("name")
+            images_dict = json.loads(request.POST.get('images'))
+            album_type = images_dict["saveLocation"]  # Private or public
+            album.is_public = True if album_type == 'public' else False
+            album_images = album.pictures
+            for image in images_dict['images']:
+                if 'pk' not in image:
+                    picture = Picture()
+                    picture.image_file = get_image_from_data_url(
+                        image['image']['dataURL'])[0]
+                    picture.name = image['image']['name']
+                    picture.title = image["imageName"]
+                    picture.album_id = album.album_id
+                    picture.public = True if album_type == 'public' else False
+                    picture.save()
+                    # album_images.append(str(picture.image_file.url))
+                    album_images.append(str(picture.pk))
+                else:
+                    # Update existing image
+                    picture = Picture.objects.get(pk=image['pk'])
+                    picture.title = image['imageName']
+                    picture.save()
+
+            for pk in request.POST.get('delete_images').split(','):
+                if pk:
+                    Picture.objects.get(pk=pk).delete()
+
+            album_images = list(set(album_images) -
+                                set(request.POST.get('delete_images').split(',')))
+            album.pictures = album_images
+            album.number_of_pictures = len(album_images)
+            if len(album_images) <= 33:
+                album.board_size = 3
+            elif len(album_images) <= 66 and len(album_images) >= 34:
+                album.board_size = 4
+            else:
+                album.board_size = 5
+            album.save()
         else:
             images_dict = json.loads(request.POST.get('images'))
             album_type = images_dict["saveLocation"]  # Private or public

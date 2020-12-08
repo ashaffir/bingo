@@ -55,23 +55,33 @@
                         <img src="{{ current_shown_pictures.0.image_file.url }}" alt="">
                     </div>
                     <div class="field">
-                        <img src="{{ current_shown_pictures.1.image_file.url }}" alt="">
+                        {% if current_shown_pictures.1.image_file.url %}
+                            <img src="{{ current_shown_pictures.1.image_file.url }}" alt="">
+                        {% endif %}
                     </div>
                 </div>
                 <div class="middle">
                     <div class="field">
+                    {% if current_shown_pictures.2.image_file.url %}
                         <img src="{{ current_shown_pictures.2.image_file.url }}" alt="">
+                    {% endif %}
                     </div>
                     <div class="field">
+                    {% if current_shown_pictures.3.image_file.url %}
                         <img src="{{ current_shown_pictures.3.image_file.url }}" alt="">
+                    {% endif %}
                     </div>
                 </div>
                 <div class="middle">
                     <div class="field">
+                    {% if current_shown_pictures.4.image_file.url %}
                         <img src="{{ current_shown_pictures.4.image_file.url }}" alt="">
+                    {% endif %}
                     </div>
                     <div class="field">
+                    {% if current_shown_pictures.5.image_file.url %}
                         <img src="{{ current_shown_pictures.5.image_file.url }}" alt="">
+                    {% endif %}
                     </div>
                 </div>
                 <div class="middle">

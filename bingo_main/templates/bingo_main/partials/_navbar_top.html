@@ -68,6 +68,20 @@
 </div>
 
 <script>
+    function openSidebar() {
+        let el = document.querySelector('.sidebarProfile');
+        
+        if (el.style.display == '') {
+            return el.style.display = 'block'
+        }
+        
+        el.style.display = '';
+    }
+</script>
+
+<script>
+    
+
     function update_profile(){        
         var formData = new FormData();
         var img = document.querySelector('input[type="file"]');

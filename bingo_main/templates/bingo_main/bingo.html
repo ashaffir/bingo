@@ -134,7 +134,11 @@
             // if (!urlParams.get('code')) return window.location.href = './';
 
             // Create a request to the backend to get the data from the card based on the code provided;
-            let size = urlParams.get('size') ? urlParams.get('size') : {{ board.size }};
+            
+            let size = urlParams.get('size') ? urlParams.get('size') : '{{ board.size }}';
+            
+            console.log(`SIZE: ${size}`)
+
             //let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
             let winCondition = '{{ game.winning_conditions }}';
             
@@ -151,32 +155,32 @@
             //document.querySelector('#startingSoon').style.display = 'none';
             if (window.innerWidth < 800) {
                 switch (size) {
-                    case '16':
+                    case '4':
                         table.style.gridTemplateColumns = 'repeat(4, 1fr)';
                         table.style.gridTemplateRows = 'repeat(4, 1fr)';
                         break;
-                    case '25':
+                    case '5':
                         table.style.gridTemplateColumns = 'repeat(5, 1fr)';
                         table.style.gridTemplateRows = 'repeat(5, 1fr)';
                         break;
                     default:
-                        size = '9';
+                        size = '3';
                         table.style.gridTemplateColumns = 'repeat(3, 1fr)';
                         table.style.gridTemplateRows = 'repeat(3, 1fr)';
                         break;
                 }
             } else {
                 switch (size) {
-                    case '25':
+                    case '5':
                         table.style.gridTemplateRows = 'repeat(5, 1fr)';
                         table.style.gridTemplateColumns = 'repeat(5, 1fr)';
                         break;
-                    case '16':
+                    case '4':
                         table.style.gridTemplateRows = 'repeat(4, 1fr)';
                         table.style.gridTemplateColumns = 'repeat(4, 1fr)';
                         break;
                     default:
-                        size = '9';
+                        size = '3';
                         table.style.gridTemplateRows = 'repeat(3, minmax(0, 1fr))';
                         table.style.gridTemplateColumns = 'repeat(3, 1fr)';
                         break;
@@ -230,14 +234,6 @@
             {% else %}
                 console.log('Error logic')
                 document.querySelector('#startingSoon').style.display = true;
-            /*
-                for (let x = 0; x != size; x++) {
-                    let image;
-                    (imageList[x]) ? image = imageList[x]: image = 'https://picsum.photos/200/300';
-                    table.innerHTML +=
-                        `<div class="field" onclick="markBingo(this)"><img src="${image}" alt=""></div>`;
-                }
-                */            
             {% endif %}
             
             document.querySelector('.winCondition').innerHTML = "";
@@ -294,6 +290,7 @@
             getData('resize');
         });
 
+        /*
         $(document).ready(function() {
           //  pollCurrentPicture();
         currentPicture = '{{ current_picture.image_file.url }}';
@@ -302,21 +299,7 @@
         console.log(`polling current picture title...${currentImageTitle}`);
         document.getElementById('currentImage').src = currentPicture;
         document.getElementById('currentImageTitle').innerHTML = currentImageTitle
-        
         });
-        /*
-        function pollCurrentPicture () {
-            //currentPicture = document.getElementById('currentImage');
-            console.log(`polling current picture...`);
-            $.ajax({
-                url: "{% url 'bingo_main:current_displayed_picture' game_id=game.game_id %}",
-                success: function(response) {
-                    //console.log(`polling current picture: ${response}`);
-                    //$('#currentImage').html(response);
-                    document.getElementById('currentImage').src = response;
-                }
-            })							
-        };
         */
     
         function pollPlayerBoard () {
@@ -345,17 +328,6 @@
             })							
         };
 
-        {% if player.approved %}
-        {% else %}
-            //setInterval(function(){ pollPlayerApprovalStatus(); }, 2000);
-        {% endif %}
-        
-        {% if game.started %}
-            //setInterval(function(){ pollCurrentPicture(); }, 2000);
-        {% else %}
-            //setInterval(function(){ pollPlayerBoard(); }, 2000);
-        {% endif %}
-    
         
         let gameId = '{{ game.game_id }}';
         $(document).ready(function() {
@@ -390,16 +362,6 @@
                     document.getElementById('currentImage').src = data.message;
                     document.getElementById('currentImageTitle').innerHTML = data.title;
                     //location.reload();
-                    /*
-                    $.ajax({
-                        url: "{% url 'bingo_main:current_displayed_picture' game_id=game.game_id %}",
-                        success: function(response) {
-                            //console.log(`polling current picture: ${response}`);
-                            //$('#currentImage').html(response);
-                            document.getElementById('currentImage').src = response;
-                        }
-                    })
-                    */		
                 }
                 
 

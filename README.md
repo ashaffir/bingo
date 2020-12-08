@@ -1,3 +1,8 @@
+Original project:
+
+- ssh bambi@www.matrixbingo.com
+- 110011
+
 # Deployment Notes
 
 ## Django
