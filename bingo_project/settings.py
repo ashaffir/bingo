@@ -264,13 +264,12 @@ if DEBUG:
     # PayPal
     # Enable PayPal Sandbox - Get it from the account at: https://developer.paypal.com/developer/accounts/
     # This is the test BUSINESS account.
-    PAYPAL_RECEIVER_EMAIL = 'bingobulls1-facilitator@gmail.com'
-    # Buyer account: bingobulls1-buyer@gmail.com / 88776655
+    PAYPAL_RECEIVER_EMAIL = 'sb-gtvz474007739@business.example.com'
     PAYPAL_TEST = True
 
     # Stripe
-    STRIPE_SECRET_KEY = 'sk_test_Ot00cg3oiXBCmssiHmgd1zfz00OoIVzxBV'
-    STRIPE_PUBLISHABLE_KEY = 'pk_test_SaQ9IHfske2orxsm3qpyAgnh00V5ILDySH'
+    STRIPE_SECRET_KEY = 'sk_test_51Hl7auEkukXQn9UkO81pPliqX4W2cn8DgtKQ27qYdGZtGtVZYXycppw92O00KwksWM5NRdqfcD10AxK6ETkxeyeb00fjwmKLGq'
+    STRIPE_PUBLISHABLE_KEY = 'pk_test_51Hl7auEkukXQn9Uks2cDolcq8H2GgjWhii5tdCRGhvXXS35hgOJJAtA9ij1TfVOdwy2ngP8zMnsat1SZMPYb20Zu00SAqw4E4C'
 
 else:
     # Paypal
