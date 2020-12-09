@@ -2,8 +2,10 @@
 {% load static %}
 {% block content %}
 {% include 'bingo_main/partials/_navbar_index.html' %}
-
+<link rel="stylesheet" href="{% static 'css/loader.css' %}">
+<div class="loading" id="loader"></div>
 <div class="contactusForm" id="loginForm" style="padding-bottom: 5%;">
+
     <form class="modal" method="POST">
         {% csrf_token %}
         Got a question for us? Send a message via our form!
@@ -12,10 +14,20 @@
         <input type="email" name="email" id="email" required>
         <label for="message">Message</label>
         <textarea name="message" id="message" cols="1" rows="10"></textarea>
-        <input type="submit" class="playButton grey" value="Send Message!">
+        <input type="submit" id="inputButton" class="playButton grey" value="Send Message!" onclick="disableInput()">
         <div class="errorBox" id="submitError">
             Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
         </div>
     </form>
 </div>
 {% endblock content %}
+
+{% block js_bottom %}
+<script>
+    disableInput = function(){
+        console.log('Sending...')
+        loader = document.getElementById('loader');
+        loader.style.display = 'block';
+    }
+</script>
+{% endblock js_bottom %}

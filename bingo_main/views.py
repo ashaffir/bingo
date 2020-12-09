@@ -153,7 +153,29 @@ def contact(request):
             form.save()
             messages.success(
                 request, 'Your message was sent. We will be in touch soon')
-            # return redirect(request.META['HTTP_REFERER'])
+
+            # Send email to admin
+            try:
+                subject = "Contact request from Polybingo"
+                title = "Contact form details"
+
+                message = {
+                    'title': title,
+                    'contact': True,
+                    'email': form.data['email'],
+                    'content': form.data['message'],
+                }
+
+                send_mail(subject, email_template_name=None,
+                          context=message, to_email=[
+                              settings.ADMIN_EMAIL],
+                          html_email_template_name='bingo_main/emails/admin_email.html')
+            except Exception as e:
+                logger.error(
+                    f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
+                print(
+                    f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
+
             return redirect('bingo_main:bingo_main')
         else:
             messages.error(
@@ -304,6 +326,7 @@ def create_bingo(request, album_id=''):
                     messages.info(
                         request, "Your new Bingo Album is pending approval for public view")
 
+                    # Sending request to admin for images approval
                     try:
                         subject = "Public Images Approval Request"
                         title = "Public images approval"

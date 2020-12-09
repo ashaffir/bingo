@@ -20,10 +20,17 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
-                <p>User: {{ user.pk }}</p>
-                <p>Album: {{ album.pk }}</p>
-            </div>
+            {% if contact %}
+                <div class="col">
+                    <p>Email: {{ email }}</p>
+                    <p>Content: {{ content }}</p>
+                </div>
+            {% else %}
+                <div class="col">
+                    <p>User: {{ user.pk }}</p>
+                    <p>Album: {{ album.pk }}</p>
+                </div>
+            {% endif %}
         </div>
     </div>
     

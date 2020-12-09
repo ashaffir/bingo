@@ -22,17 +22,17 @@
     <div class="lowerNav">
         <span {% if active_tab == 'dashboard' %} class="active" {% endif %}>
             <a href='{% url "bingo_main:dashboard" %}'>
-                Public Bingo's
+                Public Albums
             </a>
         </span>
         <span {% if active_tab == 'create_bingo' %} class="active" {% endif %}>
             <a href="{% url 'bingo_main:create_bingo' %}">
-                Create Bingo
+                Create a Bingo Album
             </a>
         </span>
         <span {% if active_tab == 'my_bingos' %} class="active" {% endif %}>
             <a href="{% url 'bingo_main:my_bingos' %}">
-                My Bingo's
+                My Albums
             </a>
         </span>
     </div>

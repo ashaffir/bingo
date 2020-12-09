@@ -229,15 +229,25 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Gmail Email Setup
+
+# Zoho email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.zoho.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'polybingocom@gmail.com'
-EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
-DEFAULT_FROM_EMAIL = 'polybingocom@gmail.com'
+EMAIL_HOST_USER = 'support@polybingo.com'
+EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD_ZOHO']
+DEFAULT_FROM_EMAIL = 'Polybingo<support@polybingo.com>'
+
+
+# Gmail Email Setup
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'polybingocom@gmail.com'
+# EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
+# DEFAULT_FROM_EMAIL = 'polybingocom@gmail.com'
 
 ADMIN_EMAIL = config['ADMIN_EMAIL']
 

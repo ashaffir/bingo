@@ -3,6 +3,7 @@
     "POSTGRES_PASS":"!Q2w3e4r%T",
     "PAYPAL_RECEIVER_EMAIL": "alfred.shaffir@gmail.com",
     "EMAIL_HOST_PASSWORD": "!Q2w3e4r%T",
+    "EMAIL_HOST_PASSWORD_ZOHO": "1q@W#E$R5t",
     "WEBSITE_URL":"",
     "CURRENCY": "EUR",
     "ADMIN_EMAIL": "alfred.shaffir@gmail.com",
