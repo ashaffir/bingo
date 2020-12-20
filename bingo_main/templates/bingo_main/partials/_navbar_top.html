@@ -12,7 +12,7 @@
             <i class="fa fa-plus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Add funds to your account' %}"></i> ${{ user.balance|floatformat }}
         </div>
         <img class="logo"
-            src="{% if user.profile_pic %} {{ user.profile_pic.url }} {% else %} {% static 'dashboard/../images/placeholder.png' %} {% endif %}"
+            src="{% if user.profile_pic %} {{ user.profile_pic.url }} {% else %} {% static 'images/placeholder.png' %} {% endif %}"
             onclick="openSidebar()">
 
     </div>
@@ -47,7 +47,8 @@
     <form class="my-modal" action="{% url 'bingo_main:update_profile' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="name">{% trans 'Name' %}</label>
-        <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" value="{% if user.company_name %}{{ user.name }}{% else %}{% endif %}">
+        <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" 
+            value="{% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% elif user.name %}{{ user.name }} {% else %}{% endif %}">
         <label for="email">{% trans 'Email' %}</label>
         <input type="email" name="email" id="email">
         <label for="email">{% trans 'Add your logo' %}</label>
