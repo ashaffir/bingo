@@ -1,0 +1,347 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/create.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dropzone.css' %}">
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}">
+{% endblock css %}
+
+{% block js %}
+    <script src="{% static 'js/dropzone.js' %}"></script>
+{% endblock js %}
+
+{% block content %}
+
+
+{% include 'bingo_main/partials/_navbar_top.html' with active_tab='create_bingo' %}
+
+<div class="topBar">
+<div class="loading" id="loader"></div>
+
+    <div class="titleBar">
+        Card sizes
+    </div>
+    <div class="bingoSizes">
+        <div class="chooseSize">
+            <div class="box3x3 bingoTable">
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+            </div>
+            3x3 (18 - 33 images uploaded)
+        </div>
+        <div class="chooseSize">
+            <div class="box4x4 bingoTable">
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+            </div>
+            4x4 (34 - 66 images uploaded)
+        </div>
+        <div class="chooseSize">
+            <div class="box5x5 bingoTable">
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+                <div class="field"></div>
+            </div>
+            5x5 (67 - 99 images uploaded)
+        </div>
+    </div>
+    <div class="titleBar" id="imagesUploaded">
+        Upload images ({{ current_album_pictures|length }} Uploaded)
+    </div>
+    <form action="/file-upload" class="dropzone" id="images">
+        <div class="dz-message" data-dz-message><img src="{% static 'dashboard/../images/imageUpload.png' %}" alt=""> Upload or drop images
+            here!</div>
+    </form>
+    {% if current_album %}
+        <br>
+        <h2>Edit images</h2>
+        <div class="uploadedImages">
+        </div>
+    {% else %}
+        <div class="uploadedImages"></div>
+    {% endif %}
+
+    <div class="titleBar">Where should it be saved?</div>
+    <input type="radio" name="bingoType" value="private" id="private" checked onclick="checkCopyright(this)">
+    <label for="private">My Bingo's</label>
+    <input type="radio" name="bingoType" value="public" id="public" onclick="checkCopyright(this)">
+    <label for="public">Public Bingo's</label>
+    <div class="errorBox" id="copyright">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
+    </div>
+    <br>
+    <div style="margin-top:2rem; border: solid 2px; max-width: 20%">
+      <input type="text" maxlength="12" placeholder="Name" style="padding: 5px;" id="album-name" value="{{ current_album.name }}">
+    </div>
+    <div class="saveButton" onclick="createBingo()">Save</div>
+    <div class="errorBox" id="submitError">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js_bottom %}
+    <script>
+        function openSidebar() {
+            let el = document.querySelector('.sidebarProfile');
+
+            if (el.style.display == '') {
+                return el.style.display = 'block'
+            }
+
+            el.style.display = '';
+        }
+
+        function resizeBox() {
+            // 3x3 Box
+            let width3x3 = document.querySelector('.box3x3 .field').offsetWidth;
+            document.querySelector('.box3x3').style.gridTemplateRows = `repeat(3, ${width3x3}px)`
+
+            // 4x4 Box
+            let width4x4 = document.querySelector('.box4x4 .field').offsetWidth;
+            document.querySelector('.box4x4').style.gridTemplateRows = `repeat(4, ${width4x4}px)`
+
+            // 5x5 Box
+            let width5x5 = document.querySelector('.box5x5 .field').offsetWidth;
+            document.querySelector('.box5x5').style.gridTemplateRows = `repeat(5, ${width5x5}px)`
+
+        }
+
+        function checkCopyright(el) {
+            document.querySelector('#copyright').style.display = 'none';
+
+            if (el.value == "public") {
+                document.querySelector('#copyright').innerHTML =
+                    'PolyBingo team will review all images before publishing. Please make sure you have permission to use these images.'
+                document.querySelector('#copyright').style.display = 'block';
+            }
+
+        }
+        resizeBox();
+        window.addEventListener('resize', function (e) {
+            resizeBox();
+        });
+
+        let myDropzone;
+        let imagesUploaded = 0;
+        let deletePKs = [];
+
+        Dropzone.options.images = {
+            maxFilesize: 10, // MB
+            previewsContainer: document.querySelector('.uploadedImages'),
+            previewTemplate: `<div class="image">
+                <img data-dz-thumbnail>
+                <div class="imageBottom">
+                    <input type="text" maxlength="12" placeholder="Enter name">
+                    <i class="fa fa-trash" data-dz-remove onclick="removePicture()"></i>
+                </div>
+            </div>`,
+            thumbnailHeight: null,
+            thumbnailWidth: null,
+            acceptedFiles: 'image/*',
+            autoProcessQueue: false,
+            init: function () {
+                myDropzone = this;
+               this.on("addedfiles", function(listFiles) {
+                 console.log('hide save');
+               });
+                this.on("addedfile", function (file) {
+                    if (this.files.length) {
+                        for (let x = 0; x < myDropzone.files.length - 1; x++) {
+                            if (this.files[x].name == file.name) {
+                                alert("You have already uploaded this file!");
+                                // Enable Save button
+                                return this.removeFile(file);
+                            }
+                        }
+                    }
+                    if (typeof file.title !== 'undefined') {
+                      file.previewElement.getElementsByTagName("input")[0].value = file.title;
+                    }
+                      imagesUploaded++;
+                  if (file.pk) {
+                    add_to_length = 1;
+                  } else {
+                    add_to_length = 0;
+                  }
+                      document.querySelector('#imagesUploaded').innerHTML =
+                          ` 2. Upload images (${this.files.length+add_to_length} Uploaded)`;
+                });
+                
+              {% for pic in current_album_pictures %}
+                var mockFile = { 
+                  name: "{{ pic.name }}", 
+                    size: 12345, 
+                    type: 'image/jpeg', 
+                    status: Dropzone.ADDED, 
+                    pk: "{{ pic.pk}}",
+                    title: "{{ pic.title }}"
+                };
+
+                // Call the default addedfile event handler
+                myDropzone.emit("addedfile", mockFile);
+
+                // And optionally show the thumbnail of the file:
+                myDropzone.emit("thumbnail", mockFile, "{{ pic.image_file.url }}");
+
+                myDropzone.files.push(mockFile);
+              {% endfor %}
+
+								
+
+            this.on("removedfile", function (file) {
+            // Only files that have been programmatically added should
+            // have a pk property.
+                if (file.pk && file.pk.trim().length > 0) {
+                    deletePKs.push(file.pk);
+                    }
+                });
+            } 
+        };
+
+        function removePicture(){
+            imagesUploaded --;
+            document.querySelector('#imagesUploaded').innerHTML =
+            ` 2. Upload images (${myDropzone.files.length-1} Uploaded)`;            
+        };
+
+        function createBingo() {
+
+            let album_name = document.querySelector('input[id="album-name"]').value;
+            let images = myDropzone.files;
+            let album_type = document.querySelector('input[name="bingoType"]:checked').value
+            const errorBox = document.querySelector('#submitError');
+            let postData = {
+                images: [],
+                saveLocation: document.querySelector('input[name="bingoType"]:checked').value,
+                album_name: album_name
+            };
+            errorBox.style.display = '';
+            if (imagesUploaded < 18 || imagesUploaded > 99) {
+                errorBox.innerHTML =
+                    `You have uploaded ${imagesUploaded} out of the minimum required 18 images or higher than 99! Please upload the required files and re-submit!`;
+                return errorBox.style.display = 'block';
+            }
+            let error = false;
+            /*
+            document.querySelectorAll('.imageBottom input').forEach(el => {
+                if (el.value == "") {
+                    errorBox.innerHTML =
+                    `Please enter a title for the images!`;
+                    error = true;
+                    return errorBox.style.display = 'block';
+                }
+            });
+            */
+            if (error) return;
+
+            for (let x = 0; x < document.querySelectorAll('.image img').length; x++) {
+                const el = document.querySelectorAll('.image img')[x];
+                let imageData = {
+                    dataURL: images[x].dataURL,
+                    lastModified: images[x].lastModified,
+                    name: images[x].name,
+                    size: images[x].size
+                };
+                postData.images.push({
+                    imageName: el.nextElementSibling.querySelector('input').value,
+                    image: imageData,
+                    pk: images[x].pk
+                })
+            }
+            //console.log(`DATA: ${postData.images[0].image.dataURL}`)
+            
+        {% if current_album %}
+            var createBingoUrl = "{% url 'bingo_main:create_bingo' album_id=current_album.pk %}"
+          {% else %}
+            var createBingoUrl = "{% url 'bingo_main:create_bingo' %}"
+          {% endif %}
+            var formData = new FormData();
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+            formData.append('images', JSON.stringify(postData))
+            formData.append('delete_images', deletePKs)
+            formData.append('name', album_name)
+
+            loader = document.getElementById('loader');
+            loader.style.display = 'block';
+            $.ajax({
+                type: 'POST',
+                url: createBingoUrl,
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                success: function (){
+                    //alert('Album saved!');
+                    if (album_type == 'private'){
+                        window.location.href = '{% url "bingo_main:my_bingos" %}';
+                    } else {
+                        window.location.href = '{% url "bingo_main:dashboard" %}';
+                    }
+
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(xhr.status + ":" + xhr.responseText)
+                    var w = window.open('about:blank');
+                    w.document.open();
+                    w.document.write(xhr.responseText);
+                    w.document.close();
+                }
+            })
+            console.log('END UPLOAD');
+            //$('.loading').display = 'none'
+            
+            // Send request to server with whatever server requires.
+            //window.location.href = '{% url "bingo_main:create_bingo" %}';
+            console.log('CREATED!!!!')
+        }
+    </script>
+{% endblock js_bottom %}

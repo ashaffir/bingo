@@ -1,16 +1,15 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PolyBingo</title>
-    <link
-    rel="icon"
-    type="image/x-icon"
-    href="{% static 'images/polybingo-logotype.png' %}"
-    />
+    <title>PolyBingo - Game</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/polybingo-logotype-new.png' %}" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'broadcast/css/global.css' %}">
     <link rel="stylesheet" href="{% static 'broadcast/css/game.css' %}">
@@ -25,7 +24,7 @@
 <body>
     <div id="landscapeOnly">
         <span>
-            Please rotate your device to continue...
+            {% trans 'Please rotate your device to continue' %}
         </span>
     </div>
     <div class="alignCenter">
@@ -37,21 +36,21 @@
                     <img class="prizeImage" src="{{ current_game.prize_1_image_file.url }}"></img>
                 </div>
                 <div class="prizeBox" id="winCondition">
-                    Bingo
+                    {% trans 'Bingo' %}
                     <br>
                     <div class="bingoTable"></div>
                 </div>
             </div>
-            <img src="{% static 'images/speakerPlay.png' %}" class="speaker" alt="">
-            <blockquote class="speech bubble" id="message">
+            <!-- <img src="{% static 'images/speakerPlay.png' %}" class="speaker" alt=""> -->
+            <!-- <blockquote class="speech bubble" id="message">
                 <em>{{ current_picture.title }}!</em>
-            </blockquote>
+            </blockquote> -->
         </div>
         <div class="innerContainer" id="bingoGrid">
             {% if game_ended %}
-                <img src="{% static 'images/placeholder.png' %}" id="currentImage" alt="">
+            <!-- <img src="{% static 'images/placeholder.png' %}" id="currentImage" alt=""> -->
             {% else %}
-                <img src="{{ current_picture.image_file.url }}" id="currentImage" alt="">
+            <img src="{{ current_picture.image_file.url }}" id="currentImage" alt="">
             {% endif %}
             <div class="imageList">
                 <div class="middle">
@@ -60,32 +59,32 @@
                     </div>
                     <div class="field">
                         {% if current_shown_pictures.1.image_file.url %}
-                            <img src="{{ current_shown_pictures.1.image_file.url }}" alt="">
+                        <img src="{{ current_shown_pictures.1.image_file.url }}" alt="">
                         {% endif %}
                     </div>
                 </div>
                 <div class="middle">
                     <div class="field">
-                    {% if current_shown_pictures.2.image_file.url %}
+                        {% if current_shown_pictures.2.image_file.url %}
                         <img src="{{ current_shown_pictures.2.image_file.url }}" alt="">
-                    {% endif %}
+                        {% endif %}
                     </div>
                     <div class="field">
-                    {% if current_shown_pictures.3.image_file.url %}
+                        {% if current_shown_pictures.3.image_file.url %}
                         <img src="{{ current_shown_pictures.3.image_file.url }}" alt="">
-                    {% endif %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="middle">
                     <div class="field">
-                    {% if current_shown_pictures.4.image_file.url %}
+                        {% if current_shown_pictures.4.image_file.url %}
                         <img src="{{ current_shown_pictures.4.image_file.url }}" alt="">
-                    {% endif %}
+                        {% endif %}
                     </div>
                     <div class="field">
-                    {% if current_shown_pictures.5.image_file.url %}
+                        {% if current_shown_pictures.5.image_file.url %}
                         <img src="{{ current_shown_pictures.5.image_file.url }}" alt="">
-                    {% endif %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="middle">
@@ -93,21 +92,23 @@
                     </div>
                     <div class="field">
                     </div>
-                </div>                
-                
+                </div>
+
                 <div class="paddingField">
                     <span id="imagesOut">
                         {{ current_shown_pictures_count }} Out
                     </span>
                     <div class="buttons">
-                        
+
                         <form action="" name="nextPictureForm" method="POST">
                             {% csrf_token %}
-                            <button type="submit" name="nextPicture" style="font-family: inherit; width:100%; height:90%"  class="button Next" >Next</button>
+                            <button type="submit" name="nextPicture"
+                                style="font-family: inherit; width:100%; height:90%"
+                                class="button Next">{% trans 'Next' %}</button>
                         </form>
 
                         <div class="button Check" onclick="checkBingo()">
-                            <span class="smlText">Check</span>
+                            <span class="smlText">{% trans 'Check' %}</span>
                             Bingo
 
                         </div>
@@ -120,7 +121,7 @@
                 <google-cast-launcher id="share" --connected-color="white"></google-cast-launcher>
             </div>
         </div>
-        <img src="{% static 'images/inGame.png' %}" class="speakerImage" alt="">
+        <!-- <img src="{% static 'images/inGame.png' %}" class="speakerImage" alt=""> -->
 
     </div>
     <script src="{% static 'broadcast/js/broadcastFunctions.js' %}"></script>
@@ -154,7 +155,7 @@
             document.querySelector('#prizeContainer').style = '';
             document.querySelector('#winCondition').style = '';
             document.querySelector('.innerContainer').style = '';
-            document.querySelector('.speaker').style = '';
+            //document.querySelector('.speaker').style = '';
 
             document.querySelector('body').style.height = window.innerHeight + 'px';
             document.querySelector('.sidebar').style.height = window.innerHeight - 10 + 'px';
@@ -165,28 +166,24 @@
             document.querySelector('#winCondition').style.maxHeight = document.querySelector('.innerContainer')
                 .clientHeight + 'px';
 
-            document.querySelector('.innerContainer').style.height = window.innerHeight - document.querySelector(
-                '.speakerImage').clientHeight + 'px';
+            //document.querySelector('.innerContainer').style.height = window.innerHeight - document.querySelector('.speakerImage').clientHeight + 'px';
 
             // Resize the speaker to not overlap the display box
-            document.querySelector('.speaker').style.maxHeight = window.innerHeight - document.querySelector(
-                '#prize').clientHeight + 'px';
+            //document.querySelector('.speaker').style.maxHeight = window.innerHeight - document.querySelector('#prize').clientHeight + 'px';
             document.querySelector('#landscapeOnly').style.height = window.innerHeight + 'px';
 
             // Position text box
             let bubble = document.querySelector('#message');
 
+            /*
             if (window.innerWidth < 600) {
-                bubble.style.left = document.querySelector('.speaker').clientWidth - (document.querySelector('.speaker')
-                    .clientWidth / 2.5) + 'px';
-                bubble.style.bottom = document.querySelector('.speaker').clientHeight - (document.querySelector(
-                    '.speaker').clientHeight / 5) + 'px';
+                bubble.style.left = document.querySelector('.speaker').clientWidth - (document.querySelector('.speaker').clientWidth / 2.5) + 'px';
+                bubble.style.bottom = document.querySelector('.speaker').clientHeight - (document.querySelector('.speaker').clientHeight / 5) + 'px';
             } else {
-                bubble.style.left = document.querySelector('.speaker').clientWidth - (document.querySelector('.speaker')
-                    .clientWidth / 3) + 'px';
-                bubble.style.bottom = document.querySelector('.speaker').clientHeight - (document.querySelector(
-                    '.speaker').clientHeight / 5) + 'px';
+                bubble.style.left = document.querySelector('.speaker').clientWidth - (document.querySelector('.speaker').clientWidth / 3) + 'px';
+                bubble.style.bottom = document.querySelector('.speaker').clientHeight - (document.querySelector('.speaker').clientHeight / 5) + 'px';
             }
+            */
         }
 
         function getData() {

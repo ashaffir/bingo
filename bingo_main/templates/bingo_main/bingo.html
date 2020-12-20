@@ -1,4 +1,7 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,11 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PolyBingo</title>
-    <link
-    rel="icon"
-    type="image/x-icon"
-    href="{% static 'images/polybingo-logotype.png' %}"
-    />
+    <link rel="icon" type="image/x-icon" href="{% static 'images/polybingo-logotype-new.png' %}" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/bingo.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -22,40 +21,54 @@
 <body>
     <div class="bingoContainer">
         <div class="bingoIndex">
-            <img class="profilePic" src="{% static 'images/polybingo-logo.png' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
-            <div class="lrgText" id="playerName">{{ player.nickname }}</div>
+            <a href="{% url 'bingo_main:bingo_main' %}"><img class="profilePic"
+                    src="{% static 'images/polybingo-logotype-new.png' %}" alt=""></a>
+            <div class="lrgText" id="playerName">
+            </div>
             <img class="profilePic" src="{{ host_logo.url }}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
             <!-- <img class="bingoLogo" src="{% static 'images/polybingo-logo.png' %} alt="" onclick="window.location.href = './'"> -->
         </div>
         <div id="cardStages">
 
             <div id="approval" class="lrgText">
-                Waiting for host approval.... Please wait...
+                {% if lang == 'he' %}
+                ...{% trans 'Waiting for host approval. Hold on' %}
+                {% else %}
+                {% trans 'Waiting for host approval. Hold on' %}...
+                {% endif %}
             </div>
             <div id="startingSoon" class="lrgText">
-                Game starting soon.... Please wait...
+                {% if lang == 'he' %}
+                ...{% trans 'Game starting soon. Just a second' %}
+                {% else %}
+                {% trans 'Game starting soon. Just a second' %}...
+                {% endif %}
             </div>
             <div id="card">
                 <div class="header">
-                    Ticket Number {{ board.board_number }}
+                    {% trans 'Ticket Number' %} {{ board.board_number }}
                 </div>
                 <div class="bingoTable" id="card_area">
-                    
+
                 </div>
             </div>
         </div>
         <div class="bingoBottom">
             <div>
-                Win Condition 
+                {%trans 'Win Condition' %}
             </div>
             <div id="currentImageTitle">
-                
+                {% trans 'Current Image' %}
             </div>
             <div></div>
             <div class="winCondition"></div>
-                <!-- <img src="{{ current_picture.image_file.url }}" id="currentImage" alt="" class="currentImage"> -->
-                <img src="" id="currentImage" alt="" class="currentImage">
-                <!-- <img id="currentImage" src="{% static 'images/placeholder.png' %}" alt="" class="currentImage"> -->
+            {% if game.current_picture.image_file.url %}
+            <img src="{{ game.current_picture.image_file.url }}" id="currentImage" alt="" class="currentImage">
+            {% else %}
+            <img src="{% static 'images/placeholder-white.png' %}" id="currentImage" alt="" class="currentImage">
+            {% endif %}
+            <!-- <img src="" id="currentImage" alt="" class="currentImage"> -->
+            <!-- <img id="currentImage" src="{% static 'images/placeholder.png' %}" alt="" class="currentImage"> -->
 
             <div>
                 <div class="stump black" onclick="changeStump(this,'black')"></div>
@@ -123,9 +136,11 @@
 
         function getData(event) {
             const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            document.querySelector('#playerName').innerHTML = urlParams.get('name') ? urlParams.get('name') :
-                '{{ player.nickname }}';
+
+            //const urlParams = new URLSearchParams(queryString);
+            //document.querySelector('#playerName').innerHTML = urlParams.get('name') ? urlParams.get('name') : '{{ player.nickname }}';
+            document.querySelector('#playerName').innerHTML = '{{ player.nickname }}';
+            //document.getElementById('currentImage').src = '{{ game.current_picture.image_file.url }}';
 
             setTimeout(() => {
 
@@ -138,19 +153,19 @@
             // if (!urlParams.get('code')) return window.location.href = './';
 
             // Create a request to the backend to get the data from the card based on the code provided;
-            
-            let size = urlParams.get('size') ? urlParams.get('size') : '{{ board.size }}';
-            
+
+            let size = '{{ board.size }}';
+
             console.log(`SIZE: ${size}`)
 
             //let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
             let winCondition = '{{ game.winning_conditions }}';
-            
+
             //let approvalRequired = urlParams.get('approval') ? urlParams.get('approval') : 'true';
-            
+
             //approvalRequired = false;
-            
-            
+
+
             let table = document.querySelector('.bingoTable');
 
             //if (!approvalRequired) document.querySelector('#approval').style.display = 'none';
@@ -194,52 +209,37 @@
 
             table.innerHTML = "";
 
-            // On live replace with images
-
-            let imageList = ["https://picsum.photos/id/1026/4621/3070", "https://picsum.photos/id/1027/2848/4272",
-                "https://picsum.photos/id/1028/5184/3456", "https://picsum.photos/id/1029/4887/2759",
-                "https://picsum.photos/id/103/2592/1936", "https://picsum.photos/id/1031/5446/3063",
-                "https://picsum.photos/id/1032/2880/1800", "https://picsum.photos/id/1033/2048/1365",
-                "https://picsum.photos/id/1035/5854/3903", "https://picsum.photos/id/1036/4608/3072",
-                "https://picsum.photos/id/1037/5760/3840", "https://picsum.photos/id/1038/3914/5863",
-                "https://picsum.photos/id/1039/6945/4635", "https://picsum.photos/id/104/3840/2160",
-                "https://picsum.photos/id/1040/4496/3000", "https://picsum.photos/id/1041/5184/2916",
-                "https://picsum.photos/id/1042/3456/5184", "https://picsum.photos/id/1043/5184/3456",
-                "https://picsum.photos/id/1044/4032/2268", "https://picsum.photos/id/1045/3936/2624",
-                "https://picsum.photos/id/1047/3264/2448", "https://picsum.photos/id/1048/5616/3744",
-                "https://picsum.photos/id/1049/3900/3120", "https://picsum.photos/id/1050/6000/4000",
-                "https://picsum.photos/id/1051/4928/3264", "https://picsum.photos/id/1052/4000/2667",
-                "https://picsum.photos/id/1053/3596/2393", "https://picsum.photos/id/1054/3079/1733",
-                "https://picsum.photos/id/1055/5472/3648", "https://picsum.photos/id/1056/3988/2720"
-            ]
-
-            imageList = imageList.sort(() => Math.random() - 0.5)
-
             console.log(`started: {{ game.started }}`);
             console.log(`auto join: {{ game.auto_join_approval }}`);
             console.log(`player approved: {{ player.approved }}`);
 
-            {% if game.started and game.auto_join_approval or game.started and not game.auto_join_approval and player.approved%}
-                console.log('Game Started');
-                document.querySelector('#approval').style.display = 'none';
-                document.querySelector('#startingSoon').style.display = 'none';
-                {% for pic in board_pictures %}
-                    table.innerHTML +=
-                       `<div class="field" onclick="markBingo(this)"><img src="{{ pic.image_file.url }}" alt=""></div>`;
-                {% endfor %}        
+            {% if game.started and game.auto_join_approval or game.started and not game.auto_join_approval and player.approved %}
+            console.log('Game Started');
+            document.querySelector('#approval').style.display = 'none';
+            document.querySelector('#startingSoon').style.display = 'none';
+
+            console.log(`curr image: {{ game.current_picture.image_file.url }}`);
+
+            //document.getElementById('currentImage').src = '{{ game.current_picture.image_file.url }}';
+            //document.getElementById('currentImageTitle').innerHTML = {{ game.current_picture.title }};
+
+            {% for pic in board_pictures %}
+            table.innerHTML +=
+                `<div class="field" onclick="markBingo(this)"><img src="{{ pic.image_file.url }}" alt=""></div>`;
+            {% endfor %}
             {% elif not game.auto_join_approval and not player.approved %}
-                    console.log('Player not approved');
-                    document.querySelector('#approval').style.display = true;
-                    document.querySelector('#startingSoon').style.display = 'none';
-            {% elif not game.auto_join_approval and player.approved and not game.started%}
-                    console.log('Game not started');
-                    document.querySelector('#approval').style.display = 'none';
-                    document.querySelector('#startingSoon').style.display = true;
+            console.log('Player not approved');
+            document.querySelector('#approval').style.display = true;
+            document.querySelector('#startingSoon').style.display = 'none';
+            {% elif not game.auto_join_approval and player.approved and not game.started %}
+            console.log('Game not started');
+            document.querySelector('#approval').style.display = 'none';
+            document.querySelector('#startingSoon').style.display = true;
             {% else %}
-                console.log('Error logic')
-                document.querySelector('#startingSoon').style.display = true;
+            console.log('Error logic')
+            document.querySelector('#startingSoon').style.display = true;
             {% endif %}
-            
+
             document.querySelector('.winCondition').innerHTML = "";
 
             if (winCondition == 'bingo') {
@@ -280,12 +280,14 @@
         function resizeBox(size) {
 
             setTimeout(() => {
-                let width = document.querySelector('.bingoTable .field').clientHeight;
+                if (document.querySelector('.bingoTable .field') != null) {
+                    let width = document.querySelector('.bingoTable .field').clientHeight;
 
-                (window.innerHeight > 800) ? document.querySelector('.winCondition').style.width = document
-                    .querySelector('.winCondition')
-                    .clientHeight + 'px': document.querySelector('.winCondition').style.width = '';
-                width = document.querySelector('.winCondition .field').clientWidth;
+                    (window.innerHeight > 800) ? document.querySelector('.winCondition').style.width = document
+                        .querySelector('.winCondition')
+                        .clientHeight + 'px' : document.querySelector('.winCondition').style.width = '';
+                    width = document.querySelector('.winCondition .field').clientWidth;
+                }
             }, 30);
 
         }
@@ -294,48 +296,9 @@
             getData('resize');
         });
 
-        /*
-        $(document).ready(function() {
-          //  pollCurrentPicture();
-        currentPicture = '{{ current_picture.image_file.url }}';
-        currentImageTitle = '{{ current_picture.title }}';
-        console.log(`polling current picture...${currentPicture}`);
-        console.log(`polling current picture title...${currentImageTitle}`);
-        document.getElementById('currentImage').src = currentPicture;
-        document.getElementById('currentImageTitle').innerHTML = currentImageTitle
-        });
-        */
-    
-        function pollPlayerBoard () {
-            $.ajax({
-                url: "{% url 'bingo_main:player_card' game_id=game.game_id player_id=player.pk user_id=user.pk %}",
-                success: function(response) {
-                    console.log(`Game started: ${response}`);
-                    location.reload();
-                },
-                error: function(response){
-                    console.log(`Polling game start....`);
-                }
-            })							
-        };
-
-        function pollPlayerApprovalStatus () {
-            $.ajax({
-                url: "{% url 'bingo_main:player_approval_status' game_id=game.game_id player_id=player.pk %}",
-                success: function(response) {
-                    console.log(`Player Approved: ${response}`);
-                    location.reload();
-                },
-                error: function(response){
-                    console.log(`Polling player approval status....`);
-                }
-            })							
-        };
-
-        
         let gameId = '{{ game.game_id }}';
-        $(document).ready(function() {
-    
+        $(document).ready(function () {
+
             const scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
             console.log(`Game ${gameId} WS is ready!`)
             const gameSocket = new WebSocket(
@@ -344,15 +307,19 @@
                 + '/ws/game/'
                 + gameId
                 + '/'
-            );    
+            );
 
-            gameSocket.onmessage = function(e) {
+            gameSocket.onmessage = function (e) {
                 const data = JSON.parse(e.data);
 
                 console.log(`DATA RECEIVED: ${e.data}`);
-                if (data.message == 'game_started'){
-                    location.reload();
-                } else if (data.status == 'approved' && data.message == '{{ player.pk }}'){
+                console.log(`Player status: ${data.message.player_status}`);
+                console.log(`Player ID: ${data.message.player_id}`);
+
+                if (data.message.game_status == 'game_started') {
+                    window.location.reload(true);
+
+                } else if (data.message.player_status == 'approved' && data.message.player_id == '{{ player.pk }}') {
                     console.log(`player ID : ${data.message}`);
                     console.log(`player status : ${data.status}`);
 
@@ -361,28 +328,28 @@
                     document.querySelector('#startingSoon').style.display = true;
                     location.reload();
 
-                } else {
-                    console.log(`CURRENT PICTURE : ${data.message}`);
-                    document.getElementById('currentImage').src = data.message;
-                    document.getElementById('currentImageTitle').innerHTML = data.title;
+                } else if (data.message.data) {
+                    console.log(`CURRENT PICTURE : ${data.message.data}`);
+                    document.getElementById('currentImage').src = data.message.data;
+                    document.getElementById('currentImageTitle').innerHTML = data.message.title;
                     //location.reload();
                 }
-                
 
-    //            document.querySelector('#game-log').value += (data.message.nickname + '\n');
-    
+
+                //            document.querySelector('#game-log').value += (data.message.nickname + '\n');
+
             };
-    
-            gameSocket.onclose = function(e) {
+
+            gameSocket.onclose = function (e) {
                 console.error('game socket closed unexpectedly');
             };
-    
+
             /*
             */
         })
 
-        
-        
+
+
     </script>
 
 

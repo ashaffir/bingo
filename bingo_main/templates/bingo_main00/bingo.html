@@ -1,0 +1,389 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolyBingo</title>
+    <link
+    rel="icon"
+    type="image/x-icon"
+    href="{% static 'images/polybingo-logotype.png' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bingo.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="bingoContainer">
+        <div class="bingoIndex">
+            <img class="profilePic" src="{% static 'images/polybingo-logo.png' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
+            <div class="lrgText" id="playerName">{{ player.nickname }}</div>
+            <img class="profilePic" src="{{ host_logo.url }}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
+            <!-- <img class="bingoLogo" src="{% static 'images/polybingo-logo.png' %} alt="" onclick="window.location.href = './'"> -->
+        </div>
+        <div id="cardStages">
+
+            <div id="approval" class="lrgText">
+                Waiting for host approval.... Please wait...
+            </div>
+            <div id="startingSoon" class="lrgText">
+                Game starting soon.... Please wait...
+            </div>
+            <div id="card">
+                <div class="header">
+                    Ticket Number {{ board.board_number }}
+                </div>
+                <div class="bingoTable" id="card_area">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="bingoBottom">
+            <div>
+                Win Condition 
+            </div>
+            <div id="currentImageTitle">
+                
+            </div>
+            <div></div>
+            <div class="winCondition"></div>
+                <!-- <img src="{{ current_picture.image_file.url }}" id="currentImage" alt="" class="currentImage"> -->
+                <img src="" id="currentImage" alt="" class="currentImage">
+                <!-- <img id="currentImage" src="{% static 'images/placeholder.png' %}" alt="" class="currentImage"> -->
+
+            <div>
+                <div class="stump black" onclick="changeStump(this,'black')"></div>
+                <div class="stump green" style="border: 3px solid #00d0ff" onclick="changeStump(this,'green')"></div>
+                <div class="stump red" onclick="changeStump(this,'red')"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        let player_id;
+        let player_status;
+
+        $(document).ready(function () {
+            document.querySelector('.bingoContainer').style.height = window.innerHeight + 'px';
+            getData();
+            let imagesLoaded = 0;
+            // Total images is still the total number of <img> elements on the page.
+            let totalImages = $('img').length;
+
+            $('img').each(function (idx, img) {
+                $('<img>').on('load', imageLoaded).attr('src', $(img).attr('src'));
+            });
+
+            function imageLoaded() {
+                imagesLoaded++;
+                if (imagesLoaded == totalImages) {
+                    allImagesLoaded();
+                }
+            }
+
+            function allImagesLoaded() {
+                //document.querySelector('#startingSoon').style.display = 'none';
+            }
+        });
+
+        function markBingo(el) {
+            if (el.style.backgroundColor) {
+                el.style.backgroundColor = '';
+            } else {
+                let colour = window.stump ? window.stump : 'green';
+                el.style.backgroundColor = colour;
+            }
+        }
+
+        function changeStump(el, colour) {
+            document.querySelectorAll('.stump').forEach(el => {
+                el.style.border = "";
+            });
+            el.style.border = '3px solid #00d0ff';
+            window.stump = colour;
+        }
+
+        function getCard() {
+            // Api for checking when the next card is called. Will highlight if you missed a card. API will need to return the Image URL to be checked against the card image source.
+
+            setTimeout(() => {
+
+            }, 1000);
+
+            // If player has missed the card highlight
+            el.style.border = "3px solid red";
+        }
+
+        function getData(event) {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            document.querySelector('#playerName').innerHTML = urlParams.get('name') ? urlParams.get('name') :
+                '{{ player.nickname }}';
+
+            setTimeout(() => {
+
+                document.querySelector('.bingoTable').style.width = document.querySelector('.bingoTable')
+                    .clientHeight +
+                    'px';
+                //document.querySelector('.currentImage').style.width = document.querySelector('.currentImage').clientHeight + 'px';
+            }, 100);
+
+            // if (!urlParams.get('code')) return window.location.href = './';
+
+            // Create a request to the backend to get the data from the card based on the code provided;
+            
+            let size = urlParams.get('size') ? urlParams.get('size') : '{{ board.size }}';
+            
+            console.log(`SIZE: ${size}`)
+
+            //let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
+            let winCondition = '{{ game.winning_conditions }}';
+            
+            //let approvalRequired = urlParams.get('approval') ? urlParams.get('approval') : 'true';
+            
+            //approvalRequired = false;
+            
+            
+            let table = document.querySelector('.bingoTable');
+
+            //if (!approvalRequired) document.querySelector('#approval').style.display = 'none';
+
+            // Create a loop to check if the game has started yet
+            //document.querySelector('#startingSoon').style.display = 'none';
+            if (window.innerWidth < 800) {
+                switch (size) {
+                    case '4':
+                        table.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                        table.style.gridTemplateRows = 'repeat(4, 1fr)';
+                        break;
+                    case '5':
+                        table.style.gridTemplateColumns = 'repeat(5, 1fr)';
+                        table.style.gridTemplateRows = 'repeat(5, 1fr)';
+                        break;
+                    default:
+                        size = '3';
+                        table.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                        table.style.gridTemplateRows = 'repeat(3, 1fr)';
+                        break;
+                }
+            } else {
+                switch (size) {
+                    case '5':
+                        table.style.gridTemplateRows = 'repeat(5, 1fr)';
+                        table.style.gridTemplateColumns = 'repeat(5, 1fr)';
+                        break;
+                    case '4':
+                        table.style.gridTemplateRows = 'repeat(4, 1fr)';
+                        table.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                        break;
+                    default:
+                        size = '3';
+                        table.style.gridTemplateRows = 'repeat(3, minmax(0, 1fr))';
+                        table.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                        break;
+                }
+            }
+            if (event) return resizeBox(size);
+
+            table.innerHTML = "";
+
+            // On live replace with images
+
+            let imageList = ["https://picsum.photos/id/1026/4621/3070", "https://picsum.photos/id/1027/2848/4272",
+                "https://picsum.photos/id/1028/5184/3456", "https://picsum.photos/id/1029/4887/2759",
+                "https://picsum.photos/id/103/2592/1936", "https://picsum.photos/id/1031/5446/3063",
+                "https://picsum.photos/id/1032/2880/1800", "https://picsum.photos/id/1033/2048/1365",
+                "https://picsum.photos/id/1035/5854/3903", "https://picsum.photos/id/1036/4608/3072",
+                "https://picsum.photos/id/1037/5760/3840", "https://picsum.photos/id/1038/3914/5863",
+                "https://picsum.photos/id/1039/6945/4635", "https://picsum.photos/id/104/3840/2160",
+                "https://picsum.photos/id/1040/4496/3000", "https://picsum.photos/id/1041/5184/2916",
+                "https://picsum.photos/id/1042/3456/5184", "https://picsum.photos/id/1043/5184/3456",
+                "https://picsum.photos/id/1044/4032/2268", "https://picsum.photos/id/1045/3936/2624",
+                "https://picsum.photos/id/1047/3264/2448", "https://picsum.photos/id/1048/5616/3744",
+                "https://picsum.photos/id/1049/3900/3120", "https://picsum.photos/id/1050/6000/4000",
+                "https://picsum.photos/id/1051/4928/3264", "https://picsum.photos/id/1052/4000/2667",
+                "https://picsum.photos/id/1053/3596/2393", "https://picsum.photos/id/1054/3079/1733",
+                "https://picsum.photos/id/1055/5472/3648", "https://picsum.photos/id/1056/3988/2720"
+            ]
+
+            imageList = imageList.sort(() => Math.random() - 0.5)
+
+            console.log(`started: {{ game.started }}`);
+            console.log(`auto join: {{ game.auto_join_approval }}`);
+            console.log(`player approved: {{ player.approved }}`);
+
+            {% if game.started and game.auto_join_approval or game.started and not game.auto_join_approval and player.approved%}
+                console.log('Game Started');
+                document.querySelector('#approval').style.display = 'none';
+                document.querySelector('#startingSoon').style.display = 'none';
+                {% for pic in board_pictures %}
+                    table.innerHTML +=
+                       `<div class="field" onclick="markBingo(this)"><img src="{{ pic.image_file.url }}" alt=""></div>`;
+                {% endfor %}        
+            {% elif not game.auto_join_approval and not player.approved %}
+                    console.log('Player not approved');
+                    document.querySelector('#approval').style.display = true;
+                    document.querySelector('#startingSoon').style.display = 'none';
+            {% elif not game.auto_join_approval and player.approved and not game.started%}
+                    console.log('Game not started');
+                    document.querySelector('#approval').style.display = 'none';
+                    document.querySelector('#startingSoon').style.display = true;
+            {% else %}
+                console.log('Error logic')
+                document.querySelector('#startingSoon').style.display = true;
+            {% endif %}
+            
+            document.querySelector('.winCondition').innerHTML = "";
+
+            if (winCondition == 'bingo') {
+                for (let index = 0; index != 9; index++) {
+                    document.querySelector('.winCondition').innerHTML +=
+                        '<div class="field"><div class="circle"></div></div>';
+                }
+            }
+
+            if (winCondition == '1line') {
+                for (let index = 0; index != 3; index++) {
+                    document.querySelector('.winCondition').innerHTML +=
+                        '<div class="field"><div class="circle"></div></div>';
+                }
+                for (let index = 0; index != 6; index++) {
+                    document.querySelector('.winCondition').innerHTML +=
+                        '<div class="field"></div>';
+                }
+            }
+
+            if (winCondition == '2line') {
+                for (let index = 0; index != 6; index++) {
+                    document.querySelector('.winCondition').innerHTML +=
+                        '<div class="field"><div class="circle"></div></div>';
+                }
+                for (let index = 0; index != 3; index++) {
+                    document.querySelector('.winCondition').innerHTML +=
+                        '<div class="field"></div>';
+                }
+            }
+
+            setTimeout(() => {
+                resizeBox(size);
+            }, 100);
+
+        }
+
+        function resizeBox(size) {
+
+            setTimeout(() => {
+                let width = document.querySelector('.bingoTable .field').clientHeight;
+
+                (window.innerHeight > 800) ? document.querySelector('.winCondition').style.width = document
+                    .querySelector('.winCondition')
+                    .clientHeight + 'px': document.querySelector('.winCondition').style.width = '';
+                width = document.querySelector('.winCondition .field').clientWidth;
+            }, 30);
+
+        }
+        window.addEventListener('resize', function (e) {
+            document.querySelector('.bingoContainer').style.height = window.innerHeight + 'px';
+            getData('resize');
+        });
+
+        /*
+        $(document).ready(function() {
+          //  pollCurrentPicture();
+        currentPicture = '{{ current_picture.image_file.url }}';
+        currentImageTitle = '{{ current_picture.title }}';
+        console.log(`polling current picture...${currentPicture}`);
+        console.log(`polling current picture title...${currentImageTitle}`);
+        document.getElementById('currentImage').src = currentPicture;
+        document.getElementById('currentImageTitle').innerHTML = currentImageTitle
+        });
+        */
+    
+        function pollPlayerBoard () {
+            $.ajax({
+                url: "{% url 'bingo_main:player_card' game_id=game.game_id player_id=player.pk user_id=user.pk %}",
+                success: function(response) {
+                    console.log(`Game started: ${response}`);
+                    location.reload();
+                },
+                error: function(response){
+                    console.log(`Polling game start....`);
+                }
+            })							
+        };
+
+        function pollPlayerApprovalStatus () {
+            $.ajax({
+                url: "{% url 'bingo_main:player_approval_status' game_id=game.game_id player_id=player.pk %}",
+                success: function(response) {
+                    console.log(`Player Approved: ${response}`);
+                    location.reload();
+                },
+                error: function(response){
+                    console.log(`Polling player approval status....`);
+                }
+            })							
+        };
+
+        
+        let gameId = '{{ game.game_id }}';
+        $(document).ready(function() {
+    
+            const scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+            console.log(`Game ${gameId} WS is ready!`)
+            const gameSocket = new WebSocket(
+                scheme
+                + window.location.host
+                + '/ws/game/'
+                + gameId
+                + '/'
+            );    
+
+            gameSocket.onmessage = function(e) {
+                const data = JSON.parse(e.data);
+
+                console.log(`DATA RECEIVED: ${e.data}`);
+                if (data.message == 'game_started'){
+                    location.reload();
+                } else if (data.status == 'approved' && data.message == '{{ player.pk }}'){
+                    console.log(`player ID : ${data.message}`);
+                    console.log(`player status : ${data.status}`);
+
+                    console.log('Game not started YET');
+                    document.querySelector('#approval').style.display = 'none';
+                    document.querySelector('#startingSoon').style.display = true;
+                    location.reload();
+
+                } else {
+                    console.log(`CURRENT PICTURE : ${data.message}`);
+                    document.getElementById('currentImage').src = data.message;
+                    document.getElementById('currentImageTitle').innerHTML = data.title;
+                    //location.reload();
+                }
+                
+
+    //            document.querySelector('#game-log').value += (data.message.nickname + '\n');
+    
+            };
+    
+            gameSocket.onclose = function(e) {
+                console.error('game socket closed unexpectedly');
+            };
+    
+            /*
+            */
+        })
+
+        
+        
+    </script>
+
+
+</html>

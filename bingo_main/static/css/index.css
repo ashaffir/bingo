@@ -165,39 +165,39 @@ body {
   margin: 10px 0;
 }
 
-.modal {
+.my-modal {
   padding: 20px;
   max-width: 400px;
 }
 
-.modal .logo {
+.my-modal .logo {
   width: 100%;
   -o-object-fit: contain;
   object-fit: contain;
   height: 50px;
 }
 
-.modal label {
+.my-modal label {
   display: inline-block;
-  padding: 10px 0;
+  padding: 5px 0;
 }
 
-.modal .playButton {
-  margin-top: 20px;
+.my-modal .playButton {
+  margin-top: 10px;
   margin-right: 0;
 }
 
-.modal input[type="text"],
-.modal input[type="email"],
-.modal input[type="password"] {
+.my-modal input[type="text"],
+.my-modal input[type="email"],
+.my-modal input[type="password"] {
   width: 100%;
-  padding: 10px 5px;
+  padding: 5px 5px;
   border: none;
   outline: none;
   border-bottom: 2px solid black;
 }
 
-.modal input[type="file"] {
+.my-modal input[type="file"] {
   padding: 10px 0;
   width: 100%;
 }
@@ -208,7 +208,7 @@ body {
   width: 100%;
 }
 
-.modal select {
+.my-modal select {
   width: 100%;
   padding: 10px 0px;
   border: none;
@@ -216,7 +216,7 @@ body {
   border-bottom: 2px solid black;
 }
 
-.modal input[type="submit"] {
+.my-modal input[type="submit"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -338,7 +338,7 @@ textarea {
     min-height: 150px;
   }
 
-  .modal .logo {
+  .my-modal .logo {
     height: 70px;
   }
 
@@ -372,13 +372,13 @@ textarea {
     background-color: #9a9ee8;
   }
 
-  .modal {
+  .my-modal {
     box-shadow: -2px 1px 9px 3px rgba(0, 0, 0, 0.3);
     background-color: #fff;
     padding: 20px;
   }
 
-  .modal .playButton {
+  .my-modal .playButton {
     padding: 10px 20px;
   }
 }

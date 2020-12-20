@@ -1,33 +1,85 @@
 {% extends 'bingo_main/base.html' %}
 {% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
 {% block content %}
-{% include 'bingo_main/partials/_navbar_index.html' %}
-<link rel="stylesheet" href="{% static 'css/loader.css' %}">
-<div class="loading" id="loader"></div>
-<div class="contactusForm" id="loginForm" style="padding-bottom: 5%;">
+{% include 'bingo_main/partials/_navbar_index.html' with active_tab='dashboard' %}
 
-    <form class="modal" method="POST">
-        {% csrf_token %}
-        Got a question for us? Send a message via our form!
-        <br><br>
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" required>
-        <label for="message">Message</label>
-        <textarea name="message" id="message" cols="1" rows="10"></textarea>
-        <input type="submit" id="inputButton" class="playButton grey" value="Send Message!" onclick="disableInput()">
-        <div class="errorBox" id="submitError">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
+<section class="ftco-section contact-section" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
+  style="text-align: left;" {% endif %}>
+  <div class="container mt-5">
+    <div class="row justify-content-center mb-2 pb-3">
+      <div class="col-md-7 text-center heading-section">
+        <h2 class="mb-4"><span>{% trans 'Contact  ' %}</span>Us</h2>
+      </div>
+    </div>
+    <div class="row d-flex mb-2 contact-info">
+      <div class="col-md-12 mb-4">
+        <h2 class="h3">{% trans 'Contact Information' %}</h2>
+      </div>
+      <div class="w-100"></div>
+      <!-- <div class="col-md-3">
+        <p><span>Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
+      </div> -->
+      <div class="col-md-3">
+        <p><span>{% trans 'Phone' %}:</span> <a href="tel://1234567920">+ 1235 2355 98</a></p>
+      </div>
+      <div class="col-md-3">
+        <p><span>{% trans 'Email' %}:</span> <a href="mailto:info@yoursite.com">support@polybingo.com</a></p>
+      </div>
+      <div class="col-md-3">
+        <p><span>{% trans 'Website' %}</span> <a href="#">polybingo.com</a></p>
+      </div>
+    </div>
+    <div class="row block-9">
+      <div class="col-md-6 order-md-last d-flex">
+        <form action="#" class="bg-light p-5 contact-form" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <input name="name" type="text" class="form-control" placeholder="{% trans 'Your Name' %}" required>
+          </div>
+          <div class="form-group">
+            <input name="email" type="text" class="form-control" placeholder="{% trans 'Your Email' %}" required>
+          </div>
+          <div class="form-group">
+            <input name="subject" type="text" class="form-control" placeholder="{% trans 'Subject' %}" required>
+          </div>
+          <div class="form-group">
+            <textarea name="message" id="" cols="30" rows="7" class="form-control" placeholder="{% trans 'Message' %}" required ></textarea>
+          </div>
+          <div class="form-group">
+            <input type="submit" value="{% trans 'Send Message' %}" name="contact_us" class="btn btn-primary py-3 px-5">
+          </div>
+        </form>
+
+      </div>
+
+      <div class="col-md-6 d-flex">
+        <div id="map" class="bg-white"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="ftco-section-parallax">
+  <div class="parallax-img d-flex align-items-center">
+    <div class="container">
+      <div class="row d-flex justify-content-center">
+        <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
+          <h2>{% trans 'Subcribe to our Newsletter' %}</h2>
+          <div class="row d-flex justify-content-center mt-4 mb-4">
+            <div class="col-md-8">
+              <form action="#" class="subscribe-form">
+                <div class="form-group d-flex">
+                  <input type="text" class="form-control" placeholder="{% trans 'Enter email address' %}">
+                  <input type="submit" value="{% trans 'Subscribe' %}" class="submit px-3">
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-    </form>
-</div>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock content %}
-
-{% block js_bottom %}
-<script>
-    disableInput = function(){
-        console.log('Sending...')
-        loader = document.getElementById('loader');
-        loader.style.display = 'block';
-    }
-</script>
-{% endblock js_bottom %}

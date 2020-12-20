@@ -1,17 +1,20 @@
 {% load static %}
-<div class="navbarTop">
-    <img class="logo" src="{% static 'images/polybingo-logo.png' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
-    <div>
-        {% include 'bingo_main/partials/_messages.html' %} 
-    </div>
+{% load i18n %}
+{% get_current_language as lang %}
 
-    
+<div class="navbarTop">
+    <img class="logo" src="{% static 'images/polybingo-logo-new.png' %}" alt=""
+        onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
+
+
     <div class="menuItems">
         <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
-            <i class="fa fa-plus-square" aria-hidden="true"></i> ${{ user.balance|floatformat }}
+            <i class="fa fa-plus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Add funds to your account' %}"></i> ${{ user.balance|floatformat }}
         </div>
-        <img class="logo" src="{% if user.profile_pic %} {{ user.profile_pic.url }} {% else %} {% static 'dashboard/../images/placeholder.png' %} {% endif %}" onclick="openSidebar()">
-        
+        <img class="logo"
+            src="{% if user.profile_pic %} {{ user.profile_pic.url }} {% else %} {% static 'dashboard/../images/placeholder.png' %} {% endif %}"
+            onclick="openSidebar()">
+
     </div>
 </div>
 
@@ -19,37 +22,37 @@
 <div class="lowerNav">
 </div>
 {% else %}
-    <div class="lowerNav">
-        <span {% if active_tab == 'dashboard' %} class="active" {% endif %}>
-            <a href='{% url "bingo_main:dashboard" %}'>
-                Public Albums
-            </a>
-        </span>
-        <span {% if active_tab == 'create_bingo' %} class="active" {% endif %}>
-            <a href="{% url 'bingo_main:create_bingo' %}">
-                Create a Bingo Album
-            </a>
-        </span>
-        <span {% if active_tab == 'my_bingos' %} class="active" {% endif %}>
-            <a href="{% url 'bingo_main:my_bingos' %}">
-                My Albums
-            </a>
-        </span>
-    </div>
+<div class="lowerNav">
+    <span {% if active_tab == 'dashboard' %} class="active" {% endif %}>
+        <a href='{% url "bingo_main:dashboard" %}'>
+            {% trans 'Public Albums' %}
+        </a>
+    </span>
+    <span {% if active_tab == 'create_bingo' %} class="active" {% endif %}>
+        <a href="{% url 'bingo_main:create_bingo' %}">
+            {% trans 'Create a Bingo Album' %}
+        </a>
+    </span>
+    <span {% if active_tab == 'my_bingos' %} class="active" {% endif %}>
+        <a href="{% url 'bingo_main:my_bingos' %}">
+            {% trans 'My Albums' %}
+        </a>
+    </span>
+</div>
 {% endif %}
 <div class="sidebarProfile">
     <div id="closeButton" onclick="openSidebar()">
         <i class="fa fa-times"></i>
     </div>
-    <form class="modal" action="{% url 'bingo_main:update_profile' %}" method="POST" enctype="multipart/form-data">
+    <form class="my-modal" action="{% url 'bingo_main:update_profile' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <label for="name">Name</label>
-        <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" value="{{ user.name }}" >
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" >
-        <label for="email">Add your logo</label>
+        <label for="name">{% trans 'Name' %}</label>
+        <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" value="{% if user.company_name %}{{ user.name }}{% else %}{% endif %}">
+        <label for="email">{% trans 'Email' %}</label>
+        <input type="email" name="email" id="email">
+        <label for="email">{% trans 'Add your logo' %}</label>
         <input type="file" name="complogo" id="complogo">
-        <label for="password">Password</label>
+        <label for="password">{% trans 'Password' %}</label>
         <input type="password" name="password" id="password" minlength="5">
         <!-- <label for="country">Country</label>
         <br>
@@ -57,32 +60,34 @@
             <option value="none">Choose your country...</option>
         </select> -->
         <br>
-        <label for="company">Company Name</label>
-        <input type="text" name="company" id="company" value="{{ user.company_name }}">
-        <label for="vat">VAT Number</label>
-        <input type="text" name="vat" id="vat" value="{{ user.vat_number }}">
+        <label for="company">{% trans 'Company Name' %}</label>
+        <input type="text" name="company" id="company" value="{% if user.company_name %} {{ user.company_name }} {% else %} {% endif %}">
+        <label for="vat">{% trans 'VAT Number' %}</label>
+        <input type="text" name="vat" id="vat" value="{% if user.company_name %}{{ user.vat_number }}{% else %}{% endif %}">
         <input type="submit" class="button grey" value="Update Details" name="updateProfile">
         <!-- <input type="button" onclick="update_profile()" class="button grey" value="Update Details" name="updateProfile"> -->
-        <input type="button" class="button red" value="Log out" onclick="window.open('{% url "bingo_main:logout_view" %}');">
+        <center><a type="button" class="btn btn-lg btn-danger mt-2" value="Log out"
+                href="{% url 'bingo_main:logout_view' %}">Log
+                out</a></center>
     </form>
 </div>
 
 <script>
     function openSidebar() {
         let el = document.querySelector('.sidebarProfile');
-        
+
         if (el.style.display == '') {
             return el.style.display = 'block'
         }
-        
+
         el.style.display = '';
     }
 </script>
 
 <script>
-    
 
-    function update_profile(){        
+
+    function update_profile() {
         var formData = new FormData();
         var img = document.querySelector('input[type="file"]');
         console.log(`IMAGE: ${img.value}`)
@@ -105,10 +110,10 @@
             processData: false,
             contentType: false,
             enctype: 'multipart/form-data',
-            success: function (){
+            success: function () {
                 alert('Profile Updated!');
             },
-            error: function(xhr, errmsg, err) {
+            error: function (xhr, errmsg, err) {
                 console.log(xhr.status + ":" + xhr.responseText)
                 var w = window.open('about:blank');
                 w.document.open();

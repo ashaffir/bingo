@@ -1,3 +1,6 @@
+from .tokens import account_activation_token
+from .models import User
+from . import serializers
 import logging
 from datetime import datetime
 from django.shortcuts import render, get_object_or_404, redirect
@@ -20,24 +23,23 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.pagination import (LimitOffsetPagination, PageNumberPagination,)
+from rest_framework.pagination import (
+    LimitOffsetPagination, PageNumberPagination,)
 
 from .utils import send_mail
 
 logger = logging.getLogger(__file__)
 
 
-from . import serializers
-from .models import User
-from .tokens import account_activation_token
 # from .utils import get_and_authenticate_user, create_user_account
 
-@api_view(['GET',])
+@api_view(['GET', ])
 @permission_classes((IsAuthenticated,))
 def restricted(request, *args, **kwargs):
     return Response(data='WELCOME', status=status.HTTP_200_OK)
 
-@api_view(['POST',])
+
+@api_view(['POST', ])
 def registration_view(request):
     '''
     Register a new user with the API
@@ -57,69 +59,73 @@ def registration_view(request):
             data['europeCitizenship'] = account.europeCitizenship
             token = Token.objects.get(user=account).key
             data['token'] = token
-            
+
             return redirect('bingo_main:bingo_main')
 
         else:
             data = serializer.errors
             print(f'Registration info: {data}')
-        
+
         return Response(data)
 
-@api_view(['POST',])
+
+@api_view(['POST', ])
 @permission_classes((IsAuthenticated,))
 def auth_view(request):
     data = {}
     if request.method == 'POST':
-        user_info = User.objects.get(pk=request.user.pk)            
+        user_info = User.objects.get(pk=request.user.pk)
 
-        data['username' ] = user_info.username
+        data['username'] = user_info.username
         data['email'] = user_info.username
         data['phone'] = user_info.phone
         data['first_name'] = user_info.first_name
         data["last_name"] = user_info.last_name
-        
+
         # TODO: Return all user data
         return Response(data, status=200)
-        
+
+
 class LoginView(APIView):
     def post(self, request):
         data = {}
-        
+
         print(f'USERS VIEWS: Login')
         logger.info(f'USERS VIEWS: Login')
 
         serializer = serializers.LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True) # Block the code from continue if raised exception
+        # Block the code from continue if raised exception
+        serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        user_info = User.objects.get(pk=user.pk)    
+        user_info = User.objects.get(pk=user.pk)
         # The below works, but response in long JSON string
         # user_obj = User.objects.filter(pk=user.pk)
         # user_info = d_serializers.serialize("json",user_obj)
-        
 
-        django_login(request,user)
+        django_login(request, user)
         token, created = Token.objects.get_or_create(user=user)
 
-        data['username' ] = user_info.username
+        data['username'] = user_info.username
         data['email'] = user_info.username
         data['phone'] = user_info.phone
         data['first_name'] = user_info.first_name
         data["last_name"] = user_info.last_name
         data['token'] = token.key
-        
+
         return redirect('bingo_main:dashboard')
 
         # TODO: Return all user data
         return Response(data, status=200)
 
-@api_view(['POST',])
+
+@api_view(['POST', ])
 def logout_view(request):
     django_logout(request)
     data = {'success': 'Sucessfully logged out'}
     return Response(data=data, status=status.HTTP_200_OK)
 
-@api_view(['POST',])
+
+@api_view(['POST', ])
 @permission_classes((IsAuthenticated,))
 def password_change(request):
     # serializer = serializers.PasswordChangeSerializer(data=request.data)
@@ -127,7 +133,8 @@ def password_change(request):
     # request.user.set_password(serializer.validated_data['new_password'])
     # request.user.save()
     # return Response(status=status.HTTP_204_NO_CONTENT)
-    reset_password_serializer = serializers.UserResetPasswordSerializer(request.user, data=request.data)
+    reset_password_serializer = serializers.UserResetPasswordSerializer(
+        request.user, data=request.data)
 
     if reset_password_serializer.is_valid():
         if not request.user.check_password(request.data.get('password')):
@@ -136,22 +143,23 @@ def password_change(request):
         request.user.set_password(request.data.get('new_password'))
         request.user.save()
         return Response({"Message": ["Password reset successfully"]}, status=status.HTTP_200_OK)
-    
+
     return Response(reset_password_serializer.error_messages)
 
-@api_view(['POST',])
+
+@api_view(['POST', ])
 def forgot_password(request):
     if request.method == "POST":
         email = request.data["email"]
 
         if email:
             print(f"EMAIL: ***************{email}****************")
-            if '@' in email: 
+            if '@' in email:
 
                 user = User.objects.filter(email=email).first()
                 print(f'>>>>>>>  USER: {user}')
                 # return HttpResponse(user)
-                if user is not None :
+                if user is not None:
                     token_generator = default_token_generator
 
                     context = {
@@ -165,8 +173,9 @@ def forgot_password(request):
                         send_mail('Reset Password', email_template_name=None,
                                   context=context, to_email=[email],
                                   html_email_template_name='users/change-password-email.html')
-                        
-                        check_email_message = gettext("Check your mail inbox to reset password")
+
+                        check_email_message = gettext(
+                            "Check your mail inbox to reset password")
                         messages.success(request, check_email_message)
                         # return redirect('dndsos:home')
                         return Response('check your email')
@@ -175,10 +184,11 @@ def forgot_password(request):
                         print(ex)
                         # messages.error(request, "Email configurations Error !!!")
                         return Response('Failed to send email')
-                    
+
                     # return redirect('core:login')
                 else:
-                    not_registered_message = gettext("This email is not registered to us. Please register first ")
+                    not_registered_message = gettext(
+                        "This email is not registered to us. Please register first")
                     messages.error(request, not_registered_message)
                     return Response('The email enteres in not registered. Please register.')
                     # return redirect('dndsos:home')
@@ -188,11 +198,10 @@ def forgot_password(request):
                 return Response('Please enter a valid email')
                 # return redirect('core:forgot-password')
         else:
-            enter_email_msg =  gettext("Please do enter the email")
+            enter_email_msg = gettext("Please do enter the email")
             messages.error(request, enter_email_msg)
             return Response('Please do enter the email')
             # return redirect('core:forgot-password')
     else:
         # return render(request, 'core/forgot_password.html', {})
         return Response(status.HTTP_400_BAD_REQUEST)
-        

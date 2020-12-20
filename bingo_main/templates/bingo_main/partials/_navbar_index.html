@@ -1,28 +1,59 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+<!-- NAV BAR -->
+<!-- <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar"> -->
+    <nav class="navbar navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container p-0">
+        <table style="width: 100% !important; margin-left:0% !important; margin-right: 0% !important">
+            <tr>
+                <td>
+                    <a class="navbar-brand" href="{% url 'bingo_main:bingo_main' %}"><img class="main-logo"
+                        src="{% static 'images/polybingo-logo-new.png' %}" alt=""
+                        onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'" ></a>        
+                </td>
+                <td>
+                    <div class="" id="ftco-nav">
+                        <ul class="navbar-nav ml-auto">
+                            <!-- <li class="nav-item active"><a href="{% url 'bingo_main:bingo_main' %}" class="nav-link">Home</a></li> -->
+                            <!-- <li class="nav-item"><a href="{% url 'bingo_main:about' %}" class="nav-link">About</a></li> -->
+                            <!-- <li class="nav-item"><a href="speakers.html" class="nav-link">Speakers</a></li> -->
+                            <!-- <li class="nav-item"><a href="schedule.html" class="nav-link">Schedule</a></li> -->
+                            <!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li> -->
+                            <!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
+                            {% if user.is_authenticated %}
+                            <li class="nav-item mr-md-2"><button class="btn btn-secondary"
+                                    onclick="window.location.href='{% url "bingo_main:dashboard" %}'">
+                                    {% trans 'Dashboard' %}</button></li>
+                            {% else %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </td>
+                <td>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'bingo_main:logout_view' %}" class="nav-link">{% trans 'Logout' %}</a>
+                    {% else %}
+                            <a href="{% url 'bingo_main:bingo_main_login' %}" class="nav-link">{% trans 'Login' %}</a>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
 
-<div class="navbarIndex">
-    <img class="logo" src="{% static 'images/polybingo-logo.png' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
-    <div>
-        {% include 'bingo_main/partials/_messages.html' %}      
-    </div>
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+            aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> {% trans 'Menu' %}
+        </button> -->
 
-    <div class="menuItems">
-        <div class="playButton desktop" onclick="openPlay()">Play!</div>
-        {% if user.is_authenticated %}
-            <div class="buttonHost" onclick="window.location.href='{% url "bingo_main:dashboard" %}'">Dashboard</div>
-        {% else %}
-            <div class="buttonHost" onclick="window.location.href='{% url "bingo_main:bingo_main_register" %}'">Become Host</div>
-            <span>
-                <a href="login">
-                    Sign In
-                </a>
-            </span>
-        {% endif %}
+        
+
     </div>
+</nav>
+<!-- END nav -->
+<!-- <div class="playButton playBackground mobile" onclick="openPlay()">
+    {% trans 'Play' %}!
 </div>
-<div class="playButton playBackground mobile" onclick="openPlay()">
-    Play!
-</div>
-<div class="infoBackground hostTitle">
-    Customize your bingo game!
-</div>
+<div class="infoBackground hostTitle" style="margin-top: 0.3rem;" {% if lang == 'he' %} dir='rtl' align='right'
+    {% else %} style="text-align: left;" {% endif %}>
+    {% trans 'Customize your bingo game' %}!
+</div> -->

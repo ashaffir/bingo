@@ -1,4 +1,7 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,19 +24,19 @@
 
     <div id="landscapeOnly">
         <span>
-            Please rotate your device to continue...
+            {% trans 'Please rotate your device to continue' %}
         </span>
     </div>
     <div class="alignCenter">
         <div class="sidebar">
             <div id="prizeContainer">
                 <div class="prizeBox" id="prize">
-                    Prize Name
+                    {% trans 'Prize Name' %}
                     <br>
                     <img class="prizeImage" src="{{ current_game.prize_1_image_file.url }}"></img>
                 </div>
                 <div class="prizeBox" id="winCondition">
-                    Bingo
+                    {% trans 'Bingo' %}
                     <br>
                     <div class="bingoTable"></div>
                 </div>
@@ -44,16 +47,16 @@
             <div class="innerContainer" id="enterPin">
                 <div class="topArea">
                     <div id="topContainer">
-                        Game Over
+                        {% trans 'Game Over' %}
                         <br>
-                        Thank you for playing
+                        {% trans 'Thank you for playing' %}
                     </div>
                 </div>
                 <div class="bottomButtons">
-                    <button class="button Check"  style="font-family: inherit; width:100%" onclick="self.close()">Close</button>
+                    <button class="button Check" style="font-family: inherit; width:100%" onclick="self.close()">{% trans 'Close' %}</button>
                 </div>
-        </div>
-            
+            </div>
+
         </div>
     </div>
     <div class="buttonContainer">
@@ -66,6 +69,7 @@
     </div>
     <script src="{% static 'broadcast/js/broadcastFunctions.js' %}"></script>
     <script>
+        resize();
         window.addEventListener('resize', function (e) {
             resize();
         });
@@ -170,26 +174,26 @@
             $.ajax({
                 url: "{% url 'bingo_main:check_board' game_id=current_game.game_id %}",
                 data: {
-                    'board_number':board_number,
+                    'board_number': board_number,
                     'host': '{{ user }}',
                 },
-                success: function(response) {
+                success: function (response) {
                     console.log(`Result: ${response}`);
                     //$('#card_area').html(response);
                 }
-            })	
-            
-            
-            if (!board_number){
+            })
+
+
+            if (!board_number) {
                 alert('Please enter a valid card pin number')
                 return
             } else {
                 {% for player in winning_players %}
-                    console.log(`Winning player: {{ player }}`);
+                console.log(`Winning player: {{ player }}`);
                 {% endfor %}
 
                 {% for board in winning_boards %}
-                    console.log(`Winning board: {{ board }}`);
+                console.log(`Winning board: {{ board }}`);
                 {% endfor %}
 
                 /*
@@ -201,7 +205,7 @@
                         document.getElementById('currentImage').src = response;
                     }
                 })
-                */							    
+                */
             }
 
             document.querySelector('#checkPin').style.top = 0;

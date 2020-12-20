@@ -1,0 +1,26 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
+{% block content %}
+{% include 'bingo_main/partials/_navbar_index.html' with active_tab='dashboard' %}
+
+<section class="ftco-section testimony-section mt-5" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
+    style="text-align: left;" {% endif %}>
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 text-center heading-section">
+                <h2 class="mb-4">{% trans 'Page not found' %}</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 text-center heading-section">
+                <p>
+
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

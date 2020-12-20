@@ -1,0 +1,214 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
+{% block css %}
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+
+{% endblock css %}
+
+{% block js %}
+<script src="{% static 'js/dropzone.js' %}"></script>
+{% endblock js %}
+
+{% block content %}
+{% if user.is_superuser %}
+<div class="container text-justify left">
+    <div class="row">
+        <div class="col">
+            <h3>ADMINISTRATION</h3>
+        </div>
+    </div>
+</div>
+
+{% if albums_images %}
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="bingoContainer">
+        {% for album in albums_images %}
+        {% if album.board_size == 3 %}
+        <div class="bingoBox">
+            <div class="bingoTable box3x3" style="grid-template-rows: repeat(3, 153px);">
+                {% for image in album.pictures %}
+                <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
+                {% endfor %}
+            </div>
+            <div class="bingoTableBottom">
+                NAME: {{ album.album_name }}
+                ID: {{ album.album_id }}
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="approve_album">Approve</button>
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="reject_album">Reject</button>
+            </div>
+        </div>
+        {% elif album.board_size == 4 %}
+        <div class="">
+            <div class="bingoTable box4x4" style="grid-template-rows: repeat(4, 114px);">
+                {% for image in album.pictures %}
+                <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
+                {% endfor %}
+            </div>
+            <div class="bingoTableBottom">
+                {{ album.album_name }}
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
+                    name="approve_album">Approve</button>
+            </div>
+        </div>
+        {% elif album.board_size == 5 %}
+        <div class="bingoBox">
+            <div class="bingoTable box5x5" style="grid-template-rows: repeat(6, 101px);">
+                {% for image in album.pictures %}
+                <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
+                {% endfor %}
+            </div>
+            <div class="bingoTableBottom">
+                {{ album.album_name }}
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
+                    name="approve_album">Approve</button>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</form>
+{% else %}
+<div class="container">
+    <div class="row" style="margin-bottom: 15rem; margin-top: 10%">
+        <div class="col-md-12">
+            <center>
+                <h1>{% trans 'There are public albums waiting for approval' %}</h1>
+            </center>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endif %}
+
+{% endblock content %}
+
+{% block js_bottom %}
+<script>
+    function openSidebar() {
+        let el = document.querySelector('.sidebarProfile');
+
+        if (el.style.display == '') {
+            return el.style.display = 'block'
+        }
+
+        el.style.display = '';
+    }
+
+    function createGame(id) {
+        // Redirect to start game screen with game id
+
+        startGameUrl = '{% url "bingo_main:start_bingo" %}';
+        var formData = new FormData();
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+        formData.append('id', id)
+
+        $.ajax({
+            type: 'POST',
+            url: startGameUrl,
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            success: function () {
+                //alert('Album saved!');
+                console.log('CREATING GAME...');
+                window.location.href = '{% url "bingo_main:start_bingo" %}';
+
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ":" + xhr.responseText)
+                var w = window.open('about:blank');
+                w.document.open();
+                w.document.write(xhr.responseText);
+                w.document.close();
+            }
+        })
+        /*
+        */
+
+    }
+
+    function getBingos() {
+
+        // Get bingos from server and format
+
+        // Delete on live
+        let imageList = ["https://picsum.photos/id/0/5616/3744"]
+        imageList = imageList.sort(() => Math.random() - 0.5)
+
+        // 3x3 Box
+        {% if public_3x3 != 'none' %}
+        {% for pic in public_3x3 %}
+        document.querySelector('.box3x3').innerHTML +=
+            `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
+        {% endfor %}
+        // 3x3 Box
+        let width3x3 = document.querySelector('.box3x3 .field').offsetWidth;
+        document.querySelector('.box3x3').style.gridTemplateRows = `repeat(3, ${width3x3}px)`
+
+        {% else %}
+        for (let x = 0; x != 18; x++) {
+            document.querySelector('.box3x3').innerHTML +=
+                `<div class="field"><img src="${(!imageList[x]) ? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
+        }
+        {% endif %}
+
+        imageList = imageList.sort(() => Math.random() - 0.5)
+        // 4x4 Box
+
+        {% if public_4x4 != 'none' %}
+        {% for pic in public_4x4 %}
+        document.querySelector('.box4x4').innerHTML +=
+            `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
+        {% endfor %}
+        // 4x4 Box
+        let width4x4 = document.querySelector('.box4x4 .field').offsetWidth;
+        document.querySelector('.box4x4').style.gridTemplateRows = `repeat(4, ${width4x4}px)`
+
+        {% else %}
+        for (let x = 0; x != 32; x++) {
+            document.querySelector('.box4x4').innerHTML +=
+                `<div class="field"><img src="${(!imageList[x]) ? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
+        }
+        {% endif %}
+
+        imageList = imageList.sort(() => Math.random() - 0.5)
+        // 5x5 Box
+        {% if public_5x5 != 'none' %}
+        {% for pic in public_5x5 %}
+        document.querySelector('.box5x5').innerHTML +=
+            `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
+        // 5x5 Box        
+        {% endfor %}
+        let width5x5 = document.querySelector('.box5x5 .field').offsetWidth;
+        document.querySelector('.box5x5').style.gridTemplateRows = `repeat(6, ${width5x5}px)`
+        {% else %}
+        for (let x = 0; x != 54; x++) {
+            document.querySelector('.box5x5').innerHTML +=
+                `<div class="field"><img src="${(!imageList[x]) ? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
+        }
+        {% endif %}
+        //resizeBox();
+    }
+
+    /*
+    window.addEventListener('resize', function (e) {
+        resizeBox();
+    });
+
+    resizeBox();
+    */
+
+    //getBingos();
+</script>
+{% endblock js_bottom %}

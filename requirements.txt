@@ -43,3 +43,4 @@ stripe==2.51.0
 django-import-export==2.3.0
 django-cors-headers==3.5.0
 django-ckeditor==6.0.0
+django-allauth==0.44.0

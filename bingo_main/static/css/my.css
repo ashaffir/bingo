@@ -1,0 +1,51 @@
+/* Icon images */
+.my-icon-image{
+    width: 50%;
+}
+
+.pinSection input {
+    line-height: 2em; 
+    border: 2px solid #3a7420;
+    font-size: 2rem;
+    text-align: center;
+
+}
+
+.play-button {
+    margin-top: 5rem;
+    margin-left: 0.5rem;
+    font-size: 2rem; 
+    border-radius: 10px!important;
+}
+
+.main-logo {
+    width: 100%;
+}
+
+.nickname {
+    border: 2px solid green; 
+    /* width: 85%; */
+}
+
+
+@media only screen and (min-width: 800px) {
+    .bg-image {
+        background-image: url('/static/images/host-bg-main.jpg');
+    }    
+
+    .play-button {
+        margin-top: 5rem;
+        font-size: 2rem; 
+        border-radius: 10px!important;
+    }
+
+    .main-logo {
+        width: 30%;
+    }
+
+    .hr-style {
+        max-width: 50%;
+    }
+    
+}
+

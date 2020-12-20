@@ -7,19 +7,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Polybingo</title>
-    <link
-    rel="icon"
-    type="image/x-icon"
-    href="{% static 'images/polybingo-logotype.png' %}"
-    />
+    <link rel="icon" type="image/x-icon" href="{% static 'images/polybingo-logotype.png' %}" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    
+
     {% block css %}
     {% endblock css %}
-    
+
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
@@ -29,10 +25,10 @@
 </head>
 
 <body>
-   
+
     {% block content %}
     {% endblock content %}
- 
+
     <div class="lowerNavigation">
         <ul>
             <li><a href="{% url 'bingo_main:about' %}">About</a></li>
@@ -66,7 +62,9 @@
             <label for="name">Name</label>
             <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
             <!-- <input type="submit" class="playButton" value="Play!"> -->
-            <input id="playGameButton" type="button" onclick="this.disabled=true;openBingo(url={% url 'bingo_main:check_game_id' %})" class="playButton" value="Play!">
+            <input id="playGameButton" type="button"
+                onclick="this.disabled=true;openBingo(url={% url 'bingo_main:check_game_id' %})" class="playButton"
+                value="Play!">
             <div class="saveButton loading"><i class="fa fa-spinner fa-spin"></i> Starting game...</div>
             <div class="errorBox" id="submitError">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
@@ -108,7 +106,7 @@
 
         getImageHeight();
     </script>
-    
+
     {% block js_bottom %}
 
     {% endblock js_bottom %}

@@ -1,0 +1,166 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+{% endblock css %}
+
+{% block js %}
+    <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
+{% endblock js %}
+
+{% block content %}
+
+{% include 'bingo_main/partials/_navbar_top.html' with active_tab='my_bingos' %}
+
+<form action="{% url "bingo_main:start_bingo" %}" method="POST">
+    {% csrf_token %}
+    <div class="bingoContainer">
+        {% for album in albums_images %}
+            {% if album.board_size == 3 %}
+                <div class="bingoBox">
+                    <div class="bingoTable box3x3" style="grid-template-rows: repeat(3, 152px);">
+                        {% for image in album.pictures %}
+                            <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
+                        {% endfor %}
+                    </div>
+                    <div class="bingoTableBottom">
+                        {{ album.album_name }}
+                        <div>
+                            <div class="gameButton">
+                                <i class="fa fa-edit" onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
+                            </div>        
+                            <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="make_game">make game</button>
+                        </div>
+                    </div>
+                </div>
+            {% elif album.board_size == 4 %}
+                <div class="bingoBox">
+                    <div class="bingoTable box4x4" style="grid-template-rows: repeat(4, 114px);">
+                        {% for image in album.pictures %}
+                            <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
+                        {% endfor %}
+                    </div>
+                    <div class="bingoTableBottom">
+                        {{ album.album_name }}
+                            <div>
+                                <div class="gameButton">
+                                <i class="fa fa-edit" onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
+                            </div>        
+                            <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="make_game">make game</button>
+                        </div>
+                    </div>
+                </div>
+            {% elif album.board_size == 5 %}
+                <div class="bingoBox">
+                    <div class="bingoTable box5x5" style="grid-template-rows: repeat(6, 101px);">
+                        {% for image in album.pictures %}
+                            <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
+                        {% endfor %}
+                    </div>
+                    <div class="bingoTableBottom">
+                        {{ album.album_name }}
+                        <div>
+                            <div class="gameButton">
+                                <i class="fa fa-edit" onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
+                            </div>        
+                            <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="make_game">make game</button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</form>
+
+{% endblock content %}
+
+{% block js_bottom %}
+
+<script>
+    function openSidebar() {
+        let el = document.querySelector('.sidebarProfile');
+
+        if (el.style.display == '') {
+            return el.style.display = 'block'
+        }
+
+        el.style.display = '';
+    }
+
+    function getBingos() {
+        // 3x3 Box
+        {% if pictures_3x3 != 'none' %}
+            {% for pic in pictures_3x3 %}
+                document.querySelector('.box3x3').innerHTML +=
+                '<div class="field"><img src="{{ pic }}" alt=""></div>';
+            {% endfor %}
+        {% else %}
+            for (let index = 0; index != 18; index++) {
+                document.querySelector('.box3x3').innerHTML +=
+                '<div class="field"><img src="{% static 'dashboard/../images/placeholder.png' %}" alt=""></div>';
+            }
+        {% endif %}
+
+        // 4x4 Box
+        {% if pictures_4x4 != 'none' %}
+            {% for pic in pictures_4x4 %}
+                document.querySelector('.box4x4').innerHTML +=
+                '<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>';
+            {% endfor %}
+        {% else %}
+            for (let index = 0; index != 32; index++) {
+                document.querySelector('.box4x4').innerHTML +=
+                    '<div class="field"><img src="{% static 'dashboard/../images/placeholder.png' %}" alt=""></div>';
+            }
+        {% endif %}
+
+        // 5x5 Box
+        {% if pictures_5x5  != 'none' %}
+            {% for pic in pictures_5x5 %}
+                document.querySelector('.box5x5').innerHTML +=
+                '<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>';
+            {% endfor %}
+        {% else %}
+            for (let index = 0; index != 54; index++) {
+                document.querySelector('.box5x5').innerHTML +=
+                    '<div class="field"><img src="{% static 'dashboard/../images/placeholder.png' %}" alt=""></div>';
+            }
+        {% endif %}
+
+        resizeBox();
+    }
+
+    function resizeBox() {
+        // 3x3 Box
+        let width3x3 = document.querySelector('.box3x3 .field').offsetWidth;
+        document.querySelector('.box3x3').style.gridTemplateRows = `repeat(3, ${width3x3}px)`
+
+        // 4x4 Box
+        let width4x4 = document.querySelector('.box4x4 .field').offsetWidth;
+        document.querySelector('.box4x4').style.gridTemplateRows = `repeat(4, ${width4x4}px)`
+
+        // 5x5 Box
+        let width5x5 = document.querySelector('.box5x5 .field').offsetWidth;
+        document.querySelector('.box5x5').style.gridTemplateRows = `repeat(6, ${width5x5}px)`
+
+    }
+
+    window.addEventListener('resize', function (e) {
+        resizeBox();
+    });
+    
+    resizeBox();
+
+    //getBingos();
+</script>
+
+<script>
+    function editAlbum(album_id){
+        console.log(`${album_id}`);
+        location.href = "{% url 'bingo_main:create_bingo' album_id=123 %}";
+    }
+</script>
+{% endblock js_bottom %}

@@ -36,7 +36,8 @@ class GameAdmin(admin.ModelAdmin):
 
 @admin.register(Player)
 class PlayerAdmin(admin.ModelAdmin):
-    list_display = ('player_id', 'created', 'player_game_id', 'nickname',)
+    list_display = ('game', 'player_id', 'created',
+                    'player_game_id', 'nickname', 'approved', 'not_approved',)
     search_fields = ('nickname', 'game__game_id',)
     ordering = ('-created',)
 

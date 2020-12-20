@@ -1,0 +1,10 @@
+Approve Users:
+{% for player in unapproved_players_list %}
+    <div class="user">
+        {{ player.nickname }}
+        <span>
+            <i class="fa fa-check" onclick="window.location.href=('{% url "bingo_main:player_approval" player_id=player.pk approval="ok" %}')"></i>
+            <i class="fa fa-times" onclick="window.location.href=('{% url "bingo_main:player_approval" player_id=player.pk approval="no" %}')"></i>
+        </span>
+    </div>
+{% endfor %}

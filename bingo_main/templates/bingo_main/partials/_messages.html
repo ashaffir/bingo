@@ -1,27 +1,45 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-{% for message in messages %}
-  <div class="alert {{ message.tags }} alert-dismissible display-message" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-    {% if form.errors %}
-      {% for field in form %}
-          {% if field.errors %}
-            {{ message }} {{ field.errors }}        
-          {% endif %}
-      {% endfor %}
-    {% else %}
-      {{ message }} 
-    {% endif %}
-  </div>
-{% endfor %}
+{% load i18n %}
+{% get_current_language as lang %}
 
+<div class="modal fade" id="messagesModal" tabindex="-1" role="dialog" aria-labelledby="messagesModalLabel"
+  aria-hidden="true" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="messagesModalLabel">{% trans  'Message' %}</h5>
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+      </div>
+      <div class="modal-body text-center">
+        {% if messages %}
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="application/javascript">
+  {% if messages %}
+  $(window).on('load', function () {
+    $('#messagesModal').modal('show');
+  });
+  {% endif %}
+
+</script>
 
 <script>
-  $(document).ready(function(){
-      setTimeout(function() {
-              // $(".display-message").hide('blind', {}, 300)
-        $(".display-message").hide();
-      }, 5000);
+  $(document).ready(function () {
+    setTimeout(function () {
+      // $(".display-message").hide('blind', {}, 300)
+      $(".display-message").hide();
+    }, 5000);
   });
 </script>

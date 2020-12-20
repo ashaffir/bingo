@@ -1,50 +1,82 @@
-
 {% extends 'bingo_main/base.html' %}
 {% load static %}
+{% load socialaccount %}
+{% load i18n %}
+{% get_current_language as lang %}
+
 {% block content %}
 
-    {% include 'bingo_main/partials/_navbar_index.html' %}
-
-    <div class="registerForm">
-        <form class="modal" action="{% url 'bingo_main:bingo_main_register' %}" method="POST">
-            {% csrf_token %}
-            <label for="name">Name *</label>
-            <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
-            <label for="email">Add your logo</label>
-            <input type="file" name="complogo" id="complogo">
-            <!-- <label for="email">Username *</label>
-            <input type="text" name="username" id="username" required> -->
-            <label for="email">Email *</label>
-            <input type="email" name="email" id="email" required>
-            <label for="password">Password *</label>
-            <input type="password" name="password1" id="password1" required minlength="5">
-            <label for="password">Confirm Password *</label>
-            <input type="password" name="password2" id="password1" required minlength="5">
-            <label for="country">Country *</label>
-            <br>
-            <select name="country" id="country" required>
-                <option value="">Choose your country...</option>
-            </select>
-            <br>
-            <label for="company">Company Name</label>
-            <input type="text" name="company" id="company">
-            <label for="vat">VAT Number</label>
-            <input type="text" name="vat" id="vat">
-            <input type="submit" class="playButton grey" value="Register!">
-        </form>
+{% include 'bingo_main/partials/_navbar_index.html' %}
+<section class="ftco-section services-section bg-light" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
+    style="text-align: left;" {% endif %}>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col" align='center'>
+                <h1>{% trans 'Registration' %}</h1>
+            </div>
+        </div>
+        <div class="row d-flex" style="margin-top: 5%; margin-bottom: 10%">
+            <div class="col-md-6">
+                <div class="row mr-4 ml-4">
+                    <h4>{% trans 'User an existing account' %}</h4>
+                </div>
+                <div class="mt-4">
+                    <a title="Facebook" class="socialaccount_provider facebook" 
+                    href="{% provider_login_url "facebook" process='login' %}">
+                    <img style="width: 60%;" src="{% static 'images/facebook-login-button.png' %}" />
+                    </a>
+                </div>
+                <div class="mt-4 mb-4">
+                    <a title="Google" class="socialaccount_provider google" 
+                    href="{% provider_login_url "google" process='login'  %}">
+                    <img style="width: 60%;" src="{% static 'images/google-login-button.png' %}" />
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12 ">
+                <div class="registerForm">
+                    <h4 class="mr-2 ml-2">{% trans 'Register with your email' %}</h4>
+                    <form class="form-group" action="{% url 'bingo_main:bingo_main_register' %}" method="POST">
+                        {% csrf_token %}                
+                        <label for="name">{% trans 'Name' %} *</label>
+                        <input type="text" class="form-control" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
+                        <label for="email">{% trans 'Add your logo' %}</label>
+                        <input type="file" class="form-control btn btn-warning" name="complogo" id="complogo">
+                        <!-- <label for="email">Username *</label>
+                        <input type="text" name="username" id="username" required> -->
+                        <label for="email">{% trans 'Email' %} *</label>
+                        <input type="email" class="form-control" name="email" id="email" required>
+                        <label for="password">{% trans 'Password' %} *</label>
+                        <input type="password" class="form-control" name="password1" id="password1" required minlength="5">
+                        <label for="password">{% trans 'Confirm Password' %} *</label>
+                        <input type="password" class="form-control" name="password2" id="password1" required minlength="5">
+                        <label for="country">{% trans 'Country' %} *</label>
+                        <br>
+                        <select name="country" class="form-control" id="country" required>
+                            <option value="">{% trans 'Choose your country' %}...</option>
+                        </select>
+                        <br>
+                        <label for="company">{% trans 'Company Name' %}</label>
+                        <input type="text" class="form-control" name="company" id="company">
+                        <label for="vat">{% trans 'VAT Number' %}</label>
+                        <input type="text" class="form-control" name="vat" id="vat">
+                        <input type="submit" class="btn btn-success mt-2" value="{% trans 'Register' %}">
+                        <div class="" id="">
+                            {% trans 'Already have an account? Login' %} <a
+                                href="{% url "bingo_main:bingo_main_login" %}">{% trans 'here' %}</a>
+                        </div>
+    
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
 {% endblock content %}
 
 {% block js_bottom %}
 
 <script>
-    function getHeight() {
-        if (window.innerWidth < 600) return document.querySelector('.registerForm').style.height = '';
-        document.querySelector('.registerForm').style.minHeight = window.innerHeight - document.querySelector(
-            '.lowerNavigation').clientHeight - document.querySelector('.navbarIndex').clientHeight - 60 + 'px';
-    }
-
-    getHeight();
 
     $.ajax({
         method: 'GET',
@@ -59,12 +91,13 @@
     })
 
     function getLocation() {
+        console.log('getting location...');
         fetch('https://extreme-ip-lookup.com/json/')
             .then(res => res.json())
             .then(response => {
                 document.querySelector(`option[value=${response.country}`).setAttribute('selected', 'selected');
             })
-            .catch((data, status) => {})
+            .catch((data, status) => { })
     }
 
     window.addEventListener('resize', function (e) {

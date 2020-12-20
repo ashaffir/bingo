@@ -1,0 +1,18 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
+{% block content %}
+{% include 'bingo_main/partials/_navbar_index.html' %}
+
+<div class="containerContent">
+    <span class="descriptionTitle">
+        {% trans 'Terms and Conditions' %}
+    </span>
+    <div style="margin-top: 1rem;">
+        {{ terms.content |safe }}
+    </div>
+</div>
+
+{% endblock content %}

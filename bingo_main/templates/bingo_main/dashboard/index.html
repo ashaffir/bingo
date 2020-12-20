@@ -1,76 +1,94 @@
 {% extends 'bingo_main/base.html' %}
 {% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
 
 {% block css %}
-<link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
 <link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
 <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+
 {% endblock css %}
 
 {% block js %}
-    <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
+<script src="{% static 'js/dropzone.js' %}"></script>
 {% endblock js %}
 
 {% block content %}
-
 {% include 'bingo_main/partials/_navbar_top.html' with active_tab='dashboard' %}
 
+{% if albums_images %}
 <form action="{% url "bingo_main:start_bingo" %}" method="POST">
     {% csrf_token %}
     <div class="bingoContainer">
         {% for album in albums_images %}
-            {% if album.board_size == 3 %}
-                <div class="bingoBox">
-                    <div class="bingoTable box3x3" style="grid-template-rows: repeat(3, 153px);">
-                        {% for image in album.pictures %}
-                            <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
-                        {% endfor %}
-                    </div>
-                    <div class="bingoTableBottom">
-                        {{ album.album_name }}
-                        <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="make_game">make game</button>
-                    </div>
-                </div>
-            {% elif album.board_size == 4 %}
-                <div class="">
-                    <div class="bingoTable box4x4" style="grid-template-rows: repeat(4, 114px);">
-                        {% for image in album.pictures %}
-                            <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
-                        {% endfor %}
-                    </div>
-                    <div class="bingoTableBottom">
-                        {{ album.album_name }}
-                        <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="make_game">make game</button>
-                    </div>
-                </div>
-            {% elif album.board_size == 5 %}
-                <div class="bingoBox">
-                    <div class="bingoTable box5x5" style="grid-template-rows: repeat(6, 101px);">
-                        {% for image in album.pictures %}
-                            <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
-                        {% endfor %}
-                    </div>
-                    <div class="bingoTableBottom">
-                        {{ album.album_name }}
-                        <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="make_game">make game</button>
-                    </div>
-                </div>                
-            {% endif %}
+        {% if album.board_size == 3 %}
+        <div class="bingoBox">
+            <div class="bingoTable box3x3" style="grid-template-rows: repeat(3, 153px);">
+                {% for image in album.pictures %}
+                <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
+                {% endfor %}
+            </div>
+            <div class="bingoTableBottom">
+                {{ album.album_name }}
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
+                    name="make_game">make game</button>
+            </div>
+        </div>
+        {% elif album.board_size == 4 %}
+        <div class="">
+            <div class="bingoTable box4x4" style="grid-template-rows: repeat(4, 114px);">
+                {% for image in album.pictures %}
+                <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
+                {% endfor %}
+            </div>
+            <div class="bingoTableBottom">
+                {{ album.album_name }}
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
+                    name="make_game">make game</button>
+            </div>
+        </div>
+        {% elif album.board_size == 5 %}
+        <div class="bingoBox">
+            <div class="bingoTable box5x5" style="grid-template-rows: repeat(6, 101px);">
+                {% for image in album.pictures %}
+                <div class="field"><img src="{{ image.image_file.url }}" alt=""></div>
+                {% endfor %}
+            </div>
+            <div class="bingoTableBottom">
+                {{ album.album_name }}
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
+                    name="make_game">make game</button>
+            </div>
+        </div>
+        {% endif %}
         {% endfor %}
     </div>
 </form>
-
+{% else %}
+<div class="container">
+    <div class="row" style="margin-bottom: 15rem; margin-top: 10%">
+        <div class="col-md-12">
+            <center>
+                <h1>{% trans 'There are no public albums here' %}</h1>
+            </center>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock content %}
 
 {% block js_bottom %}
 <script>
     function openSidebar() {
         let el = document.querySelector('.sidebarProfile');
-        
+
         if (el.style.display == '') {
             return el.style.display = 'block'
         }
-        
+
         el.style.display = '';
     }
 
@@ -90,13 +108,13 @@
             processData: false,
             contentType: false,
             enctype: 'multipart/form-data',
-            success: function (){
+            success: function () {
                 //alert('Album saved!');
                 console.log('CREATING GAME...');
                 window.location.href = '{% url "bingo_main:start_bingo" %}';
 
             },
-            error: function(xhr, errmsg, err) {
+            error: function (xhr, errmsg, err) {
                 console.log(xhr.status + ":" + xhr.responseText)
                 var w = window.open('about:blank');
                 w.document.open();
@@ -119,47 +137,59 @@
 
         // 3x3 Box
         {% if public_3x3 != 'none' %}
-            {% for pic in public_3x3 %}
-            document.querySelector('.box3x3').innerHTML +=
-                `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
-            {% endfor %}
+        {% for pic in public_3x3 %}
+        document.querySelector('.box3x3').innerHTML +=
+            `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
+        {% endfor %}
+        // 3x3 Box
+        let width3x3 = document.querySelector('.box3x3 .field').offsetWidth;
+        document.querySelector('.box3x3').style.gridTemplateRows = `repeat(3, ${width3x3}px)`
+
         {% else %}
-            for (let x = 0; x != 18; x++) {
-                document.querySelector('.box3x3').innerHTML +=
-                `<div class="field"><img src="${(!imageList[x])? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
-            }
+        for (let x = 0; x != 18; x++) {
+            document.querySelector('.box3x3').innerHTML +=
+                `<div class="field"><img src="${(!imageList[x]) ? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
+        }
         {% endif %}
 
         imageList = imageList.sort(() => Math.random() - 0.5)
         // 4x4 Box
 
         {% if public_4x4 != 'none' %}
-            {% for pic in public_4x4 %}
-            document.querySelector('.box4x4').innerHTML +=
-                `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
-            {% endfor %}
+        {% for pic in public_4x4 %}
+        document.querySelector('.box4x4').innerHTML +=
+            `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
+        {% endfor %}
+        // 4x4 Box
+        let width4x4 = document.querySelector('.box4x4 .field').offsetWidth;
+        document.querySelector('.box4x4').style.gridTemplateRows = `repeat(4, ${width4x4}px)`
+
         {% else %}
-            for (let x = 0; x != 32; x++) {
-                document.querySelector('.box4x4').innerHTML +=
-                    `<div class="field"><img src="${(!imageList[x])? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
-            }
+        for (let x = 0; x != 32; x++) {
+            document.querySelector('.box4x4').innerHTML +=
+                `<div class="field"><img src="${(!imageList[x]) ? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
+        }
         {% endif %}
 
         imageList = imageList.sort(() => Math.random() - 0.5)
         // 5x5 Box
         {% if public_5x5 != 'none' %}
-            {% for pic in public_5x5 %}
-                document.querySelector('.box5x5').innerHTML +=
-                    `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
-            {% endfor %}
+        {% for pic in public_5x5 %}
+        document.querySelector('.box5x5').innerHTML +=
+            `<div class="field"><img src="{{ pic.image_file.url }}" alt=""></div>`;
+        // 5x5 Box        
+        {% endfor %}
+        let width5x5 = document.querySelector('.box5x5 .field').offsetWidth;
+        document.querySelector('.box5x5').style.gridTemplateRows = `repeat(6, ${width5x5}px)`
         {% else %}
-            for (let x = 0; x != 54; x++) {
-                document.querySelector('.box5x5').innerHTML +=
-                    `<div class="field"><img src="${(!imageList[x])? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
-            }
+        for (let x = 0; x != 54; x++) {
+            document.querySelector('.box5x5').innerHTML +=
+                `<div class="field"><img src="${(!imageList[x]) ? 'https://picsum.photos/id/0/5616/3744' : imageList}" alt=""></div>`;
+        }
         {% endif %}
         resizeBox();
     }
+
 
     function resizeBox() {
         // 3x3 Box
@@ -176,11 +206,14 @@
 
     }
 
+
     window.addEventListener('resize', function (e) {
         resizeBox();
     });
-
+    
     resizeBox();
+    /*
+    */
 
     //getBingos();
 </script>

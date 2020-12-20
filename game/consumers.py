@@ -8,10 +8,11 @@ from .serializers import PlayerSerializer
 
 logger = logging.getLogger(__file__)
 
+
 class GameConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         user = self.scope['user']
-        
+
         self.game_room = self.scope['url_route']['kwargs']['game_room']
 
         # Join room group
@@ -32,7 +33,7 @@ class GameConsumer(AsyncWebsocketConsumer):
     # Receive message from WebSocket
 
     async def receive(self, text_data, **kwargs):
-        
+
         text_data_json = json.loads(text_data)
         message_type = text_data_json['message_type']
         data = text_data_json['data']
@@ -57,32 +58,16 @@ class GameConsumer(AsyncWebsocketConsumer):
         elif message_type == 'start.game':
             print(f"STARRTING GAME.....ID: {data['game_id']} ")
 
-    # Sending JSON messages 
-    # async def echo_message(self, event):
-    #     logger.info(f'>>> ECHO 1: {event}')
-    #     await self.send_json(event)
-
     # Receive message from room group
     async def game_message(self, event):
-        print(f'SENT MESSAGE: {event}')
-        message = event['data']['data']
-        try:
-            title = event['data']['title']
-        except:
-            title = ''
-        
-        try:
-            status = event['data']['status']
-        except:
-            status = ''
+        print(f'>>> CONSUMERS: SENT MESSAGE: {event}')
+        logger.info(f'>>> CONSUMERS: SENT MESSAGE: {event}')
+        message = event['data']
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'message': message,
-            'title': title,
-            'status': status
+            'message': message
         }))
-
 
     async def add_player(self, event):
         print(f'CONSUMER ADD: {event}')
@@ -112,4 +97,3 @@ class GameConsumer(AsyncWebsocketConsumer):
             nickname=event.get('nickname')
         )
         return new_player
-        

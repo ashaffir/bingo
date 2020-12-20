@@ -118,3 +118,15 @@ chmod +x post_receive
 * Create the structure in the Django (views, urls...)
 
 - npm run dev
+
+# REFERENCE: Socail login - Allauth
+- Facebook (ashaffir@gmail.com): 
+  > https://www.youtube.com/watch?v=PtVu04V027c
+  > https://django-allauth.readthedocs.io/en/latest/providers.html#facebook
+  > https://developers.facebook.com/apps
+  > https://developers.facebook.com/apps/405508944127457/settings/basic/?business_id=1745329215732148
+- Google (alfred.shaffir@gmail.com)
+  > https://www.youtube.com/watch?v=NG48CLLsb1A
+  > https://django-allauth.readthedocs.io/en/latest/providers.html#google
+  > https://developers.google.com/gmail/api/quickstart/js
+  > https://console.developers.google.com/apis/dashboard?project=polybingo-login-1608458341265&authuser=0&pli=1

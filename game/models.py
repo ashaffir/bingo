@@ -20,6 +20,7 @@ class Album(models.Model):
         primary_key=True, default=uuid.uuid4, editable=False)
     is_public = models.BooleanField(default=False)
     public_approved = models.BooleanField(default=False)
+    public_rejected = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100, blank=True, null=True)
@@ -76,6 +77,8 @@ class Game(models.Model):
 
     # Game prep
     game_id = models.CharField(max_length=4, null=True, blank=True)
+    # game_pk = models.UUIDField(
+    #     primary_key=True, default=uuid.uuid4, editable=False)
 
     album = models.ForeignKey(
         Album, null=True, blank=True, on_delete=models.CASCADE)
@@ -103,13 +106,13 @@ class Game(models.Model):
     prize_3_locked = models.BooleanField(null=True, blank=True, default=False)
 
     # Start Game
-    number_of_players = models.IntegerField(null=True, blank=True)
+    number_of_players = models.IntegerField(null=True, blank=True, default=0)
     players_list = models.JSONField(blank=True, null=True, default=list)
     game_requested = models.BooleanField(default=False)
     started = models.BooleanField(default=False)
     in_progress = models.BooleanField(default=False)
     ended = models.BooleanField(default=False)
-    game_cost = models.FloatField(null=True, blank=True)
+    game_cost = models.FloatField(null=True, blank=True, default=0.0)
     pictures_pool = models.JSONField(default=list, null=True, blank=True)
     current_picture = models.ForeignKey(
         Picture, blank=True, null=True, on_delete=models.CASCADE)

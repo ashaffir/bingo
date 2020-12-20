@@ -1,17 +1,21 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/polybingo-logotype-new.png' %}" />
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PolyBingo</title>
+    <title>PolyBingo - Game Screen</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'broadcast/css/global.css' %}">
     <link rel="stylesheet" href="{% static 'broadcast/css/broadcastIndex.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src="{% static 'js/dropzone.js' %}"></script>
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
@@ -72,15 +76,12 @@
                 </div>
             {% endif %}
 
-            <img src="{% static 'images/speakerHome.png' %}" class="speaker" alt="">
+            <!-- <img src="{% static 'images/speakerHome.png' %}" class="speaker" alt=""> -->
             <!-- <img src="{% static 'images/speakerHome1.png' %}" class="speaker" alt=""> -->
         </div>
         <div class="innerContainer">
             <div class="topArea">
-                <div>
-                    {% include 'bingo_main/partials/_messages.html' %}
-                    <br>   
-                </div>
+                
         
                 <div id="topContainer">
                     <span>PolyBingo.com</span>
@@ -95,6 +96,11 @@
                     <!-- Dynamically loaded from _game_status.html -->
                     <!-- Tickets: 50
                     <div class="button Next" onclick="startGame()">Start Game (Price $5)</div> -->
+                    Tickets: <span id="playersCount">{{ current_game.number_of_players }}</span> 
+                    <!-- <div class="button Next" onclick="startGame()">Start Game (Price ${{ game_cost }})</div> -->
+                    <button type="submit" id="startGame" style="font-family: inherit; width:100%" name="startGameButton" 
+                    class="button Next" >{% trans 'Start Bingo' %} ({% trans 'Price' %} $<p id="gamePrice">{{ current_game.game_cost }}</p>)</button>
+                     
                 </div>
             </form>
         </div>
@@ -109,7 +115,17 @@
                 <div class="castButton">
                     <i class="fa fa-users" onclick="toggleList()"></i>
                     <div id="userList">
-                        <div class="user">
+                        Approve Users:
+                        {% for player in unapproved_players_list %}
+                            <div class="user">
+                                {{ player.nickname }}
+                                <span>
+                                    <i class="fa fa-check" onclick="window.location.href=('{% url "bingo_main:player_approval" player_id=player.pk approval="ok" %}')"></i>
+                                    <i class="fa fa-times" onclick="window.location.href=('{% url "bingo_main:player_approval" player_id=player.pk approval="no" %}')"></i>
+                                </span>
+                            </div>
+                        {% endfor %}
+                                                <!-- <div class="user">
                             Username
                             <span>
                                 <i class="fa fa-check"></i>
@@ -122,23 +138,17 @@
                                 <i class="fa fa-check"></i>
                                 <i class="fa fa-times"></i>
                             </span>
-                        </div>
-                        <div class="user">
-                            Username
-                            <span>
-                                <i class="fa fa-check"></i>
-                                <i class="fa fa-times"></i>
-                            </span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             {% endif %}
         </div>
-        <img src="{% static 'images/backgroundBroadcast.png' %}" class="speakerImage" alt="">
+        <!-- <img src="{% static 'images/backgroundBroadcast.png' %}" class="speakerImage" alt=""> -->
     </div>
     <script src="{% static 'broadcast/js/broadcastFunctions.js' %}" defer></script>
 
     <script>
+        resize();
         window.addEventListener('resize', function (e) {
             resize();
         });
@@ -180,7 +190,7 @@
             document.querySelector('#prizeContainer').style = '';
             document.querySelector('#winCondition').style = '';
             document.querySelector('.innerContainer').style = '';
-            document.querySelector('.speaker').style = '';
+            //document.querySelector('.speaker').style = '';
 
             document.querySelector('body').style.height = window.innerHeight + 'px';
 
@@ -191,12 +201,10 @@
             document.querySelector('#winCondition').style.maxHeight = document.querySelector('.innerContainer')
                 .clientHeight + 'px';
 
-            document.querySelector('.innerContainer').style.height = window.innerHeight - document.querySelector(
-                '.speakerImage').clientHeight + 'px';
+//            document.querySelector('.innerContainer').style.height = window.innerHeight - document.querySelector('.speakerImage').clientHeight + 'px';
 
             // Resize the speaker to not overlap the display box
-            document.querySelector('.speaker').style.maxHeight = window.innerHeight - document.querySelector(
-                '#prize').clientHeight + 'px';
+            //document.querySelector('.speaker').style.maxHeight = window.innerHeight - document.querySelector('#prize').clientHeight + 'px';
             document.querySelector('#landscapeOnly').style.height = window.innerHeight + 'px';
         }
 
@@ -259,7 +267,10 @@
                 //update_players();
                 const data = JSON.parse(e.data);
                 console.log(`DATA RECEIVED: ${e.data}`);
-    //            document.querySelector('#game-log').value += (data.message.nickname + '\n');
+                console.log(`PLAYERS: ${data.message.players_count}`);
+                document.querySelector('#playersCount').innerHTML = data.message.players_count;
+                document.querySelector('#gamePrice').innerHTML = data.message.price;
+                pollPlayersList ();
     
             };
     
@@ -296,10 +307,12 @@
     </script>
 
     <script>
+    /*
     $(document).ready(function() {
         pollGameStatus();
         pollPlayersList();
     });
+    */
 
     function pollPlayersList () {
         
@@ -311,18 +324,6 @@
             }
         })							
     };
-
-    function pollGameStatus () {
-        $.ajax({
-            url: "{% url 'bingo_main:game_status' game_id=current_game.game_id %}",
-            success: function(response) {
-                console.log("polling game tickets and start status");
-                $('#ticketArea').html(response);
-            }
-        })							
-    };
-    setInterval(function(){ pollGameStatus(); }, 5000);
-    setInterval(function(){ pollPlayersList(); }, 5000);
 
     </script>
 </body>

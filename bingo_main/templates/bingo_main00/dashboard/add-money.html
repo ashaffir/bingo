@@ -1,0 +1,48 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/../css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/addMoney.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/../css/dropzone.css' %}">
+{% endblock css %}
+
+{% block js %}
+    <script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
+{% endblock js %}
+
+{% block content %}
+
+{% include 'bingo_main/partials/_navbar_top.html' %}
+
+<form action="" name="depositForm" id="depositForm" method="POST">
+    {% csrf_token %}
+    <div class="container">
+        <div class="modal" style="margin-top: 5%;">
+            <h3>Add Money</h3>
+            <div class="title">How much money would you like to add to your account?</div>
+            <select name="deposit_amount" id="deposit_amount">
+                <option value="">Choose an amount...</option>
+                <option value="10">€10</option>
+                <option value="20">€20</option>
+                <option value="50">€50</option>
+                <option value="100">€100</option>
+                <option value="other">Other</option>
+            </select>
+            <label for="money">Enter a custom amount</label>
+            <input type="number" name="money" id="money">
+            <div class="buttonSplit">
+                <button class="button green" type="submit" name="paypal_payment">Make Payment</button>
+            </div>
+            <div class="errorBox">
+                Hello world
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endblock content %}
+
+{% block bottom_js %}
+{% endblock bottom_js %}

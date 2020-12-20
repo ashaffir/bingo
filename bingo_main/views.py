@@ -8,12 +8,14 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
+from django.utils.translation import gettext as _
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 
 from control.models import Control
 from .forms import ContactForm, HostSignupForm, LoginForm
-from .models import ContentPage
+from .models import ContentPage, ContactUs
 from .utils import get_image_from_data_url
 from game.models import Picture, Album, Game, Player, Board
 from game.utils import check_players, random_game_id
@@ -25,6 +27,21 @@ logger = logging.getLogger(__file__)
 
 def bingo_main(request):
     context = {}
+    try: 
+        free_players = Control.objects.get(name='free_players')
+        context['free_players'] = free_players.value_integer
+    except Exception as e:
+        print(f">>> BINGO MAIN@bingo_main: free_players is not set. ERROR: {e}")
+        logger.error(f">>> BINGO MAIN@bingo_main: free_players is not set. ERROR: {e}")
+        context['free_players'] = 5
+
+    try:
+        base_price = Control.objects.get(name='base_price')
+        context['base_price'] = base_price.value_float
+    except Exception as e:
+        print(f">>> BINGO MAIN@bingo_main: base_price is not set. ERROR: {e}")
+        logger.error(f">>> BINGO MAIN@bingo_main: base_price is not set. ERROR: {e}")
+        context['base_price'] = 0.1
     try:
         section_a = ContentPage.objects.get(section='a')
         context['section_a'] = section_a
@@ -148,40 +165,47 @@ def contact(request):
     context = {}
     print('>>> SENDING CONTACT')
     if request.method == 'POST':
-        form = ContactForm(request.POST or None)
-        if form.is_valid():
-            form.save()
-            messages.success(
-                request, 'Your message was sent. We will be in touch soon')
+        contact = ContactUs()
+        contact.name = request.POST.get('name')
+        contact.email = request.POST.get('email')
+        contact.subject = request.POST.get('subject')
+        contact.message = request.POST.get('message')
+        contact.save()
 
-            # Send email to admin
-            try:
-                subject = "Contact request from Polybingo"
-                title = "Contact form details"
+        # Send email to admin
+        try:
+            subject = "Contact request from Polybingo"
+            title = "Contact form details"
 
-                message = {
-                    'title': title,
-                    'contact': True,
-                    'email': form.data['email'],
-                    'content': form.data['message'],
-                }
+            message = {
+                'title': title,
+                'contact': True,
+                'name': request.POST.get('name'),
+                'subject': request.POST.get('subject'),
+                'email': request.POST.get('email'),
+                'message': request.POST.get('message'),
+            }
 
-                send_mail(subject, email_template_name=None,
-                          context=message, to_email=[
-                              settings.ADMIN_EMAIL],
-                          html_email_template_name='bingo_main/emails/admin_email.html')
-            except Exception as e:
-                logger.error(
-                    f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
-                print(
-                    f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
+            send_mail(subject, email_template_name=None,
+                        context=message, to_email=[
+                            settings.ADMIN_EMAIL],
+                        html_email_template_name='bingo_main/emails/admin_email.html')
+        except Exception as e:
+            logger.error(
+                f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
+            print(
+                f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
 
-            return redirect('bingo_main:bingo_main')
-        else:
             messages.error(
-                request, 'Your message was not sent. Please try again later')
-            logger.error('>> BING MAIN: Error sending contact us message')
-            return redirect('bingo_main:bingo_main')
+                request, _('Oops, your message was not sent. Please try again later'))
+
+            return redirect(request.META['HTTP_REFERER'])
+
+
+        messages.success(
+            request, _('Your message was sent. We will be in touch soon'))
+
+        return redirect(request.META['HTTP_REFERER'])
 
     return render(request, 'bingo_main/contact.html')
 
@@ -296,6 +320,35 @@ def create_bingo(request, album_id=''):
                 album.board_size = 4
             else:
                 album.board_size = 5
+
+            # If public, setting public_approved back to Flase and updating admin
+            if album_type == 'public':
+                album.public_approved = False
+                album.public_rejected = False
+
+                messages.info(
+                    request, _(f"Your updated Bingo Album is pending approval for public view"))
+
+                # Sending request to admin for images approval
+                try:
+                    subject = "Public Images Approval Request"
+                    title = "Public images approval"
+                    album = album
+
+                    message = {
+                        'title': title,
+                        'user': request.user,
+                        'album': album,
+                    }
+
+                    send_mail(subject, email_template_name=None,
+                              context=message, to_email=[
+                                  settings.ADMIN_EMAIL],
+                              html_email_template_name='bingo_main/emails/admin_email.html')
+                except Exception as e:
+                    logger.error(
+                        f'>>> BINGO MAIN: Failed sending admin email for public album approval. ERROR: {e}')
+
             album.save()
         else:
             images_dict = json.loads(request.POST.get('images'))
@@ -458,34 +511,24 @@ def check_game_id(request):
     print(f'GAME REQUEST: {request.GET.keys()}')
     try:
         game = Game.objects.get(game_id=request.GET.get("code"))
-        name = request.GET.get("name")
-        print(f'NAME: {request.GET.get("name")}. TYPE: {type(name)}')
+        nickname = request.GET.get("name")
         game_id = game.game_id
-        print(f'GAME ID: {game_id}')
+        print(f'>>> BINGO MAIN: GAME ID: {game_id}')
 
         if game.is_finished or game.started or game.ended:
             return Response(data={"message": "Game entry finished"}, status=400)
 
         # If game exists, create new player and add it to the game players list
         player = Player.objects.create(
-            nickname=name,
             game=game,
+            nickname=nickname,
             player_game_id=game_id
         )
-
-        # print(f'PLAYER: {player}')
-        # if game.players_list:
-        #     game.players_list.append(player.pk)
-        #     game.save()
-        # else:
-        #     game.players_list = []
-        #     game.players_list.append(player.pk)
-        #     game.save()
 
         print(f'GAME: {game}')
         return Response(data=player.pk, status=200)
     except Exception as e:
-        print(f'NO GAME: {e}')
+        print(f'>>> BINGO MAIN: NO GAME: {e}')
         return Response(data={'message': "Game ID does not exist"}, status=400)
     # return redirect(request.META['HTTP_REFERER'])
 
@@ -500,69 +543,11 @@ def players_approval_list(request, game_id):
 
 
 @login_required
-def game_status(request, game_id):
-    context = {}
-    game = Game.objects.get(user=request.user, game_id=game_id)
-
-    # Collecting the Players
-    try:
-        if game.auto_join_approval:
-            players = Player.objects.filter(player_game_id=game_id)
-        else:
-            players = Player.objects.filter(
-                player_game_id=game_id, approved=True)
-
-        players_list = []
-        for player in players:
-            player_data = {}
-            player_data['nickname'] = player.nickname
-            player_data['player_id'] = str(player.player_id)
-            players_list.append(player_data)
-
-        game.players_list = players_list
-
-        game.number_of_players = len(players)
-
-        # Setting up the price for the game
-        # TODO: Define pricing accurately
-
-        try:
-            base_price = Control.objects.get(name='base_price').value_float
-        except:
-            base_price = 0.1
-
-        if players:
-            if len(players) <= Control.objects.get(name="free_players").value_integer:
-                game_cost = 0.0
-            elif len(players) < 21:
-                game_cost = round(len(players) * base_price, 2)
-            elif len(players) < 41:
-                game_cost = round(len(players) * base_price*0.80, 2)
-            else:
-                game_cost = round(len(players) * base_price*0.66, 2)
-        else:
-            game_cost = 0
-
-        game.game_cost = game_cost
-        game.save()
-
-    except Exception as e:
-        print(f'>> BING MAIN: There are no players. ERROR: {e}')
-        logger.error(
-            f'>> BINGO MAIN: No players found for this game. ERROR: {e}')
-
-    context['num_players'] = len(game.players_list)
-    context['game_cost'] = game.game_cost
-
-    return render(request, 'bingo_main/partials/_game_status.html', context)
-
-
-@login_required
 def player_approval(request, player_id, approval):
     context = {}
     player = Player.objects.get(pk=player_id)
-    print(f'Player: {player}')
-    print(f'Approval: {approval}')
+    print(f'>>> BINGO MAIN@player_approval: Player {player}')
+    print(f'>>> BINGO MAIN@player_approval:Approval {approval}')
     if approval == 'ok':
         player.approved = True
     elif approval == 'no':
@@ -609,7 +594,10 @@ def start_bingo(request):
                 game.user = request.user
                 game.game_id = random_game_id(request.user)
                 game.save()
-                messages.success(request, 'A new bingo game was created')
+                print(
+                    f'>>> BINGO MAIN@start_bingo: A new bingo game was created. Game ID {game.game_id}')
+                logger.info(
+                    f'>>> BINGO MAIN@start_bingo: A new bingo game was created. Game ID {game.game_id}')
             except Exception as e:
                 print(
                     f'>>> bingo main: failed creating a new game. ERROR: {e}')
@@ -627,38 +615,45 @@ def start_bingo(request):
             game.auto_join_approval = True if join_status == 'Auto' else False
 
             prizes = json.loads(request.POST.get('game_data'))['prizes']
-            if len(prizes) == 1:
-                game.prize_1_name = prizes[0]["prizeName"]
-                game.prize_1_image_file = get_image_from_data_url(
-                    prizes[0]["prizeImage"]['dataURL'])[0]
-                game.winning_conditions = 'bingo'
-                logger.info('One prize game selected')
-                print('One prize game selected')
-            elif len(prizes) == 2:
-                game.prize_1_name = prizes[0]["prizeName"]
-                game.prize_1_image_file = get_image_from_data_url(
-                    prizes[0]["prizeImage"]['dataURL'])[0]
-                game.prize_2_name = prizes[1]["prizeName"]
-                game.prize_2_image_file = get_image_from_data_url(
-                    prizes[1]["prizeImage"]['dataURL'])[0]
-                game.winning_conditions = '1line'
-                logger.info('Two prize game selected')
-                print('Two prize game selected')
-            elif len(prizes) == 3:
-                game.prize_1_name = prizes[0]["prizeName"]
-                game.prize_1_image_file = get_image_from_data_url(
-                    prizes[0]["prizeImage"]['dataURL'])[0]
-                game.prize_2_name = prizes[1]["prizeName"]
-                game.prize_2_image_file = get_image_from_data_url(
-                    prizes[1]["prizeImage"]['dataURL'])[0]
-                game.prize_3_name = prizes[2]["prizeName"]
-                game.prize_3_image_file = get_image_from_data_url(
-                    prizes[2]["prizeImage"]['dataURL'])[0]
-                game.winning_conditions = '2line'
-                logger.info('Three prize game selected')
-                print('Three prize game selected')
+            try:
+                if len(prizes) == 1:
+                    game.prize_1_name = prizes[0]["prizeName"]
+                    game.prize_1_image_file = get_image_from_data_url(
+                        prizes[0]["prizeImage"]['dataURL'])[0]
+                    game.winning_conditions = 'bingo'
+                    logger.info('One prize game selected')
+                    print('One prize game selected')
+                elif len(prizes) == 2:
+                    game.prize_1_name = prizes[0]["prizeName"]
+                    game.prize_1_image_file = get_image_from_data_url(
+                        prizes[0]["prizeImage"]['dataURL'])[0]
+                    game.prize_2_name = prizes[1]["prizeName"]
+                    game.prize_2_image_file = get_image_from_data_url(
+                        prizes[1]["prizeImage"]['dataURL'])[0]
+                    game.winning_conditions = '1line'
+                    logger.info('Two prize game selected')
+                    print('Two prize game selected')
+                elif len(prizes) == 3:
+                    game.prize_1_name = prizes[0]["prizeName"]
+                    game.prize_1_image_file = get_image_from_data_url(
+                        prizes[0]["prizeImage"]['dataURL'])[0]
+                    game.prize_2_name = prizes[1]["prizeName"]
+                    game.prize_2_image_file = get_image_from_data_url(
+                        prizes[1]["prizeImage"]['dataURL'])[0]
+                    game.prize_3_name = prizes[2]["prizeName"]
+                    game.prize_3_image_file = get_image_from_data_url(
+                        prizes[2]["prizeImage"]['dataURL'])[0]
+                    game.winning_conditions = '2line'
+                    logger.info('Three prize game selected')
+                    print('Three prize game selected')
 
-            game.save()
+                game.save()
+
+            except Exception as e:
+                print(
+                    f">>> BINGO MAIN: Failed loading the prize images. ERROR: {e}")
+                logger.error(
+                    f">>> BINGO MAIN: Failed loading the prize images. ERROR: {e}")
 
     return render(request, 'bingo_main/dashboard/start-bingo.html')
 
@@ -1026,6 +1021,9 @@ def game_over(request, game_id):
 # Player's bingo card/ticket/board
 def bingo(request, player_id):
     context = {}
+    print(f'>>> BINGO MAIN @ bingo: player ID {player_id}')
+    logger.info(f'>>> BINGO MAIN @ bingo: player ID {player_id}')
+
     player = Player.objects.get(pk=player_id)
     board = Board.objects.get(pk=player.board_id)
     game = Game.objects.get(pk=player.game.pk)
@@ -1146,11 +1144,13 @@ def logout_view(request):
     return redirect('bingo_main:bingo_main')
 
 
-def handler404(request, exception, template_name="404.html"):
-    response = render_to_response(template_name)
-    response.status_code = 404
-    return response
-
-
 def handler500(request, *args, **argv):
-    return render(request, '500.html', status=500)
+    return redirect('home')
+
+
+def handler403(request, *args, **argv):
+    return redirect('bingo_main:bingo_main')
+
+
+def handler404(request, *args, **argv):
+    return render(request, 'bingo_main/404.html')

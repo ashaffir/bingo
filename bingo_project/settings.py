@@ -31,18 +31,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # Allauth
-    # 'django.contrib.sites',
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.facebook',
-    # 'allauth.socialaccount.providers.google',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
 
     # REST API
     'rest_framework',
     'rest_framework.authtoken',
     'django_rest_passwordreset',
     'corsheaders',
+    'django_extensions',
 
     # Paypal
     'paypal.standard.ipn',
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'payments',
     'stripe',
     'control',
+    'administration',
     'frontend',
     # REFERENCE: Djoser authentication: https://www.youtube.com/watch?v=ddB83a4jKSY
     # 'djoser' # Authentication. https://djoser.readthedocs.io/en/latest/index.html
@@ -70,6 +72,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -79,13 +82,17 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'bingo_project.urls'
 
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
+            TEMPLATE_DIR,
             os.path.join(BASE_DIR, 'users/templates'),
             os.path.join(BASE_DIR, 'bingo_main/templates'),
             os.path.join(BASE_DIR, 'frontend/templates'),
+            os.path.join(BASE_DIR, 'administration/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -101,12 +108,39 @@ TEMPLATES = [
 
 # AllAuth
 #########
-# SITE_ID = 1
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
+LOGIN_REDIRECT_URL = '/'
 
-# LOGIN_REDIRECT_URL = '/'
+
+AUTH_USER_MODEL = 'users.User'
+USERNAME_FIELD = 'email'
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': [
+            'email',
+            ],
+    },
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
 # SOCIALACCOUNT_QUERY_EMAIL = True
 
-# # Provider specific settings
 # SOCIALACCOUNT_PROVIDERS = {
 #     'google': {
 #         # For each OAuth based provider, either add a ``SocialApp``
@@ -121,7 +155,7 @@ TEMPLATES = [
 # }
 
 # use custom auth model
-USERNAME_FIELD = 'email'
+# USERNAME_FIELD = 'email'
 
 # auth urls
 # LOGIN_URL = 'core:login'
@@ -130,15 +164,15 @@ USERNAME_FIELD = 'email'
 # LOGOUT_REDIRECT_URL = 'core:home'
 
 
-# AUTHENTICATION_BACKENDS = [
-#     # Needed to login by username in Django admin, regardless of `allauth`
-#     'django.contrib.auth.backends.ModelBackend',
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
 
-#     # `allauth` specific authentication methods, such as login by e-mail
-#     'allauth.account.auth_backends.AuthenticationBackend',
-# ]
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
-AUTH_USER_MODEL = 'users.User'
+# AUTH_USER_MODEL = 'users.User'
 
 
 REST_FRAMEWORK = {
@@ -212,9 +246,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'users.User'
-USERNAME_FIELD = 'email'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -229,6 +260,14 @@ USE_L10N = True
 
 USE_TZ = True
 
+LANGUAGES = [
+    ('en', 'English'),
+    ('he', 'Hebrew'),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
 
 # Zoho email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

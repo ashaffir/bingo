@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolyBingo</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="navbarTop">
+        <img class="logo" src="{% static 'images/polybingo-logo.png' %}" alt="" onclick="window.location.href = './'">
+        <div class="menuItems">
+            <div id="addMoney" onclick="window.location.href = './add-money'">
+                <i class="fa fa-plus-square" aria-hidden="true"></i> €50
+            </div>
+            <img class="logo" src="{% static 'images/placeholder.png' %}" onclick="openSidebar()">
+        </div>
+    </div>
+
+
+
+    <div class="lowerNav">
+        <span class="active">
+            <a href="./">
+                Public Bingo's
+            </a>
+        </span>
+        <span>
+            <a href="./create-bingo">
+                Create Bingo
+            </a>
+        </span>
+        <span>
+            <a href="./my-bingos">
+                My Bingo's
+            </a>
+        </span>
+    </div>
+
+    <div class="sidebarProfile">
+        <div id="closeButton" onclick="openSidebar()">
+            <i class="fa fa-times"></i>
+        </div>
+        <form class="modal">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" required>
+            <label for="email">Add your logo</label>
+            <input type="file" name="complogo" id="complogo">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" minlength="5">
+            <label for="country">Country</label>
+            <br>
+            <select name="country" id="country" required>
+                <option value="">Choose your country...</option>
+            </select>
+            <br>
+            <label for="company">Company Name</label>
+            <input type="text" name="company" id="company">
+            <label for="vat">VAT Number</label>
+            <input type="text" name="vat" id="vat">
+            <input type="submit" class="button grey" value="Update Details">
+            <input type="button" class="button red" value="Log out">
+        </form>
+    </div>
+    <div class="bingoContainer">
+        <div class="bingoBox">
+            <div class="bingoTable box3x3">
+
+            </div>
+            <div class="bingoTableBottom">
+                3x3 Bingo Name
+                <div class="gameButton" onclick="createGame()">make game</div>
+            </div>
+        </div>
+        <div class="bingoBox">
+            <div class="bingoTable box4x4">
+
+            </div>
+            <div class="bingoTableBottom">
+                4x4 Bingo Name
+                <div class="gameButton" onclick="createGame()">make game</div>
+            </div>
+        </div>
+        <div class="bingoBox">
+            <div class="bingoTable box5x5">
+
+            </div>
+            <div class="bingoTableBottom">
+                5x5 Bingo Name
+                <div class="gameButton" onclick="createGame()">make game</div>
+            </div>
+        </div>
+    </div>
+    <div class="lowerNavigation">
+        <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Why and How</a></li>
+            <li><a href="#">Pricing</a></li>
+            <li><a href="#">Terms and Conditions</a></li>
+            <li><a href="../contact">Contact</a></li>
+        </ul>
+    </div>
+    <script>
+        function openSidebar() {
+            let el = document.querySelector('.sidebarProfile');
+
+            if (el.style.display == '') {
+                return el.style.display = 'block'
+            }
+
+            el.style.display = '';
+        }
+
+        function createGame(id) {
+            // Redirect to start game screen with game id
+        }
+
+        function getBingos() {
+
+            // Get bingos from server and format
+            {% for album in albums_images %}
+                console.log('{{ album.name }}')
+                {% for pic in album.pictures %}
+                    console.log('{{ pic.image_file.url }}')
+                {% endfor %}
+            {% endfor %}
+
+            // Delete on live
+            data = {
+                images: [],
+                title: "test",
+                id: 1,
+                owned: true
+            }
+            let imageList = []
+            imageList = imageList.sort(() => Math.random() - 0.5)
+            document.querySelector('.bingoContainer').innerHTML = "";
+            getGrid(32, data);
+            getGrid(18, data);
+            getGrid(18, data);
+            getGrid(18, data);
+
+            resizeBox();
+        }
+
+        function deleteBingo(id) {
+            let a = confirm("Are you sure you want to delete this bingo? This action is irreverseable");
+
+            if (a) {
+                // Send request to delete bingo
+            }
+        }
+
+        function editBingo(id) {
+            window.location.href = `create-bingo?id=${id}`;
+        }
+
+        function getGrid(size, data) {
+            let container = document.querySelector('.bingoContainer');
+            let images = data.images;
+            let el = `<div class="bingoBox">`;
+
+            switch (size) {
+                case 32:
+                    el += `<div class="bingoTable box4x4">`
+                    for (let x = 0; x != size; x++) {
+                        el +=
+                            `<div class="field"><img src="${(!images[x])? 'https://picsum.photos/id/0/5616/3744' : images}" alt=""></div>`;
+                    }
+
+                    el += `</div><div class="bingoTableBottom">${data.title}<div>`;
+                    if (data.owned) {
+                        el +=
+                            `<div class="gameButton"><i class="fa fa-edit" onclick="editBingo(${data.id})"></i></div>`;
+                        el +=
+                            `<div class="gameButton"><i class="fa fa-trash" onclick="deleteBingo(${data.id})"></i></div>`;
+                    }
+                    el += `<div class="gameButton" onclick="createGame()">make game</div></div></div>`
+                    break;
+                case 54:
+                    el += `<div class="bingoTable box5x5">`
+                    for (let x = 0; x != size; x++) {
+                        el +=
+                            `<div class="field"><img src="${(!images[x])? 'https://picsum.photos/id/0/5616/3744' : images}" alt=""></div>`;
+                    }
+
+                    el += `</div><div class="bingoTableBottom">${data.title}<div>`;
+                    if (data.owned) {
+                        el +=
+                            `<div class="gameButton"><i class="fa fa-edit" onclick="editBingo(${data.id})"></i></div>`;
+                        el +=
+                            `<div class="gameButton"><i class="fa fa-trash" onclick="deleteBingo(${data.id})"></i></div>`;
+                    }
+                    el += `<div class="gameButton" onclick="createGame()">make game</div></div></div>`
+                    break;
+
+                default:
+                    el += `<div class="bingoTable box3x3">`
+                    for (let x = 0; x != size; x++) {
+                        el +=
+                            `<div class="field"><img src="${(!images[x])? 'https://picsum.photos/id/0/5616/3744' : images}" alt=""></div>`;
+                    }
+
+                    el += `</div><div class="bingoTableBottom">${data.title}<div>`;
+                    if (data.owned) {
+                        el +=
+                            `<div class="gameButton"><i class="fa fa-edit" onclick="editBingo(${data.id})"></i></div>`;
+                        el +=
+                            `<div class="gameButton"><i class="fa fa-trash" onclick="deleteBingo(${data.id})"></i></div>`;
+                    }
+                    el += `<div class="gameButton" onclick="createGame()">make game</div></div></div>`
+                    break;
+            }
+            container.innerHTML += el;
+        }
+
+        function resizeBox() {
+            document.querySelectorAll('.bingoBox .field').forEach(el => el.style.height = document.querySelector(
+                '.bingoBox .field').offsetWidth + 'px');
+        }
+
+        window.addEventListener('resize', function (e) {
+            resizeBox();
+        });
+        getBingos();
+    </script>
+</body>
+
+</html>
