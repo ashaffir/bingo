@@ -50,7 +50,7 @@
         <input type="text" name="name" id="name" pattern="[a-zA-Z0-9\s]+" 
             value="{% if user.first_name or user.last_name %}{{ user.first_name }} {{ user.last_name }}{% elif user.name %}{{ user.name }} {% else %}{% endif %}">
         <label for="email">{% trans 'Email' %}</label>
-        <input type="email" name="email" id="email">
+        <input type="email" name="email" id="email" value="user.email">
         <label for="email">{% trans 'Add your logo' %}</label>
         <input type="file" name="complogo" id="complogo">
         <label for="password">{% trans 'Password' %}</label>
