@@ -528,8 +528,8 @@ msgid "Registration"
 msgstr "רישום"
 
 #: bingo_main/templates/bingo_main/register.html:21
-msgid "Use an existing account"
-msgstr "השתמש בחשבון קיים"
+msgid "Register an existing account"
+msgstr "הירשם עם חשבון קיים"
 
 #: bingo_main/templates/bingo_main/register.html:38
 msgid "Register with your email"
