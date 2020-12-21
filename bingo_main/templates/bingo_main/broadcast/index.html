@@ -15,7 +15,11 @@
     <link rel="stylesheet" href="{% static 'broadcast/css/global.css' %}">
     <link rel="stylesheet" href="{% static 'broadcast/css/broadcastIndex.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+    
+        
+    <!-- <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script> -->
+    <!-- <script type="text/javascript" src="https://www.gstatic.com/cast/sdk/libs/sender/1.0/cast_framework.js"></script> -->
+
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
@@ -109,6 +113,7 @@
         <div class="buttonContainer">
             <div class="castButton">
                 <google-cast-launcher id="share" --connected-color="white"></google-cast-launcher>
+                <!-- <google-cast-launcher id="castbutton"></google-cast-launcher> -->
             </div>
             {% if current_game.auto_join_approval %}
 
@@ -164,37 +169,7 @@
                 el.style.display = 'grid';
             }
         }
-        
-        //  Chrome Casting
-        /* ===================== */
-        window['__onGCastApiAvailable'] = function (isAvailable) {
-            if (isAvailable) {
-                initializeCastApi();
-            }
-        };
-
-        initializeCastApi = function() {
-            cast.framework.CastContext.getInstance().setOptions({
-              receiverApplicationId: applicationId,
-              autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
-            });
-          };
-
-        /*
-        initializeCastApi = function () {
-            cast.framework.CastContext.getInstance().setOptions({
-                receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
-            });
-            if (!cast) {
-                document.querySelector('.castButton').style.display = 'none';
-            }
-
-            document.querySelector('#share').style.display = "block";
-        };
-
-
-        /* ======================  */
-
+ 
         /*
         function startGame() {
             window.location.href = "{% url 'bingo_main:game' game_id=current_game.game_id %}";
@@ -223,6 +198,9 @@
             //document.querySelector('.speaker').style.maxHeight = window.innerHeight - document.querySelector('#prize').clientHeight + 'px';
             document.querySelector('#landscapeOnly').style.height = window.innerHeight + 'px';
         }
+
+        /*  -------- Prizes handling -------*/
+        /* =================================*/
 
         function getData() {
             const queryString = window.location.search;
@@ -265,6 +243,8 @@
     </script>
 
     <script>
+        /*  -------- Websocket handling -------*/
+        /* ====================================*/
         let gameId;
         $(document).ready(function() {
             gameId = JSON.parse(document.getElementById('gamePin').textContent);
@@ -304,31 +284,9 @@
             }
         })
         
-        
-        /*
-        document.querySelector('#startGame').onclick = function(e) {
-            //gameId = document.querySelector('#playerGameId').value;
-            console.log(`Starting game: ${gameId}`);
-            
-            gameSocket.send(JSON.stringify({
-                //'message_type': 'add.player', 
-                'message_type': 'start.game', 
-                'game_id': gameId,
-            }));
-            
-            //window.location.pathname = '/game/' + gameId + '/';
-        };
-        */
-
     </script>
 
     <script>
-    /*
-    $(document).ready(function() {
-        pollGameStatus();
-        pollPlayersList();
-    });
-    */
 
     function pollPlayersList () {
         
@@ -342,6 +300,50 @@
     };
 
     </script>
+
+    <script>
+        //  Chrome Casting
+        /* ===================== */
+               
+       
+
+
+        /*
+        initializeCastApi = function () {
+            cast.framework.CastContext.getInstance().setOptions({
+                receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
+            });
+            if (!cast) {
+                document.querySelector('.castButton').style.display = 'none';
+            }
+
+            document.querySelector('#share').style.display = "block";
+        };
+
+
+        /* ======================  */
+
+    </script>
+
+    <script src="{% static 'js/CastVideos.js' %}"></script>
+    <script type="text/javascript">
+        window['__onGCastApiAvailable'] = function (isAvailable) {
+            if (isAvailable) {
+                initializeCastApi();
+            }
+        };
+        
+        initializeCastApi = function() {
+            cast.framework.CastContext.getInstance().setOptions({
+                receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+                autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+            });
+        };
+        
+      </script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+
 </body>
 
 </html>

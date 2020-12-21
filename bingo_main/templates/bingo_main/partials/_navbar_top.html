@@ -65,11 +65,10 @@
         <input type="text" name="company" id="company" value="{% if user.company_name %} {{ user.company_name }} {% else %} {% endif %}">
         <label for="vat">{% trans 'VAT Number' %}</label>
         <input type="text" name="vat" id="vat" value="{% if user.company_name %}{{ user.vat_number }}{% else %}{% endif %}">
-        <input type="submit" class="button grey" value="Update Details" name="updateProfile">
+        <input type="submit" class="button grey" value="{% trans 'Update Details' %}" name="updateProfile">
         <!-- <input type="button" onclick="update_profile()" class="button grey" value="Update Details" name="updateProfile"> -->
-        <center><a type="button" class="btn btn-lg btn-danger mt-2" value="Log out"
-                href="{% url 'bingo_main:logout_view' %}">Log
-                out</a></center>
+        <center><a type="button" class="btn btn-lg btn-danger mt-2" value="{% trans 'Logout' %}"
+                href="{% url 'bingo_main:logout_view' %}">{% trans 'Logout' %}</a></center>
     </form>
 </div>
 
