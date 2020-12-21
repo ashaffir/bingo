@@ -21,7 +21,7 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
     <div id="landscapeOnly">
         <span>
             {% trans 'Please rotate your device to continue' %}
@@ -96,7 +96,7 @@
 
                 <div class="paddingField">
                     <span id="imagesOut">
-                        {{ current_shown_pictures_count }} Out
+                        {{ current_shown_pictures_count }} {% trans 'Out' %}
                     </span>
                     <div class="buttons">
 
@@ -109,8 +109,7 @@
 
                         <div class="button Check" onclick="checkBingo()">
                             <span class="smlText">{% trans 'Check' %}</span>
-                            Bingo
-
+                            {% trans 'Bingo' %}
                         </div>
                     </div>
                 </div>

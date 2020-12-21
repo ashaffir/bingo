@@ -34,7 +34,7 @@
             <div class="bingoTableBottom">
                 {{ album.album_name }}
                 <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                    name="make_game">make game</button>
+                    name="make_game">{% trans 'make game' %}</button>
             </div>
         </div>
         {% elif album.board_size == 4 %}
@@ -47,7 +47,7 @@
             <div class="bingoTableBottom">
                 {{ album.album_name }}
                 <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                    name="make_game">make game</button>
+                    name="make_game">{% trans 'make game' %}</button>
             </div>
         </div>
         {% elif album.board_size == 5 %}
@@ -60,7 +60,7 @@
             <div class="bingoTableBottom">
                 {{ album.album_name }}
                 <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                    name="make_game">make game</button>
+                    name="make_game">{% trans 'make game' %}</button>
             </div>
         </div>
         {% endif %}

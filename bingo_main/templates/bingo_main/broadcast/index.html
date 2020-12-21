@@ -14,14 +14,14 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'broadcast/css/global.css' %}">
     <link rel="stylesheet" href="{% static 'broadcast/css/broadcastIndex.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
 </head>
 
-<body>
+<body {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
 
     <div id="landscapeOnly">
         <span>
@@ -87,6 +87,7 @@
                     <span>PolyBingo.com</span>
                     <br>
                     <div class="gamePin" id="gamePin">{{ current_game.game_id }}</div>
+                    {% include 'bingo_main/partials/_messages_inline.html' %}
 
                 </div>
             </div>
@@ -96,7 +97,7 @@
                     <!-- Dynamically loaded from _game_status.html -->
                     <!-- Tickets: 50
                     <div class="button Next" onclick="startGame()">Start Game (Price $5)</div> -->
-                    Tickets: <span id="playersCount">{{ current_game.number_of_players }}</span> 
+                    {% trans 'Tickets' %}: <span id="playersCount">{{ current_game.number_of_players }}</span> 
                     <!-- <div class="button Next" onclick="startGame()">Start Game (Price ${{ game_cost }})</div> -->
                     <button type="submit" id="startGame" style="font-family: inherit; width:100%" name="startGameButton" 
                     class="button Next" >{% trans 'Start Bingo' %} ({% trans 'Price' %} $<p id="gamePrice">{{ current_game.game_cost }}</p>)</button>
@@ -145,6 +146,7 @@
         </div>
         <!-- <img src="{% static 'images/backgroundBroadcast.png' %}" class="speakerImage" alt=""> -->
     </div>
+
     <script src="{% static 'broadcast/js/broadcastFunctions.js' %}" defer></script>
 
     <script>

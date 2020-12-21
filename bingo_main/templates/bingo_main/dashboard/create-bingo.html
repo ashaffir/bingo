@@ -96,7 +96,7 @@
         </div>
     </div>
     <div class="titleBar" id="imagesUploaded">
-        {% trans 'Upload images' %} ({{ current_album_pictures|length }} Uploaded)
+        {% trans 'Upload images' %} ({{ current_album_pictures|length }} {% trans 'Uploaded' %})
     </div>
     <form action="/file-upload" class="dropzone" id="images">
         <div class="dz-message" data-dz-message><img src="{% static 'images/upload-icon.svg' %}" alt="">

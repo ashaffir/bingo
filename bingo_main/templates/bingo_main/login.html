@@ -21,7 +21,7 @@
         <div class="row d-flex" style="margin-top: 5%; margin-bottom: 10%">
             <div class="col-md-6">
                 <div class="row mr-4 ml-4">
-                    <h4>{% trans 'Login with:' %}</h4>
+                    <h4>{% trans 'Login with' %}</h4>
                 </div>
                 <div class="mt-4">
                     <a title="Facebook" class="socialaccount_provider facebook" 
@@ -46,7 +46,7 @@
                         <input type="password" class="form-control" name="password" id="password" required>
                         <input type="submit" class="btn btn-success mt-2" value="{% trans 'Login' %}">
                         <div class="" id="">
-                            {% trans 'Don\'t have an account? Register' %} <a
+                            {% trans 'Do not have an account' %}? {% trans 'Register' %} <a
                                 href="{% url "bingo_main:bingo_main_register" %}">{% trans 'here' %}</a>
                         </div>
                     </form>

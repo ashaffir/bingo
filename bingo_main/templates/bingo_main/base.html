@@ -104,10 +104,10 @@
                         <!-- <h2 class="ftco-heading-2">Privacy</h2> -->
                         <ul class="list-unstyled">
                             <!-- <li><a href="#" class="py-2 d-block">Career</a></li> -->
-                            <li><a href="{% url 'bingo_main:bingo_main' %}" class="py-2 d-block">Home</a></li>
-                            <li><a href="{% url 'bingo_main:about' %}" class="py-2 d-block">About Us</a></li>
-                            <li><a href="{% url 'bingo_main:contact' %}" class="py-2 d-block">Contact Us</a></li>
-                            <li><a href="{% url 'bingo_main:terms' %}" class="py-2 d-block">Terms and Conditions</a></li>
+                            <li><a href="{% url 'bingo_main:bingo_main' %}" class="py-2 d-block">{% trans 'Home' %}</a></li>
+                            <li><a href="{% url 'bingo_main:about' %}" class="py-2 d-block">{% trans 'About Us' %}</a></li>
+                            <li><a href="{% url 'bingo_main:contact' %}" class="py-2 d-block">{% trans 'Contact Us' %}</a></li>
+                            <li><a href="{% url 'bingo_main:terms' %}" class="py-2 d-block">{% trans 'Terms & Conditions' %}</a></li>
                         </ul>
                     </div>
                 </div>
@@ -132,7 +132,7 @@
 
                     <p>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Polybingo Copyright &copy;
+                        Polybingo &copy;
                         <script>document.write(new Date().getFullYear());</script> All rights reserved | This website
                         is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a
                             href="https://actappon.com" target="_blank">Actappon</a>
@@ -142,6 +142,7 @@
             </div>
         </div>
     </footer>
+    
     <div class="container">
         <div class="row">
             <div class="col-md-3"></div>

@@ -708,7 +708,7 @@ def game(request, game_id):
 
     if game.is_finished or game.ended:
         context['game_ended'] = True
-        messages.error(request, 'Game already played.')
+        messages.error(request, _('Game already played'))
         # return redirect(request.META['HTTP_REFERER'])
         return HttpResponseRedirect(reverse('bingo_main:game_over', args=[game.game_id]))
 
@@ -722,7 +722,7 @@ def game(request, game_id):
 
     if len(game.players_list) < min_players:
         messages.error(
-            request, f"Not enough players... Need at leaset {min_players} tikets")
+            request, _(f"Not enough players. Need at leaset" + str(min_players) + _("tickets")))
         return redirect(request.META['HTTP_REFERER'])
 
     # print(f'GAME COST: {game.game_cost}')
@@ -738,7 +738,7 @@ def game(request, game_id):
 
     else:
         messages.error(
-            request, 'There is not enough funding for this game. Please deposit more funds.')
+            request, _('There are not enough funds in your account. Please make a deposit'))
         return redirect('bingo_main:add_money')
 
     # Locking prizes already won
@@ -931,10 +931,10 @@ def check_board(request, game_id):
 
         # Validating ticket number
         if ticket_number == '' or int(ticket_number) < 0:
-            messages.error(request, "Please enter a valid card number")
+            messages.error(request, _("Please enter a valid card number"))
             return render(request, 'bingo_main/broadcast/check_board.html', context)
         elif int(ticket_number) > len(current_game.players_list):
-            messages.error(request, "Ticket is not a part of this game")
+            messages.error(request, _("The ticket is not a part of this game"))
             return render(request, 'bingo_main/broadcast/check_board.html', context)
 
         # Collecting the winning players/boards so far
@@ -999,11 +999,13 @@ def check_board(request, game_id):
                     win = False
 
                 if win:
-                    print(f'RESULT: WIN')
+                    print(f'>>> BINGO MAIN@check_board: result WIN')
+                    logger.info(f'>>> BINGO MAIN@check_board: result WIN')
                     context['check_result'] = 'WIN'
                     return render(request, 'bingo_main/broadcast/checkResult.html', context)
 
-        print(f'RESULT: Wrong')
+        print(f'>>> BINGO MAIN@check_board: result Wrong')
+        logger.info(f'>>> BINGO MAIN@check_board: result Wrong')
         context['check_result'] = 'Wrong'
         return render(request, 'bingo_main/broadcast/checkResult.html', context)
 

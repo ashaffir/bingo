@@ -18,7 +18,7 @@
         <div class="row d-flex" style="margin-top: 5%; margin-bottom: 10%">
             <div class="col-md-6">
                 <div class="row mr-4 ml-4">
-                    <h4>{% trans 'User an existing account' %}</h4>
+                    <h4>{% trans 'Use an existing account' %}</h4>
                 </div>
                 <div class="mt-4">
                     <a title="Facebook" class="socialaccount_provider facebook" 
@@ -62,8 +62,7 @@
                         <input type="text" class="form-control" name="vat" id="vat">
                         <input type="submit" class="btn btn-success mt-2" value="{% trans 'Register' %}">
                         <div class="" id="">
-                            {% trans 'Already have an account? Login' %} <a
-                                href="{% url "bingo_main:bingo_main_login" %}">{% trans 'here' %}</a>
+                            {% trans 'Already have an account' %}? {% trans 'Login' %} <ahref="{% url "bingo_main:bingo_main_login" %}">{% trans 'here' %}</a>
                         </div>
     
                     </form>

@@ -15,13 +15,14 @@
     <link rel="stylesheet" href="{% static 'broadcast/css/cardCheck.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        
     <script src="{% static 'js/dropzone.js' %}"></script>
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
 
     <div id="landscapeOnly">
         <span>
@@ -49,11 +50,15 @@
                 {% csrf_token %}
                 <div class="innerContainer" id="enterPin">
                     <div class="topArea">
-                        <div id="topContainer">
+                        <div id="innerContainer">
                             <span>{% trans 'Card Number' %}: {{ board_number }}</span>
                             <br>
+                            
                             <!-- <input type="text" name="cardNumber" id="cardNumber" maxlength="4" oninput="checkInput()"> -->
                             <input type="text" name="cardNumber" id="cardNumber" maxlength="4">
+                        </div>
+                        <div style="font-size: 2rem;">
+                            {% include 'bingo_main/partials/_messages_inline.html' %}
                         </div>
                     </div>
                     <div id="ticketArea">
@@ -61,8 +66,7 @@
                             <button class="button Check" style="font-family: inherit;" type="submit"
                                 name="check_card">{% trans 'Check Bingo' %}</button>
                             <a class="button green" style="font-family: inherit;"
-                                href="{% url 'bingo_main:game' game_id=current_game.game_id %}">{% trans 'Continue' %}
-                                %}</a>
+                                href="{% url 'bingo_main:game' game_id=current_game.game_id %}">{% trans 'Continue' %}</a>
                         </div>
 
                         <!-- <button class="button Check" style="font-family: inherit; width:100%" type="submit" name="check_card">Check Bingo</button> -->
@@ -80,6 +84,7 @@
 
     <img src="{% static 'images/backgroundCheck.png' %}" class="speakerImage" alt="">
     </div>
+
     <script src="{% static 'broadcast/js/broadcastFunctions.js' %}"></script>
     <script>
 
@@ -254,6 +259,7 @@
             document.querySelector('#checkPin .bingoTable').innerHTML = content;
         }
     </script>
+
 </body>
 
 </html>
