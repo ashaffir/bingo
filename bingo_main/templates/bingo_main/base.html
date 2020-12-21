@@ -50,54 +50,46 @@
     {% block content %}
     {% endblock content %}
 
-    <footer class="ftco-footer ftco-bg-dark ftco-section">
+    <footer class="ftco-footer ftco-bg-dark ftco-section" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
         <div class="container">
             <div class="row mb-5">
                 <div class="col-md">
                     <div class="ftco-footer-widget mb-4">
-                        <!-- Language Menu -->
-                        <div class="container">
-                            <div class="row">
-                                <div class="col">
-                                    <form action="{% url 'set_language' %}" method="POST">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="text" value="{{ redirect_to }}">
-                                        {% if lang == 'he' %}
-                                        <select name="language" id="home_lang_selector">
-                                            {% else %}
-                                            <select name="language" id="home_lang_selector" onchange="this.form.submit()">
-                                                {% endif %}
-                                                {% get_available_languages as LANGUAGES %}
-                                                {% get_language_info_list for LANGUAGES as languages %}
-                                                <option value="">Change Language</option>
-                                                {% for language in languages %}
-                                                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected="selected"
-                                                    {% endif %}>
-                                                    {{ language.name_local }}
-                                                </option>
-                                                {% endfor %}
-                                                <!-- <input class="" type="submit" value="Go" style="background-color: #8bc34a; color:white; border:0em; margin-right: 0.5rem; margin-left: 0.5rem"> -->
-                                            </select>
-                                    </form>
-
-                                </div>
+                        <div class="row">
+                            <div class="col">
+                                <!-- Language Menu -->                           
+                                <form action="{% url 'set_language' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="text" value="{{ redirect_to }}">
+                                    <select name="language" id="home_lang_selector" onchange="this.form.submit()">
+                                        <option value="">{% trans 'Change Language' %}</option>
+                                      {% get_available_languages as LANGUAGES %}
+                                      {% get_language_info_list for LANGUAGES as languages %}
+                                      {% for language in languages %}
+                                        <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                                          {{ language.name_local }}
+                                        </option>
+                                      {% endfor %}
+                                      <!-- <input class="" type="submit" value="Go" style="margin: 1rem;background-color: #8bc34a; color:white; border:0em; border-radius: 3px"> -->
+                                    </select>
+                                  </form>		
+                                <!-- End Language bar-->
                             </div>
                         </div>
-                    <!-- End Language bar-->
-                    
-
-                        <!-- <h2 class="ftco-heading-2">Eventalk</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
-                            there live the blind texts.</p> -->
-                        <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                            <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                            <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                        </ul>
+                        <div class="row">                            
+                            <!-- <h2 class="ftco-heading-2">Eventalk</h2>
+                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
+                                there live the blind texts.</p> -->
+                            <ul class="ftco-footer-social list-unstyled float-md-center float-lft mt-5">
+                                <!-- <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li> -->
+                                <li class="ftco-animate"><a href="https://www.facebook.com/Polybingo-104724878202275" target="_blank"><span class="icon-facebook"></span></a></li>
+                                <li class="ftco-animate"><a href="https://www.instagram.com/polybingo/" target="_blank"><span class="icon-instagram"></span></a></li>
+                            </ul>
+                        </div>                    
                     </div>
                 </div>
-                <!-- <div class="col-md">
-                    <div class="ftco-footer-widget mb-4 ml-md-5">
+                <div class="col-md">
+                    <!-- <div class="ftco-footer-widget mb-4 ml-md-5">
                         <h2 class="ftco-heading-2">Useful Links</h2>
                         <ul class="list-unstyled">
                             <li><a href="#" class="py-2 d-block">Speakers</a></li>
@@ -105,8 +97,8 @@
                             <li><a href="#" class="py-2 d-block">Events</a></li>
                             <li><a href="#" class="py-2 d-block">Blog</a></li>
                         </ul>
-                    </div>
-                </div> -->
+                    </div> -->
+                </div>
                 <div class="col-md">
                     <div class="ftco-footer-widget mb-4">
                         <!-- <h2 class="ftco-heading-2">Privacy</h2> -->
@@ -120,7 +112,7 @@
                     </div>
                 </div>
                 <div class="col-md">
-                    <div class="ftco-footer-widget mb-4">
+                    <!-- <div class="ftco-footer-widget mb-4">
                         <h2 class="ftco-heading-2">Have a Questions?</h2>
                         <div class="block-23 mb-3">
                             <ul>
@@ -132,7 +124,7 @@
                                             class="text">info@yourdomain.com</span></a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="row">
