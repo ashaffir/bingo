@@ -130,3 +130,9 @@ chmod +x post_receive
   > https://django-allauth.readthedocs.io/en/latest/providers.html#google
   > https://developers.google.com/gmail/api/quickstart/js
   > https://console.developers.google.com/apis/dashboard?project=polybingo-login-1608458341265&authuser=0&pli=1
+
+# REFERENCE: Chromecast
+  > API docs: https://developers.google.com/cast/docs/reference
+  > https://developers.google.com/cast/docs/chrome_sender
+  > Integration: https://developers.google.com/cast/docs/chrome_sender/integrate
+  > Colba application example:  https://codelabs.developers.google.com/codelabs/cast-videos-chrome#4

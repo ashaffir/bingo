@@ -104,7 +104,7 @@ CastPlayer.prototype.initializeCastPlayer = function() {
     // Set the receiver application ID to your own (created in the
     // Google Cast Developer Console), or optionally
     // use the chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
-    options.receiverApplicationId = '4F8B3483';
+    options.receiverApplicationId = chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID;
 
     // Auto join policy can be one of the following three:
     // ORIGIN_SCOPED - Auto connect from same appId and page origin
@@ -116,29 +116,29 @@ CastPlayer.prototype.initializeCastPlayer = function() {
 
     this.remotePlayer = new cast.framework.RemotePlayer();
     this.remotePlayerController = new cast.framework.RemotePlayerController(this.remotePlayer);
-    this.remotePlayerController.addEventListener(
-        cast.framework.RemotePlayerEventType.IS_CONNECTED_CHANGED,
-        this.switchPlayer.bind(this)
-    );
+    // this.remotePlayerController.addEventListener(
+    //     cast.framework.RemotePlayerEventType.IS_CONNECTED_CHANGED,
+    //     this.switchPlayer.bind(this)
+    // );
 };
 
 /*
  * PlayerHandler and setup functions
  */
 
-CastPlayer.prototype.switchPlayer = function() {
-    this.stopProgressTimer();
-    this.resetVolumeSlider();
-    this.playerHandler.stop();
-    this.playerState = PLAYER_STATE.IDLE;
-    if (cast && cast.framework) {
-        if (this.remotePlayer.isConnected) {
-            this.setupRemotePlayer();
-            return;
-        }
-    }
-    this.setupLocalPlayer();
-};
+// CastPlayer.prototype.switchPlayer = function() {
+//     this.stopProgressTimer();
+//     this.resetVolumeSlider();
+//     this.playerHandler.stop();
+//     this.playerState = PLAYER_STATE.IDLE;
+//     if (cast && cast.framework) {
+//         if (this.remotePlayer.isConnected) {
+//             this.setupRemotePlayer();
+//             return;
+//         }
+//     }
+//     this.setupLocalPlayer();
+// };
 
 /**
  * PlayerHandler
@@ -243,11 +243,11 @@ var PlayerHandler = function(castPlayer) {
 
     this.updateDisplayMessage = function () {
         this.target.updateDisplayMessage();
-    }
-;
-    this.setVolume = function(volumeSliderPosition) {
-        this.target.setVolume(volumeSliderPosition);
     };
+
+    // this.setVolume = function(volumeSliderPosition) {
+    //     this.target.setVolume(volumeSliderPosition);
+    // };
 
     this.mute = function() {
         this.target.mute();
@@ -318,13 +318,13 @@ CastPlayer.prototype.setupLocalPlayer = function () {
         document.getElementById('video_image_overlay').style.display = 'none';
     };
 
-    playerTarget.setVolume = function(volumeSliderPosition) {
-        localPlayer.volume = volumeSliderPosition < FULL_VOLUME_HEIGHT ?
-            volumeSliderPosition / FULL_VOLUME_HEIGHT : 1;
-        var p = document.getElementById('audio_bg_level');
-        p.style.height = volumeSliderPosition + 'px';
-        p.style.marginTop = -volumeSliderPosition + 'px';
-    };
+    // playerTarget.setVolume = function(volumeSliderPosition) {
+    //     localPlayer.volume = volumeSliderPosition < FULL_VOLUME_HEIGHT ?
+    //         volumeSliderPosition / FULL_VOLUME_HEIGHT : 1;
+    //     var p = document.getElementById('audio_bg_level');
+    //     p.style.height = volumeSliderPosition + 'px';
+    //     p.style.marginTop = -volumeSliderPosition + 'px';
+    // };
 
     playerTarget.mute = function() {
         localPlayer.muted = true;
@@ -344,7 +344,7 @@ CastPlayer.prototype.setupLocalPlayer = function () {
 
     this.playerHandler.setTarget(playerTarget);
 
-    this.playerHandler.setVolume(DEFAULT_VOLUME * FULL_VOLUME_HEIGHT);
+    // this.playerHandler.setVolume(DEFAULT_VOLUME * FULL_VOLUME_HEIGHT);
 
     this.showFullscreenButton();
 
@@ -360,37 +360,37 @@ CastPlayer.prototype.setupRemotePlayer = function () {
     var castSession = cast.framework.CastContext.getInstance().getCurrentSession();
 
     // Add event listeners for player changes which may occur outside sender app
-    this.remotePlayerController.addEventListener(
-        cast.framework.RemotePlayerEventType.IS_PAUSED_CHANGED,
-        function() {
-            if (this.remotePlayer.isPaused) {
-                this.playerHandler.pause();
-            } else {
-                this.playerHandler.play();
-            }
-        }.bind(this)
-    );
+    // this.remotePlayerController.addEventListener(
+    //     cast.framework.RemotePlayerEventType.IS_PAUSED_CHANGED,
+    //     function() {
+    //         if (this.remotePlayer.isPaused) {
+    //             this.playerHandler.pause();
+    //         } else {
+    //             this.playerHandler.play();
+    //         }
+    //     }.bind(this)
+    // );
 
-    this.remotePlayerController.addEventListener(
-        cast.framework.RemotePlayerEventType.IS_MUTED_CHANGED,
-        function() {
-            if (this.remotePlayer.isMuted) {
-                this.playerHandler.mute();
-            } else {
-                this.playerHandler.unMute();
-            }
-        }.bind(this)
-    );
+    // this.remotePlayerController.addEventListener(
+    //     cast.framework.RemotePlayerEventType.IS_MUTED_CHANGED,
+    //     function() {
+    //         if (this.remotePlayer.isMuted) {
+    //             this.playerHandler.mute();
+    //         } else {
+    //             this.playerHandler.unMute();
+    //         }
+    //     }.bind(this)
+    // );
 
-    this.remotePlayerController.addEventListener(
-        cast.framework.RemotePlayerEventType.VOLUME_LEVEL_CHANGED,
-        function() {
-            var newVolume = this.remotePlayer.volumeLevel * FULL_VOLUME_HEIGHT;
-            var p = document.getElementById('audio_bg_level');
-            p.style.height = newVolume + 'px';
-            p.style.marginTop = -newVolume + 'px';
-        }.bind(this)
-    );
+    // this.remotePlayerController.addEventListener(
+    //     cast.framework.RemotePlayerEventType.VOLUME_LEVEL_CHANGED,
+    //     function() {
+    //         var newVolume = this.remotePlayer.volumeLevel * FULL_VOLUME_HEIGHT;
+    //         var p = document.getElementById('audio_bg_level');
+    //         p.style.height = newVolume + 'px';
+    //         p.style.marginTop = -newVolume + 'px';
+    //     }.bind(this)
+    // );
 
     // This object will implement PlayerHandler callbacks with
     // remotePlayerController, and makes necessary UI updates specific
@@ -456,24 +456,24 @@ CastPlayer.prototype.setupRemotePlayer = function () {
             this.playerState + ' on ' + castSession.getCastDevice().friendlyName;
     }.bind(this);
 
-    playerTarget.setVolume = function (volumeSliderPosition) {
-        // Add resistance to avoid loud volume
-        var currentVolume = this.remotePlayer.volumeLevel;
-        var p = document.getElementById('audio_bg_level');
-        if (volumeSliderPosition < FULL_VOLUME_HEIGHT) {
-            var vScale =  this.currentVolume * FULL_VOLUME_HEIGHT;
-            if (volumeSliderPosition > vScale) {
-                volumeSliderPosition = vScale + (pos - vScale) / 2;
-            }
-            p.style.height = volumeSliderPosition + 'px';
-            p.style.marginTop = -volumeSliderPosition + 'px';
-            currentVolume = volumeSliderPosition / FULL_VOLUME_HEIGHT;
-        } else {
-            currentVolume = 1;
-        }
-        this.remotePlayer.volumeLevel = currentVolume;
-        this.remotePlayerController.setVolumeLevel();
-    }.bind(this);
+    // playerTarget.setVolume = function (volumeSliderPosition) {
+    //     // Add resistance to avoid loud volume
+    //     var currentVolume = this.remotePlayer.volumeLevel;
+    //     var p = document.getElementById('audio_bg_level');
+    //     if (volumeSliderPosition < FULL_VOLUME_HEIGHT) {
+    //         var vScale =  this.currentVolume * FULL_VOLUME_HEIGHT;
+    //         if (volumeSliderPosition > vScale) {
+    //             volumeSliderPosition = vScale + (pos - vScale) / 2;
+    //         }
+    //         p.style.height = volumeSliderPosition + 'px';
+    //         p.style.marginTop = -volumeSliderPosition + 'px';
+    //         currentVolume = volumeSliderPosition / FULL_VOLUME_HEIGHT;
+    //     } else {
+    //         currentVolume = 1;
+    //     }
+    //     this.remotePlayer.volumeLevel = currentVolume;
+    //     this.remotePlayerController.setVolumeLevel();
+    // }.bind(this);
 
     playerTarget.mute = function () {
         if (!this.remotePlayer.isMuted) {
@@ -584,16 +584,17 @@ CastPlayer.prototype.seekMedia = function(event) {
  * Set current player volume
  * @param {Event} mouseEvent
  */
-CastPlayer.prototype.setVolume = function(mouseEvent) {
-    var p = document.getElementById('audio_bg_level');
-    var pos = 0;
-    if (mouseEvent.currentTarget.id === 'audio_bg_track') {
-        pos = FULL_VOLUME_HEIGHT - parseInt(mouseEvent.offsetY, 10);
-    } else {
-        pos = parseInt(p.clientHeight, 10) - parseInt(mouseEvent.offsetY, 10);
-    }
-    this.playerHandler.setVolume(pos);
-};
+
+ // CastPlayer.prototype.setVolume = function(mouseEvent) {
+//     var p = document.getElementById('audio_bg_level');
+//     var pos = 0;
+//     if (mouseEvent.currentTarget.id === 'audio_bg_track') {
+//         pos = FULL_VOLUME_HEIGHT - parseInt(mouseEvent.offsetY, 10);
+//     } else {
+//         pos = parseInt(p.clientHeight, 10) - parseInt(mouseEvent.offsetY, 10);
+//     }
+//     this.playerHandler.setVolume(pos);
+// };
 
 /**
  * Starts the timer to increment the media progress bar
@@ -758,7 +759,8 @@ CastPlayer.prototype.hideFullscreenButton = function() {
 /**
  * Show the media control
  */
-CastPlayer.prototype.showMediaControl = function() {
+
+ CastPlayer.prototype.showMediaControl = function() {
     document.getElementById('media_control').style.opacity = 0.7;
 };
 
@@ -810,68 +812,70 @@ CastPlayer.prototype.resetVolumeSlider = function() {
  */
 CastPlayer.prototype.initializeUI = function() {
     // Set initial values for title, subtitle, and description
-    document.getElementById('media_title').innerHTML =
-        this.mediaContents[0]['title'];
-    document.getElementById('media_subtitle').innerHTML =
-        this.mediaContents[this.currentMediaIndex]['subtitle'];
-    document.getElementById('media_desc').innerHTML =
-        this.mediaContents[this.currentMediaIndex]['description'];
+
+    // document.getElementById('media_title').innerHTML =
+    //     this.mediaContents[0]['title'];
+    // document.getElementById('media_subtitle').innerHTML =
+    //     this.mediaContents[this.currentMediaIndex]['subtitle'];
+    // document.getElementById('media_desc').innerHTML =
+    //     this.mediaContents[this.currentMediaIndex]['description'];
 
     // Add event handlers to UI components
-    document.getElementById('progress_bg').addEventListener(
-        'click', this.seekMedia.bind(this));
-    document.getElementById('progress').addEventListener(
-        'click', this.seekMedia.bind(this));
-    document.getElementById('progress_indicator').addEventListener(
-       'dragend', this.seekMedia.bind(this));
-    document.getElementById('audio_on').addEventListener(
-        'click', this.playerHandler.mute.bind(this.playerHandler));
-    document.getElementById('audio_off').addEventListener(
-        'click', this.playerHandler.unMute.bind(this.playerHandler));
-    document.getElementById('audio_bg').addEventListener(
-        'mouseover', this.showVolumeSlider.bind(this));
-    document.getElementById('audio_on').addEventListener(
-        'mouseover', this.showVolumeSlider.bind(this));
-    document.getElementById('audio_bg_level').addEventListener(
-        'mouseover', this.showVolumeSlider.bind(this));
-    document.getElementById('audio_bg_track').addEventListener(
-        'mouseover', this.showVolumeSlider.bind(this));
-    document.getElementById('audio_bg_level').addEventListener(
-        'click', this.setVolume.bind(this));
-    document.getElementById('audio_bg_track').addEventListener(
-        'click', this.setVolume.bind(this));
-    document.getElementById('audio_bg').addEventListener(
-        'mouseout', this.hideVolumeSlider.bind(this));
-    document.getElementById('audio_on').addEventListener(
-        'mouseout', this.hideVolumeSlider.bind(this));
+    
+    // document.getElementById('progress_bg').addEventListener(
+    //     'click', this.seekMedia.bind(this));
+    // document.getElementById('progress').addEventListener(
+    //     'click', this.seekMedia.bind(this));
+    // document.getElementById('progress_indicator').addEventListener(
+    //    'dragend', this.seekMedia.bind(this));
+    // document.getElementById('audio_on').addEventListener(
+    //     'click', this.playerHandler.mute.bind(this.playerHandler));
+    // document.getElementById('audio_off').addEventListener(
+    //     'click', this.playerHandler.unMute.bind(this.playerHandler));
+    // document.getElementById('audio_bg').addEventListener(
+    //     'mouseover', this.showVolumeSlider.bind(this));
+    // document.getElementById('audio_on').addEventListener(
+    //     'mouseover', this.showVolumeSlider.bind(this));
+    // document.getElementById('audio_bg_level').addEventListener(
+    //     'mouseover', this.showVolumeSlider.bind(this));
+    // document.getElementById('audio_bg_track').addEventListener(
+    //     'mouseover', this.showVolumeSlider.bind(this));
+    // document.getElementById('audio_bg_level').addEventListener(
+    //     'click', this.setVolume.bind(this));
+    // document.getElementById('audio_bg_track').addEventListener(
+    //     'click', this.setVolume.bind(this));
+    // document.getElementById('audio_bg').addEventListener(
+    //     'mouseout', this.hideVolumeSlider.bind(this));
+    // document.getElementById('audio_on').addEventListener(
+    //     'mouseout', this.hideVolumeSlider.bind(this));
     document.getElementById('main_video').addEventListener(
         'mouseover', this.showMediaControl.bind(this));
     document.getElementById('main_video').addEventListener(
         'mouseout', this.hideMediaControl.bind(this));
-    document.getElementById('media_control').addEventListener(
-        'mouseover', this.showMediaControl.bind(this));
-    document.getElementById('media_control').addEventListener(
-        'mouseout', this.hideMediaControl.bind(this));
-    document.getElementById('fullscreen_expand').addEventListener(
-        'click', this.requestFullScreen.bind(this));
-    document.getElementById('fullscreen_collapse').addEventListener(
-        'click', this.cancelFullScreen.bind(this));
-    document.addEventListener(
-        'fullscreenchange', this.fullscreenChangeHandler.bind(this), false);
-    document.addEventListener(
-        'webkitfullscreenchange', this.fullscreenChangeHandler.bind(this), false);
+    // document.getElementById('media_control').addEventListener(
+    //     'mouseover', this.showMediaControl.bind(this));
+    // document.getElementById('media_control').addEventListener(
+    //     'mouseout', this.hideMediaControl.bind(this));
+    // document.getElementById('fullscreen_expand').addEventListener(
+    //     'click', this.requestFullScreen.bind(this));
+    // document.getElementById('fullscreen_collapse').addEventListener(
+    //     'click', this.cancelFullScreen.bind(this));
+    // document.addEventListener(
+    //     'fullscreenchange', this.fullscreenChangeHandler.bind(this), false);
+    // document.addEventListener(
+    //     'webkitfullscreenchange', this.fullscreenChangeHandler.bind(this), false);
 
     // Enable play/pause buttons
-    document.getElementById('play').addEventListener(
-        'click', this.playerHandler.play.bind(this.playerHandler));
-    document.getElementById('pause').addEventListener(
-        'click', this.playerHandler.pause.bind(this.playerHandler));
-    document.getElementById('progress_indicator').draggable = true;
+    
+    // document.getElementById('play').addEventListener(
+    //     'click', this.playerHandler.play.bind(this.playerHandler));
+    // document.getElementById('pause').addEventListener(
+    //     'click', this.playerHandler.pause.bind(this.playerHandler));
+    // document.getElementById('progress_indicator').draggable = true;
 };
 
 /**
  * Add video thumbnails div's to UI for media JSON contents
- */
 CastPlayer.prototype.addVideoThumbs = function() {
     this.mediaContents = mediaJSON['categories'][0]['videos'];
     var ni = document.getElementById('carousel');
@@ -889,6 +893,7 @@ CastPlayer.prototype.addVideoThumbs = function() {
         ni.appendChild(newdiv);
     }
 };
+ */
 
 /**
  * Makes human-readable message from chrome.cast.Error
