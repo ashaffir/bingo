@@ -43,11 +43,11 @@ def bingo_main(request):
         logger.error(f">>> BINGO MAIN@bingo_main: base_price is not set. ERROR: {e}")
         context['base_price'] = 0.1
     try:
-        section_a = ContentPage.objects.get(section='a')
+        section_a = ContentPage.objects.get(name='home', section='a')
         context['section_a'] = section_a
-        section_b = ContentPage.objects.get(section='b')
+        section_b = ContentPage.objects.get(name='home', section='b')
         context['section_b'] = section_b
-        section_c = ContentPage.objects.get(section='c')
+        section_c = ContentPage.objects.get(name='home', section='c')
         context['section_c'] = section_c
     except Exception as e:
         pass
