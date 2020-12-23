@@ -1,0 +1,141 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
+<link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+{% endblock css %}
+
+{% block js %}
+<script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
+{% endblock js %}
+
+{% block content %}
+
+{% include 'bingo_main/partials/_navbar_top.html' with active_tab='instructions' %}
+
+
+<div class="container">
+    <div class="row" style="margin-bottom: 15rem; margin-top: 5%">
+        <div class="col-md-12">
+            <center>
+                <div class="tabs">
+                    <nav class="nav nav-pills flex-column flex-sm-row">
+                        <a class="flex-sm-fill text-sm-center nav-link active" data-toggle="tab" href="#create_album"><span class="fa-stack">
+                            <span class="fa fa-circle-o fa-stack-2x"></span>
+                            <strong class="fa-stack-1x">
+                                1    
+                            </strong>
+                        </span> Create Album</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#create_game"><span class="fa-stack">
+                            <span class="fa fa-circle-o fa-stack-2x"></span>
+                            <strong class="fa-stack-1x">
+                                2    
+                            </strong>
+                        </span> Create a Game</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#setup_game"><span class="fa-stack">
+                            <span class="fa fa-circle-o fa-stack-2x"></span>
+                            <strong class="fa-stack-1x">
+                                3    
+                            </strong>
+                        </span> Setup a Game</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#broadcast"><span class="fa-stack">
+                            <span class="fa fa-circle-o fa-stack-2x"></span>
+                            <strong class="fa-stack-1x">
+                                4   
+                            </strong>
+                        </span> Broadcast the Game</a>
+                        <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#run_game"><span class="fa-stack">
+                            <span class="fa fa-circle-o fa-stack-2x"></span>
+                            <strong class="fa-stack-1x">
+                                5   
+                            </strong>
+                        </span> Run the Game</a>
+                    </nav>
+                    <hr>
+                    <div class="tab-content">
+                        <div id="create_album" class="tab-pane active">
+                            <h3>{{ section_a.title }}</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    {{ section_a.content | safe }}
+                                </div>
+                                <div class="col">
+                                    <div class="yt-container">
+                                        <iframe src="{{ section_a.video }}" frameborder="0" allowfullscreen></iframe>
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <a href="{% url 'bingo_main:create_bingo' %}" class="btn btn-success">Create Album</a>
+                            </div>
+                        </div>
+                        <div id="create_game" class="tab-pane">
+                            <h3>{{ section_b.title }}</h3>
+                            <div class="row">
+                                <div class="col">
+                                    {{ section_b.content | safe }}
+                                </div>
+                                <div class="col">
+                                    <!-- VIDEO -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">Create a Game</a>
+                            </div>
+                        </div>
+                        <div id="setup_game" class="tab-pane">
+                            <h3>{{ section_c.title }}</h3>
+                            <div class="row">
+                                <div class="col">
+                                    {{ section_c.content | safe }}
+                                </div>
+                                <div class="col">
+                                    <!-- VIDEO -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">Create a Game</a>
+                            </div>
+                        </div>
+                        <div id="broadcast" class="tab-pane">
+                            <h3>{{ section_d.title }}</h3>
+                            <div class="row">
+                                <div class="col">
+                                    {{ section_d.content | safe }}
+                                </div>
+                                <div class="col">
+                                    <!-- VIDEO -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">Create a Game</a>
+                            </div>
+                        </div>
+                        <div id="run_game" class="tab-pane">
+                            <h3>{{ section_e.title }}</h3>
+                            <div class="row">
+                                <div class="col">
+                                    {{ section_e.content | safe }}
+                                </div>
+                                <div class="col">
+                                    <!-- VIDEO -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">Create a Game</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </center>
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

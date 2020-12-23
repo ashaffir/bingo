@@ -33,6 +33,7 @@ class User(AbstractUser):
 
     stripe_customer_key = models.CharField(max_length=100, null=True, blank=True)                                 
 
+    newsletter_optin = models.BooleanField(default=True)
 
     # require the email to be the unique identifier
     USERNAME_FIELD = 'email'

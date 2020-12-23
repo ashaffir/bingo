@@ -3,7 +3,7 @@ from .models import ContactUs, ContentPage
 
 @admin.register(ContentPage)
 class ContentPage(admin.ModelAdmin):
-    list_display = ('name','section','active',)
+    list_display = ('name','title', 'section','active',)
     search_fields = ('name','section',)
     ordering = ('name',)
 

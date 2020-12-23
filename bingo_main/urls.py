@@ -27,6 +27,7 @@ urlpatterns = [
          bingo_main_views.create_bingo, name='create_bingo'),
     path('start_bingo/', bingo_main_views.start_bingo, name='start_bingo'),
     path('my_bingos/', bingo_main_views.my_bingos, name='my_bingos'),
+    path('instructions/', bingo_main_views.instructions, name='instructions'),
     path('bingo/<str:player_id>', bingo_main_views.bingo, name='bingo'),
     path('add_money/', bingo_main_views.add_money, name='add_money'),
     path('broadcast/', bingo_main_views.broadcast, name='broadcast'),

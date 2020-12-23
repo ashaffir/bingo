@@ -38,10 +38,10 @@
                     <h4 class="mr-2 ml-2">{% trans 'Register with your email' %}</h4>
                     <form class="form-group" action="{% url 'bingo_main:bingo_main_register' %}" method="POST">
                         {% csrf_token %}                
-                        <label for="name">{% trans 'Name' %} *</label>
+                        <!-- <label for="name">{% trans 'Name' %} *</label>
                         <input type="text" class="form-control" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>
                         <label for="email">{% trans 'Add your logo' %}</label>
-                        <input type="file" class="form-control btn btn-warning" name="complogo" id="complogo">
+                        <input type="file" class="form-control btn btn-warning" name="complogo" id="complogo"> -->
                         <!-- <label for="email">Username *</label>
                         <input type="text" name="username" id="username" required> -->
                         <label for="email">{% trans 'Email' %} *</label>
@@ -56,14 +56,22 @@
                             <option value="">{% trans 'Choose your country' %}...</option>
                         </select>
                         <br>
-                        <label for="company">{% trans 'Company Name' %}</label>
+                        <!-- <label for="company">{% trans 'Company Name' %}</label>
                         <input type="text" class="form-control" name="company" id="company">
                         <label for="vat">{% trans 'VAT Number' %}</label>
-                        <input type="text" class="form-control" name="vat" id="vat">
-                        <input type="submit" class="btn btn-success mt-2" value="{% trans 'Register' %}">
-                        <div class="" id="">
-                            {% trans 'Already have an account' %}? {% trans 'Login' %} <ahref="{% url "bingo_main:bingo_main_login" %}">{% trans 'here' %}</a>
+                        <input type="text" class="form-control" name="vat" id="vat"> -->
+                        
+                        <p><input type="checkbox" id="newsletter" name="newsletter" checked>
+                            {% trans 'I wish to receive information, offers, recommendations, and updates from' %} Polybingo</p>
+                        
+                        <div class="">
+                            {% trans 'Already have an account' %}? {% trans 'Login' %} <a href="{% url "bingo_main:bingo_main_login" %}">{% trans 'here' %}</a>
                         </div>
+                        <hr>
+                        <p>{% trans 'By signing up, you accept our' %} <a href="{% url 'bingo_main:terms' %}" target="_blank"> {% trans 'Terms and Conditions' %}</a>
+                            . {% trans 'Please read our' %} <a href="{% url 'bingo_main:privacy' %}" target="_blank"> {% trans 'Privacy Policy' %}</a> </p>
+                        
+                        <input type="submit" class="btn btn-success mt-2" value="{% trans 'Register' %}">
     
                     </form>
                 </div>

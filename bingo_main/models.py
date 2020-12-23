@@ -16,6 +16,7 @@ class ContentPage(models.Model):
 	image_id = models.CharField(max_length=200, null=True, blank=True)
 	image_1 = models.ImageField(null=True, blank=True, upload_to="content_images", default = 'profile_pics/placeholder.png')
 	image_2 = models.ImageField(null=True, blank=True, upload_to="content_images", default = 'profile_pics/placeholder.png')
+	video = models.CharField(max_length=200, null=True, blank=True)
 
 
 	def __str__(self):

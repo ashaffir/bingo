@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-21 12:04+0200\n"
+"POT-Creation-Date: 2020-12-23 10:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,6 +51,11 @@ msgstr "צור קשר"
 #: bingo_main/templates/bingo_main/terms.html:14
 msgid "Terms & Conditions"
 msgstr "תנאי שימוש"
+
+#: bingo_main/templates/bingo_main/base.html:111
+#: bingo_main/templates/bingo_main/privacy.html:14
+msgid "Privacy"
+msgstr ""
 
 #: bingo_main/templates/bingo_main/bingo.html:35
 #: bingo_main/templates/bingo_main/bingo.html:37
@@ -160,15 +165,15 @@ msgstr "תודה ששיחקתם"
 msgid "Close"
 msgstr "סגור"
 
-#: bingo_main/templates/bingo_main/broadcast/index.html:100
+#: bingo_main/templates/bingo_main/broadcast/index.html:106
 msgid "Tickets"
 msgstr "כרטיסים"
 
-#: bingo_main/templates/bingo_main/broadcast/index.html:103
+#: bingo_main/templates/bingo_main/broadcast/index.html:109
 msgid "Start Bingo"
 msgstr "התחל בינגו"
 
-#: bingo_main/templates/bingo_main/broadcast/index.html:103
+#: bingo_main/templates/bingo_main/broadcast/index.html:109
 msgid "Price"
 msgstr "מחיר"
 
@@ -397,7 +402,7 @@ msgstr "הפוך למנחה"
 #: bingo_main/templates/bingo_main/login.html:18
 #: bingo_main/templates/bingo_main/login.html:47
 #: bingo_main/templates/bingo_main/partials/_navbar_index.html:37
-#: bingo_main/templates/bingo_main/register.html:65
+#: bingo_main/templates/bingo_main/register.html:68
 msgid "Login"
 msgstr "הכנס"
 
@@ -467,12 +472,12 @@ msgid "Do not have an account"
 msgstr "אין לך חשבון"
 
 #: bingo_main/templates/bingo_main/login.html:49
-#: bingo_main/templates/bingo_main/register.html:63
+#: bingo_main/templates/bingo_main/register.html:74
 msgid "Register"
 msgstr "הירשם"
 
 #: bingo_main/templates/bingo_main/login.html:50
-#: bingo_main/templates/bingo_main/register.html:65
+#: bingo_main/templates/bingo_main/register.html:68
 msgid "here"
 msgstr "כאן"
 
@@ -481,6 +486,8 @@ msgid "Dashboard"
 msgstr "לוח מחוונים"
 
 #: bingo_main/templates/bingo_main/partials/_navbar_index.html:35
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:70
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:71
 msgid "Logout"
 msgstr "התנתק"
 
@@ -523,6 +530,10 @@ msgstr "שם החברה"
 msgid "VAT Number"
 msgstr "מספר מעמ"
 
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:68
+msgid "Update Details"
+msgstr "עדכן פרטים"
+
 #: bingo_main/templates/bingo_main/register.html:15
 msgid "Registration"
 msgstr "רישום"
@@ -548,46 +559,67 @@ msgid "Choose your country"
 msgstr "בחר את מדינתך"
 
 #: bingo_main/templates/bingo_main/register.html:65
+msgid ""
+"I wish to receive information, offers, recommendations, and updates from"
+msgstr "אני רוצה לקבל מידע, הצעות, המלצות ועדכונים מאת"
+
+#: bingo_main/templates/bingo_main/register.html:68
 msgid "Already have an account"
 msgstr "כבר יש לך חשבון"
+
+#: bingo_main/templates/bingo_main/register.html:71
+msgid "By signing up, you accept our"
+msgstr "בהרשמה אתה מקבל את"
+
+#: bingo_main/templates/bingo_main/register.html:71
+msgid "Terms and Conditions"
+msgstr "תנאי השימוש"
+
+#: bingo_main/templates/bingo_main/register.html:72
+msgid "Please read our"
+msgstr "אנא קרא את "
+
+#: bingo_main/templates/bingo_main/register.html:72
+msgid "Privacy Policy"
+msgstr "מדיניות פרטיות שלנו"
 
 #: bingo_main/templates/bingo_main/why_and_how.html:12
 msgid "Why and How"
 msgstr "למה ואיך"
 
-#: bingo_main/views.py:200
+#: bingo_main/views.py:210
 msgid "Oops, your message was not sent. Please try again later"
 msgstr "אופס, ההודעה שלך לא נשלחה. בבקשה נסה שוב מאוחר יותר"
 
-#: bingo_main/views.py:206
+#: bingo_main/views.py:216
 msgid "Your message was sent. We will be in touch soon"
 msgstr "ההודעה שלך נשלחה. נהיה בקשר בקרוב"
 
-#: bingo_main/views.py:330
+#: bingo_main/views.py:340
 msgid "Your updated Bingo Album is pending approval for public view"
 msgstr "אלבום הבינגו המעודכן שלך ממתין לאישור"
 
-#: bingo_main/views.py:711
+#: bingo_main/views.py:721
 msgid "Game already played"
 msgstr "המשחק הסתיים"
 
-#: bingo_main/views.py:725
+#: bingo_main/views.py:735
 msgid "tickets"
 msgstr "כרטיסים"
 
-#: bingo_main/views.py:725
+#: bingo_main/views.py:735
 msgid "Not enough players. Need at leaset"
 msgstr "לא מספיק שחקנים. צריך לפחות"
 
-#: bingo_main/views.py:741
+#: bingo_main/views.py:751
 msgid "There are not enough funds in your account. Please make a deposit"
 msgstr "אין מספיק כספים בחשבונך. אנא בצע הפקדה"
 
-#: bingo_main/views.py:934
+#: bingo_main/views.py:944
 msgid "Please enter a valid card number"
 msgstr "נא להזין מספר כרטיס תקף"
 
-#: bingo_main/views.py:937
+#: bingo_main/views.py:947
 msgid "The ticket is not a part of this game"
 msgstr "הכרטיס אינו חלק מהמשחק הזה"
 

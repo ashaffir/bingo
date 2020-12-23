@@ -11,7 +11,7 @@ class HostSignupForm(UserCreationForm):
     
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('email', 'password1', 'password2','country', )
+        fields = ('email', 'password1', 'password2', )
     
     @transaction.atomic
     def save(self):

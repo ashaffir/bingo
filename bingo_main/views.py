@@ -61,8 +61,11 @@ def bingo_main_register(request):
         form = HostSignupForm(request.POST)
         if form.is_valid():
             user = form.save()  # add employer to db with is_active as False
+            
+            user.newsletter_optin = True if request.POST.get('newsletter') == 'on' else False
             user.username = user.email
             user.save()
+
 
             # send employer a accout activation email
             # current_site = request._current_scheme_host
@@ -79,9 +82,20 @@ def bingo_main_register(request):
             #         context=message, to_email=[user.email],
             #         html_email_template_name='registration/account_activation_email.html')
 
-            messages.success(request, 'An accout activation link has been sent to your email: ' + user.email +
-                             '. Check your email and click the link to activate your account.')
-            return redirect('bingo_main:bingo_main')
+            # messages.success(request, 'An accout activation link has been sent to your email: ' + user.email +
+            #                  '. Check your email and click the link to activate your account.')
+            print(f"USERNAME: {form.cleaned_data['email']}")
+            print(f"PASS: {form.cleaned_data['password1']}")
+
+            new_user = authenticate(username=form.cleaned_data['email'],
+                                    password=form.cleaned_data['password1'],
+                                    )
+            print(f"USER: {new_user}")
+
+            login(request, new_user)
+            
+            return redirect('bingo_main:dashboard')
+            # return HttpResponseRedirect("/dashboard/")
         else:
             for error in form.errors:
                 messages.error(request, f'Error: {error}')
@@ -514,6 +528,14 @@ def my_bingos(request):
         context['pictures_5x5'] = 'none'
 
     return render(request, 'bingo_main/dashboard/my-bingos.html', context)
+
+@login_required
+def instructions(request):
+    context = {}
+    context['section_a'] = ContentPage.objects.get(name='instructions', section='a')
+    context['section_b'] = ContentPage.objects.get(name='instructions', section='b')
+    return render(request, 'bingo_main/dashboard/instructions.html', context)
+
 
 
 @api_view(['GET', ])
