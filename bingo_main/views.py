@@ -532,8 +532,28 @@ def my_bingos(request):
 @login_required
 def instructions(request):
     context = {}
-    context['section_a'] = ContentPage.objects.get(name='instructions', section='a')
-    context['section_b'] = ContentPage.objects.get(name='instructions', section='b')
+    try:
+        context['section_a'] = ContentPage.objects.get(name='instructions', section='a')
+    except Exception as e:
+        context['section_a'] = None
+
+    try:
+        context['section_b'] = ContentPage.objects.get(name='instructions', section='b')
+    except Exception as e:
+        context['section_b'] = None
+    try:
+        context['section_c'] = ContentPage.objects.get(name='instructions', section='c')
+    except Exception as e:
+        context['section_c'] = None
+    try:
+        context['section_d'] = ContentPage.objects.get(name='instructions', section='d')
+    except Exception as e:
+        context['section_d'] = None
+    try:
+        context['section_e'] = ContentPage.objects.get(name='instructions', section='e')
+    except Exception as e:
+        context['section_e'] = None
+
     return render(request, 'bingo_main/dashboard/instructions.html', context)
 
 
@@ -1179,7 +1199,7 @@ def logout_view(request):
 
 
 def handler500(request, *args, **argv):
-    return redirect('home')
+    return redirect('bingo_main:bingo_main')
 
 
 def handler403(request, *args, **argv):
