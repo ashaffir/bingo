@@ -138,6 +138,16 @@ def terms(request):
         logger.error('>>> Bingo main: not content for the Terms section')
     return render(request, 'bingo_main/terms.html', context)
 
+def privacy(request):
+    context = {}
+    try:
+        terms = ContentPage.objects.get(name='privacy')
+        context['privacy'] = terms
+    except Exception as e:
+        messages.error(request, 'This page content is not ready')
+        logger.error('>>> Bingo main: not content for the Privacy section')
+    return render(request, 'bingo_main/privacy.html', context)
+
 
 def pricing(request):
     context = {}
