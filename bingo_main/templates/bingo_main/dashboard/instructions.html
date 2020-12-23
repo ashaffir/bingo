@@ -66,7 +66,9 @@
                                 </div>
                                 <div class="col">
                                     <div class="yt-container">
-                                        <iframe src="{{ section_a.video }}" frameborder="0" allowfullscreen></iframe>
+                                        {% if {{ section_a.video }} %}
+                                            <iframe src="{{ section_a.video }}" frameborder="0" allowfullscreen></iframe>
+                                        {% endif %}
                                      </div>
                                 </div>
                             </div>
@@ -81,7 +83,11 @@
                                     {{ section_b.content | safe }}
                                 </div>
                                 <div class="col">
-                                    <!-- VIDEO -->
+                                    <div class="yt-container">
+                                        {% if {{ section_b.video }} %}
+                                            <iframe src="{{ section_b.video }}" frameborder="0" allowfullscreen></iframe>
+                                        {% endif %}
+                                     </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -95,7 +101,11 @@
                                     {{ section_c.content | safe }}
                                 </div>
                                 <div class="col">
-                                    <!-- VIDEO -->
+                                    <div class="yt-container">
+                                        {% if {{ section_c.video }} %}
+                                            <iframe src="{{ section_c.video }}" frameborder="0" allowfullscreen></iframe>
+                                        {% endif %}
+                                     </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -109,7 +119,12 @@
                                     {{ section_d.content | safe }}
                                 </div>
                                 <div class="col">
-                                    <!-- VIDEO -->
+                                    <div class="yt-container">
+                                        {% if {{ section_d.video }} %}
+                                            <iframe src="{{ section_d.video }}" frameborder="0" allowfullscreen></iframe>
+                                        {% endif %}
+                                     </div>
+
                                 </div>
                             </div>
                             <div class="row">
@@ -123,7 +138,11 @@
                                     {{ section_e.content | safe }}
                                 </div>
                                 <div class="col">
-                                    <!-- VIDEO -->
+                                    <div class="yt-container">
+                                        {% if {{ section_e.video }} %}
+                                            <iframe src="{{ section_e.video }}" frameborder="0" allowfullscreen></iframe>
+                                        {% endif %}
+                                     </div>
                                 </div>
                             </div>
                             <div class="row">
