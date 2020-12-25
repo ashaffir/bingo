@@ -45,9 +45,9 @@
                             src="{{ current_game.prize_1_image_file.url }}"></img>
                     </div>
                     <div class="prizeBox" id="winCondition">
-                        Bingo
+                        {% trans 'Bingo' %}
                         <br>
-                        <div class="bingoTable"></div>
+                        <div class="bingoTable" id="bingoTable_bingo"></div>
                     </div>
                 </div>
             {% endif %}
@@ -60,9 +60,9 @@
                             src="{{ current_game.prize_2_image_file.url }}"></img>
                     </div>
                     <div class="prizeBox" id="winCondition">
-                        Bingo
+                        {% trans 'One lines' %}
                         <br>
-                        <div class="bingoTable"></div>
+                        <div class="bingoTable" id="bingoTable_1line"></div>
                     </div>
                 </div>
             {% endif %}
@@ -75,9 +75,9 @@
                             src="{{ current_game.prize_3_image_file.url }}"></img>
                     </div>
                     <div class="prizeBox" id="winCondition">
-                        Bingo
+                        {% trans 'Two Lines' %}
                         <br>
-                        <div class="bingoTable"></div>
+                        <div class="bingoTable" id="bingoTable_2line"></div>
                     </div>
                 </div>
             {% endif %}
@@ -177,11 +177,16 @@
             document.querySelector('body').style.height = window.innerHeight + 'px';
 
             // Resize bingo box to be the same height as the image
+            const prizeSectionHeight = document.querySelector('#prize').clientHeight;
+            prizeContainers = document.querySelectorAll('#prizeContainer');
+            
+            for (let index = 0; index != prizeContainers.length; index++) {
+                prizeContainers[index].style.maxHeight = prizeSectionHeight / 3 + 'px';
+            }
 
-            document.querySelector('#prizeContainer').style.maxHeight = document.querySelector('#prize').clientHeight /
-                3 + 'px';
-            document.querySelector('#winCondition').style.maxHeight = document.querySelector('.innerContainer')
-                .clientHeight + 'px';
+
+            //document.querySelector('#prizeContainer').style.maxHeight = document.querySelector('#prize').clientHeight / 3 + 'px';
+            document.querySelector('#winCondition').style.maxHeight = document.querySelector('.innerContainer').clientHeight + 'px';
 
 //            document.querySelector('.innerContainer').style.height = window.innerHeight - document.querySelector('.speakerImage').clientHeight + 'px';
 
@@ -196,40 +201,53 @@
         function getData() {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
-            let content = "";
-            if (winCondition == 'bingo') {
+            let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : '2line';
+            let content_bingo = "";
+            let content_1line = "";
+            let content_2line = "";
+            
                 for (let index = 0; index != 9; index++) {
-                    content +=
+                    content_bingo +=
                         '<div class="field"><div class="circle"></div></div>';
                 }
-            }
 
-            if (winCondition == '1line') {
+                document.querySelectorAll('#bingoTable_bingo').forEach(el => {
+                    el.innerHTML = content_bingo;
+                });
+
+
                 for (let index = 0; index != 3; index++) {
-                    content +=
+                    content_1line +=
                         '<div class="field"><div class="circle"></div></div>';
                 }
                 for (let index = 0; index != 6; index++) {
-                    content +=
+                    content_1line +=
                         '<div class="field"></div>';
                 }
-            }
 
-            if (winCondition == '2line') {
+                document.querySelectorAll('#bingoTable_1line').forEach(el => {
+                    el.innerHTML = content_1line;
+                });
+
                 for (let index = 0; index != 6; index++) {
-                    content +=
+                    content_2line +=
                         '<div class="field"><div class="circle"></div></div>';
                 }
                 for (let index = 0; index != 3; index++) {
-                    content +=
+                    content_2line +=
                         '<div class="field"></div>';
                 }
-            }
 
+                document.querySelectorAll('#bingoTable_2line').forEach(el => {
+                    el.innerHTML = content_2line;
+                });
+
+
+            /*
             document.querySelectorAll('.bingoTable').forEach(el => {
                 el.innerHTML = content;
             });
+            */
         }
     </script>
 

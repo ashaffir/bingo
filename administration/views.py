@@ -5,10 +5,17 @@ from django.contrib import messages
 from game.models import Album, Picture, Game, Player
 from users.utils import send_mail
 
+from .decorators import superuser_required
+
 logger = logging.getLogger(__file__)
 
-
+@superuser_required
 def admin_home(request):
+    context = {}
+    return render(request, 'administration/admin-home.html')
+
+@superuser_required
+def public_albums(request):
     context = {}
     albums = Album.objects.filter(is_public=True, public_approved=False, public_rejected=False)
     albums_images = []
@@ -95,4 +102,4 @@ def admin_home(request):
             messages.success(request, f'Album rejected successfuly!!')
             return redirect('administration:admin_home')
 
-    return render(request, 'administration/admin-home.html', context)
+    return render(request, 'administration/public-albums.html', context)

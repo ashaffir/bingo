@@ -52,6 +52,12 @@ def bingo_main(request):
     except Exception as e:
         pass
 
+    try:
+        context['instructions_a'] = ContentPage.objects.get(name='home', section='instructions_a')
+    except Exception as e:
+        context['section_a'] = None
+
+
     return render(request, 'bingo_main/index.html', context)
 
 
@@ -475,6 +481,19 @@ def my_bingos(request):
     user = request.user
     albums = Album.objects.filter(user=user)
     albums_images = []
+
+    # Album delete
+    if request.method == 'POST':
+        album_id = request.POST.get('delete_album')
+        try:
+            Album.objects.get(album_id=album_id).delete()
+            messages.success(request, _(f"Album deleted"))
+        except Exception as e:
+            print(f">>> BINGO MAIN: Failed deleting album. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN: Failed deleting album. ERROR: {e}")
+            messages.error(request, _(f"Failed deleting the album. Please try again later"))
+        print(f">>> BINGO MAIN: Delete Album {album_id}")
+
     for album in albums:
         pictures = []
         for pic in album.pictures:
@@ -526,6 +545,7 @@ def my_bingos(request):
         logger.info('No 5x5 album pictures found')
         print('No 5x5 album pictures found')
         context['pictures_5x5'] = 'none'
+
 
     return render(request, 'bingo_main/dashboard/my-bingos.html', context)
 

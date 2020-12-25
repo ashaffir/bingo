@@ -33,8 +33,12 @@
             <div class="bingoTableBottom">
                 {{ album.album_name }}
                 <div>
+                    <div class="gameButton mr-5 ml-5">
+                        <i class="fa fa-trash"  aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Delete this Album' %}"
+                            onclick="deleteAlbum('{{ album.album_id }}')"></i>
+                    </div>
                     <div class="gameButton">
-                        <i class="fa fa-edit"
+                        <i class="fa fa-edit"  aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Edit this Album' %}"
                             onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
                     </div>
                     <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
@@ -52,6 +56,10 @@
             <div class="bingoTableBottom">
                 {{ album.album_name }}
                 <div>
+                    <div class="gameButton mr-5 ml-5">
+                        <i class="fa fa-trash"  aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Delete this Album' %}"
+                            onclick="deleteAlbum('{{ album.album_id }}')"></i>
+                    </div>
                     <div class="gameButton">
                         <i class="fa fa-edit"
                             onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
@@ -71,6 +79,10 @@
             <div class="bingoTableBottom">
                 {{ album.album_name }}
                 <div>
+                    <div class="gameButton mr-5 ml-5">
+                        <i class="fa fa-trash"  aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Delete this Album' %}"
+                            onclick="deleteAlbum('{{ album.album_id }}')"></i>
+                    </div>
                     <div class="gameButton">
                         <i class="fa fa-edit"
                             onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
@@ -100,9 +112,43 @@
 </div>
 {% endif %}
 
+<!-- Confirmation modal -->
+
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% trans 'Album deleted cannot be restored. Please confirm delete' %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
+          <form action="" name="deleteAlbumForm" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+                <input type="text" id="delete_album" name="delete_album" value="" hidden>
+              <button type="submit" value="" class="btn btn-primary">{% trans 'Confirm' %}</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
 {% endblock content %}
 
 {% block js_bottom %}
+
+<script>
+    function deleteAlbum(album_id){
+        console.log(`Delete: ${album_id}`);
+        $("#delete_album").val(album_id);
+        $('#confirmationModal').modal('show');
+        }
+</script>
 
 <script>
     function openSidebar() {
