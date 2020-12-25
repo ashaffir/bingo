@@ -24,8 +24,13 @@ def public_albums(request):
         for pic in album.pictures:
             pictures.append(Picture.objects.get(pk=pic))
 
-        albums_images.append({'album_name': album.name, 'album_id': str(
-            album.pk), 'board_size': album.board_size, 'pictures': pictures})
+        albums_images.append({
+            'album_name': album.name, 
+            'album_id': str(album.pk), 
+            'album_user': str(album.user), 
+            'board_size': album.board_size, 
+            'pictures': pictures
+            })
 
     context['albums_images'] = albums_images
     context['albums'] = albums
@@ -100,6 +105,6 @@ def public_albums(request):
                     f'>>> ADMINISTRATION@admin_home: Failed sending email ot the user updating on a rejected album. ERROR: {e}')
 
             messages.success(request, f'Album rejected successfuly!!')
-            return redirect('administration:admin_home')
+            return redirect('administration:public_albums')
 
     return render(request, 'administration/public-albums.html', context)

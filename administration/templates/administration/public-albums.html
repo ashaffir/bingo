@@ -8,6 +8,17 @@
 <link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
 <link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
 
+<style>
+    .admin-table {
+        font-size: 1rem;
+        border: 1px solid black;
+    }
+    .admin-table td,th {
+        border: 1px solid black;
+        padding: 5px;
+    }
+</style>
+
 {% endblock css %}
 
 {% block js %}
@@ -38,8 +49,31 @@
                 {% endfor %}
             </div>
             <div class="bingoTableBottom">
-                NAME: {{ album.album_name }}
-                ID: {{ album.album_id }}
+                <table class="admin-table">
+                    <thead>
+                        <th>
+                            Album Name
+                        </th>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Album ID
+                        </th>
+                    </thead>
+                    <tr>
+                        <td>
+                            {{ album.album_name }}
+                        </td>
+                        <td>
+                            {{ album.album_user }}
+                        </td>
+                        <td>
+                            {{ album.album_id }}
+                        </td>
+                    </tr>
+                </table>
+
                 <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="approve_album">Approve</button>
                 <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="reject_album">Reject</button>
             </div>
@@ -52,9 +86,33 @@
                 {% endfor %}
             </div>
             <div class="bingoTableBottom">
-                {{ album.album_name }}
-                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                    name="approve_album">Approve</button>
+                <table class="admin-table">
+                    <thead>
+                        <th>
+                            Album Name
+                        </th>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Album ID
+                        </th>
+                    </thead>
+                    <tr>
+                        <td>
+                            {{ album.album_name }}
+                        </td>
+                        <td>
+                            {{ album.album_user }}
+                        </td>
+                        <td>
+                            {{ album.album_id }}
+                        </td>
+                    </tr>
+                </table>
+
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="approve_album">Approve</button>
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="reject_album">Reject</button>
             </div>
         </div>
         {% elif album.board_size == 5 %}
@@ -65,9 +123,33 @@
                 {% endfor %}
             </div>
             <div class="bingoTableBottom">
-                {{ album.album_name }}
-                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                    name="approve_album">Approve</button>
+                <table class="admin-table">
+                    <thead>
+                        <th>
+                            Album Name
+                        </th>
+                        <th>
+                            User
+                        </th>
+                        <th>
+                            Album ID
+                        </th>
+                    </thead>
+                    <tr>
+                        <td>
+                            {{ album.album_name }}
+                        </td>
+                        <td>
+                            {{ album.album_user }}
+                        </td>
+                        <td>
+                            {{ album.album_id }}
+                        </td>
+                    </tr>
+                </table>
+
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="approve_album">Approve</button>
+                <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}' name="reject_album">Reject</button>
             </div>
         </div>
         {% endif %}

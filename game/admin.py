@@ -8,7 +8,7 @@ from .models import Album, Board, Picture, Game, Player
 @admin.register(Album)
 class AlbumAdmin(admin.ModelAdmin):
 
-    list_display = ('album_id', 'name', 'created',
+    list_display = ('album_id', 'name', 'user','created',
                     'number_of_pictures', 'board_size', 'public_approved',)
     search_fields = ('name',)
     ordering = ('-created',)

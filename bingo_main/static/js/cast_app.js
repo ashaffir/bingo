@@ -1,5 +1,5 @@
 var session = null;
-console.log('script loaded');
+
 $( document ).ready(function(){
         var loadCastInterval = setInterval(function(){
                 if (chrome.cast.isAvailable) {
@@ -47,7 +47,6 @@ function onInitError() {
 }
 
 $('#castme').click(function(){
-    console.log('Clicked')
         launchApp();
 });
 
@@ -56,10 +55,10 @@ function launchApp() {
         chrome.cast.requestSession(onRequestSessionSuccess, onLaunchError);
 }
 
-// function onRequestSessionSuccess(e) {
-//         console.log("Successfully created session: " + e.sessionId);
-//         session = e;
-// }
+function onRequestSessionSuccess(e) {
+        console.log("Successfully created session: " + e.sessionId);
+        session = e;
+}
 
 function onLaunchError() {
         console.log("Error connecting to the Chromecast.");
@@ -77,10 +76,11 @@ function loadMedia() {
                 return;
         }
 
-        // var mediaInfo = new chrome.cast.media.MediaInfo('http://i.imgur.com/IFD14.jpg');        
-        // mediaInfo.contentType = 'image/jpg';
-        let currentMediaURL = 'http://localhost:8030/';
-        var mediaInfo = new chrome.cast.media.MediaInfo(currentMediaURL);
+        // let media_image = 'http://i.imgur.com/IFD14.jpg'
+        let media_image = 'https://7e25fa34592a.ngrok.io/media/games/7320/17ba533a06df704933f49c654e5d1395923684cc.jpeg'
+        var mediaInfo = new chrome.cast.media.MediaInfo(media_image);
+        console.log(`IMAGE: ${media_image}`);
+        mediaInfo.contentType = 'image/jpeg';
   
         var request = new chrome.cast.media.LoadRequest(mediaInfo);
         request.autoplay = true;
@@ -92,8 +92,8 @@ function onLoadSuccess() {
         console.log('Successfully loaded image.');
 }
 
-function onLoadError(e) {
-        console.log(`Failed to load image.${JSON.stringify(e)}`);
+function onLoadError() {
+        console.log('Failed to load image.');
 }
 
 $('#stop').click(function(){
