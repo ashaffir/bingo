@@ -55,8 +55,24 @@ def bingo_main(request):
     try:
         context['instructions_a'] = ContentPage.objects.get(name='home', section='instructions_a')
     except Exception as e:
-        context['section_a'] = None
+        context['instructions_a'] = None
 
+    try:
+        context['instructions_b'] = ContentPage.objects.get(name='home', section='instructions_b')
+    except Exception as e:
+        context['instructions_b'] = None
+    try:
+        context['instructions_c'] = ContentPage.objects.get(name='home', section='instructions_c')
+    except Exception as e:
+        context['instructions_c'] = None
+    try:
+        context['instructions_d'] = ContentPage.objects.get(name='home', section='instructions_d')
+    except Exception as e:
+        context['instructions_d'] = None
+    try:
+        context['instructions_e'] = ContentPage.objects.get(name='home', section='instructions_e')
+    except Exception as e:
+        context['instructions_e'] = None
 
     return render(request, 'bingo_main/index.html', context)
 
