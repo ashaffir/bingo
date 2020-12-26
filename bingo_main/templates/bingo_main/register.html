@@ -9,6 +9,16 @@
 {% include 'bingo_main/partials/_navbar_index.html' %}
 <section class="ftco-section services-section bg-light" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
     style="text-align: left;" {% endif %}>
+    {% if user.is_authenticated %}
+    <div class="row d-flex" style="margin-top: 5%; margin-bottom: 10%">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h1>You are logged in.</h1>
+            <button class="btn btn-secondary mt-5" onclick="window.location.href='{% url "bingo_main:dashboard" %}'"> {% trans 'Go to Dashboard' %}</button>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+{% else %}
     <div class="container">
         <!-- <div class="row mt-4">
             <div class="col" align='center'>
@@ -78,6 +88,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </section>
 {% endblock content %}
 

@@ -540,7 +540,7 @@
 							<li>Papers</li>
 						</ul> -->
 
-						<a href="#" class="btn btn-primary d-block px-2 py-3">{% trans 'Join' %}</a>
+						<a href="{% url 'bingo_main:bingo_main_register' %}" class="btn btn-primary d-block px-2 py-3">{% trans 'Join' %}</a>
 					</div>
 				</div>
 			</div>
@@ -565,8 +565,7 @@
 						{% if user.is_authenticated %}
 						<a href="{% url 'bingo_main:add_money' %}" class="btn btn-primary d-block px-2 py-3">{% trans 'Fund your account' %}</a>
 						{% else %}
-						<a href="{% url 'bingo_main:bingo_main_register' %}"
-							class="btn btn-primary d-block px-2 py-3">{% trans 'Join' %}</a>
+						<a href="{% url 'bingo_main:bingo_main_register' %}" class="btn btn-primary d-block px-2 py-3">{% trans 'Join' %}</a>
 						{% endif %}
 					</div>
 				</div>
