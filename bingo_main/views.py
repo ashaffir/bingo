@@ -42,15 +42,27 @@ def bingo_main(request):
         print(f">>> BINGO MAIN@bingo_main: base_price is not set. ERROR: {e}")
         logger.error(f">>> BINGO MAIN@bingo_main: base_price is not set. ERROR: {e}")
         context['base_price'] = 0.1
-    try:
-        section_a = ContentPage.objects.get(name='home', section='a')
-        context['section_a'] = section_a
-        section_b = ContentPage.objects.get(name='home', section='b')
-        context['section_b'] = section_b
-        section_c = ContentPage.objects.get(name='home', section='c')
-        context['section_c'] = section_c
-    except Exception as e:
-        pass
+    
+    if request.LANGUAGE_CODE == 'he':
+        try:
+            section_a = ContentPage.objects.get(name='home', section='a', language='he')
+            context['section_a'] = section_a
+            section_b = ContentPage.objects.get(name='home', section='b', language='he')
+            context['section_b'] = section_b
+            section_c = ContentPage.objects.get(name='home', section='c', language='he')
+            context['section_c'] = section_c
+        except Exception as e:
+            pass
+    else:
+        try:
+            section_a = ContentPage.objects.get(name='home', section='a')
+            context['section_a'] = section_a
+            section_b = ContentPage.objects.get(name='home', section='b')
+            context['section_b'] = section_b
+            section_c = ContentPage.objects.get(name='home', section='c')
+            context['section_c'] = section_c
+        except Exception as e:
+            pass
 
     try:
         context['instructions_a'] = ContentPage.objects.get(name='home', section='instructions_a')
