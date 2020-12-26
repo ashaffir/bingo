@@ -159,7 +159,7 @@
             console.log(`SIZE: ${size}`)
 
             //let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
-            let winCondition = '{{ game.winning_conditions }}';
+            let winCondition = '{{ game.current_winning_conditions }}';
 
             //let approvalRequired = urlParams.get('approval') ? urlParams.get('approval') : 'true';
 
@@ -332,6 +332,38 @@
                     console.log(`CURRENT PICTURE : ${data.message.data}`);
                     document.getElementById('currentImage').src = data.message.data;
                     document.getElementById('currentImageTitle').innerHTML = data.message.title;
+                    winCondition = data.message.current_winning_conditions;
+
+                    document.querySelector('.winCondition').innerHTML = "";
+
+                    if (winCondition == 'bingo') {
+                        for (let index = 0; index != 9; index++) {
+                            document.querySelector('.winCondition').innerHTML +=
+                                '<div class="field"><div class="circle"></div></div>';
+                        }
+                    }
+        
+                    if (winCondition == '1line') {
+                        for (let index = 0; index != 3; index++) {
+                            document.querySelector('.winCondition').innerHTML +=
+                                '<div class="field"><div class="circle"></div></div>';
+                        }
+                        for (let index = 0; index != 6; index++) {
+                            document.querySelector('.winCondition').innerHTML +=
+                                '<div class="field"></div>';
+                        }
+                    }
+        
+                    if (winCondition == '2line') {
+                        for (let index = 0; index != 6; index++) {
+                            document.querySelector('.winCondition').innerHTML +=
+                                '<div class="field"><div class="circle"></div></div>';
+                        }
+                        for (let index = 0; index != 3; index++) {
+                            document.querySelector('.winCondition').innerHTML +=
+                                '<div class="field"></div>';
+                        }
+                    }                    
                     //location.reload();
                 }
 

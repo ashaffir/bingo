@@ -9,9 +9,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PolyBingo</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/polybingo-logotype-new.png' %}" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'broadcast/css/global.css' %}">
     <link rel="stylesheet" href="{% static 'broadcast/css/cardCheck.css' %}">
+    <link rel="stylesheet" href="{% static 'broadcast/css/broadcastIndex.css' %}">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="{% static 'js/dropzone.js' %}"></script>
@@ -28,21 +31,9 @@
         </span>
     </div>
     <div class="alignCenter">
-        <div class="sidebar">
-            <div id="prizeContainer">
-                <div class="prizeBox" id="prize">
-                    {% trans 'Prize Name' %}
-                    <br>
-                    <img class="prizeImage" src="{{ current_game.prize_1_image_file.url }}"></img>
-                </div>
-                <div class="prizeBox" id="winCondition">
-                    {% trans 'Bingo' %}
-                    <br>
-                    <div class="bingoTable"></div>
-                </div>
-            </div>
-            <img src="{% static 'images/speakerCheck.png' %}" class="speaker" alt="">
-        </div>
+        
+        {% include "bingo_main/partials/_prizes_sidebar.html" %}
+
         <div id="positionWrapping">
             <div class="innerContainer" id="enterPin">
                 <div class="topArea">
@@ -50,8 +41,9 @@
                         {% if check_result == 'WIN' %}
                         {% trans 'Congratulations' %}
                         <br>
-                        <span>{% trans 'Card Number' %} {{ board_number }} {% trans 'WON' %} {% if prize_1 %} {% trans 'for Full Bingo' %} {% elif prize_2 %} {% trans 'for
-                            One Row' %} {% elif prize_3 %} {% trans 'for Two Rows' %} {% endif %}</span>
+                        <span>{% trans 'Card Number' %} {{ board_number }} {% trans 'WON' %} 
+                            {% if prize_1 %} {% trans 'for Full Bingo' %} {% elif prize_2 %} {% trans 'for One Row' %} 
+                            {% elif prize_3 %} {% trans 'for Two Rows' %} {% endif %}</span>
                         {% else %}
                         <span>{% trans 'Card Number' %} {{ board_number }}: {% trans 'Not yet' %}</span>
                         {% endif %}
@@ -68,15 +60,17 @@
 
         </div>
     </div>
-    <div class="buttonContainer">
+    <!-- <div class="buttonContainer">
         <div class="castButton">
             <google-cast-launcher id="share" --connected-color="white"></google-cast-launcher>
         </div>
-    </div>
+    </div> -->
 
-    <img src="{% static 'images/backgroundCheck.png' %}" class="speakerImage" alt="">
-    </div>
+    <!-- <img src="{% static 'images/backgroundCheck.png' %}" class="speakerImage" alt=""> -->
+    
     <script src="{% static 'broadcast/js/broadcastFunctions.js' %}"></script>
+    
+    
     <script>
         resize();
 
@@ -84,6 +78,8 @@
             resize();
         });
 
+
+        /*
         window['__onGCastApiAvailable'] = function (isAvailable) {
             if (isAvailable) {
                 initializeCastApi();
@@ -100,6 +96,7 @@
 
             document.querySelector('#share').style.display = "block";
         };
+        */
 
         function next(el, value) {
             if (isNaN(el.value)) return el.value = "";
@@ -120,62 +117,73 @@
             document.querySelector('#prizeContainer').style = '';
             document.querySelector('#winCondition').style = '';
             document.querySelector('.innerContainer').style = '';
-            document.querySelector('.speaker').style = '';
+            //document.querySelector('.speaker').style = '';
 
-            //document.querySelector('body').style.height = window.innerHeight + 'px';
-            document.querySelector('.sidebar').style.height = window.innerHeight - 10 + 'px';
+            document.querySelector('body').style.height = window.innerHeight + 'px';
 
             // Resize bingo box to be the same height as the image
-            document.querySelector('#prizeContainer').style.maxHeight = document.querySelector('#prize').clientHeight /
-                3 +
-                'px';
-            //document.querySelector('#winCondition').style.maxHeight = document.querySelector('.innerContainer').clientHeight + 'px';
+            const prizeSectionHeight = document.querySelector('#prize').clientHeight;
+            prizeContainers = document.querySelectorAll('#prizeContainer');
+            
+            for (let index = 0; index != prizeContainers.length; index++) {
+                prizeContainers[index].style.maxHeight = prizeSectionHeight / 3 + 'px';
+            }
 
 
-            document.querySelector('.innerContainer').style.height = window.innerHeight - 20 - document.querySelector('.speakerImage').clientHeight + 'px';
-
-
-            // Resize the speaker to not overlap the display box
-            document.querySelector('.speaker').style.maxHeight = window.innerHeight - document.querySelector(
-                '#prize').clientHeight + 'px';
+            document.querySelector('#winCondition').style.maxHeight = document.querySelector('.innerContainer').clientHeight + 'px';
             document.querySelector('#landscapeOnly').style.height = window.innerHeight + 'px';
         }
 
         function getData() {
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
-            let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
-            let content = "";
-            if (winCondition == 'bingo') {
+            let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : '2line';
+            let content_bingo = "";
+            let content_1line = "";
+            let content_2line = "";
+            
                 for (let index = 0; index != 9; index++) {
-                    content +=
+                    content_bingo +=
                         '<div class="field"><div class="circle"></div></div>';
                 }
-            }
 
-            if (winCondition == '1line') {
+                document.querySelectorAll('#bingoTable_bingo').forEach(el => {
+                    el.innerHTML = content_bingo;
+                });
+
+
                 for (let index = 0; index != 3; index++) {
-                    content +=
+                    content_1line +=
                         '<div class="field"><div class="circle"></div></div>';
                 }
                 for (let index = 0; index != 6; index++) {
-                    content +=
+                    content_1line +=
                         '<div class="field"></div>';
                 }
-            }
 
-            if (winCondition == '2line') {
+                document.querySelectorAll('#bingoTable_1line').forEach(el => {
+                    el.innerHTML = content_1line;
+                });
+
                 for (let index = 0; index != 6; index++) {
-                    content +=
+                    content_2line +=
                         '<div class="field"><div class="circle"></div></div>';
                 }
                 for (let index = 0; index != 3; index++) {
-                    content +=
+                    content_2line +=
                         '<div class="field"></div>';
                 }
-            }
 
-            document.querySelector('.bingoTable').innerHTML = content;
+                document.querySelectorAll('#bingoTable_2line').forEach(el => {
+                    el.innerHTML = content_2line;
+                });
+
+
+            /*
+            document.querySelectorAll('.bingoTable').forEach(el => {
+                el.innerHTML = content;
+            });
+            */
         }
 
         function checkCard() {

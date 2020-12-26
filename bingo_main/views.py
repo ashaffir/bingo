@@ -713,25 +713,22 @@ def start_bingo(request):
                     print('One prize game selected')
                 elif len(prizes) == 2:
                     game.prize_1_name = prizes[0]["prizeName"]
-                    game.prize_1_image_file = get_image_from_data_url(
-                        prizes[0]["prizeImage"]['dataURL'])[0]
+                    game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
                     game.prize_2_name = prizes[1]["prizeName"]
-                    game.prize_2_image_file = get_image_from_data_url(
-                        prizes[1]["prizeImage"]['dataURL'])[0]
+                    game.prize_2_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
                     game.winning_conditions = '1line'
+                    game.current_winning_conditions = '1line'
                     logger.info('Two prize game selected')
                     print('Two prize game selected')
                 elif len(prizes) == 3:
                     game.prize_1_name = prizes[0]["prizeName"]
-                    game.prize_1_image_file = get_image_from_data_url(
-                        prizes[0]["prizeImage"]['dataURL'])[0]
+                    game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
                     game.prize_2_name = prizes[1]["prizeName"]
-                    game.prize_2_image_file = get_image_from_data_url(
-                        prizes[1]["prizeImage"]['dataURL'])[0]
+                    game.prize_2_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
                     game.prize_3_name = prizes[2]["prizeName"]
-                    game.prize_3_image_file = get_image_from_data_url(
-                        prizes[2]["prizeImage"]['dataURL'])[0]
+                    game.prize_3_image_file = get_image_from_data_url(prizes[2]["prizeImage"]['dataURL'])[0]
                     game.winning_conditions = '2line'
+                    game.current_winning_conditions = '1line'
                     logger.info('Three prize game selected')
                     print('Three prize game selected')
 
@@ -1063,6 +1060,7 @@ def check_board(request, game_id):
                         context['prize_2'] = True
                         win = True
                         current_game.prize_2_won = True
+                        current_game.current_winning_conditions = 'bingo'
 
                     current_game.save()
 
@@ -1076,10 +1074,12 @@ def check_board(request, game_id):
                         context['prize_3'] = True
                         win = True
                         current_game.prize_3_won = True
+                        current_game.current_winning_conditions = 'bingo'
                     elif '1line' in winning_player.winnings and not current_game.prize_2_locked:
                         context['prize_2'] = True
                         win = True
                         current_game.prize_2_won = True
+                        current_game.current_winning_conditions = '2line'
 
                     current_game.save()
 

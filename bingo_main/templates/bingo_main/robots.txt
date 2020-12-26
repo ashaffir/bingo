@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /administration/
+
+Allow: /
+
+
+Sitemap: https://polybingo.com/sitemap.xml

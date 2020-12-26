@@ -80,28 +80,24 @@ class Game(models.Model):
     # game_pk = models.UUIDField(
     #     primary_key=True, default=uuid.uuid4, editable=False)
 
-    album = models.ForeignKey(
-        Album, null=True, blank=True, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, null=True, blank=True, on_delete=models.CASCADE)
     board_size = models.IntegerField(blank=True, null=True)
     # winning_conditions = models.JSONField(default=list,null=True, blank=True)
-    winning_conditions = models.CharField(
-        max_length=10, default='bingo', null=True, blank=True)
+    winning_conditions = models.CharField(max_length=10, default='bingo', null=True, blank=True)
+    current_winning_conditions = models.CharField(max_length=10, default='bingo', null=True, blank=True)
     # winning_conditions = models.CharField(max_length=10, choices=WINNING_CONDITIONS, default='ALL')
     is_public = models.BooleanField(default=False)
     prizes = models.JSONField(null=True, blank=True)
 
     auto_join_approval = models.BooleanField(default=False)
     prize_1_name = models.CharField(max_length=50, null=True, blank=True)
-    prize_1_image_file = models.ImageField(
-        upload_to=prize_image_path, blank=True, null=True)
+    prize_1_image_file = models.ImageField(upload_to=prize_image_path, blank=True, null=True)
     prize_2_name = models.CharField(max_length=50, null=True, blank=True)
-    prize_2_image_file = models.ImageField(
-        upload_to=prize_image_path, blank=True, null=True)
+    prize_2_image_file = models.ImageField(upload_to=prize_image_path, blank=True, null=True)
     prize_2_won = models.BooleanField(null=True, blank=True, default=False)
     prize_2_locked = models.BooleanField(null=True, blank=True, default=False)
     prize_3_name = models.CharField(max_length=50, null=True, blank=True)
-    prize_3_image_file = models.ImageField(
-        upload_to=prize_image_path, blank=True, null=True)
+    prize_3_image_file = models.ImageField(upload_to=prize_image_path, blank=True, null=True)
     prize_3_won = models.BooleanField(null=True, blank=True, default=False)
     prize_3_locked = models.BooleanField(null=True, blank=True, default=False)
 
@@ -114,8 +110,7 @@ class Game(models.Model):
     ended = models.BooleanField(default=False)
     game_cost = models.FloatField(null=True, blank=True, default=0.0)
     pictures_pool = models.JSONField(default=list, null=True, blank=True)
-    current_picture = models.ForeignKey(
-        Picture, blank=True, null=True, on_delete=models.CASCADE)
+    current_picture = models.ForeignKey(Picture, blank=True, null=True, on_delete=models.CASCADE)
     shown_pictures = models.JSONField(default=list, null=True, blank=True)
     prizes_won = models.JSONField(blank=True, null=True, default=list)
 

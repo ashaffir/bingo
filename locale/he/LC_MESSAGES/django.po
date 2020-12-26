@@ -83,6 +83,7 @@ msgstr "תמונה נוכחית"
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:29
 #: bingo_main/templates/bingo_main/broadcast/game.html:27
 #: bingo_main/templates/bingo_main/broadcast/game_over.html:27
+#: bingo_main/templates/bingo_main/broadcast/index.html:34
 msgid "Please rotate your device to continue"
 msgstr "סובב את המכשיר שלך כדי להמשיך"
 

@@ -6,17 +6,28 @@ from django.contrib.auth import views as auth_views
 # from django.conf.urls import handler404, handler500
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic.base import TemplateView
 
 from bingo_main import views as bingo_main_views
 
 from game import views as game_views
+
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import GameSitemap
 
 if platform.system() == 'Darwin':  # MAC
     admin.site.site_header = 'PolyBingo-Development'
 else:
     admin.site.site_header = 'PolyBingo'
 
+sitemaps = {
+    'games':GameSitemap()
+}
+
 urlpatterns = [
+    # path('sitemap.xml', sitemap, {'sitemaps':sitemaps}, name='sitemap'),
+    path('sitemap.xml', TemplateView.as_view(template_name="bingo_main/sitemap.xml", content_type="text/xml")),
+    path("robots.txt", TemplateView.as_view(template_name="bingo_main/robots.txt", content_type="text/plain")),
     path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
     path('administration/', include('administration.urls', namespace='administration')),

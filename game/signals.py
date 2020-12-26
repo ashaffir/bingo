@@ -78,11 +78,11 @@ def next_picture(sender, instance: Game, **kwargs):
                     'type': 'game.message',
                     'data': {
                             'data': instance.current_picture.image_file.url,
-                            'title': instance.current_picture.title
-
+                            'title': instance.current_picture.title,
+                            'current_winning_conditions': instance.current_winning_conditions
+                        }
                     }
-                }
-            )
+                )
         else:
             pass
 

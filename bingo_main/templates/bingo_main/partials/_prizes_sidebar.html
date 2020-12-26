@@ -1,0 +1,54 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
+<div class="sidebar">
+    {% if current_game.prize_1_name %}
+        <div id="prizeContainer">
+            <div class="prizeBox" id="prize">
+                {{ current_game.prize_1_name }}
+                <br>
+                <img class="prizeImage"
+                    src="{{ current_game.prize_1_image_file.url }}"></img>
+            </div>
+            <div class="prizeBox" id="winCondition">
+                {% trans 'Bingo' %}
+                <br>
+                <div class="bingoTable" id="bingoTable_bingo"></div>
+            </div>
+        </div>
+    {% endif %}
+    {% if current_game.prize_2_name and not current_game.prize_2_won%}
+        <div id="prizeContainer">
+            <div class="prizeBox" id="prize">
+                {{ current_game.prize_2_name }}
+                <br>
+                <img class="prizeImage"
+                    src="{{ current_game.prize_2_image_file.url }}"></img>
+            </div>
+            <div class="prizeBox" id="winCondition">
+                {% trans 'One lines' %}
+                <br>
+                <div class="bingoTable" id="bingoTable_1line"></div>
+            </div>
+        </div>
+    {% endif %}
+    {% if current_game.prize_3_name and not current_game.prize_3_won %}
+        <div id="prizeContainer">
+            <div class="prizeBox" id="prize">
+                {{ current_game.prize_3_name}}
+                <br>
+                <img class="prizeImage"
+                    src="{{ current_game.prize_3_image_file.url }}"></img>
+            </div>
+            <div class="prizeBox" id="winCondition">
+                {% trans 'Two Lines' %}
+                <br>
+                <div class="bingoTable" id="bingoTable_2line"></div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- <img src="{% static 'images/speakerHome.png' %}" class="speaker" alt=""> -->
+    <!-- <img src="{% static 'images/speakerHome1.png' %}" class="speaker" alt=""> -->
+</div>
