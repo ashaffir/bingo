@@ -753,8 +753,8 @@ def start_bingo(request):
             
             join_status = game_data['joinStatus']  # Auto/Request
             
-            # print(f'JOIN: {join_status}')
-            # logger.info(f'JOIN: {join_status}')
+            print(f'JOIN: {join_status}')
+            logger.info(f'JOIN: {join_status}')
             
             game.auto_join_approval = True if join_status == 'Auto' else False
 
