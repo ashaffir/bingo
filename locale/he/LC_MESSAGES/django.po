@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-26 15:40+0200\n"
+"POT-Creation-Date: 2020-12-27 09:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -230,12 +230,12 @@ msgid "Send Message"
 msgstr "שלח הודעה"
 
 #: bingo_main/templates/bingo_main/contact.html:71
-#: bingo_main/templates/bingo_main/index.html:685
+#: bingo_main/templates/bingo_main/index.html:689
 msgid "Subcribe to our Newsletter"
 msgstr "הירשם לניוזלטר שלנו"
 
 #: bingo_main/templates/bingo_main/contact.html:76
-#: bingo_main/templates/bingo_main/index.html:692
+#: bingo_main/templates/bingo_main/index.html:696
 msgid "Enter email address"
 msgstr "הזן כתובת דואל"
 
@@ -471,46 +471,46 @@ msgstr "שחק"
 
 #: bingo_main/templates/bingo_main/index.html:428
 msgid "How it"
-msgstr ""
+msgstr "איך זה"
 
 #: bingo_main/templates/bingo_main/index.html:428
 msgid "Works"
-msgstr ""
+msgstr "עובד"
 
-#: bingo_main/templates/bingo_main/index.html:520
+#: bingo_main/templates/bingo_main/index.html:524
 msgid "Ticket Pricing"
 msgstr "מחירי כרטיסים"
 
-#: bingo_main/templates/bingo_main/index.html:527
+#: bingo_main/templates/bingo_main/index.html:531
 msgid "Family"
 msgstr "משפחה"
 
-#: bingo_main/templates/bingo_main/index.html:529
+#: bingo_main/templates/bingo_main/index.html:533
 msgid "Up to"
 msgstr "עד"
 
-#: bingo_main/templates/bingo_main/index.html:529
+#: bingo_main/templates/bingo_main/index.html:533
 msgid "players per game and"
 msgstr "שחקנים למשחק ו"
 
-#: bingo_main/templates/bingo_main/index.html:529
+#: bingo_main/templates/bingo_main/index.html:533
 msgid "host"
 msgstr "מנחה"
 
-#: bingo_main/templates/bingo_main/index.html:543
-#: bingo_main/templates/bingo_main/index.html:568
+#: bingo_main/templates/bingo_main/index.html:547
+#: bingo_main/templates/bingo_main/index.html:572
 msgid "Join"
 msgstr "הצטרף"
 
-#: bingo_main/templates/bingo_main/index.html:550
+#: bingo_main/templates/bingo_main/index.html:554
 msgid "Family, Friends, Team"
 msgstr "משפחה, חברים, צוות"
 
-#: bingo_main/templates/bingo_main/index.html:552
+#: bingo_main/templates/bingo_main/index.html:556
 msgid "For any additional player above"
-msgstr "לכל שחקן נוסף"
+msgstr "לכל שחקן נוסף מעל "
 
-#: bingo_main/templates/bingo_main/index.html:566
+#: bingo_main/templates/bingo_main/index.html:570
 msgid "Fund your account"
 msgstr "ממן את החשבון שלך"
 
@@ -603,6 +603,10 @@ msgstr ""
 msgid "Two Lines"
 msgstr ""
 
+#: bingo_main/templates/bingo_main/register.html:16
+msgid "You are logged in"
+msgstr "אתה כבר מחובר"
+
 #: bingo_main/templates/bingo_main/register.html:17
 msgid "Go to Dashboard"
 msgstr "לוח מחוונים"
@@ -660,47 +664,47 @@ msgstr "מדיניות פרטיות שלנו"
 msgid "Why and How"
 msgstr "למה ואיך"
 
-#: bingo_main/views.py:246
+#: bingo_main/views.py:293
 msgid "Oops, your message was not sent. Please try again later"
 msgstr "אופס, ההודעה שלך לא נשלחה. בבקשה נסה שוב מאוחר יותר"
 
-#: bingo_main/views.py:252
+#: bingo_main/views.py:299
 msgid "Your message was sent. We will be in touch soon"
 msgstr "ההודעה שלך נשלחה. נהיה בקשר בקרוב"
 
-#: bingo_main/views.py:376
+#: bingo_main/views.py:423
 msgid "Your updated Bingo Album is pending approval for public view"
 msgstr "אלבום הבינגו המעודכן שלך ממתין לאישור"
 
-#: bingo_main/views.py:506
+#: bingo_main/views.py:553
 msgid "Album deleted"
 msgstr ""
 
-#: bingo_main/views.py:510
+#: bingo_main/views.py:557
 msgid "Failed deleting the album. Please try again later"
 msgstr "שגיאה במחיקת האלבום. בבקשה נסה שוב מאוחר יותר"
 
-#: bingo_main/views.py:796
+#: bingo_main/views.py:843
 msgid "Game already played"
 msgstr "המשחק הסתיים"
 
-#: bingo_main/views.py:810
+#: bingo_main/views.py:857
 msgid "tickets"
 msgstr "כרטיסים"
 
-#: bingo_main/views.py:810
+#: bingo_main/views.py:857
 msgid "Not enough players. Need at leaset"
 msgstr "לא מספיק שחקנים. צריך לפחות"
 
-#: bingo_main/views.py:826
+#: bingo_main/views.py:873
 msgid "There are not enough funds in your account. Please make a deposit"
 msgstr "אין מספיק כספים בחשבונך. אנא בצע הפקדה"
 
-#: bingo_main/views.py:1019
+#: bingo_main/views.py:1066
 msgid "Please enter a valid card number"
 msgstr "נא להזין מספר כרטיס תקף"
 
-#: bingo_main/views.py:1022
+#: bingo_main/views.py:1069
 msgid "The ticket is not a part of this game"
 msgstr "הכרטיס אינו חלק מהמשחק הזה"
 
