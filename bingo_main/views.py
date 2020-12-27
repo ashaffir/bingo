@@ -745,12 +745,18 @@ def start_bingo(request):
             game = Game.objects.last()
             print(f'>>> BINGO MAIN@start_bingo: START BROADCAST DATA')
             logger.info(f'>>> BINGO MAIN@start_bingo: START BROADCAST DATA')
-
-            join_status = json.loads(request.POST.get('game_data'))['joinStatus']  # Auto/Request
             
-            game.auto_join_approval = True if join_status == 'Auto' else False
+            try:
+                join_status = json.loads(request.POST.get('game_data'))['joinStatus']  # Auto/Request            
+                game.auto_join_approval = True if join_status == 'Auto' else False
+                prizes = json.loads(request.POST.get('game_data'))['prizes']
+            except Exception as e:
+                print(f">>> BINGO MAIN@start_bingo: Failed uploading prizes data. ERROR: {e}")
+                logger.error(f">>> BINGO MAIN@start_bingo: Failed uploading prizes data. ERROR: {e}")
+                messages.error(request, _("There was an error uploading the images prizes. Please try reducing the images sizes."))
+                return redirect(request.META['HTTP_REFERER'])
 
-            prizes = json.loads(request.POST.get('game_data'))['prizes']
+
             try:
                 if len(prizes) == 1:
                     game.prize_1_name = prizes[0]["prizeName"]

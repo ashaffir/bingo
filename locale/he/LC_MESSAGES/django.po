@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-27 11:27+0200\n"
+"POT-Creation-Date: 2020-12-27 15:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -431,10 +431,12 @@ msgstr "כל שורה"
 msgid "Any two Lines"
 msgstr "כל שתי שורות"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:471
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:396
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:437
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:466
 msgid ""
-"You are missing a prize image or prize title. Please upload an image and give it "
-"a title"
+"You are missing a prize image or prize title. Please upload an image and "
+"give it a title"
 msgstr "חסר לך תמונת פרס או כותרת פרס. אנא העלה תמונה ותן לה כותרת"
 
 #: bingo_main/templates/bingo_main/index.html:22
@@ -690,27 +692,35 @@ msgstr ""
 msgid "Failed deleting the album. Please try again later"
 msgstr "שגיאה במחיקת האלבום. בבקשה נסה שוב מאוחר יותר"
 
-#: bingo_main/views.py:843
+#: bingo_main/views.py:756
+msgid ""
+"There was an error uploading the images prizes. Please try reducing the "
+"images sizes."
+msgstr ""
+"אירעה שגיאה בהעלאת פרסי התמונות. אנא נסה להקטין את"
+"גדלי תמונות."
+
+#: bingo_main/views.py:849
 msgid "Game already played"
 msgstr "המשחק הסתיים"
 
-#: bingo_main/views.py:857
+#: bingo_main/views.py:863
 msgid "tickets"
 msgstr "כרטיסים"
 
-#: bingo_main/views.py:857
+#: bingo_main/views.py:863
 msgid "Not enough players. Need at leaset"
 msgstr "לא מספיק שחקנים. צריך לפחות"
 
-#: bingo_main/views.py:873
+#: bingo_main/views.py:879
 msgid "There are not enough funds in your account. Please make a deposit"
 msgstr "אין מספיק כספים בחשבונך. אנא בצע הפקדה"
 
-#: bingo_main/views.py:1066
+#: bingo_main/views.py:1072
 msgid "Please enter a valid card number"
 msgstr "נא להזין מספר כרטיס תקף"
 
-#: bingo_main/views.py:1069
+#: bingo_main/views.py:1075
 msgid "The ticket is not a part of this game"
 msgstr "הכרטיס אינו חלק מהמשחק הזה"
 

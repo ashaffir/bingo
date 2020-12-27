@@ -7,6 +7,8 @@ sudo supervisorctl status all
 sudo supervisorctl status bingo_project
 sudo supervisorctl restart bingo_project
 
+sudo supervisorctl restart all
+
 # Nginx
 
 sudo service nginx restart
