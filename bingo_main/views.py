@@ -767,21 +767,21 @@ def start_bingo(request):
                     print(f'>>> BINGO MAIN@start_bingo: One prize game selected')
                     logger.info(f'>>> BINGO MAIN@start_bingo: One prize game selected')
                 elif len(prizes) == 2:
-                    game.prize_1_name = prizes[0]["prizeName"]
-                    game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
-                    game.prize_2_name = prizes[1]["prizeName"]
-                    game.prize_2_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
+                    game.prize_1_name = prizes[1]["prizeName"]
+                    game.prize_1_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
+                    game.prize_2_name = prizes[0]["prizeName"]
+                    game.prize_2_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
                     game.winning_conditions = '1line'
                     game.current_winning_conditions = '1line'
                     print(f'>>> BINGO MAIN@start_bingo: Two prizes game selected')
                     logger.info(f'>>> BINGO MAIN@start_bingo: Two prizes game selected')
                 elif len(prizes) == 3:
-                    game.prize_1_name = prizes[0]["prizeName"]
-                    game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
-                    game.prize_2_name = prizes[1]["prizeName"]
-                    game.prize_2_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
-                    game.prize_3_name = prizes[2]["prizeName"]
-                    game.prize_3_image_file = get_image_from_data_url(prizes[2]["prizeImage"]['dataURL'])[0]
+                    game.prize_1_name = prizes[2]["prizeName"]
+                    game.prize_1_image_file = get_image_from_data_url(prizes[2]["prizeImage"]['dataURL'])[0]
+                    game.prize_2_name = prizes[0]["prizeName"]
+                    game.prize_2_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
+                    game.prize_3_name = prizes[1]["prizeName"]
+                    game.prize_3_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
                     game.winning_conditions = '2line'
                     game.current_winning_conditions = '1line'
                     print(f'>>> BINGO MAIN@start_bingo: Three prizes game selected')
