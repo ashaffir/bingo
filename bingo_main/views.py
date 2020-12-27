@@ -749,7 +749,7 @@ def start_bingo(request):
             game_data = json.loads(request.POST.get('game_data'))
         
             print(f'GAME DATA: {game_data}')
-            logger.ingo(f'GAME DATA: {game_data}')
+            logger.info(f'GAME DATA: {game_data}')
             
             join_status = game_data['joinStatus']  # Auto/Request
             
