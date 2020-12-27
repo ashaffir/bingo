@@ -743,10 +743,10 @@ def start_bingo(request):
                 return render(request, 'bingo_main/dashboard/start-bingo.html')
         else:
             game = Game.objects.last()
-            print(f'START BROADCAST DATA')
+            print(f'>>> BINGO MAIN@start_bingo: START BROADCAST DATA')
+            logger.info(f'>>> BINGO MAIN@start_bingo: START BROADCAST DATA')
 
-            join_status = json.loads(request.POST.get('game_data'))[
-                'joinStatus']  # Auto/Request
+            join_status = json.loads(request.POST.get('game_data'))['joinStatus']  # Auto/Request
             game.auto_join_approval = True if join_status == 'Auto' else False
 
             prizes = json.loads(request.POST.get('game_data'))['prizes']
