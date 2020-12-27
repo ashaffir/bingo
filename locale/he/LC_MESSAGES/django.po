@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-27 09:58+0200\n"
+"POT-Creation-Date: 2020-12-27 11:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -144,9 +144,9 @@ msgstr "בדוק"
 
 #: bingo_main/templates/bingo_main/broadcast/game.html:100
 #: bingo_main/templates/bingo_main/broadcast/game_over.html:39
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:63
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:144
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:225
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:64
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:145
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:226
 #: bingo_main/templates/bingo_main/partials/_prizes_sidebar.html:15
 msgid "Bingo"
 msgstr "בינגו"
@@ -372,64 +372,70 @@ msgstr "אשר סיסמה"
 msgid "How many prizes are you offering"
 msgstr "כמה פרסים אתה מציע"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:34
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:35
 msgid "1 Prize"
 msgstr "פרס אחד"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:37
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:38
 msgid "2 Prizes"
 msgstr "שני פרסים"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:40
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:41
 msgid "3 Prizes"
 msgstr "שלשה פרסים"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:46
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:220
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:47
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:221
 msgid "Prize #1"
 msgstr "פרס 1"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:49
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:139
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:176
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:220
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:50
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:140
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:177
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:221
 msgid "Prize name"
 msgstr "שם הפרס"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:56
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:178
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:57
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:179
 msgid "Upload or drop prize image here"
 msgstr "העלה את תמונת הפרס לכאן"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:100
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:101
 msgid "Auto Join"
 msgstr "הצטרפות אוטומטית"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:102
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:103
 msgid "Join by Request"
 msgstr "הצטרף לפי בקשה"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:105
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:106
 msgid "Start the game"
 msgstr "תתחיל את המשחק"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:106
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:107
 msgid "Cancel"
 msgstr "ביטול"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:139
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:173
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:140
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:174
 msgid "Prize"
 msgstr "פרס"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:144
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:183
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:145
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:184
 msgid "Any Line"
 msgstr "כל שורה"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:183
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:184
 msgid "Any two Lines"
 msgstr "כל שתי שורות"
+
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:471
+msgid ""
+"You are missing a prize image or prize title. Please upload an image and give it "
+"a title"
+msgstr "חסר לך תמונת פרס או כותרת פרס. אנא העלה תמונה ותן לה כותרת"
 
 #: bingo_main/templates/bingo_main/index.html:22
 msgid "You Host"

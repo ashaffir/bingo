@@ -757,7 +757,8 @@ def start_bingo(request):
                         prizes[0]["prizeImage"]['dataURL'])[0]
                     game.winning_conditions = 'bingo'
                     logger.info('One prize game selected')
-                    print('One prize game selected')
+                    print(f'>>> BINGO MAIN@start_bingo: One prize game selected')
+                    logger.info(f'>>> BINGO MAIN@start_bingo: One prize game selected')
                 elif len(prizes) == 2:
                     game.prize_1_name = prizes[0]["prizeName"]
                     game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
@@ -765,8 +766,8 @@ def start_bingo(request):
                     game.prize_2_image_file = get_image_from_data_url(prizes[1]["prizeImage"]['dataURL'])[0]
                     game.winning_conditions = '1line'
                     game.current_winning_conditions = '1line'
-                    logger.info('Two prize game selected')
-                    print('Two prize game selected')
+                    print(f'>>> BINGO MAIN@start_bingo: Two prizes game selected')
+                    logger.info(f'>>> BINGO MAIN@start_bingo: Two prizes game selected')
                 elif len(prizes) == 3:
                     game.prize_1_name = prizes[0]["prizeName"]
                     game.prize_1_image_file = get_image_from_data_url(prizes[0]["prizeImage"]['dataURL'])[0]
@@ -776,16 +777,14 @@ def start_bingo(request):
                     game.prize_3_image_file = get_image_from_data_url(prizes[2]["prizeImage"]['dataURL'])[0]
                     game.winning_conditions = '2line'
                     game.current_winning_conditions = '1line'
-                    logger.info('Three prize game selected')
-                    print('Three prize game selected')
+                    print(f'>>> BINGO MAIN@start_bingo: Three prizes game selected')
+                    logger.info(f'>>> BINGO MAIN@start_bingo: Three prizes game selected')
 
                 game.save()
 
             except Exception as e:
-                print(
-                    f">>> BINGO MAIN: Failed loading the prize images. ERROR: {e}")
-                logger.error(
-                    f">>> BINGO MAIN: Failed loading the prize images. ERROR: {e}")
+                print(f">>> BINGO MAIN: Failed loading the prize images. ERROR: {e}")
+                logger.error(f">>> BINGO MAIN: Failed loading the prize images. ERROR: {e}")
 
     return render(request, 'bingo_main/dashboard/start-bingo.html')
 

@@ -30,6 +30,7 @@
             {% else %}
             <div class="title">{% trans 'How many prizes are you offering' %}?</div>
             {% endif %}
+            
             <div class="prize active" onclick="selectPrize(this)" id="1">
                 <i class="fa fa-gift"></i> {% trans '1 Prize' %}
             </div>
@@ -390,12 +391,9 @@
         switch (prizes) {
             case '3':
                 if (dropzone[0].files.length == 0 | document.querySelector('#prizeTitle-0').value == "" | dropzone[1]
-                    .files
-                    .length == 0 | document.querySelector('#prizeTitle-1').value == "" | dropzone[2].files
-                        .length ==
-                    0 | document.querySelector('#prizeTitle-2').value == "") {
-                    errorBox.innerHTML =
-                        "You are missing the image/title for the prizes! Please upload an image/title before submitting!";
+                    .files.length == 0 | document.querySelector('#prizeTitle-1').value == "" | dropzone[2]
+                    .files.length == 0 | document.querySelector('#prizeTitle-2').value == "") {
+                    errorBox.innerHTML = "{% trans 'You are missing a prize image or prize title. Please upload an image and give it a title' %}";
                     return errorBox.style.display = "block";
                 }
 
@@ -436,8 +434,7 @@
                 if (dropzone[0].files.length == 0 | document.querySelector('#prizeTitle-0').value == "" | dropzone[1]
                     .files
                     .length == 0 | document.querySelector('#prizeTitle-1').value == "") {
-                    errorBox.innerHTML =
-                        "You are missing the image/title for the prizes! Please upload an image/title before submitting!";
+                    errorBox.innerHTML = "{% trans 'You are missing a prize image or prize title. Please upload an image and give it a title' %}";
                     return errorBox.style.display = "block";
                 }
 
@@ -466,8 +463,7 @@
 
             default:
                 if (dropzone.files.length == 0 | document.querySelector('#prizeTitle').value == "") {
-                    errorBox.innerHTML =
-                        "You are missing the image/title for the prize! Please upload an image/title before submitting!";
+                    errorBox.innerHTML = "{% trans 'You are missing a prize image or prize title. Please upload an image and give it a title' %}";
                     return errorBox.style.display = "block";
                 }
 
