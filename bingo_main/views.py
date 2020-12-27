@@ -45,24 +45,26 @@ def bingo_main(request):
     
     if request.LANGUAGE_CODE == 'he':
         try:
-            section_a = ContentPage.objects.get(name='home', section='a', language='he')
+            section_a = ContentPage.objects.get(name='home', section='a', language='Hebrew')
             context['section_a'] = section_a
-            section_b = ContentPage.objects.get(name='home', section='b', language='he')
+            section_b = ContentPage.objects.get(name='home', section='b', language='Hebrew')
             context['section_b'] = section_b
-            section_c = ContentPage.objects.get(name='home', section='c', language='he')
+            section_c = ContentPage.objects.get(name='home', section='c', language='Hebrew')
             context['section_c'] = section_c
         except Exception as e:
-            pass
+            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW sections. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW sections. ERROR: {e}")
     else:
         try:
-            section_a = ContentPage.objects.get(name='home', section='a')
+            section_a = ContentPage.objects.get(name='home', section='a', language='English')
             context['section_a'] = section_a
-            section_b = ContentPage.objects.get(name='home', section='b')
+            section_b = ContentPage.objects.get(name='home', section='b', language='English')
             context['section_b'] = section_b
-            section_c = ContentPage.objects.get(name='home', section='c')
+            section_c = ContentPage.objects.get(name='home', section='c', language='English')
             context['section_c'] = section_c
         except Exception as e:
-            pass
+            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage ENGLISH sections. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage ENGLISH sections. ERROR: {e}")
 
     try:
         context['instructions_a'] = ContentPage.objects.get(name='home', section='instructions_a')
