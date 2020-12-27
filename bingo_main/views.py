@@ -746,16 +746,8 @@ def start_bingo(request):
             print(f'>>> BINGO MAIN@start_bingo: START BROADCAST DATA')
             logger.info(f'>>> BINGO MAIN@start_bingo: START BROADCAST DATA')
 
-            game_data = json.loads(request.POST.get('game_data'))
-        
-            print(f'GAME DATA: {game_data}')
-            logger.info(f'GAME DATA: {game_data}')
-            
-            join_status = game_data['joinStatus']  # Auto/Request
-            
-            print(f'JOIN: {join_status}')
-            logger.info(f'JOIN: {join_status}')
-            
+            # join_status = json.loads(request.POST.get('game_data'))['joinStatus']  # Auto/Request
+            join_status = 'Auto'
             game.auto_join_approval = True if join_status == 'Auto' else False
 
             prizes = json.loads(request.POST.get('game_data'))['prizes']
