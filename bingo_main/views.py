@@ -952,8 +952,8 @@ def game(request, game_id):
 
                     if x_count_row == board.size:
 
-                        print(
-                            f'BINGO ROW: Player {player.nickname} Row {i} board {board} Ticket: {board.board_number}!!!')
+                        print(f'BINGO ROW: Player {player.nickname} Row {i} board {board} Ticket: {board.board_number}!!!')
+                        logger.info(f'BINGO ROW: Player {player.nickname} Row {i} board {board} Ticket: {board.board_number}!!!')
 
                         if game.prizes_won == []:
                             game.prizes_won.append('1line')
@@ -962,8 +962,8 @@ def game(request, game_id):
                         elif '1line' in player.winnings and x_count_full % board.size == 0:
                             player.winnings.append('2line')
                             game.prizes_won.append('2line')
-                            print(
-                                f'BINGO TWO ROWS: Player {player.nickname} board {board}!!!')
+                            print(f'BINGO TWO ROWS: Player {player.nickname} board {board} Ticket: {board.board_number}!!!')
+                            logger.info(f'BINGO TWO ROWS: Player {player.nickname} board {board} Ticket: {board.board_number}!!!')
 
                         else:
                             player.winnings.append('1line')
@@ -1022,10 +1022,8 @@ def game(request, game_id):
                     player = Player.objects.get(board_id=board.pk)
                     player.winnings.append('bingo')
                     player.save()
-                    print(
-                        f'BINGO FULLLLL!!! Player {player.nickname} Board: {board}')
-                    logger.info(
-                        f'BINGO FULLLLL!!! Player {player.nickname} Board: {board}')
+                    print(f'BINGO FULLLLL!!! Player {player.nickname} Board: {board} Ticket: {board.board_number}')
+                    logger.info(f'BINGO FULLLLL!!! Player {player.nickname} Board: {board} Ticket: {board.board_number}')
 
         else:
             game.ended = True
