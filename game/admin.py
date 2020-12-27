@@ -52,7 +52,7 @@ class PictureAdmin(ImportExportModelAdmin):
 
 @admin.register(Board)
 class BoardAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'game_id', 'size', 'player',)
+    list_display = ('pk', 'game_id', 'size', 'player','board_number',)
     list_filter = ('game_id', 'size',)
     search_fields = ['game_id', 'player__player_id', 'pk', ]
     ordering = ('-created',)

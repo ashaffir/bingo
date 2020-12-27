@@ -114,6 +114,11 @@ def player_approval_signal(sender, instance: Player, **kwargs):
                 game.game_cost = game_cost
                 game.save()
 
+                # Updating the board number (Ticket number)
+                player_board = Board.objects.get(player=instance)
+                player_board.board_number = game.number_of_players
+                player_board.save()
+
                 # Updating WS
                 channel_layer = get_channel_layer()
                 async_to_sync(channel_layer.group_send)(
@@ -128,6 +133,7 @@ def player_approval_signal(sender, instance: Player, **kwargs):
                     }
                 )
                 print(f">>> SINGLAS@approval: WS message sent {instance.pk}")
+                logger.info(f">>> SINGLAS@approval: WS message sent {instance.pk}")
 
             elif previous.not_approved != instance.not_approved:
                 print(
@@ -149,6 +155,7 @@ def player_approval_signal(sender, instance: Player, **kwargs):
                 pass
         except Exception as e:
             print(f">> SIGNALS@approval: player approval check. E: {e}")
+            logger.info(f">> SIGNALS@approval: player approval check. E: {e}")
 
 
 @receiver(post_save, sender=Player)
@@ -176,8 +183,7 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
         album = game.album
         pictures = album.pictures
 
-        game_approved_players = Player.objects.filter(
-            game=game, approved=True)
+        game_approved_players = Player.objects.filter(game=game, approved=True)
         players_count = len(game_approved_players)
 
         game_cost = cost_calculation(players_count)
