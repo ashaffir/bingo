@@ -1,5 +1,6 @@
 import requests
 import stripe
+import logging
 from django.shortcuts import render, get_object_or_404, reverse, redirect, resolve_url
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
@@ -7,6 +8,7 @@ from django.dispatch import receiver
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -18,6 +20,8 @@ from paypal.standard.ipn.signals import valid_ipn_received
 from .models import Payment
 from users.models import User
 
+logger = logging.getLogger(__file__)
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # Generate an invoice
@@ -25,7 +29,9 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 @login_required
-def paypal_payment(request, amount=0.0):
+def payment(request, amount=0.0):
+    print(f'>>> PAYMENTS @ payment: Amount {amount}')
+    logger.info(f'>>> PAYMENTS @ payment: Amount {amount}')
     deposit_id = request.session.get('order_id')
     context = {}
     host = request.get_host()
@@ -63,14 +69,23 @@ def paypal_payment(request, amount=0.0):
 
     form = PayPalPaymentsForm(initial=paypal_dict)
 
+    # Paypal: Adding the amount to the user's balance
+    # user.balance = user.balance + amount
+    # user.save()
+    
+    # print(f">>> PAYMENTS @ payment: Updated user balance with additional {amount}")
+    # logger.info(f">>> PAYMENTS @ payment: Updated user balance with additional {amount}")
+
     context['form'] = form
     context['amount'] = amount
     context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
-    return render(request, 'payments/paypal_payment.html', context)
+    return render(request, 'payments/payment.html', context)
 
 
 @login_required
 def stripe_payment(request, amount=0.0):
+    print(f'>>> PAYMENTS @ stripe_payment: Amount {amount}')
+    logger.info(f'>>> PAYMENTS @ stripe_payment: Amount {amount}')
     context = {}
     context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
     context['amount'] = amount
@@ -79,6 +94,9 @@ def stripe_payment(request, amount=0.0):
 
 @login_required
 def charge(request):
+    print(f">>> PAYMENTS @ charge (Stripe)")
+    logger.info(f">>> PAYMENTS @ charge (Stripe)")
+
     if request.method == 'POST':
         print('Charge info:', request.POST)
         stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -111,19 +129,20 @@ def charge(request):
                     description="PolyBingo funds deposit",
                 )
         except Exception as e:
-            messages.error(request, (
-                "Something went wrong with your payment. "
-                "Your account balance was not updated."))
+            messages.error(request, _("Something went wrong with your payment. Your account balance was not updated."))
             return HttpResponseRedirect(reverse("bingo_main:dashboard"))
 
-    # Adding the amount to the user's balance
+    # Stripe payment: Adding the amount to the user's balance
     user.balance = user.balance + amount
     user.save()
 
+    # TODO Send invoice to user.
+
+    print(f">>> PAYMENTS @ charge (Stripe): Updated user balance with additional {amount}")
+    logger.info(f">>> PAYMENTS @ charge (Stripe): Updated user balance with additional {amount}")
+
     # return redirect(reverse('payments:success', args=[amount]))
-    messages.success(request, (
-        "Thank you for the payment. "
-        "You should see your balance shortly."))
+    messages.success(request, _("Thank you for the payment. You should see your updated balance shortly."))
     return HttpResponseRedirect(reverse("bingo_main:dashboard"))
 
 
@@ -141,8 +160,7 @@ def deposits(request):
             if amount != '':
                 return HttpResponseRedirect(reverse('payment', args=[amount]))
             else:
-                messages.error(
-                    request, 'Please enter an amount, or pick pf the predefined amounts.')
+                messages.error(request, _('Please enter an amount, or pick pf the predefined amounts.'))
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return render(request, 'payments/deposits.html', context)
@@ -150,11 +168,19 @@ def deposits(request):
 
 @csrf_exempt
 def paypal_return(request):
+    user = request.user
+    payment = Payment.objects.filter(user=user).last()
+    amount = payment.amount
+    user.balance += amount
+    user.save()
+    print(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
+    logger.info(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
+
+    # TODO Send invoice to user.
+
     # context = {'post': request.POST, 'get': request.GET}
     # return render(request, 'payments/paypal_return.html', context)
-    messages.info(request, (
-        "Thank you for the payment. "
-        "You should see your balance shortly."))
+    messages.info(request, _("Thank you for the payment. You should see your balance shortly."))
     return HttpResponseRedirect(reverse("bingo_main:dashboard"))
 
 
@@ -162,9 +188,7 @@ def paypal_return(request):
 def paypal_cancel(request):
     # context = {'post': request.POST, 'get': request.GET}
     # return render(request, 'payments/paypal_cancel.html', context)
-    messages.info(request, (
-        "Your payment was canceled. "
-        "Your account balance was not updated."))
+    messages.info(request, _("Your payment was canceled. Your account balance was not updated."))
     return HttpResponseRedirect(reverse("bingo_main:dashboard"))
 
 

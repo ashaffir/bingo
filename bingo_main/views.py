@@ -1271,7 +1271,7 @@ def player_card(request, game_id, player_id, user_id):
 def add_money(request):
     context = {}
     if request.method == 'POST':
-        if 'paypal_payment' in request.POST:
+        if 'make_payment' in request.POST:
             money = request.POST.get('money')
             if money:
                 amount = money
@@ -1279,24 +1279,22 @@ def add_money(request):
                 amount = request.POST.get('deposit_amount')
 
             if amount != '':
-                return HttpResponseRedirect(reverse('payments:paypal_payment', args=[amount]))
+                return HttpResponseRedirect(reverse('payments:payment', args=[amount]))
             else:
-                messages.error(
-                    request, 'Please enter an amount, or pick pf the predefined amounts.')
+                messages.error(request, _('Please enter an amount, or pick pf the predefined amounts.'))
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        elif 'stripe_payment' in request.POST:
-            money = request.POST.get('money')
-            if money:
-                amount = money
-            else:
-                amount = request.POST.get('deposit_amount')
+        # elif 'stripe_payment' in request.POST:
+        #     money = request.POST.get('money')
+        #     if money:
+        #         amount = money
+        #     else:
+        #         amount = request.POST.get('deposit_amount')
 
-            if amount != '':
-                return HttpResponseRedirect(reverse('payments:stripe_payment', args=[amount]))
-            else:
-                messages.error(
-                    request, 'Please enter an amount, or pick pf the predefined amounts.')
-                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        #     if amount != '':
+        #         return HttpResponseRedirect(reverse('payments:stripe_payment', args=[amount]))
+        #     else:
+        #         messages.error(request, _('Please enter an amount, or pick pf the predefined amounts.'))
+        #         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return render(request, 'bingo_main/dashboard/add-money.html')
 

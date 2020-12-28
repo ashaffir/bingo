@@ -15,7 +15,7 @@ urlpatterns = [
 
     # Paypal
     # path('payment/<int:amount>', payment_views.payment, name='payment'),
-    path('paypal_payment/<int:amount>', payment_views.paypal_payment, name='paypal_payment'),
+    path('payment/<int:amount>', payment_views.payment, name='payment'),
     path('stripe_payment/<int:amount>', payment_views.stripe_payment, name='stripe_payment'),
     # Stripe
     path('charge/', payment_views.charge, name='charge'),
