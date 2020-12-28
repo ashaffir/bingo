@@ -419,103 +419,89 @@
 	</div>
 </section> -->
 
-<!-- Testimonials section -->
+<!-- How To section -->
 <section class="ftco-section testimony-section">
 	<div class="container">
-		<div class="row justify-content-center mb-2 pb-3">
-			<div class="col-md-7 text-center heading-section ftco-animate">
-				<!-- <span class="subheading">Testimonial</span> -->
-				<h2 class="mb-2"><span>{% trans 'How it' %}</span> {% trans 'Works' %}</h2>
-			</div>
+	  <div class="row justify-content-center mb-5 pb-3">
+		<div class="col-md-7 text-center heading-section ftco-animate">
+			<h2 class="mb-2"><span>{% trans 'How it' %}</span> {% trans 'Works' %}</h2>
 		</div>
-		<div class="row ftco-animate">
-			<div class="col-md-12">
-				<div class="carousel-testimony owl-carousel ftco-owl">
-					<div class="item">
-						<div class="testimony-wrap text-center py-4 pb-5">
-							<div class="yt-container mb-2">
-								{% if instructions_a.video %}
-									<iframe src="{{ instructions_a.video }}" frameborder="0" allowfullscreen></iframe>
-								{% endif %}
-							 </div>
-							<div class="text">
-								<h3 class="mb-4">{{ instructions_a.title }}</h3>
-								<!-- <p class="name">
-									<span class="fa-stack" style="color: green;">
-										<span class="fa fa-circle-o fa-stack-2x"></span>
-										<strong class="fa-stack-1x"> 1 </strong>
-									</span>
-								</p> -->
-								<!-- <span class="position">Marketing Manager</span> -->
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="testimony-wrap text-center py-4 pb-5">
-							<div class="yt-container mb-2">
-								{% if instructions_b.video %}
-									<iframe src="{{ instructions_b.video }}" frameborder="0" allowfullscreen></iframe>
-								{% endif %}
-							 </div>
-							<div class="text">
-								<h3 class="mb-4">{{ instructions_b.title }}</h3>
-								<!-- <p class="name">Roger Scott</p> -->
-								<!-- <span class="position">Interface Designer</span> -->
-							</div>
-						</div>
-					</div>
-					{% if instructions_c.title %}
-					<div class="item">
-						<div class="testimony-wrap text-center py-4 pb-5">
-							<div class="yt-container mb-2">
-								{% if instructions_c.video %}
-									<iframe src="{{ instructions_c.video }}" frameborder="0" allowfullscreen></iframe>
-								{% endif %}
-							 </div>
-							<div class="text">
-								<h3 class="mb-4">{{ instructions_c.title }}</h3>
-								<!-- <p class="name">Roger Scott</p> -->
-								<!-- <span class="position">UI Designer</span> -->
-							</div>
-						</div>
-					</div>
+	  </div>
+	  <div class="row ftco-animate">
+		<div class="col-md-12">
+		  <div class="carousel-testimony owl-carousel ftco-owl">
+			<div class="item">
+			  <div class="testimony-wrap text-center py-4 pb-5">
+				<div class="yt-container mb-2">
+					{% if instructions_a.video %}
+						<iframe src="{{ instructions_a.video }}" frameborder="0" allowfullscreen></iframe>
 					{% endif %}
-
-					<div class="item">
-						<div class="testimony-wrap text-center py-4 pb-5">
-							<div class="yt-container mb-2">
-								{% if instructions_d.video %}
-									<iframe src="{{ instructions_d.video }}" frameborder="0" allowfullscreen></iframe>
-								{% endif %}
-							 </div>
-							<div class="text">
-								<h3 class="mb-4">{{ instructions_d.title }}</h3>
-								<!-- <p class="name">Roger Scott</p> -->
-								<!-- <span class="position">Web Developer</span> -->
-							</div>
-						</div>
-					</div>
-
-					<div class="item">
-						<div class="testimony-wrap text-center py-4 pb-5">
-							<div class="yt-container mb-2">
-								{% if instructions_e.video %}
-									<iframe src="{{ instructions_e.video }}" frameborder="0" allowfullscreen></iframe>
-								{% endif %}
-							 </div>
-							<div class="text">
-								<h3 class="mb-4">{{ instructions_e.title }}</h3>
-								<!-- <p class="name">Roger Scott</p> -->
-								<!-- <span class="position">System Analyst</span> -->
-							</div>
-						</div>
-					</div>
+				 </div>
+				<div class="text">
+					<h3 class="mb-4">{{ instructions_a.title }}</h3>
 				</div>
+			  </div>
 			</div>
+			<div class="item">
+			  <div class="testimony-wrap text-center py-4 pb-5">
+				<div class="yt-container mb-2">
+					{% if instructions_b.video %}
+						<iframe src="{{ instructions_a.video }}" frameborder="0" allowfullscreen></iframe>
+					{% endif %}
+				 </div>
+				<div class="text">
+					<h3 class="mb-4">{{ instructions_b.title }}</h3>
+				</div>
+			  </div>
+			</div>
+			<div class="item">
+			  <div class="testimony-wrap text-center py-4 pb-5">
+				<div class="yt-container mb-2">
+					{% if instructions_c.video %}
+						<iframe src="{{ instructions_a.video }}" frameborder="0" allowfullscreen></iframe>
+					{% endif %}
+				 </div>
+				<div class="text">
+					<h3 class="mb-4">{{ instructions_c.title }}</h3>
+				</div>
+			  </div>
+			</div>
+			<!-- <div class="item">
+			  <div class="testimony-wrap text-center py-4 pb-5">
+				<div class="yt-container mb-2">
+					{% if instructions_a.video %}
+						<iframe src="{{ instructions_a.video }}" frameborder="0" allowfullscreen></iframe>
+					{% endif %}
+				 </div>
+				<div class="text">
+				  <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+				  <p class="name">Roger Scott</p>
+				  <span class="position">Web Developer</span>
+				</div>
+			  </div>
+			</div> -->
+			<!-- <div class="item">
+			  <div class="testimony-wrap text-center py-4 pb-5">
+				<div class="yt-container mb-2">
+					{% if instructions_a.video %}
+						<iframe src="{{ instructions_a.video }}" frameborder="0" allowfullscreen></iframe>
+					{% endif %}
+				 </div>
+				<div class="text">
+				  <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+				  <p class="name">Roger Scott</p>
+				  <span class="position">System Analyst</span>
+				</div>
+			  </div>
+			</div> -->
+		  </div>
 		</div>
+	  </div>
 	</div>
-</section>
+  </section>
+<!-- End how-to section -->
 
+<!-- Pricing Section -->
 <section class="ftco-section bg-light" id="pricing">
 	<div class="container">
 		<div class="row justify-content-center mb-5 pb-3">
