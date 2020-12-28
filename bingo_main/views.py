@@ -615,27 +615,50 @@ def my_bingos(request):
 @login_required
 def instructions(request):
     context = {}
-    try:
-        context['section_a'] = ContentPage.objects.get(name='instructions', section='a')
-    except Exception as e:
-        context['section_a'] = None
 
-    try:
-        context['section_b'] = ContentPage.objects.get(name='instructions', section='b')
-    except Exception as e:
-        context['section_b'] = None
-    try:
-        context['section_c'] = ContentPage.objects.get(name='instructions', section='c')
-    except Exception as e:
-        context['section_c'] = None
-    try:
-        context['section_d'] = ContentPage.objects.get(name='instructions', section='d')
-    except Exception as e:
-        context['section_d'] = None
-    try:
-        context['section_e'] = ContentPage.objects.get(name='instructions', section='e')
-    except Exception as e:
-        context['section_e'] = None
+    if request.LANGUAGE_CODE == 'he':
+        try:
+            context['section_a'] = ContentPage.objects.get(name='instructions', section='a', language='Hebrew')
+        except Exception as e:
+            context['section_a'] = None
+        try:
+            context['section_b'] = ContentPage.objects.get(name='instructions', section='b', language='Hebrew')
+        except Exception as e:
+            context['section_b'] = None
+        try:
+            context['section_c'] = ContentPage.objects.get(name='instructions', section='c', language='Hebrew')
+        except Exception as e:
+            context['section_c'] = None
+        try:
+            context['section_d'] = ContentPage.objects.get(name='instructions', section='d', language='Hebrew')
+        except Exception as e:
+            context['section_d'] = None
+        try:
+            context['section_e'] = ContentPage.objects.get(name='instructions', section='e', language='Hebrew')
+        except Exception as e:
+            context['section_e'] = None
+    else:
+        try:
+            context['section_a'] = ContentPage.objects.get(name='instructions', section='a', language='English')
+        except Exception as e:
+            context['section_a'] = None
+        try:
+            context['section_b'] = ContentPage.objects.get(name='instructions', section='b', language='English')
+        except Exception as e:
+            context['section_b'] = None
+        try:
+            context['section_c'] = ContentPage.objects.get(name='instructions', section='c', language='English')
+        except Exception as e:
+            context['section_c'] = None
+        try:
+            context['section_d'] = ContentPage.objects.get(name='instructions', section='d', language='English')
+        except Exception as e:
+            context['section_d'] = None
+        try:
+            context['section_e'] = ContentPage.objects.get(name='instructions', section='e', language='English')
+        except Exception as e:
+            context['section_e'] = None
+
 
     return render(request, 'bingo_main/dashboard/instructions.html', context)
 
