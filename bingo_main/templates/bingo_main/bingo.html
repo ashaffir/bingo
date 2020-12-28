@@ -67,8 +67,6 @@
             {% else %}
             <img src="{% static 'images/placeholder-white.png' %}" id="currentImage" alt="" class="currentImage">
             {% endif %}
-            <!-- <img src="" id="currentImage" alt="" class="currentImage"> -->
-            <!-- <img id="currentImage" src="{% static 'images/placeholder.png' %}" alt="" class="currentImage"> -->
 
             <div>
                 <div class="stump black" onclick="changeStump(this,'black')"></div>
@@ -223,10 +221,13 @@
             //document.getElementById('currentImage').src = '{{ game.current_picture.image_file.url }}';
             //document.getElementById('currentImageTitle').innerHTML = {{ game.current_picture.title }};
 
+            //Populating the board images
             {% for pic in board_pictures %}
             table.innerHTML +=
                 `<div class="field" onclick="markBingo(this)"><img src="{{ pic.image_file.url }}" alt=""></div>`;
             {% endfor %}
+            
+            
             {% elif not game.auto_join_approval and not player.approved %}
             console.log('Player not approved');
             document.querySelector('#approval').style.display = true;
@@ -316,8 +317,22 @@
                 console.log(`Player status: ${data.message.player_status}`);
                 console.log(`Player ID: ${data.message.player_id}`);
 
-                if (data.message.game_status == 'game_started') {
-                    window.location.reload(true);
+                if (data.message.game_status == 'game_startedddd') {
+                    //window.location.reload(true);
+                    
+                    /*
+                    document.querySelector('#approval').style.display = 'none';
+                    document.querySelector('#startingSoon').style.display = 'none';
+
+                    $.ajax({
+                        url: "{% url 'bingo_main:board_pictures' player_id='63d3de92-9add-4218-8bb7-fc6ebbeead3c' %}",
+                        success: function (response) {
+                            console.log(`Result: ${response}`);
+                            //$('#card_area').html(response);
+                        }
+                    })
+                    */
+        
 
                 } else if (data.message.player_status == 'approved' && data.message.player_id == '{{ player.pk }}') {
                     console.log(`player ID : ${data.message}`);
@@ -363,8 +378,11 @@
                             document.querySelector('.winCondition').innerHTML +=
                                 '<div class="field"></div>';
                         }
-                    }                    
-                    //location.reload();
+                    } 
+                    if (data.message.game_status == 'game_started') {
+                        console.log('START GAME!!!!!');
+                        location.reload();
+                    }    
                 }
 
 

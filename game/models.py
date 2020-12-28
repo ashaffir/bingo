@@ -107,6 +107,7 @@ class Game(models.Model):
     game_requested = models.BooleanField(default=False)
     started = models.BooleanField(default=False)
     in_progress = models.BooleanField(default=False)
+    game_in_progress = models.BooleanField(default=False)
     ended = models.BooleanField(default=False)
     game_cost = models.FloatField(null=True, blank=True, default=0.0)
     pictures_pool = models.JSONField(default=list, null=True, blank=True)

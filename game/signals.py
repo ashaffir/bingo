@@ -40,7 +40,6 @@ def game_start(sender, instance, update_fields, **kwargs):
                     'type': 'game.message',
                     'data': {
                             'game_status': 'game_started'
-                            # 'current_picture': instance.current_picture.image_file.url
                     }
                 }
             )
@@ -70,8 +69,17 @@ def next_picture(sender, instance: Game, **kwargs):
     else:
         previous = Game.objects.get(game_id=instance.game_id)
         if previous.current_picture != instance.current_picture:
-            print(
-                f"PIC: {instance.current_picture}, URL {instance.current_picture.image_file.url}")
+            if instance.game_in_progress:
+                print(f'Game in progress.....')
+                game_status = 'running' # no meaning, just for show
+            elif instance.started:
+                game_status = 'game_started'
+                instance.game_in_progress = True
+                instance.save()
+
+            # Updating WS
+            print(f">>> SIGNALS @next_picture: PIC: {instance.current_picture}")
+            logger.info(f">>> SIGNALS @next_picture: PIC: {instance.current_picture}, URL {instance.current_picture.image_file.url}")
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(
                 str(instance.game_id), {
@@ -79,12 +87,16 @@ def next_picture(sender, instance: Game, **kwargs):
                     'data': {
                             'data': instance.current_picture.image_file.url,
                             'title': instance.current_picture.title,
-                            'current_winning_conditions': instance.current_winning_conditions
+                            'current_winning_conditions': instance.current_winning_conditions,
+                            'game_status': game_status
                         }
                     }
                 )
+
         else:
             pass
+    
+    
 
 
 @receiver(pre_save, sender=Player)
