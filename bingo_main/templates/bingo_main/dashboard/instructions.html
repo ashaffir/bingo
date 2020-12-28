@@ -21,7 +21,7 @@
 
 <div class="container" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
     <div class="row" style="margin-bottom: 15rem; margin-top: 5%">
-        <div class="col-md-12">
+        <div class="col-md-12" >
             <center>
                 <div class="tabs">
                     <nav class="nav nav-pills flex-column flex-sm-row">
@@ -30,37 +30,37 @@
                             <strong class="fa-stack-1x">
                                 1    
                             </strong>
-                        </span> Create Album</a>
+                        </span> {% trans 'Create Album' %}</a>
                         <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#create_game"><span class="fa-stack">
                             <span class="fa fa-circle-o fa-stack-2x"></span>
                             <strong class="fa-stack-1x">
                                 2    
                             </strong>
-                        </span> Create a Game</a>
+                        </span> {% trans 'Create a Game' %}</a>
                         <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#setup_game"><span class="fa-stack">
                             <span class="fa fa-circle-o fa-stack-2x"></span>
                             <strong class="fa-stack-1x">
                                 3    
                             </strong>
-                        </span> Setup a Game</a>
+                        </span> {% trans 'Setup a Game' %}</a>
                         <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#broadcast"><span class="fa-stack">
                             <span class="fa fa-circle-o fa-stack-2x"></span>
                             <strong class="fa-stack-1x">
                                 4   
                             </strong>
-                        </span> Broadcast the Game</a>
+                        </span> {% trans 'Broadcast the Game' %}</a>
                         <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#run_game"><span class="fa-stack">
                             <span class="fa fa-circle-o fa-stack-2x"></span>
                             <strong class="fa-stack-1x">
                                 5   
                             </strong>
-                        </span> Run the Game</a>
+                        </span> {% trans 'Run the Game' %}</a>
                     </nav>
                     <hr>
-                    <div class="tab-content">
+                    <div class="tab-content" >
                         <div id="create_album" class="tab-pane active">
-                            <h3>{{ section_a.title }}</h3>
-                            <div class="row">
+                            <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_a.title }}</h3>
+                            <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     {{ section_a.content | safe }}
                                 </div>
@@ -73,12 +73,12 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <a href="{% url 'bingo_main:create_bingo' %}" class="btn btn-success">Create Album</a>
+                                <a href="{% url 'bingo_main:create_bingo' %}" class="btn btn-success">{% trans 'Create Album' %}</a>
                             </div>
                         </div>
                         <div id="create_game" class="tab-pane">
-                            <h3>{{ section_b.title }}</h3>
-                            <div class="row">
+                            <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_b.title }}</h3>
+                            <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
                                 <div class="col">
                                     {{ section_b.content | safe }}
                                 </div>
@@ -91,12 +91,12 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">Create a Game</a>
+                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">{% trans 'Create a Game' %}</a>
                             </div>
                         </div>
                         <div id="setup_game" class="tab-pane">
-                            <h3>{{ section_c.title }}</h3>
-                            <div class="row">
+                            <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_c.title }}</h3>
+                            <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
                                 <div class="col">
                                     {{ section_c.content | safe }}
                                 </div>
@@ -109,12 +109,12 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">Create a Game</a>
+                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">{% trans 'Create a Game' %}</a>
                             </div>
                         </div>
                         <div id="broadcast" class="tab-pane">
-                            <h3>{{ section_d.title }}</h3>
-                            <div class="row">
+                            <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_d.title }}</h3>
+                            <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
                                 <div class="col">
                                     {{ section_d.content | safe }}
                                 </div>
@@ -128,12 +128,12 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">Create a Game</a>
+                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">{% trans 'Create a Game' %}</a>
                             </div>
                         </div>
                         <div id="run_game" class="tab-pane">
-                            <h3>{{ section_e.title }}</h3>
-                            <div class="row">
+                            <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_e.title }}</h3>
+                            <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
                                 <div class="col">
                                     {{ section_e.content | safe }}
                                 </div>
@@ -146,7 +146,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">Create a Game</a>
+                                <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">{% trans 'Create a Game' %}</a>
                             </div>
                         </div>
                     </div>
