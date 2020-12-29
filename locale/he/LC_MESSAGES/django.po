@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-28 17:23+0200\n"
+"POT-Creation-Date: 2020-12-29 09:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,30 +29,35 @@ msgstr "הדף לא נמצא"
 
 #: bingo_main/templates/bingo_main/about.html:14
 msgid "About"
-msgstr "אודות"
+msgstr "אודותינו"
 
-#: bingo_main/templates/bingo_main/base.html:65
+#: bingo_main/templates/bingo_main/about.html:14
+#: bingo_main/templates/bingo_main/contact.html:14
+msgid "Us"
+msgstr ""
+
+#: bingo_main/templates/bingo_main/base.html:75
 msgid "Change Language"
 msgstr "שנה שפה"
 
-#: bingo_main/templates/bingo_main/base.html:107
+#: bingo_main/templates/bingo_main/base.html:117
 msgid "Home"
 msgstr ""
 
-#: bingo_main/templates/bingo_main/base.html:108
+#: bingo_main/templates/bingo_main/base.html:118
 msgid "About Us"
 msgstr "אודות"
 
-#: bingo_main/templates/bingo_main/base.html:109
+#: bingo_main/templates/bingo_main/base.html:119
 msgid "Contact Us"
 msgstr "צור קשר"
 
-#: bingo_main/templates/bingo_main/base.html:110
+#: bingo_main/templates/bingo_main/base.html:120
 #: bingo_main/templates/bingo_main/terms.html:14
 msgid "Terms & Conditions"
 msgstr "תנאי שימוש"
 
-#: bingo_main/templates/bingo_main/base.html:111
+#: bingo_main/templates/bingo_main/base.html:121
 #: bingo_main/templates/bingo_main/privacy.html:14
 msgid "Privacy"
 msgstr "פרטיות"
@@ -184,10 +189,6 @@ msgstr "מחיר"
 #: bingo_main/templates/bingo_main/contact.html:14
 msgid "Contact"
 msgstr "צור קשר"
-
-#: bingo_main/templates/bingo_main/contact.html:14
-msgid "Us"
-msgstr ""
 
 #: bingo_main/templates/bingo_main/contact.html:19
 msgid "Contact Information"
@@ -697,57 +698,57 @@ msgstr "מדיניות פרטיות שלנו"
 msgid "Why and How"
 msgstr "למה ואיך"
 
-#: bingo_main/views.py:293
+#: bingo_main/views.py:303
 msgid "Oops, your message was not sent. Please try again later"
 msgstr "אופס, ההודעה שלך לא נשלחה. בבקשה נסה שוב מאוחר יותר"
 
-#: bingo_main/views.py:299
+#: bingo_main/views.py:309
 msgid "Your message was sent. We will be in touch soon"
 msgstr "ההודעה שלך נשלחה. נהיה בקשר בקרוב"
 
-#: bingo_main/views.py:423
+#: bingo_main/views.py:433
 msgid "Your updated Bingo Album is pending approval for public view"
 msgstr "אלבום הבינגו המעודכן שלך ממתין לאישור"
 
-#: bingo_main/views.py:553
+#: bingo_main/views.py:563
 msgid "Album deleted"
 msgstr "האלבום נמחק"
 
-#: bingo_main/views.py:557
+#: bingo_main/views.py:567
 msgid "Failed deleting the album. Please try again later"
 msgstr "שגיאה במחיקת האלבום. בבקשה נסה שוב מאוחר יותר"
 
-#: bingo_main/views.py:779
+#: bingo_main/views.py:789
 msgid ""
 "There was an error uploading the images prizes. Please try reducing the "
 "images sizes."
 msgstr "אירעה שגיאה בהעלאת פרסי התמונות. אנא נסה להקטין אתגדלי תמונות."
 
-#: bingo_main/views.py:872
+#: bingo_main/views.py:882
 msgid "Game already played"
 msgstr "המשחק הסתיים"
 
-#: bingo_main/views.py:886
+#: bingo_main/views.py:896
 msgid "tickets"
 msgstr "כרטיסים"
 
-#: bingo_main/views.py:886
+#: bingo_main/views.py:896
 msgid "Not enough players. Need at leaset"
 msgstr "לא מספיק שחקנים. צריך לפחות"
 
-#: bingo_main/views.py:902
+#: bingo_main/views.py:912
 msgid "There are not enough funds in your account. Please make a deposit"
 msgstr "אין מספיק כספים בחשבונך. אנא בצע הפקדה"
 
-#: bingo_main/views.py:1093
+#: bingo_main/views.py:1103
 msgid "Please enter a valid card number"
 msgstr "נא להזין מספר כרטיס תקף"
 
-#: bingo_main/views.py:1096
+#: bingo_main/views.py:1106
 msgid "The ticket is not a part of this game"
 msgstr "הכרטיס אינו חלק מהמשחק הזה"
 
-#: bingo_main/views.py:1284 payments/views.py:160
+#: bingo_main/views.py:1294 payments/views.py:163
 msgid "Please enter an amount, or pick pf the predefined amounts."
 msgstr "אנא הזן סכום, או בחר את הסכומים שהוגדרו מראש."
 
@@ -800,15 +801,15 @@ msgid ""
 "Something went wrong with your payment. Your account balance was not updated."
 msgstr "משהו השתבש בתשלום שלך. יתרת חשבונך לא עודכנה."
 
-#: payments/views.py:142
+#: payments/views.py:145
 msgid "Thank you for the payment. You should see your updated balance shortly."
 msgstr "תודה על התשלום. אתה אמור לראות את היתרה המעודכנת שלך בקרוב."
 
-#: payments/views.py:170
+#: payments/views.py:183
 msgid "Thank you for the payment. You should see your balance shortly."
 msgstr "תודה על התשלום. אתה אמור לראות את היתרה המעודכנת שלך בקרוב."
 
-#: payments/views.py:178
+#: payments/views.py:191
 msgid "Your payment was canceled. Your account balance was not updated."
 msgstr "התשלום שלך בוטל. יתרת חשבונך לא עודכנה."
 
