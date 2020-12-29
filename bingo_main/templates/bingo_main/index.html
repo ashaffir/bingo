@@ -16,8 +16,7 @@
 	data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
 	<div class="container">
-		<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start"
-			data-scrollax-parent="true">
+		<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
 			<div class="col-xl-10 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
 				<h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"> {% trans 'You Host' %}
 					<br><span style="color: #3a7420; font-size:3rem">{% trans 'a Photo Bingo' %}</span>
@@ -45,7 +44,7 @@
 					<form class="form-group" style="width: 100% !important;" method="POST" enctype="multipart/form-data">
 						{% csrf_token %}
 						<div class="row">
-								<div class="col-md-9 col-12">
+								<div class="col-md-8 col-12">
 									<div class="row ml-2">
 										<div class="col-md-12 col-sm-8">
 											<div class="row">
@@ -53,13 +52,13 @@
 											</div>
 											<div class="row">
 												<div class="pinSection">
-													<input type="text" name="pin1" id="pin1" maxlength="1" size="2" pattern="\d*"
+													<input type="text" name="pin1" id="pin1" maxlength="1" size="1" pattern="\d*"
 														inputmode="numeric" class="" oninput="next(this, 'pin2')" required />
-													<input type="text" name="pin2" id="pin2" maxlength="1" size="2" pattern="\d*"
+													<input type="text" name="pin2" id="pin2" maxlength="1" size="1" pattern="\d*"
 														inputmode="numeric" class="" oninput="next(this, 'pin3')" required />
-													<input type="text" name="pin3" id="pin3" maxlength="1" size="2" pattern="\d*"
+													<input type="text" name="pin3" id="pin3" maxlength="1" size="1" pattern="\d*"
 														inputmode="numeric" class="" oninput="next(this, 'pin4')" required />
-													<input type="text" name="pin4" id="pin4" maxlength="1" size="2" pattern="\d*"
+													<input type="text" name="pin4" id="pin4" maxlength="1" size="1" pattern="\d*"
 														inputmode="numeric" class="" oninput="next(this, 'name')" required />
 												</div>
 											</div>
@@ -74,7 +73,7 @@
 					
 										</div>
 								</div>
-								<div class="col-md-3 col-12">
+								<div class="col-md-4 col-12">
 									<button type="button" id="playButton"
 									onclick="openBingo(url={% url 'bingo_main:check_game_id' %})"
 									class="btn btn-block btn-primary play-button" style="margin-top:1.5rem" />{% if lang == 'he' %} !{% trans 'Play' %}
