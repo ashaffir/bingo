@@ -6,8 +6,7 @@
 {% block content %}
 {% include 'bingo_main/partials/_navbar_index.html' with active_tab='dashboard' %}
 
-<section class="ftco-section contact-section" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
-  style="text-align: left;" {% endif %}>
+<section class="ftco-section contact-section" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
   <div class="container mt-5">
     <div class="row justify-content-center mb-2 pb-3">
       <div class="col-md-7 text-center heading-section">
@@ -26,14 +25,14 @@
         <p><span>{% trans 'Phone' %}:</span> <a href="tel://1234567920"></a></p>
       </div>
       <div class="col-md-3">
-        <p><span>{% trans 'Email' %}:</span> <a href="mailto:info@yoursite.com">support@polybingo.com</a></p>
+        <p><span>{% trans 'Email' %}:</span> <a href="mailto:support@polybingo.com">support@polybingo.com</a></p>
       </div>
       <div class="col-md-3">
         <p><span>{% trans 'Website' %}</span> <a href="#">polybingo.com</a></p>
       </div>
     </div>
     <div class="row block-9">
-      <div class="col-md-6 order-md-last d-flex">
+      <div class="col-md-8 order-md-last d-flex">
         <form action="#" class="bg-light p-5 contact-form" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="form-group">
@@ -55,9 +54,9 @@
 
       </div>
 
-      <div class="col-md-6 d-flex">
+      <!-- <div class="col-md-6 d-flex">
         <div id="map" class="bg-white"></div>
-      </div>
+      </div> -->
     </div>
   </div>
 </section>
