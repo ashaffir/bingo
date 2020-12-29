@@ -202,12 +202,22 @@ def bingo_main_login(request):
 
 def about(request):
     context = {}
-    try:
-        about = ContentPage.objects.get(name='about')
-        context['about'] = about
-    except Exception as e:
-        messages.error(request, 'This page content is not ready')
-        logger.error('>>> Bingo main: no content for the About section')
+    if request.LANGUAGE_CODE == 'he':
+        try:
+            about = ContentPage.objects.get(name='about', language='Hebrew')
+            context['about'] = about
+        except Exception as e:
+            messages.error(request, 'This page content is not ready')
+            logger.error('>>> Bingo main: no content for the About section')
+    else:
+        try:
+            about = ContentPage.objects.get(name='about', language='English')
+            context['about'] = about
+        except Exception as e:
+            messages.error(request, 'This page content is not ready')
+            logger.error('>>> Bingo main: no content for the About section')
+
+
     return render(request, 'bingo_main/about.html', context)
 
 
