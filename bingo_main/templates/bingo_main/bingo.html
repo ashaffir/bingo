@@ -16,9 +16,78 @@
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    <style>
+        @font-face {
+            font-family: 'Pacifico';
+            font-style: normal;
+            font-weight: normal;
+            src: local('Pacifico'), url('http://themes.googleusercontent.com/font?kit=fKnfV28XkldRW297cFLeqfesZW2xOQ-xsNqO47m55DA') format('truetype');
+        }
+    
+        
+        .bingo-button {
+            display: inline-block;
+            margin-top: 10%;
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            border-radius: 100px;
+            -webkit-box-shadow:    0 8px 0 #c5376d, 0 15px 20px rgba(0, 0, 0, .35);
+            -moz-box-shadow: 0 8px 0 #c5376d, 0 15px 20px rgba(0, 0, 0, .35);
+            box-shadow: 0 8px 0 #c5376d, 0 15px 20px rgba(0, 0, 0, .35);
+            -webkit-transition: -webkit-box-shadow .1s ease-in-out;
+            -moz-transition: -moz-box-shadow .1s ease-in-out;
+            -o-transition: -o-box-shadow .1s ease-in-out;
+            transition: box-shadow .1s ease-in-out;
+            font-size: 1rem;
+            color: #fff;
+        }
+        
+        .bingo-button span {
+            display: inline-block;
+            padding: 1rem 1rem;
+            background-color: #ec528d;
+            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(116, 23, 57, 0.8)), to(hsla(338, 90%, 70%, .2)));
+            background-image: -webkit-linear-gradient(rgba(56, 6, 24, 0.8), hsla(338, 90%, 70%, .2));
+            background-image: -moz-linear-gradient(hsla(338, 90%, 80%, .8), hsla(338, 90%, 70%, .2));
+            background-image: -o-linear-gradient(hsla(338, 90%, 80%, .8), hsla(338, 90%, 70%, .2));
+            -webkit-border-radius: 100px;
+            -moz-border-radius: 100px;
+            border-radius: 100px;
+            -webkit-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, .15);
+            -moz-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, .15);
+            box-shadow: inset 0 -1px 1px rgba(255, 255, 255, .15);
+            font-family: inherit, Arial, sans-serif;
+            line-height: 1;
+            text-shadow: 0 -1px 1px rgba(175, 49, 95, .7);
+            -webkit-transition: background-color .2s ease-in-out, -webkit-transform .1s ease-in-out;
+            -moz-transition: background-color .2s ease-in-out, -moz-transform .1s ease-in-out;
+            -o-transition: background-color .2s ease-in-out, -o-transform .1s ease-in-out;
+            transition: background-color .2s ease-in-out, transform .1s ease-in-out;
+        }
+        
+        .bingo-button:hover span {
+            background-color: #ec6a9c;
+            text-shadow: 0 -1px 1px rgba(175, 49, 95, .9), 0 0 5px rgba(255, 255, 255, .8);
+        }
+        
+        .bingo-button:active, .bingo-button:focus {
+            -webkit-box-shadow:    0 8px 0 #c5376d, 0 12px 10px rgba(0, 0, 0, .3);
+            -moz-box-shadow: 0 8px 0 #c5376d, 0 12px 10px rgba(0, 0, 0, .3);
+            box-shadow:    0 8px 0 #c5376d, 0 12px 10px rgba(0, 0, 0, .3);
+        }
+        
+        .bingo-button:active span {
+            -webkit-transform: translate(0, 4px);
+            -moz-transform: translate(0, 4px);
+            -o-transform: translate(0, 4px);
+            transform: translate(0, 4px);
+        }
+    </style>
 </head>
 
 <body>
+
     <div class="bingoContainer">
         <div class="bingoIndex">
             <a href="{% url 'bingo_main:bingo_main' %}"><img class="profilePic"
@@ -62,16 +131,22 @@
             </div>
             <div></div>
             <div class="winCondition"></div>
-            {% if game.current_picture.image_file.url %}
-            <img src="{{ game.current_picture.image_file.url }}" id="currentImage" alt="" class="currentImage">
-            {% else %}
-            <img src="{% static 'images/placeholder-white.png' %}" id="currentImage" alt="" class="currentImage">
-            {% endif %}
-
+                {% if game.current_picture.image_file.url %}
+                <img src="{{ game.current_picture.image_file.url }}" id="currentImage" alt="" class="currentImage">
+                {% else %}
+                <img src="{% static 'images/placeholder-white.png' %}" id="currentImage" alt="" class="currentImage">
+                {% endif %}
             <div>
-                <div class="stump black" onclick="changeStump(this,'black')"></div>
+                <a class="bingo-button" href="#" id="bingo-button" onclick="bingo_shout()">
+                    <span>{% trans 'Bingo!' %}</span>
+                </a>
+                <audio preload="auto">
+                    <source src="https://github.com/nclud/2011.beercamp.com/blob/gh-pages/audio/inception.mp3?raw=true" type="audio/mp3" />
+                    <source src="https://github.com/nclud/2011.beercamp.com/blob/gh-pages/audio/inception.ogg?raw=true" type="audio/ogg" />
+                </audio>
+                <!-- <div class="stump black" onclick="changeStump(this,'black')"></div>
                 <div class="stump green" style="border: 3px solid #00d0ff" onclick="changeStump(this,'green')"></div>
-                <div class="stump red" onclick="changeStump(this,'red')"></div>
+                <div class="stump red" onclick="changeStump(this,'red')"></div> -->
             </div>
         </div>
     </div>
@@ -215,6 +290,7 @@
             console.log('Game Started');
             document.querySelector('#approval').style.display = 'none';
             document.querySelector('#startingSoon').style.display = 'none';
+            document.querySelector('#bingo-button').style.display = 'block';
 
             console.log(`curr image: {{ game.current_picture.image_file.url }}`);
 
@@ -232,13 +308,17 @@
             console.log('Player not approved');
             document.querySelector('#approval').style.display = true;
             document.querySelector('#startingSoon').style.display = 'none';
+            document.querySelector('#bingo-button').style.display = 'none';
+            
             {% elif not game.auto_join_approval and player.approved and not game.started %}
             console.log('Game not started');
             document.querySelector('#approval').style.display = 'none';
             document.querySelector('#startingSoon').style.display = true;
+            document.querySelector('#bingo-button').style.display = 'none';
             {% else %}
             console.log('Error logic')
             document.querySelector('#startingSoon').style.display = true;
+            document.querySelector('#bingo-button').style.display = 'none';
             {% endif %}
 
             document.querySelector('.winCondition').innerHTML = "";
@@ -297,6 +377,7 @@
             getData('resize');
         });
 
+    
         let gameId = '{{ game.game_id }}';
         $(document).ready(function () {
 
@@ -317,7 +398,7 @@
                 console.log(`Player status: ${data.message.player_status}`);
                 console.log(`Player ID: ${data.message.player_id}`);
 
-                if (data.message.game_status == 'game_startedddd') {
+                if (data.message.game_status == 'canceled') {
                     //window.location.reload(true);
                     
                     /*
@@ -394,10 +475,24 @@
                 console.error('game socket closed unexpectedly');
             };
 
+            document.getElementById('bingo-button').onclick = (function() {
+                document.getElementsByTagName('audio')[0].play();
+                
+                //Send WS message about this bingo shout
+                gameSocket.send(JSON.stringify({
+                    'message_type': 'bingo_shout', 
+                    'data': {
+                        'game_id': gameId,
+                        'player_id': '{{ player.pk }}',
+                    },
+                }));
+    
+                return false;
+            });
+    
             /*
             */
         })
-
 
 
     </script>

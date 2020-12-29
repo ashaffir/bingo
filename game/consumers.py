@@ -3,7 +3,7 @@ import logging
 from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 
-from .models import Player, Game
+from .models import Player, Game, Board
 from .serializers import PlayerSerializer
 
 logger = logging.getLogger(__file__)
@@ -57,12 +57,48 @@ class GameConsumer(AsyncWebsocketConsumer):
             )
         elif message_type == 'start.game':
             print(f"STARRTING GAME.....ID: {data['game_id']} ")
+        elif message_type == 'bingo_shout':
+            print(f">>> CONSUMERS @receive: Bingo shout {data}")
+            logger.info(f">>> CONSUMERS @receive: Bingo shout {data}")
+            player_ticket = await self.get_player_ticket(data)
+
+            game_id = data['game_id'] 
+
+            await self.channel_layer.group_send(
+                game_id,
+                {
+                    'type': 'game.message',
+                    'message': player_ticket
+                }
+            )
+
+    @database_sync_to_async
+    def get_player_ticket(self, data):
+        player = Player.objects.get(pk=data['player_id'])
+        player.bingo_shouts += 1
+        player.active_shout = True
+        player.save()
+        
+        player_board = Board.objects.get(pk=player.board_id)
+        player_ticket = player_board.board_number
+        
+        print(f">>> CONSUMERS @get_player_ticket : Bingo shout player ticket {player_ticket}")
+        logger.info(f">>> CONSUMERS @get_player_ticket : Bingo shout player ticket {player_ticket} ")
+        return player_ticket
 
     # Receive message from room group
     async def game_message(self, event):
         print(f'>>> CONSUMERS: SENT MESSAGE: {event}')
         logger.info(f'>>> CONSUMERS: SENT MESSAGE: {event}')
-        message = event['data']
+        try:
+            message = event['data']
+        except Exception as e:
+            try:
+                message = event['message']
+            except Exception as e:
+                print(f">>> CONSUMERS @game_message: Failed getting message for sending. ERROR: {e}")
+                logger.error(f">>> CONSUMERS @game_message: Failed getting message for sending. ERROR: {e}")
+                message = ''
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({

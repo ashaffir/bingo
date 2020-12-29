@@ -37,6 +37,8 @@ urlpatterns = [
     path('check_board/<str:game_id>',bingo_main_views.check_board, name='check_board'),
     path('game_over/<str:game_id>', bingo_main_views.game_over, name='game_over'),
     path('player_approval/<str:player_id>/<str:approval>',bingo_main_views.player_approval, name='player_approval'),
+    path('bingo_players_list/<str:game_id>',bingo_main_views.bingo_players_list, name='bingo_players_list'),
+
 
     # path('game_status/<str:game_id>', bingo_main_views.game_status, name='game_status'),
     path('players_approval_list/<str:game_id>',bingo_main_views.players_approval_list, name='players_approval_list'),

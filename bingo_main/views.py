@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
+from django.db.models import Q
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -709,6 +710,14 @@ def players_approval_list(request, game_id):
 
     return render(request, 'bingo_main/partials/_players_approval_list.html', context=context)
 
+def bingo_players_list(request, game_id):
+    context = {}
+    bingo_players_shouts_list = Player.objects.filter(Q(player_game_id=game_id) & ~Q(bingo_shouts=0) & Q(active_shout=True))
+    active_tickets = []
+    for player in bingo_players_shouts_list:
+        active_tickets.append(Board.objects.get(player=player).board_number)
+    context['active_tickets'] = active_tickets
+    return render(request, 'bingo_main/partials/_bingo_players_list.html', context)
 
 @login_required
 def player_approval(request, player_id, approval):
@@ -1073,6 +1082,12 @@ def game(request, game_id):
             current_shown_pictures) <= 6 else current_shown_pictures[-6:]
         context['current_picture'] = game.current_picture
         context['current_shown_pictures_count'] = len(current_shown_pictures)
+
+    # Clearing the bingo shouts if there are any.
+    bingo_players_shouts_list = Player.objects.filter(Q(player_game_id=game_id) & ~Q(bingo_shouts=0) & Q(active_shout=True))
+    for player in bingo_players_shouts_list:
+        player.active_shout = False
+        player.save()
 
     context['current_game'] = game
     return render(request, 'bingo_main/broadcast/game.html', context)

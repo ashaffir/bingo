@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-29 09:49+0200\n"
+"POT-Creation-Date: 2020-12-29 17:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,11 +30,6 @@ msgstr "הדף לא נמצא"
 #: bingo_main/templates/bingo_main/about.html:14
 msgid "About"
 msgstr "אודותינו"
-
-#: bingo_main/templates/bingo_main/about.html:14
-#: bingo_main/templates/bingo_main/contact.html:14
-msgid "Us"
-msgstr ""
 
 #: bingo_main/templates/bingo_main/base.html:75
 msgid "Change Language"
@@ -62,27 +57,31 @@ msgstr "תנאי שימוש"
 msgid "Privacy"
 msgstr "פרטיות"
 
-#: bingo_main/templates/bingo_main/bingo.html:35
-#: bingo_main/templates/bingo_main/bingo.html:37
+#: bingo_main/templates/bingo_main/bingo.html:104
+#: bingo_main/templates/bingo_main/bingo.html:106
 msgid "Waiting for host approval. Hold on"
 msgstr "ממתין לאישור המארח. אנא המתן"
 
-#: bingo_main/templates/bingo_main/bingo.html:42
-#: bingo_main/templates/bingo_main/bingo.html:44
+#: bingo_main/templates/bingo_main/bingo.html:111
+#: bingo_main/templates/bingo_main/bingo.html:113
 msgid "Game starting soon. Just a second"
 msgstr "המשחק יתחיל בקרוב. רק שניה"
 
-#: bingo_main/templates/bingo_main/bingo.html:49
+#: bingo_main/templates/bingo_main/bingo.html:118
 msgid "Ticket Number"
 msgstr "כרטיס מספר"
 
-#: bingo_main/templates/bingo_main/bingo.html:58
+#: bingo_main/templates/bingo_main/bingo.html:127
 msgid "Win Condition"
 msgstr "תנאי לנצח"
 
-#: bingo_main/templates/bingo_main/bingo.html:61
+#: bingo_main/templates/bingo_main/bingo.html:130
 msgid "Current Image"
 msgstr "תמונה נוכחית"
+
+#: bingo_main/templates/bingo_main/bingo.html:141
+msgid "Bingo!"
+msgstr "!בינגו"
 
 #: bingo_main/templates/bingo_main/broadcast/checkResult.html:30
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:31
@@ -104,19 +103,7 @@ msgstr "מספר כרטיס"
 
 #: bingo_main/templates/bingo_main/broadcast/checkResult.html:44
 msgid "WON"
-msgstr "זכית"
-
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:45
-msgid "for Full Bingo"
-msgstr "בבינגו מלא"
-
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:45
-msgid "for One Row"
-msgstr "על שורה אחת"
-
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:46
-msgid "for Two Rows"
-msgstr "לשתי שורות"
+msgstr "זכית ב"
 
 #: bingo_main/templates/bingo_main/broadcast/checkResult.html:48
 msgid "Not yet"
@@ -135,19 +122,19 @@ msgstr "המשך"
 msgid "Check Bingo"
 msgstr "בדוק בינגו"
 
-#: bingo_main/templates/bingo_main/broadcast/game.html:87
+#: bingo_main/templates/bingo_main/broadcast/game.html:90
 msgid "Out"
 msgstr "הוצגו"
 
-#: bingo_main/templates/bingo_main/broadcast/game.html:95
+#: bingo_main/templates/bingo_main/broadcast/game.html:98
 msgid "Next"
 msgstr "הבא"
 
-#: bingo_main/templates/bingo_main/broadcast/game.html:99
+#: bingo_main/templates/bingo_main/broadcast/game.html:102
 msgid "Check"
 msgstr "בדוק"
 
-#: bingo_main/templates/bingo_main/broadcast/game.html:100
+#: bingo_main/templates/bingo_main/broadcast/game.html:103
 #: bingo_main/templates/bingo_main/broadcast/game_over.html:40
 #: bingo_main/templates/bingo_main/dashboard/start-bingo.html:64
 #: bingo_main/templates/bingo_main/dashboard/start-bingo.html:145
@@ -186,61 +173,65 @@ msgstr "התחל בינגו"
 msgid "Price"
 msgstr "מחיר"
 
-#: bingo_main/templates/bingo_main/contact.html:14
+#: bingo_main/templates/bingo_main/contact.html:13
 msgid "Contact"
 msgstr "צור קשר"
 
-#: bingo_main/templates/bingo_main/contact.html:19
+#: bingo_main/templates/bingo_main/contact.html:13
+msgid "Us"
+msgstr ""
+
+#: bingo_main/templates/bingo_main/contact.html:18
 msgid "Contact Information"
 msgstr "פרטי התקשרות"
 
-#: bingo_main/templates/bingo_main/contact.html:26
+#: bingo_main/templates/bingo_main/contact.html:25
 msgid "Phone"
 msgstr "טלפון"
 
-#: bingo_main/templates/bingo_main/contact.html:29
+#: bingo_main/templates/bingo_main/contact.html:28
 #: bingo_main/templates/bingo_main/login.html:43
 #: bingo_main/templates/bingo_main/partials/_navbar_top.html:57
 #: bingo_main/templates/bingo_main/register.html:57
 msgid "Email"
 msgstr "אימייל"
 
-#: bingo_main/templates/bingo_main/contact.html:32
+#: bingo_main/templates/bingo_main/contact.html:31
 msgid "Website"
 msgstr "אתר אינטרנט"
 
-#: bingo_main/templates/bingo_main/contact.html:40
+#: bingo_main/templates/bingo_main/contact.html:39
 msgid "Your Name"
 msgstr "השם שלך"
 
-#: bingo_main/templates/bingo_main/contact.html:43
+#: bingo_main/templates/bingo_main/contact.html:42
 msgid "Your Email"
 msgstr "האימייל שלך"
 
-#: bingo_main/templates/bingo_main/contact.html:46
+#: bingo_main/templates/bingo_main/contact.html:45
 msgid "Subject"
 msgstr "נושא"
 
-#: bingo_main/templates/bingo_main/contact.html:49
+#: bingo_main/templates/bingo_main/contact.html:48
 #: bingo_main/templates/bingo_main/partials/_messages.html:9
 msgid "Message"
 msgstr "הודעה"
 
-#: bingo_main/templates/bingo_main/contact.html:52
+#: bingo_main/templates/bingo_main/contact.html:51
 msgid "Send Message"
 msgstr "שלח הודעה"
 
-#: bingo_main/templates/bingo_main/contact.html:71
+#: bingo_main/templates/bingo_main/contact.html:70
 #: bingo_main/templates/bingo_main/index.html:685
 msgid "Subcribe to our Newsletter"
 msgstr "הירשם לניוזלטר שלנו"
 
-#: bingo_main/templates/bingo_main/contact.html:76
+#: bingo_main/templates/bingo_main/contact.html:75
 #: bingo_main/templates/bingo_main/index.html:692
 msgid "Enter email address"
 msgstr "הזן כתובת דואל"
 
-#: bingo_main/templates/bingo_main/contact.html:77
+#: bingo_main/templates/bingo_main/contact.html:76
 msgid "Subscribe"
 msgstr "Subscribe"
 
@@ -698,57 +689,57 @@ msgstr "מדיניות פרטיות שלנו"
 msgid "Why and How"
 msgstr "למה ואיך"
 
-#: bingo_main/views.py:303
+#: bingo_main/views.py:304
 msgid "Oops, your message was not sent. Please try again later"
 msgstr "אופס, ההודעה שלך לא נשלחה. בבקשה נסה שוב מאוחר יותר"
 
-#: bingo_main/views.py:309
+#: bingo_main/views.py:310
 msgid "Your message was sent. We will be in touch soon"
 msgstr "ההודעה שלך נשלחה. נהיה בקשר בקרוב"
 
-#: bingo_main/views.py:433
+#: bingo_main/views.py:434
 msgid "Your updated Bingo Album is pending approval for public view"
 msgstr "אלבום הבינגו המעודכן שלך ממתין לאישור"
 
-#: bingo_main/views.py:563
+#: bingo_main/views.py:564
 msgid "Album deleted"
 msgstr "האלבום נמחק"
 
-#: bingo_main/views.py:567
+#: bingo_main/views.py:568
 msgid "Failed deleting the album. Please try again later"
 msgstr "שגיאה במחיקת האלבום. בבקשה נסה שוב מאוחר יותר"
 
-#: bingo_main/views.py:789
+#: bingo_main/views.py:798
 msgid ""
 "There was an error uploading the images prizes. Please try reducing the "
 "images sizes."
 msgstr "אירעה שגיאה בהעלאת פרסי התמונות. אנא נסה להקטין אתגדלי תמונות."
 
-#: bingo_main/views.py:882
+#: bingo_main/views.py:891
 msgid "Game already played"
 msgstr "המשחק הסתיים"
 
-#: bingo_main/views.py:896
+#: bingo_main/views.py:905
 msgid "tickets"
 msgstr "כרטיסים"
 
-#: bingo_main/views.py:896
+#: bingo_main/views.py:905
 msgid "Not enough players. Need at leaset"
 msgstr "לא מספיק שחקנים. צריך לפחות"
 
-#: bingo_main/views.py:912
+#: bingo_main/views.py:921
 msgid "There are not enough funds in your account. Please make a deposit"
 msgstr "אין מספיק כספים בחשבונך. אנא בצע הפקדה"
 
-#: bingo_main/views.py:1103
+#: bingo_main/views.py:1118
 msgid "Please enter a valid card number"
 msgstr "נא להזין מספר כרטיס תקף"
 
-#: bingo_main/views.py:1106
+#: bingo_main/views.py:1121
 msgid "The ticket is not a part of this game"
 msgstr "הכרטיס אינו חלק מהמשחק הזה"
 
-#: bingo_main/views.py:1294 payments/views.py:163
+#: bingo_main/views.py:1309 payments/views.py:163
 msgid "Please enter an amount, or pick pf the predefined amounts."
 msgstr "אנא הזן סכום, או בחר את הסכומים שהוגדרו מראש."
 
@@ -852,6 +843,15 @@ msgstr "אנא הכנס דואל חוקי"
 #: users/views.py:201
 msgid "Please do enter the email"
 msgstr "אנא הכנס את הדואל"
+
+#~ msgid "for Full Bingo"
+#~ msgstr "בבינגו מלא"
+
+#~ msgid "for One Row"
+#~ msgstr "על שורה אחת"
+
+#~ msgid "for Two Rows"
+#~ msgstr "לשתי שורות"
 
 #~ msgid "Copyright"
 #~ msgstr "זכויות יוצרים"

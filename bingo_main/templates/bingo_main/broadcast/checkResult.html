@@ -42,8 +42,8 @@
                         {% trans 'Congratulations' %}
                         <br>
                         <span>{% trans 'Card Number' %} {{ board_number }} {% trans 'WON' %} 
-                            {% if prize_1 %} {% trans 'for Full Bingo' %} {% elif prize_2 %} {% trans 'for One Row' %} 
-                            {% elif prize_3 %} {% trans 'for Two Rows' %} {% endif %}</span>
+                            {% if prize_1 %} {{ current_game.prize_1_name }} {% elif prize_2 %} {{ current_game.prize_2_name }} 
+                            {% elif prize_3 %} {{ current_game.prize_3_name }} {% endif %}</span>
                         {% else %}
                         <span>{% trans 'Card Number' %} {{ board_number }}: {% trans 'Not yet' %}</span>
                         {% endif %}
