@@ -325,7 +325,7 @@
                     document.querySelector('#startingSoon').style.display = 'none';
 
                     $.ajax({
-                        url: "{% url 'bingo_main:board_pictures' player_id='63d3de92-9add-4218-8bb7-fc6ebbeead3c' %}",
+                        url: "{ url 'bingo_main:board_pictures' player_id='63d3de92-9add-4218-8bb7-fc6ebbeead3c' }",
                         success: function (response) {
                             console.log(`Result: ${response}`);
                             //$('#card_area').html(response);
