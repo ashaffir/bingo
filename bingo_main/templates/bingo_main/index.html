@@ -40,48 +40,11 @@
 				</div>
 				{% endif %}
 				<hr style="max-width: 50%; margin-left:0px; ">
-				<div id="timer" class="d-flex mb-3 ">
-					<form class="form-group" style="width: 100% !important;" method="POST" enctype="multipart/form-data">
-						{% csrf_token %}
-						<div class="row">
-								<div class="col-md-8 col-12">
-									<div class="row ml-2">
-										<div class="col-md-12 col-sm-8">
-											<div class="row">
-												<h4>{% trans 'Game Code' %}</h4>
-											</div>
-											<div class="row">
-												<div class="pinSection">
-													<input type="text" name="pin1" id="pin1" maxlength="1" size="1" pattern="\d*"
-														inputmode="numeric" class="" oninput="next(this, 'pin2')" required />
-													<input type="text" name="pin2" id="pin2" maxlength="1" size="1" pattern="\d*"
-														inputmode="numeric" class="" oninput="next(this, 'pin3')" required />
-													<input type="text" name="pin3" id="pin3" maxlength="1" size="1" pattern="\d*"
-														inputmode="numeric" class="" oninput="next(this, 'pin4')" required />
-													<input type="text" name="pin4" id="pin4" maxlength="1" size="1" pattern="\d*"
-														inputmode="numeric" class="" oninput="next(this, 'name')" required />
-												</div>
-											</div>
-										</div>
+				<div id="timer" class=" ">
+					<div class="row" style="width: 100%;">
+						<a class="btn btn-outline-success btn-lg" style="width: 100%; margin-left:2rem" href="{% url 'bingo_main:play' %}">Play</a>
 
-									</div>
-									<div class="row ml-2">
-										<input class="mt-3 nickname" type="text" name="name"
-											id="name" pattern="[a-zA-Z0-9\s]+" placeholder="{% trans 'Nickname' %}" />
-											<div class="errorBox" id="submitError">
-											</div>
-					
-										</div>
-								</div>
-								<div class="col-md-4 col-12">
-									<button type="button" id="playButton"
-									onclick="openBingo(url={% url 'bingo_main:check_game_id' %})"
-									class="btn btn-block btn-primary play-button" style="margin-top:1.5rem" />{% if lang == 'he' %} !{% trans 'Play' %}
-								{% else %} {% trans 'Play' %}! {% endif %}</button>
-								</div>
-						</div>
-						<!-- <input type="submit" class="playButton" value="Play!"> -->
-					</form>
+					</div>
 					<!-- <div class="time" id="days"></div>
 					<div class="time pl-4" id="hours"></div>
 					<div class="time pl-4" id="minutes"></div>

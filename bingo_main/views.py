@@ -125,6 +125,10 @@ def bingo_main(request):
     return render(request, 'bingo_main/index.html', context)
 
 
+def play(request):
+    context = {}
+    return render(request,'bingo_main/play.html', context)
+
 def bingo_main_register(request):
     context = {}
     if request.method == 'POST':

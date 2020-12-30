@@ -21,6 +21,9 @@
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    
+    <script src="{% static 'js/confetti.js' %}"></script>
+    
 </head>
 
 <body {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
@@ -39,13 +42,20 @@
                 <div class="topArea">
                     <div id="topContainer">
                         {% if check_result == 'WIN' %}
+                        <script>
+
+                        </script>
                         {% trans 'Congratulations' %}
                         <br>
                         <span>{% trans 'Card Number' %} {{ board_number }} {% trans 'WON' %} 
-                            {% if prize_1 %} {{ current_game.prize_1_name }} {% elif prize_2 %} {{ current_game.prize_2_name }} 
+                        {% if prize_1 %} {{ current_game.prize_1_name }} {% elif prize_2 %} {{ current_game.prize_2_name }} 
                             {% elif prize_3 %} {{ current_game.prize_3_name }} {% endif %}</span>
+                            <script>
+                                startConfetti();
+                            </script>    
                         {% else %}
                         <span>{% trans 'Card Number' %} {{ board_number }}: {% trans 'Not yet' %}</span>
+
                         {% endif %}
                         <br>
                     </div>
@@ -73,7 +83,7 @@
     
     <script>
         resize();
-
+        
         window.addEventListener('resize', function (e) {
             resize();
         });
@@ -303,6 +313,7 @@
             document.querySelector('#checkPin .bingoTable').innerHTML = content;
         }
     </script>
+
 </body>
 
 </html>

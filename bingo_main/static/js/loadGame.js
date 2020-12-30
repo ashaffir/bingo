@@ -51,7 +51,7 @@ function openBingo(url) {
             valid = true;
             console.log(`RESPONSE: ${player_id}`)
 
-            window.location.href = `${location.href}bingo/${player_id}`;
+            window.location.href = `${window.location.origin}/bingo/${player_id}`;
 
 
 

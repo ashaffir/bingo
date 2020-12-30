@@ -8,7 +8,8 @@ app_name = 'bingo_main'
 
 urlpatterns = [
     path('', bingo_main_views.bingo_main, name='bingo_main'),
-    path('register', bingo_main_views.bingo_main_register,name='bingo_main_register'),
+    path('play/', bingo_main_views.play,name='play'),
+    path('register/', bingo_main_views.bingo_main_register,name='bingo_main_register'),
     path('login/', bingo_main_views.bingo_main_login, name='bingo_main_login'),
     path('logout_view', bingo_main_views.logout_view, name='logout_view'),
     path('contact', bingo_main_views.contact, name='contact'),

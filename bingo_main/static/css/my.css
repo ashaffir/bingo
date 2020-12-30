@@ -16,6 +16,8 @@
     margin-left: 0.5rem;
     font-size: 2rem; 
     border-radius: 10px!important;
+    border-width: 3px !important;
+    border-color: white !important;
 }
 
 .main-logo {
@@ -37,6 +39,9 @@
         margin-top: 5rem;
         font-size: 2rem; 
         border-radius: 10px!important;
+        border-width: 3px !important;
+        border-color: white !important;
+
     }
 
     .main-logo {
