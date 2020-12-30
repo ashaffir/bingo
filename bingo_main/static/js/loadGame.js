@@ -66,7 +66,7 @@ function openBingo(url) {
 
                 setTimeout(function () {
                     $("#submitError").hide();
-                }, 2000);
+                }, 5000);
                 playButton.disabled = false;
                 console.log(`BUT: ${playButton.disabled}`)
 
