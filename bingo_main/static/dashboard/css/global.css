@@ -90,6 +90,8 @@ body {
     padding: 10px 15px;
     background-color: #fff;
     align-items: center;
+    z-index: 1000;
+
 }
 
 .menuItems {
@@ -110,6 +112,7 @@ body {
 .navbarTop img {
     max-height: 100%;
     max-width: 100%;
+    z-index: 1000;
 }
 
 .lowerNav {
@@ -121,6 +124,8 @@ body {
     text-align: center;
     padding: 0 5px;
     background-color: #fff;
+    z-index: 1000;
+
 }
 
 .bingoTable {
@@ -137,6 +142,8 @@ body {
     font-size: 0.8em;
     justify-self: center;
     cursor: pointer;
+    z-index: 1000;
+
 }
 .lowerNav span:hover {
     text-decoration: underline;
@@ -206,6 +213,8 @@ body {
     .navbarTop {
         padding: 10px 30px;
         height: 60px;
+        z-index: 1000;
+
     }
 
     .lowerNav span {
