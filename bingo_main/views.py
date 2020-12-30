@@ -65,6 +65,28 @@ def bingo_main(request):
         except Exception as e:
             print(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section C. ERROR: {e}")
             logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section C. ERROR: {e}")
+    
+    elif request.LANGUAGE_CODE == 'es':
+        try:
+            section_a = ContentPage.objects.get(name='home', section='a', language='Spanish')
+            context['section_a'] = section_a
+        except Exception as e:
+            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section A. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section A. ERROR: {e}")
+
+        try:
+            section_b = ContentPage.objects.get(name='home', section='b', language='Spanish')
+            context['section_b'] = section_b
+        except Exception as e:
+            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section B. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section B. ERROR: {e}")
+
+        try:
+            section_c = ContentPage.objects.get(name='home', section='c', language='Spanish')
+            context['section_c'] = section_c
+        except Exception as e:
+            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section C. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section C. ERROR: {e}")
     else:
         try:
             section_a = ContentPage.objects.get(name='home', section='a', language='English')
@@ -82,7 +104,6 @@ def bingo_main(request):
             context['instructions_a'] = ContentPage.objects.get(name='home', section='instructions_a', language='Hebrew')
         except Exception as e:
             context['instructions_a'] = None
-
         try:
             context['instructions_b'] = ContentPage.objects.get(name='home', section='instructions_b', language='Hebrew')
         except Exception as e:
@@ -97,6 +118,28 @@ def bingo_main(request):
             context['instructions_d'] = None
         try:
             context['instructions_e'] = ContentPage.objects.get(name='home', section='instructions_e', language='Hebrew')
+        except Exception as e:
+            context['instructions_e'] = None
+    
+    elif request.LANGUAGE_CODE == 'es':
+        try:
+            context['instructions_a'] = ContentPage.objects.get(name='home', section='instructions_a', language='Spanish')
+        except Exception as e:
+            context['instructions_a'] = None
+        try:
+            context['instructions_b'] = ContentPage.objects.get(name='home', section='instructions_b', language='Spanish')
+        except Exception as e:
+            context['instructions_b'] = None
+        try:
+            context['instructions_c'] = ContentPage.objects.get(name='home', section='instructions_c', language='Spanish')
+        except Exception as e:
+            context['instructions_c'] = None
+        try:
+            context['instructions_d'] = ContentPage.objects.get(name='home', section='instructions_d', language='Spanish')
+        except Exception as e:
+            context['instructions_d'] = None
+        try:
+            context['instructions_e'] = ContentPage.objects.get(name='home', section='instructions_e', language='Spanish')
         except Exception as e:
             context['instructions_e'] = None
     else:
@@ -214,6 +257,15 @@ def about(request):
         except Exception as e:
             messages.error(request, 'This page content is not ready')
             logger.error('>>> Bingo main: no content for the About section')
+    
+    elif request.LANGUAGE_CODE == 'es':
+        try:
+            about = ContentPage.objects.get(name='about', language='Spanish')
+            context['about'] = about
+        except Exception as e:
+            messages.error(request, 'This page content is not ready')
+            logger.error('>>> Bingo main: no content for the About section')
+
     else:
         try:
             about = ContentPage.objects.get(name='about', language='English')
@@ -652,6 +704,28 @@ def instructions(request):
             context['section_e'] = ContentPage.objects.get(name='instructions', section='e', language='Hebrew')
         except Exception as e:
             context['section_e'] = None
+    
+    elif request.LANGUAGE_CODE == 'es':
+        try:
+            context['section_a'] = ContentPage.objects.get(name='instructions', section='a', language='Spanish')
+        except Exception as e:
+            context['section_a'] = None
+        try:
+            context['section_b'] = ContentPage.objects.get(name='instructions', section='b', language='Spanish')
+        except Exception as e:
+            context['section_b'] = None
+        try:
+            context['section_c'] = ContentPage.objects.get(name='instructions', section='c', language='Spanish')
+        except Exception as e:
+            context['section_c'] = None
+        try:
+            context['section_d'] = ContentPage.objects.get(name='instructions', section='d', language='Spanish')
+        except Exception as e:
+            context['section_d'] = None
+        try:
+            context['section_e'] = ContentPage.objects.get(name='instructions', section='e', language='Spanish')
+        except Exception as e:
+            context['section_e'] = None    
     else:
         try:
             context['section_a'] = ContentPage.objects.get(name='instructions', section='a', language='English')

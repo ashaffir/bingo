@@ -143,6 +143,9 @@ chmod +x post_receive
   > https://www.youtube.com/watch?v=v6qrqtSGkeQ
    * https://www.dropbox.com/sh/rn3qeqjlfu26xee/AABHeIKBpqUvMBw4km6VFwN4a?dl=0
   
-  # REFERENCE: Sitemaps/robots.txt
+# REFERENCE: Sitemaps/robots.txt
   > https://www.youtube.com/watch?v=wg2IrrYpKTA (for a blog)
   > https://tinyurl.com/yx8tyedn
+
+# REFERENCE Weasyprint (invoices, PDF documents...)
+  > https://weasyprint.readthedocs.io/en/stable/install.html#linux
