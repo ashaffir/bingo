@@ -906,7 +906,7 @@ def game(request, game_id):
 
     if len(game.players_list) < min_players:
         messages.error(
-            request, _(f"Not enough players. Need at leaset" + str(min_players) + _("tickets")))
+            request, _(f"Not enough players. Need at least" + str(min_players) + _("tickets")))
         return redirect(request.META['HTTP_REFERER'])
 
     # print(f'GAME COST: {game.game_cost}')
@@ -1310,7 +1310,7 @@ def add_money(request):
             if amount != '':
                 return HttpResponseRedirect(reverse('payments:payment', args=[amount]))
             else:
-                messages.error(request, _('Please enter an amount, or pick pf the predefined amounts.'))
+                messages.error(request, _('Please enter an amount, or pick one of the predefined amounts.'))
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         # elif 'stripe_payment' in request.POST:
         #     money = request.POST.get('money')
@@ -1322,7 +1322,7 @@ def add_money(request):
         #     if amount != '':
         #         return HttpResponseRedirect(reverse('payments:stripe_payment', args=[amount]))
         #     else:
-        #         messages.error(request, _('Please enter an amount, or pick pf the predefined amounts.'))
+        #         messages.error(request, _('Please enter an amount, or pick one of the predefined amounts.'))
         #         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return render(request, 'bingo_main/dashboard/add-money.html')

@@ -28,4 +28,5 @@ pm2 restart
 # Languages
 
 django-admin makemessages -l he -i venv_bingo
+django-admin makemessages -l es -i venv_bingo
 django-admin compilemessages

@@ -16,6 +16,9 @@ Original project:
   dropdb bingo_db
   createdb --owner bingo_admin bingo_db
 
+- Start server on MAC
+  pg_ctl -D /usr/local/var/postgres start
+
 - Pip install venv
 - Migrate
 

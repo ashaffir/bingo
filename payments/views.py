@@ -6,9 +6,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from django.dispatch import receiver
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
+
+from django.template.loader import render_to_string
+import weasyprint
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -160,7 +163,7 @@ def deposits(request):
             if amount != '':
                 return HttpResponseRedirect(reverse('payment', args=[amount]))
             else:
-                messages.error(request, _('Please enter an amount, or pick pf the predefined amounts.'))
+                messages.error(request, _('Please enter an amount, or pick one of the predefined amounts.'))
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return render(request, 'payments/deposits.html', context)

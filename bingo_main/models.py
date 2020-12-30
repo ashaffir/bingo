@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractUser
 class ContentPage(models.Model):
 	LANGUAGES = (
 		('Hebrew', 'he'),
+		('Spanish', 'es'),
 		('English', 'en'),
 	)
 	name = models.CharField(max_length=100, null=True, blank=True)
