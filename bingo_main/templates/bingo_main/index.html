@@ -12,8 +12,8 @@
 {% include 'bingo_main/partials/_navbar_index.html' %}
 
 <!-- <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/bg_1.jpg' %}');" -->
-<div class="hero-wrap js-fullheight bg-image"
-	data-stellar-background-ratio="0.5">
+<div class="hero-wrap js-fullheight bg-image" data-stellar-background-ratio="0.5">
+<!-- <div class="hero-wrap js-fullheight" style="background-image: url('{% static 'images/host-bg-main.jpg' %}');" data-stellar-background-ratio="0.5"> -->
 	<div class="overlay"></div>
 	<div class="container">
 		<div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
@@ -40,15 +40,11 @@
 				</div>
 				{% endif %}
 				<hr style="max-width: 50%; margin-left:0px; ">
-				<div id="timer" class=" ">
+				<div id="timer">
 					<div class="row" style="width: 100%;">
 						<a class="btn btn-outline-success btn-lg" style="width: 100%; margin-left:2rem" href="{% url 'bingo_main:play' %}">Play</a>
 
 					</div>
-					<!-- <div class="time" id="days"></div>
-					<div class="time pl-4" id="hours"></div>
-					<div class="time pl-4" id="minutes"></div>
-					<div class="time pl-4" id="seconds"></div> -->
 				</div>
 			</div>
 		</div>

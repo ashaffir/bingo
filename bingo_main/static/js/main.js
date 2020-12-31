@@ -41,9 +41,9 @@
 
 	var fullHeight = function() {
 
-		$('.js-fullheight').css('height', $(window).height() * 0.8);
+		$('.js-fullheight').css('height', $(window).height());
 		$(window).resize(function(){
-			$('.js-fullheight').css('height', $(window).height() * 0.8);
+			$('.js-fullheight').css('height', $(window).height());
 		});
 
 	};
