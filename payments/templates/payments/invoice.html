@@ -1,0 +1,278 @@
+{% load static %}
+<!-- ========================== -->
+<style>
+  thead {
+    display: table-header-group; }
+  tr,
+  img {
+    page-break-inside: avoid; }
+
+  .container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto; 
+  }
+  
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.75rem;
+  margin-left: -0.75rem;
+}
+
+.col-12{
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px; 
+}
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #e3e6f0;
+    border-radius: 0.35rem;
+  }
+
+.card-body {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 1.25rem; }
+
+
+  .table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent; }
+    .table th,
+    .table td {
+      padding: 0.75rem;
+      vertical-align: top;
+      border-top: 1px solid #dee2e6; }
+    .table thead th {
+      vertical-align: bottom;
+      border-bottom: 2px solid #dee2e6; }
+    .table tbody + tbody {
+      border-top: 2px solid #dee2e6; }
+    .table .table {
+      background-color: #fff; 
+    }
+  
+.p-5 {
+  padding: 3rem !important;
+}
+
+.p-0 {
+  padding: 0 !important; 
+}
+
+.col-md-6 {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 50%;
+  flex: 0 0 50%;
+  max-width: 50%; 
+}
+
+.mb-1,
+.my-1 {
+  margin-bottom: 0.25rem !important; 
+}
+
+.font-weight-bold {
+  font-weight: 700 !important; 
+}
+
+.text-right {
+  text-align: right !important; 
+}
+
+
+.text-muted {
+  color: #3a7420 !important; 
+}
+.mt-5,
+.my-5 {
+  margin-top: 3rem !important; 
+}
+
+
+.pb-5,
+.py-5 {
+  padding-bottom: 3rem !important; 
+}
+
+.border-0 {
+  border: 0 !important; }
+
+  .text-uppercase {
+    text-transform: uppercase !important; }
+
+    small {
+      font-size: 80%;
+    }
+    .d-flex {
+      display: -webkit-box !important;
+      display: -ms-flexbox !important;
+      display: flex !important; }
+    
+    .flex-row-reverse {
+      -webkit-box-orient: horizontal !important;
+      -webkit-box-direction: reverse !important;
+      -ms-flex-direction: row-reverse !important;
+      flex-direction: row-reverse !important; }
+    
+      .bg-dark {
+        background-color: #343a40 !important; }
+      
+      .text-white {
+      color: #fff !important; }
+    
+    
+    .p-4 {
+      padding: 1.5rem !important; }
+    
+    .pt-3,
+    .py-3 {
+      padding-top: 1rem !important; }
+                                
+    .pr-5,
+    .px-5 {
+      padding-right: 3rem !important; }
+    
+      .mb-2,
+      .my-2 {
+        margin-bottom: 0.5rem !important; }
+    
+    
+    h1, h2, h3, h4, h5, h6,
+    .h1, .h2, .h3, .h4, .h5, .h6 {
+      margin-bottom: 0.5rem;
+      font-family: inherit;
+      font-weight: 500;
+      line-height: 1.2;
+      color: inherit; }
+    
+  .h2 {
+    font-size: 1.5rem;
+  }
+
+  .h1 {
+    font-size: 2rem;
+  }
+
+    .font-weight-light {
+      font-weight: 300 !important; }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="row p-5">
+                        <div class="col-md-6">
+                          <div class="row">
+                            <h1>POLYBINGO</h1>
+                            <!-- <a href="https://polybingo.com">
+                              <img style="width: 25%;" src="http://localhost:8030/static/images/polybingo-logo-new-25p.png" alt="">
+                            </a>  -->
+                            </div>
+                            <div class="row">
+                              <div class="col-12">
+                                <a href="{% url 'bingo_main:bingo_main' %}">www.polybingo.com</a>
+                                <p> Operated by: Actappon Ltd. <br>
+                                30 Kibbutz Galuyot street <br>
+                                Even Yehuda, Israel 4051530 <br>
+                                Company Number: 514548288</p>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 text-right">
+                            <p class="font-weight-bold mb-1">Invoice #PI0000{{ payment.pk }}</p>
+                            <p class="text-muted">Due to: {{ payment.date|date:"M d, Y" }}</p>
+                        </div>
+                    </div>
+
+                    <hr class="my-5">
+
+                    <div class="row pb-5 p-5">
+                        <div class="col-md-6">
+                            <p class="font-weight-bold mb-4">Client Information</p>
+                            <p class="mb-1">{{ payment.customer_name }}</p>
+                            <p>{{ payment.user.company_name }}</p>
+                            <p class="mb-1">{{ payment.user.country }}</p>
+                            <p class="mb-1">{{ payment.user.zip_code }}</p>
+                        </div>
+
+                        <div class="col-md-6 text-right">
+                            <p class="font-weight-bold mb-4">Payment Details</p>
+                            <p class="mb-1"><span class="text-muted">VAT ID: </span> {{ payment.user.vat_number }}</p>
+                            <p class="mb-1"><span class="text-muted">Payment Type: </span>{{ payment.payment_type}}</p>
+                            <p class="mb-1"><span class="text-muted">Name: </span> {{ payment.user.first_name }} {{ payment.user.last_name }}</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row p-5">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="border-0 text-uppercase small font-weight-bold">ID</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Item</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Description</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Polybingo Hosting Credit</td>
+                                        <td></td>
+                                        <td>1</td>
+                                        <td>${{ payment.amount }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+                        <div class="d-flex flex-row-reverse p-4">
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Grand Total</div>
+                            <div class="h2 font-weight-light">${{ payment.amount }}</div>
+                        </div>
+
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Discount</div>
+                            <div class="h2 font-weight-light">0%</div>
+                        </div>
+
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Sub - Total amount</div>
+                            <div class="h2 font-weight-light">${{ payment.amount }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-light mt-5 mb-5 text-center small">by : <a class="text-light" target="_blank" href="http://polybingo.com">polybingo.com</a></div>
+
+</div> 
+

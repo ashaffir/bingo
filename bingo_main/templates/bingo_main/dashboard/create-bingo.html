@@ -118,8 +118,16 @@
     {% endif %}
     <input type="radio" name="bingoType" value="private" id="private" checked onclick="checkCopyright(this)">
     <label for="private">{% trans 'My Bingo' %}</label>
-    <input type="radio" name="bingoType" value="public" id="public" onclick="checkCopyright(this)">
+    <i class="p-1 fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" 
+    data-placement="top" title="{% trans 'Only you can use the album' %}">
+    </i>
+
+    <br>
+    <input class="" type="radio" name="bingoType" value="public" id="public" onclick="checkCopyright(this)">
     <label for="public">{% trans 'Public Bingo' %}</label>
+        <i class="p-1 fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" 
+        data-placement="top" title="{% trans 'Make your album publicly used and visible to all hosts' %}">
+        </i>
     <div class="errorBox" id="copyright">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
     </div>

@@ -1,11 +1,14 @@
 import sys
+import logging
 from django.template import RequestContext, TemplateDoesNotExist
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 
+logger = logging.getLogger(__file__)
 
-def send_mail(subject, email_template_name,
+
+def send_mail(subject, email_template_name,attachement,
               context, to_email, html_email_template_name=None, request=None, from_email=None):
     """
     Sends a django.core.mail.EmailMultiAlternatives to `to_email`.
@@ -32,11 +35,10 @@ def send_mail(subject, email_template_name,
     # Email subject *must not* contain newlines
     from_email = from_email or getattr(settings, 'DEFAULT_FROM_EMAIL')
     if email_template_name:
-        message_txt = render_to_string(email_template_name,
-                                       ctx_dict)
+        message_txt = render_to_string(email_template_name,ctx_dict)
 
-        email_message = EmailMultiAlternatives(subject, message_txt,
-                                               from_email, to_email)
+        email_message = EmailMultiAlternatives(subject, message_txt,from_email, to_email)
+    
     else:
         try:
             message_html = render_to_string(
@@ -44,6 +46,11 @@ def send_mail(subject, email_template_name,
             email_message = EmailMultiAlternatives(subject, message_html,
                                                    from_email, to_email)
             email_message.content_subtype = 'html'
+            try:
+                email_message.attach_file(attachement)
+            except Exception as e:
+                print(f">>> USERS UTILS @send_mail: Failed to attach attachement. ERROR: {e}")
+                logger.error(f">>> USERS UTILS @send_mail: Failed to attach attachement. ERROR: {e}")
         except TemplateDoesNotExist:
             pass
 

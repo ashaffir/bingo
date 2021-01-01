@@ -1,6 +1,9 @@
+import os
 import requests
 import stripe
 import logging
+import platform
+from io import BytesIO
 from django.shortcuts import render, get_object_or_404, reverse, redirect, resolve_url
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
@@ -9,9 +12,12 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.translation import gettext as _
+from django.template.loader import get_template
+from django.views.generic import ListView
+from django.contrib.staticfiles import finders
+from django.core.files import File
 
-from django.template.loader import render_to_string
-import weasyprint
+from xhtml2pdf import pisa
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
@@ -22,6 +28,10 @@ from paypal.standard.ipn.signals import valid_ipn_received
 
 from .models import Payment
 from users.models import User
+from users.utils import send_mail
+from bingo_main.models import ContentPage
+
+from administration.decorators import superuser_required
 
 logger = logging.getLogger(__file__)
 
@@ -30,17 +40,111 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 # Generate an invoice
 # INVOICE = "unique_invoice_00001"
 
+# class UserListView(ListView):
+#     model = User
+#     template_name = 'payments/users_invoices.html'
+
+def invoice_html(request):
+    return render(request, 'payments/invoice.html')
+
+def user_render_pdf_view(request, *args, **kwargs):
+    user_pk = kwargs.get('pk')
+    user = get_object_or_404(User, pk=user_pk)
+    
+    template_path = 'payments/invoice.html'
+    context = {'user': user}
+
+    # Create Django response object and specify content_type as pdf
+    response = HttpResponse(content_type='application/pdf')
+
+    # To download the PDF run:
+    # response['Content-Disposition'] = 'attachement; filename="invoice.pdf"'
+
+    # To display it:
+    response['Content-Disposition'] = 'filename="user_info.pdf"'
+
+     #find the templage and render it
+    template = get_template(template_path)
+    html = template.render(context)
+
+    #Create the PDF
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    # If error show this
+    if pisa_status.err:
+        return HttpResponse('Error creating PDF <pre>' + html + '</pre>')
+    
+    return response
+
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+def generate_invoice_pdf(payment_id):
+        
+    if platform.system() == 'Darwin':  # MAC
+        current_site = 'http://127.0.0.1:8000' if settings.DEBUG else settings.DOMAIN_PROD
+    else:
+        current_site = settings.DOMAIN_PROD
+
+    payment = Payment.objects.get(id=payment_id)
+    context = {'payment': payment}
+
+    pdf = render_to_pdf('payments/invoice.html', context)
+    filename = f"PI0000{payment.id}.pdf"
+    payment.invoice_pdf.save(filename, File(BytesIO(pdf.content)))
+    return payment.invoice_pdf.url
+
+# def render_pdf_view(request):
+#     payment = Payment.objects.get(pk=1)
+#     template_path = 'payments/invoice.html'
+#     context = {'payment': payment}
+
+#     # Create Django response object and specify content_type as pdf
+#     response = HttpResponse(content_type='application/pdf')
+
+
+#     pdf = render_to_pdf(template_path, context)
+    
+#     filename = f"YourPDF_Order{payment.invoice_slug}.pdf"
+#     payment.invoice_pdf.save(filename, File(BytesIO(pdf.content)))
+    
+#     # To directly download the PDF run:
+#     # response['Content-Disposition'] = 'attachement; filename="invoice.pdf"'
+
+#     # To display it:
+#     response['Content-Disposition'] = 'filename="invoice.pdf"'
+
+#      #find the templage and render it
+#     template = get_template(template_path)
+#     html = template.render(context)
+
+#     #Create the PDF
+#     pisa_status = pisa.CreatePDF(html, dest=response)
+
+#     # If error show this
+#     if pisa_status.err:
+#         return HttpResponse('Error creating PDF <pre>' + html + '</pre>')
+
+#     return response
+
 
 @login_required
 def payment(request, amount=0.0):
     print(f'>>> PAYMENTS @ payment: Amount {amount}')
     logger.info(f'>>> PAYMENTS @ payment: Amount {amount}')
-    deposit_id = request.session.get('order_id')
+    deposit_id = request.session.get('payment_id')
     context = {}
     host = request.get_host()
     user = request.user
 
-    invoice = Payment.objects.create(
+    payment = Payment.objects.create(
         amount=amount,
         user=user
     )
@@ -64,7 +168,7 @@ def payment(request, amount=0.0):
             "tagline": 'true'
         },
         "item_name": "Deposit",
-        "invoice": invoice.id,
+        "invoice": payment.id,
         "notify_url": ipn_url,
         "return_url": f"http://{host}/payments/paypal_return/",
         "cancel_url": f"http://{host}/payments/paypal_cancel/"
@@ -78,6 +182,9 @@ def payment(request, amount=0.0):
     
     # print(f">>> PAYMENTS @ payment: Updated user balance with additional {amount}")
     # logger.info(f">>> PAYMENTS @ payment: Updated user balance with additional {amount}")
+
+    
+    
 
     context['form'] = form
     context['amount'] = amount
@@ -139,7 +246,42 @@ def charge(request):
     user.balance = user.balance + amount
     user.save()
 
-    # TODO Send invoice to user.
+
+    # Generate and send invoice to the user
+    payment = Payment.objects.filter(user=user).last()
+    payment.payment_type = 'Credit Card'
+    payment.save()
+
+    try:
+        invoice_sub_path = generate_invoice_pdf(payment.pk)
+        invoice_path = str(settings.BASE_DIR) + invoice_sub_path
+        print(f">>> PAYMENTS @ charge: Invoice path: {invoice_path}")
+        logger.info(f">>> PAYMENTS @ charge: Invoice path: {invoice_path}")
+    except Exception as e:
+        print(f">>> PAYMENTS @ charge: Falied saving the invoice PDF file. ERROR: {e}")
+        logging.error(f">>> PAYMENTS @ charge: Falied saving the invoice PDF file. ERROR: {e}")
+
+        #TODO: write an "Update Admin" routin to send emails to admin every break
+
+    try:
+        email_message = ContentPage.objects.get(name='invoice_email')
+        subject = _(f"New Invoice From Polybingo - PI0000{payment.pk}")
+        title = email_message.title
+        content = email_message.content
+        
+        message = {
+            'message': content
+        }
+
+        send_mail(subject, 
+                    email_template_name=None,
+                    attachement=invoice_path,
+                    context=message, to_email=[user.email],
+                    html_email_template_name='bingo_main/emails/user_email.html')
+    except Exception as e:
+        logger.error(f'>>> PAYMENTS @ charge: Failed sending admin email with invoice. ERROR: {e}')
+        print(f'>>> PAYMENTS @ charge: Failed sending admin email with invoice. ERROR: {e}')
+
 
     print(f">>> PAYMENTS @ charge (Stripe): Updated user balance with additional {amount}")
     logger.info(f">>> PAYMENTS @ charge (Stripe): Updated user balance with additional {amount}")
@@ -179,7 +321,39 @@ def paypal_return(request):
     print(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
     logger.info(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
 
-    # TODO Send invoice to user.
+    payment.payment_type = 'PayPal'
+    payment.save()
+
+
+    # Generate and send invoice to the user
+    try:
+        invoice_sub_path = generate_invoice_pdf(payment.pk)
+        invoice_path = str(settings.BASE_DIR) + invoice_sub_path
+        print(f">>> PAYMENTS @ paypal_return: Invoice path: {invoice_path}")
+        logger.info(f">>> PAYMENTS @ paypal_return: Invoice path: {invoice_path}")
+    except Exception as e:
+        print(f">>> PAYMENTS @ paypal_return: Falied saving the invoice PDF file. ERROR: {e}")
+        logging.error(f">>> PAYMENTS @ paypal_return: Falied saving the invoice PDF file. ERROR: {e}")
+
+    try:
+        email_message = ContentPage.objects.get(name='invoice_email')
+        subject = _(f"New Invoice From Polybingo - PI0000{payment.pk}")
+        title = email_message.title
+        content = email_message.content
+        
+        message = {
+            'message': content,
+        }
+
+        send_mail(subject, 
+                    email_template_name=None,
+                    attachement=invoice_path,
+                    context=message, to_email=[user.email],
+                    html_email_template_name='bingo_main/emails/user_email.html')
+    except Exception as e:
+        logger.error(f'>>> PAYMENTS @ paypal_return: Failed sending admin email with invoice. ERROR: {e}')
+        print(f'>>> PAYMENTS @ paypal_return: Failed sending admin email with invoice. ERROR: {e}')
+
 
     # context = {'post': request.POST, 'get': request.GET}
     # return render(request, 'payments/paypal_return.html', context)

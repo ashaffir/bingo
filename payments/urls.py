@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from . import views as payment_views
+# from .views import UserListView
 
 app_name = 'payments'
 urlpatterns = [
@@ -21,6 +22,12 @@ urlpatterns = [
     path('charge/', payment_views.charge, name='charge'),
     path('success/<str:args>/', payment_views.successMsg, name="success"),
     path('deposits/', payment_views.deposits, name='deposits'),
+
+    # path('invoices/', payment_views.render_pdf_view, name='render_pdf_view'),
+    # path('users_invoices/', UserListView.as_view(), name='users_invoices'),
+    path('pdfs/<pk>/', payment_views.user_render_pdf_view, name='user_render_pdf_view'),
+    path('invoice_html/', payment_views.invoice_html, name='invoice_html'),
+    
 
 
 ]

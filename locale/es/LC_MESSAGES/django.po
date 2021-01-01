@@ -472,7 +472,7 @@ msgstr "Personaliza los juegos de bingo con tus propias fotos"
 
 #: bingo_main/templates/bingo_main/index.html:33
 msgid "Become Host"
-msgstr "Conviértete en anfitrión"
+msgstr "Ser un Anfitrión"
 
 #: bingo_main/templates/bingo_main/index.html:37
 #: bingo_main/templates/bingo_main/login.html:18

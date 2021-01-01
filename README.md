@@ -147,5 +147,7 @@ chmod +x post_receive
   > https://www.youtube.com/watch?v=wg2IrrYpKTA (for a blog)
   > https://tinyurl.com/yx8tyedn
 
-# REFERENCE Weasyprint (invoices, PDF documents...)
-  > https://weasyprint.readthedocs.io/en/stable/install.html#linux
+# REFERENCE xhtml2pdf (invoices, PDF documents...)
+  > https://www.codingforentrepreneurs.com/blog/save-a-auto-generated-pdf-file-django-model - creating the pdf and saving to a model/obj
+  > https://www.youtube.com/watch?v=J3MuH6xaDjI
+  > https://xhtml2pdf.readthedocs.io/en/latest/usage.html

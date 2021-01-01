@@ -364,3 +364,6 @@ LOGGING = {
         },
     },
 }
+
+# domain
+DOMAIN_PROD = 'https://polybingo.com'
