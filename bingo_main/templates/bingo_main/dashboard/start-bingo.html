@@ -506,9 +506,12 @@
                 console.log('START BROADCAST...')
                 setTimeout(function () {
                     console.log('Opening the broadcast page...')
-                    window.open('{% url "bingo_main:broadcast" %}', '_blank')
+                    
+                    //window.open('{% url "bingo_main:broadcast" %}', '_blank')
+                    window.open('{% url "bingo_main:broadcast" %}', 'Polybingo', "location")
+                    
                     window.location.href = "{% url 'bingo_main:bingo_main' %}";
-                }, 1000);        
+            }, 1000);        
             },
             error: function (xhr, errmsg, err) {
                 console.log(xhr.status + ":" + xhr.responseText)

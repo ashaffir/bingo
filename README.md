@@ -26,6 +26,8 @@ Redis:
 Error: BZPOPMIN
 ---> Restart the machine!!!!
 
+- brew services restart redis
+
 ## Vue.js
 
 #### REFERENCE: Install Vue (https://www.youtube.com/watch?v=uIx5QLrNqn0&ab_channel=PartiallyDeveloped):
