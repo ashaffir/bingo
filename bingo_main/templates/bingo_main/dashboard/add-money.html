@@ -33,7 +33,14 @@
                     </select>
                     <label for="money">{% trans 'Enter a custom amount' %}</label>
                     <input type="number" name="money" id="money" class="form-control">
-                    <div class="buttonSplit">
+
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <label for="coupon">{% trans 'Coupon' %}</label>
+                            <input type="text" name="coupon" id="coupon" class="form-control">
+                        </div>
+                    </div>
+                    <div class="buttonSplit mt-3">
                         <button class="btn btn-success mt-2" type="submit"
                             name="make_payment">{% trans 'Make Payment' %}</button>
                     </div>

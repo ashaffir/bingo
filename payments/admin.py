@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Payment
+from .models import Payment, Coupon
 
 
 @admin.register(Payment)
@@ -9,4 +9,4 @@ class Payments(admin.ModelAdmin):
     search_fields = ('user',)
     ordering = ('-date',)
 
-# admin.site.register(Payment)
+admin.site.register(Coupon)

@@ -12,9 +12,18 @@ class Payment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     paid = models.BooleanField(default=True)
     amount = models.FloatField(null=True, default=0.0)
+    total_charge = models.FloatField(null=True, default=0.0)
+    discount = models.FloatField(null=True, blank=True)
     invoice_slug = models.CharField(max_length=120, null=True, blank=True)
     invoice_pdf	= models.FileField(upload_to='invoices/', null=True, blank=True)
     payment_type = models.CharField(max_length=50, choices=PAYMENT_TYPES, null=True, blank=True)
     def __str__(self):
         return str(self.date) + " " + str(self.amount)
 
+class Coupon(models.Model):
+    coupon_id = models.CharField(max_length=30, null=True, blank=True)
+    discount = models.FloatField(default=0.0)
+    active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.coupon_id)

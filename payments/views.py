@@ -26,7 +26,7 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from paypal.standard.forms import PayPalPaymentsForm
 from paypal.standard.ipn.signals import valid_ipn_received
 
-from .models import Payment
+from .models import Payment, Coupon
 from users.models import User
 from users.utils import send_mail
 from bingo_main.models import ContentPage
@@ -134,9 +134,25 @@ def generate_invoice_pdf(payment_id):
 
 #     return response
 
+def check_coupon(coupon):
+    try:
+        coupons = Coupon.objects.filter(active=True)
+        coupons_ids = []
+        for c in coupons:
+            coupons_ids.append(c.coupon_id)
+
+        if coupon in coupons_ids:
+            discount = Coupon.objects.get(coupon_id=coupon).discount
+            return discount
+        else:
+            return 0.0
+    except Exception as e:
+        print(f'>>> PAYMENTS @ check_coupon: No coupon found. E: {e}')
+        logger.info(f'>>> PAYMENTS @ check_coupon: No coupon found. E: {e}')
+        return 0.0
 
 @login_required
-def payment(request, amount=0.0):
+def payment(request, amount=0.0, coupon=''):
     print(f'>>> PAYMENTS @ payment: Amount {amount}')
     logger.info(f'>>> PAYMENTS @ payment: Amount {amount}')
     deposit_id = request.session.get('payment_id')
@@ -144,9 +160,14 @@ def payment(request, amount=0.0):
     host = request.get_host()
     user = request.user
 
+    discount = check_coupon(coupon)
+    total_charge = amount * (1 - discount)
+    
     payment = Payment.objects.create(
         amount=amount,
-        user=user
+        total_charge=total_charge,
+        user=user,
+        discount=discount
     )
 
     ipn_url = (
@@ -157,7 +178,7 @@ def payment(request, amount=0.0):
     #################
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
-        "amount": amount,
+        "amount": total_charge ,
         "currency": settings.CURRENCY,
         "locale": 'en_US',
         "style": {
@@ -187,7 +208,7 @@ def payment(request, amount=0.0):
     
 
     context['form'] = form
-    context['amount'] = amount
+    context['amount'] = total_charge
     context['stripe_publishable_key'] = settings.STRIPE_PUBLISHABLE_KEY
     return render(request, 'payments/payment.html', context)
 

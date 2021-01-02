@@ -1376,28 +1376,19 @@ def add_money(request):
     if request.method == 'POST':
         if 'make_payment' in request.POST:
             money = request.POST.get('money')
+            
+            coupon = request.POST.get('coupon') if request.POST.get('coupon') else "no_coupon"
+
             if money:
                 amount = money
             else:
                 amount = request.POST.get('deposit_amount')
 
             if amount != '':
-                return HttpResponseRedirect(reverse('payments:payment', args=[amount]))
+                return HttpResponseRedirect(reverse('payments:payment', args=[amount, coupon]))
             else:
                 messages.error(request, _('Please enter an amount, or pick one of the predefined amounts.'))
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        # elif 'stripe_payment' in request.POST:
-        #     money = request.POST.get('money')
-        #     if money:
-        #         amount = money
-        #     else:
-        #         amount = request.POST.get('deposit_amount')
-
-        #     if amount != '':
-        #         return HttpResponseRedirect(reverse('payments:stripe_payment', args=[amount]))
-        #     else:
-        #         messages.error(request, _('Please enter an amount, or pick one of the predefined amounts.'))
-        #         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return render(request, 'bingo_main/dashboard/add-money.html')
 
