@@ -153,3 +153,6 @@ chmod +x post_receive
   > https://www.codingforentrepreneurs.com/blog/save-a-auto-generated-pdf-file-django-model - creating the pdf and saving to a model/obj
   > https://www.youtube.com/watch?v=J3MuH6xaDjI
   > https://xhtml2pdf.readthedocs.io/en/latest/usage.html
+
+# REFERENCE: websocket reconnect on disconnect 
+  > https://stackoverflow.com/questions/22431751/websocket-how-to-automatically-reconnect-after-it-dies

@@ -1,10 +1,15 @@
-Approve Users:
-{% for player in unapproved_players_list %}
+{% load i18n %}
+{% trans 'Current Players' %}:
+{% for player in players_list %}
     <div class="user">
+        {{ forloop.counter }})
         {{ player.nickname }}
+        {% if current_game.auto_join_approval %}
+        {% else %}
         <span>
             <i class="fa fa-check" onclick="window.location.href=('{% url "bingo_main:player_approval" player_id=player.pk approval="ok" %}')"></i>
             <i class="fa fa-times" onclick="window.location.href=('{% url "bingo_main:player_approval" player_id=player.pk approval="no" %}')"></i>
         </span>
+        {% endif %}
     </div>
 {% endfor %}

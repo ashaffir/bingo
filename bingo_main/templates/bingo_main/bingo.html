@@ -12,78 +12,13 @@
     <link rel="icon" type="image/x-icon" href="{% static 'images/polybingo-logotype-new.png' %}" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/bingo.css' %}">
+    <link rel="stylesheet" href="{% static 'css/my.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
-    <style>
-        @font-face {
-            font-family: 'Pacifico';
-            font-style: normal;
-            font-weight: normal;
-            src: local('Pacifico'), url('http://themes.googleusercontent.com/font?kit=fKnfV28XkldRW297cFLeqfesZW2xOQ-xsNqO47m55DA') format('truetype');
-        }
-    
-        
-        .bingo-button {
-            display: inline-block;
-            margin-top: 10%;
-            -webkit-border-radius: 100px;
-            -moz-border-radius: 100px;
-            border-radius: 100px;
-            -webkit-box-shadow:    0 8px 0 #c5376d, 0 15px 20px rgba(0, 0, 0, .35);
-            -moz-box-shadow: 0 8px 0 #c5376d, 0 15px 20px rgba(0, 0, 0, .35);
-            box-shadow: 0 8px 0 #c5376d, 0 15px 20px rgba(0, 0, 0, .35);
-            -webkit-transition: -webkit-box-shadow .1s ease-in-out;
-            -moz-transition: -moz-box-shadow .1s ease-in-out;
-            -o-transition: -o-box-shadow .1s ease-in-out;
-            transition: box-shadow .1s ease-in-out;
-            font-size: 1rem;
-            color: #fff;
-        }
-        
-        .bingo-button span {
-            display: inline-block;
-            padding: 1rem 1rem;
-            background-color: #ec528d;
-            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(116, 23, 57, 0.8)), to(hsla(338, 90%, 70%, .2)));
-            background-image: -webkit-linear-gradient(rgba(56, 6, 24, 0.8), hsla(338, 90%, 70%, .2));
-            background-image: -moz-linear-gradient(hsla(338, 90%, 80%, .8), hsla(338, 90%, 70%, .2));
-            background-image: -o-linear-gradient(hsla(338, 90%, 80%, .8), hsla(338, 90%, 70%, .2));
-            -webkit-border-radius: 100px;
-            -moz-border-radius: 100px;
-            border-radius: 100px;
-            -webkit-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, .15);
-            -moz-box-shadow: inset 0 -1px 1px rgba(255, 255, 255, .15);
-            box-shadow: inset 0 -1px 1px rgba(255, 255, 255, .15);
-            font-family: inherit, Arial, sans-serif;
-            line-height: 1;
-            text-shadow: 0 -1px 1px rgba(175, 49, 95, .7);
-            -webkit-transition: background-color .2s ease-in-out, -webkit-transform .1s ease-in-out;
-            -moz-transition: background-color .2s ease-in-out, -moz-transform .1s ease-in-out;
-            -o-transition: background-color .2s ease-in-out, -o-transform .1s ease-in-out;
-            transition: background-color .2s ease-in-out, transform .1s ease-in-out;
-        }
-        
-        .bingo-button:hover span {
-            background-color: #ec6a9c;
-            text-shadow: 0 -1px 1px rgba(175, 49, 95, .9), 0 0 5px rgba(255, 255, 255, .8);
-        }
-        
-        .bingo-button:active, .bingo-button:focus {
-            -webkit-box-shadow:    0 8px 0 #c5376d, 0 12px 10px rgba(0, 0, 0, .3);
-            -moz-box-shadow: 0 8px 0 #c5376d, 0 12px 10px rgba(0, 0, 0, .3);
-            box-shadow:    0 8px 0 #c5376d, 0 12px 10px rgba(0, 0, 0, .3);
-        }
-        
-        .bingo-button:active span {
-            -webkit-transform: translate(0, 4px);
-            -moz-transform: translate(0, 4px);
-            -o-transform: translate(0, 4px);
-            transform: translate(0, 4px);
-        }
-    </style>
+
 </head>
 
 <body>
@@ -379,6 +314,7 @@
 
     
         let gameId = '{{ game.game_id }}';
+        
         $(document).ready(function () {
 
             const scheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
@@ -471,9 +407,12 @@
 
             };
 
-            gameSocket.onclose = function (e) {
-                console.error('game socket closed unexpectedly');
-            };
+            gameSocket.onclose = function(e) {
+                console.log('Socket is closed. Reconnect will be attempted in 5 seconds.', e.reason);
+                setTimeout(function() {
+                  location.reload();
+                }, 5000);
+              };
 
             document.getElementById('bingo-button').onclick = (function() {
                 document.getElementsByTagName('audio')[0].play();

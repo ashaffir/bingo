@@ -88,8 +88,8 @@ class GameConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def game_message(self, event):
-        print(f'>>> CONSUMERS: SENT MESSAGE: {event}')
-        logger.info(f'>>> CONSUMERS: SENT MESSAGE: {event}')
+        # print(f'>>> CONSUMERS: SENT MESSAGE: {event}')
+        # logger.info(f'>>> CONSUMERS: SENT MESSAGE: {event}')
         try:
             message = event['data']
         except Exception as e:

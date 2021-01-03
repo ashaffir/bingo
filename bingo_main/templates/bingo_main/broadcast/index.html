@@ -72,25 +72,25 @@
                     <button type="button" id="castme">Click To Cast</button>
                 </form> -->
             <!-- </div> -->
-            {% if current_game.auto_join_approval %}
 
-            {% else %}
                 <div class="castButton">
                     <i class="fa fa-users" onclick="toggleList()"></i>
                     <div id="userList">
-                        Approve Users:
-                        {% for player in unapproved_players_list %}
+                        {% trans 'Current Players' %}:
+                        {% for player in players_list %}
                             <div class="user">
                                 {{ player.nickname }}
+                                {% if current_game.auto_join_approval %}
+                                {% else %}
                                 <span>
                                     <i class="fa fa-check" onclick="window.location.href=('{% url 'bingo_main:player_approval' player_id=player.pk approval='ok' %}')"></i>
                                     <i class="fa fa-times" onclick="window.location.href=('{% url 'bingo_main:player_approval' player_id=player.pk approval='no' %}')"></i>
                                 </span>
+                                {% endif %}
                             </div>
                         {% endfor %}
                     </div>
                 </div>
-            {% endif %}
         </div>
         <!-- <img src="{% static 'images/backgroundBroadcast.png' %}" class="speakerImage" alt=""> -->
     </div>
@@ -220,8 +220,12 @@
             };
     
             gameSocket.onclose = function(e) {
-                console.error('game socket closed unexpectedly');
-            };
+                console.log('Socket is closed. Reconnect will be attempted in 5 seconds.', e.reason);
+                setTimeout(function() {
+                  location.reload();
+                }, 5000);
+              };
+    
     
             update_players = function(){
                 $.ajax({

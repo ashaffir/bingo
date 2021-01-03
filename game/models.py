@@ -36,18 +36,15 @@ class Album(models.Model):
     def __str__(self):
         return str(self.name)
 
-
 class Picture(models.Model):
-    image_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
+    image_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100, null=True, blank=True)
     title = models.CharField(max_length=100, null=True, blank=True)
     # album = models.ForeignKey(Album, on_delete=models.CASCADE, null=True, blank=True)
     album_id = models.CharField(max_length=100, null=True, blank=True)
     url = models.CharField(max_length=500, null=True, blank=True)
     remote_id = models.CharField(max_length=100, null=True, blank=True)
-    image_file = models.ImageField(
-        upload_to=picture_image_path, blank=True, null=True)
+    image_file = models.ImageField(upload_to=picture_image_path, blank=True, null=True)
     public = models.BooleanField(default=True)
 
     def __str__(self):
@@ -171,3 +168,9 @@ class Board(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
+class DisplayPicture(models.Model):
+    image = models.ForeignKey(Picture, null=True, blank=True, on_delete=models.CASCADE)
+    game_id = models.IntegerField(default=True, null=True)
+    board = models.ForeignKey(Board, blank=True, null=True, on_delete=models.CASCADE)
+    matched = models.BooleanField(default=False)

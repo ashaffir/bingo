@@ -110,8 +110,8 @@ def player_approval_signal(sender, instance: Player, **kwargs):
         print(f"Skip Player Instance")
 
     else:
-        print(f">>> SIGNALS@approval: Checking player approval: {instance}")
-        logger.info(f">>> SIGNALS: Checking player approval: {instance}")
+        # print(f">>> SIGNALS@approval: Checking player approval: {instance}")
+        # logger.info(f">>> SIGNALS: Checking player approval: {instance}")
         try:
             previous = Player.objects.get(pk=instance.pk)
             game = instance.game
@@ -144,8 +144,8 @@ def player_approval_signal(sender, instance: Player, **kwargs):
                         }
                     }
                 )
-                print(f">>> SINGLAS@approval: WS message sent {instance.pk}")
-                logger.info(f">>> SINGLAS@approval: WS message sent {instance.pk}")
+                # print(f">>> SINGLAS@approval: WS message sent {instance.pk}")
+                # logger.info(f">>> SINGLAS@approval: WS message sent {instance.pk}")
 
             elif previous.not_approved != instance.not_approved:
                 print(

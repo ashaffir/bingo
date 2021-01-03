@@ -118,8 +118,11 @@
         };
 
         gameSocket.onclose = function(e) {
-            console.error('Game socket closed unexpectedly');
-        };
+            console.log('Socket is closed. Reconnect will be attempted in 5 seconds.', e.reason);
+            setTimeout(function() {
+              location.reload();
+            }, 5000);
+          };
 
 
         var gameId;
