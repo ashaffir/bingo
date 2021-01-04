@@ -109,6 +109,12 @@
                 data-placement="top" title="{% trans 'You will need to approve every player that will enter the game ID before the game starts' %}">
             </i>            
             <br>
+            <input type="checkbox" name="automatch" id="automatch" value="autoMatching">
+            <label for="automatch">{% trans 'Auto Mark' %}</label>
+            <i class="p-1 fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" 
+                data-placement="top" title="{% trans 'The system marks the player board with drawn images automatically' %}">
+            </i>            
+            <br>
             <div class="saveButton" onclick="createBingo()">{% trans 'Start the game' %}</div>
             <a href="{% url 'bingo_main:dashboard' %}">{% trans 'Cancel' %}</a>
             <div class="errorBox">
@@ -385,9 +391,15 @@
 
     function createBingo() {
         let joinStatus = document.querySelector('input[name="request"]:checked').value;
+        let autoMatching = document.querySelector('#automatch:checked');
+        if (autoMatching != null){
+            autoMatching = document.querySelector('#automatch:checked').value;
+        }
+        
         let errorBox = document.querySelector('.errorBox');
         let requestData = {
             "joinStatus": joinStatus,
+            "autoMatching": autoMatching,
             "prizes": []
         };
 

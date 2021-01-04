@@ -633,8 +633,8 @@ msgid "Update Details"
 msgstr "עדכן פרטים"
 
 #: bingo_main/templates/bingo_main/partials/_prizes_sidebar.html:30
-msgid "One lines"
-msgstr "שורות אחת"
+msgid "Any One Line"
+msgstr "שורה"
 
 #: bingo_main/templates/bingo_main/partials/_prizes_sidebar.html:45
 msgid "Two Lines"

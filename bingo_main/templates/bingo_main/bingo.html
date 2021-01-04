@@ -15,8 +15,6 @@
     <link rel="stylesheet" href="{% static 'css/my.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 
 
 </head>
@@ -48,6 +46,10 @@
                 {% trans 'Game starting soon. Just a second' %}...
                 {% endif %}
             </div>
+            <div id="game-ended" class="lrgText">
+                {% trans 'Game Over. Thank you for playing' %}
+            </div>
+
             <div id="card">
                 <div class="header">
                     {% trans 'Ticket Number' %} {{ board.board_number }}
@@ -86,6 +88,13 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<style>
+    .coc {
+        color: #570916
+    }
+</style>
     <script>
 
         let player_id;
@@ -119,7 +128,7 @@
                 el.style.backgroundColor = '';
             } else {
                 let colour = window.stump ? window.stump : 'green';
-                el.style.backgroundColor = colour;
+                el.style.backgroundColor = '#570916';
             }
         }
 
@@ -141,6 +150,8 @@
             // If player has missed the card highlight
             el.style.border = "3px solid red";
         }
+
+        let table = document.querySelector('.bingoTable');
 
         function getData(event) {
             const queryString = window.location.search;
@@ -174,7 +185,6 @@
             //approvalRequired = false;
 
 
-            let table = document.querySelector('.bingoTable');
 
             //if (!approvalRequired) document.querySelector('#approval').style.display = 'none';
 
@@ -220,40 +230,58 @@
             console.log(`started: {{ game.started }}`);
             console.log(`auto join: {{ game.auto_join_approval }}`);
             console.log(`player approved: {{ player.approved }}`);
+            {% if game.ended %}
+                console.log('Game Ended');
+                document.querySelector('#approval').style.display = 'none';
+                document.querySelector('#startingSoon').style.display = 'none';
+                document.querySelector('#bingo-button').style.display = 'none';
+                document.querySelector('#game-ended').style.display = true;
+    
 
-            {% if game.started and game.auto_join_approval or game.started and not game.auto_join_approval and player.approved %}
-            console.log('Game Started');
-            document.querySelector('#approval').style.display = 'none';
-            document.querySelector('#startingSoon').style.display = 'none';
-            document.querySelector('#bingo-button').style.display = 'block';
+            {% elif game.started and game.auto_join_approval or game.started and not game.auto_join_approval and player.approved %}
+                console.log('Game Started');
+                document.querySelector('#approval').style.display = 'none';
+                document.querySelector('#startingSoon').style.display = 'none';
+                document.querySelector('#game-ended').style.display = 'none';
+                document.querySelector('#bingo-button').style.display = 'block';
 
-            console.log(`curr image: {{ game.current_picture.image_file.url }}`);
+                console.log(`curr image: {{ game.current_picture.image_file.url }}`);
 
-            //document.getElementById('currentImage').src = '{{ game.current_picture.image_file.url }}';
-            //document.getElementById('currentImageTitle').innerHTML = {{ game.current_picture.title }};
+                //Populating the board images on page load/refresh
+                ///////////////////////////////////////////////////
+                {% for pic in board_pictures %}
+                table.innerHTML +=
+                    `<div class="field" onclick="markBingo(this)">
+                        {% if pic.matched %}
+                        <div class="overlay">
+                            <div style="font-weight: bold; font-size: clamp(25px, 8vw, 2vw);">{% trans 'Match' %}</div>
+                        </div>
+                        {% endif %}
+                        <img src="{{ pic.image.image_file.url }}" alt="">
 
-            //Populating the board images
-            {% for pic in board_pictures %}
-            table.innerHTML +=
-                `<div class="field" onclick="markBingo(this)"><img src="{{ pic.image_file.url }}" alt=""></div>`;
-            {% endfor %}
-            
+                    </div>`;
+                {% endfor %}
             
             {% elif not game.auto_join_approval and not player.approved %}
             console.log('Player not approved');
             document.querySelector('#approval').style.display = true;
             document.querySelector('#startingSoon').style.display = 'none';
             document.querySelector('#bingo-button').style.display = 'none';
+            document.querySelector('#game-ended').style.display = 'none';
             
             {% elif not game.auto_join_approval and player.approved and not game.started %}
             console.log('Game not started');
             document.querySelector('#approval').style.display = 'none';
             document.querySelector('#startingSoon').style.display = true;
             document.querySelector('#bingo-button').style.display = 'none';
+            document.querySelector('#game-ended').style.display = 'none';
+
             {% else %}
             console.log('Error logic')
             document.querySelector('#startingSoon').style.display = true;
             document.querySelector('#bingo-button').style.display = 'none';
+            document.querySelector('#game-ended').style.display = 'none';
+            
             {% endif %}
 
             document.querySelector('.winCondition').innerHTML = "";
@@ -334,15 +362,15 @@
                 console.log(`Player status: ${data.message.player_status}`);
                 console.log(`Player ID: ${data.message.player_id}`);
 
-                if (data.message.game_status == 'canceled') {
-                    //window.location.reload(true);
+                if (data.message.game_status == 'game_ended_status') {
+                    window.location.reload(true);
                     
                     /*
                     document.querySelector('#approval').style.display = 'none';
                     document.querySelector('#startingSoon').style.display = 'none';
 
                     $.ajax({
-                        url: "{ url 'bingo_main:board_pictures' player_id='63d3de92-9add-4218-8bb7-fc6ebbeead3c' }",
+                        url: "{% url 'bingo_main:player_board' player_id=player.pk %}",
                         success: function (response) {
                             console.log(`Result: ${response}`);
                             //$('#card_area').html(response);
@@ -361,11 +389,52 @@
                     location.reload();
 
                 } else if (data.message.data) {
+
+                    // Board images
+                    table.innerHTML = "";
+                    let matched_founded = ""
+                    //Updating the board with next picture results
+                    //////////////////////////////////////////////
+                    let disp_id_image;
+                    {% for pic in board_pictures %}
+                        disp_id_image = {{ pic.pk }}
+                        if (data.message.drawn_list.includes(disp_id_image)){
+                            console.log('MATCH!!!!');
+                            table.innerHTML +=
+                            `<div class="field" onclick="markBingo(this)">
+                                <div class="overlay">
+                                    <div style="font-weight: bold; font-size: clamp(25px, 8vw, 2vw);">{% trans 'Match' %}</div>
+                                </div>
+                                <img src="{{ pic.image.image_file.url }}" alt="">
+                            </div>`;
+                        } else {
+                            table.innerHTML +=
+                            `<div class="field" onclick="markBingo(this)">
+                                {% if pic.matched %}
+                                <div class="overlay">
+                                    <div style="font-weight: bold; font-size: clamp(25px, 8vw, 2vw);">{% trans 'Match' %}</div>
+                                </div>
+                                {% endif %}
+                                <img src="{{ pic.image.image_file.url }}" alt="">
+                            </div>`;
+                        }
+                    {% endfor %}
+                    
+                    {% if game.auto_matching %}
+                        setTimeout(function() {
+                         //location.reload();
+                         console.log('no refresh')
+                         }, 1000);
+                    {% endif %}
+
+                    // Current image section
                     console.log(`CURRENT PICTURE : ${data.message.data}`);
+                    console.log(`DISPLAY IMAGES IDS : ${data.message.disp_ids}`);
                     document.getElementById('currentImage').src = data.message.data;
                     document.getElementById('currentImageTitle').innerHTML = data.message.title;
+                    
+                    // Winning conditions section
                     winCondition = data.message.current_winning_conditions;
-
                     document.querySelector('.winCondition').innerHTML = "";
 
                     if (winCondition == 'bingo') {

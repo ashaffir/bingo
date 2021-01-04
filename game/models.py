@@ -87,6 +87,9 @@ class Game(models.Model):
     prizes = models.JSONField(null=True, blank=True)
 
     auto_join_approval = models.BooleanField(default=False)
+    auto_matching = models.BooleanField(default=False) # for drunk users that cannot pay attention - marking resutls automatically
+
+
     prize_1_name = models.CharField(max_length=50, null=True, blank=True)
     prize_1_image_file = models.ImageField(upload_to=prize_image_path, blank=True, null=True)
     prize_2_name = models.CharField(max_length=50, null=True, blank=True)
@@ -171,6 +174,6 @@ class Board(models.Model):
 
 class DisplayPicture(models.Model):
     image = models.ForeignKey(Picture, null=True, blank=True, on_delete=models.CASCADE)
-    game_id = models.IntegerField(default=True, null=True)
+    game_id = models.IntegerField(null=True, blank=True)
     board = models.ForeignKey(Board, blank=True, null=True, on_delete=models.CASCADE)
     matched = models.BooleanField(default=False)

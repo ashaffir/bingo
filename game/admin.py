@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
 from import_export.admin import ImportExportModelAdmin
 
-from .models import Album, Board, Picture, Game, Player
+from .models import Album, Board, Picture, Game, Player, DisplayPicture
 
 
 @admin.register(Album)
@@ -57,5 +57,12 @@ class BoardAdmin(admin.ModelAdmin):
     search_fields = ['game_id', 'player__player_id', 'pk', ]
     ordering = ('-created',)
 
+@admin.register(DisplayPicture)
+class DisplayPictureAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'image', 'game_id', 'board','matched',)
+    list_filter = ('game_id',)
+    search_fields = ['game_id', ]
+    ordering = ('-game_id',)
 
-# admin.site.register(Board)
+
+# admin.site.register(DisplayPicture)

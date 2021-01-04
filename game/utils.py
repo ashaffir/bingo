@@ -1,8 +1,8 @@
 import random
-from .models import Board, Game
+from .models import Board, Game, Picture, DisplayPicture
 from users.models import User
 
-def create_2d_array(pictures, board_size):
+def create_2d_array(pictures, board_size, game_id, board):
     """This routin will run for every new player, and will generate
     the 2D array of the board
 
@@ -17,7 +17,18 @@ def create_2d_array(pictures, board_size):
     for i in range(board_size):
         row = []
         for j in range(board_size):
-            row.append(pictures.pop())
+
+            poped_pic_id = pictures.pop() 
+            poped_pic = Picture.objects.get(pk=poped_pic_id)
+            disp_pic = DisplayPicture.objects.create(
+                image=poped_pic,
+                board=board,
+                game_id=game_id
+            )
+
+            row.append(disp_pic.pk)
+
+            # row.append(pictures.pop())
         extracted_array.append(row)
     return extracted_array
 
@@ -31,6 +42,7 @@ def check_players(picture_id,game_id):
     Return:
         boards (list): list of boards that have the picture
     """
+    print(f"PIC ID: {picture_id}")
     boards = Board.objects.filter(game_id=game_id, pictures__contains=[picture_id])
     return boards
 

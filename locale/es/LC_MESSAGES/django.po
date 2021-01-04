@@ -634,8 +634,8 @@ msgid "Update Details"
 msgstr "Detalles de actualización"
 
 #: bingo_main/templates/bingo_main/partials/_prizes_sidebar.html:30
-msgid "One lines"
-msgstr "Una linea"
+msgid "Any One Line"
+msgstr "Cualquier línea"
 
 #: bingo_main/templates/bingo_main/partials/_prizes_sidebar.html:45
 msgid "Two Lines"

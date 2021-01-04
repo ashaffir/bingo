@@ -1,5 +1,175 @@
+{% load i18n %}
 
-<div class="bingoTable">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+<div class="bingoTable" id="card_area">
 
 </div>
-    
+
+    <script>
+
+        let player_id;
+        let player_status;
+
+        $(document).ready(function () {
+            //document.querySelector('.bingoContainer').style.height = window.innerHeight + 'px';
+            getData();
+            let imagesLoaded = 0;
+            // Total images is still the total number of <img> elements on the page.
+            let totalImages = $('img').length;
+
+            $('img').each(function (idx, img) {
+                $('<img>').on('load', imageLoaded).attr('src', $(img).attr('src'));
+            });
+
+            function imageLoaded() {
+                imagesLoaded++;
+                if (imagesLoaded == totalImages) {
+                    allImagesLoaded();
+                }
+            }
+
+            function allImagesLoaded() {
+                //document.querySelector('#startingSoon').style.display = 'none';
+            }
+        });
+
+        function markBingo(el) {
+            if (el.style.backgroundColor) {
+                el.style.backgroundColor = '';
+            } else {
+                let colour = window.stump ? window.stump : 'green';
+                el.style.backgroundColor = colour;
+            }
+        }
+
+        function changeStump(el, colour) {
+            document.querySelectorAll('.stump').forEach(el => {
+                el.style.border = "";
+            });
+            el.style.border = '3px solid #00d0ff';
+            window.stump = colour;
+        }
+
+        function getCard() {
+            // Api for checking when the next card is called. Will highlight if you missed a card. API will need to return the Image URL to be checked against the card image source.
+
+            setTimeout(() => {
+
+            }, 1000);
+
+            // If player has missed the card highlight
+            el.style.border = "3px solid red";
+        }
+
+        let table = document.querySelector('.bingoTable');
+
+        function getData(event) {
+            const queryString = window.location.search;
+
+            //const urlParams = new URLSearchParams(queryString);
+            //document.querySelector('#playerName').innerHTML = urlParams.get('name') ? urlParams.get('name') : '{{ player.nickname }}';
+            //document.querySelector('#playerName').innerHTML = '{{ player.nickname }}';
+            //document.getElementById('currentImage').src = '{{ game.current_picture.image_file.url }}';
+
+            setTimeout(() => {
+
+                document.querySelector('.bingoTable').style.width = document.querySelector('.bingoTable')
+                    .clientHeight +
+                    'px';
+                //document.querySelector('.currentImage').style.width = document.querySelector('.currentImage').clientHeight + 'px';
+            }, 100);
+
+            // if (!urlParams.get('code')) return window.location.href = './';
+
+            // Create a request to the backend to get the data from the card based on the code provided;
+
+            let size = '{{ board.size }}';
+
+            console.log(`SIZE: ${size}`)
+
+            if (window.innerWidth < 800) {
+                switch (size) {
+                    case '4':
+                        table.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                        table.style.gridTemplateRows = 'repeat(4, 1fr)';
+                        break;
+                    case '5':
+                        table.style.gridTemplateColumns = 'repeat(5, 1fr)';
+                        table.style.gridTemplateRows = 'repeat(5, 1fr)';
+                        break;
+                    default:
+                        size = '3';
+                        table.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                        table.style.gridTemplateRows = 'repeat(3, 1fr)';
+                        break;
+                }
+            } else {
+                switch (size) {
+                    case '5':
+                        table.style.gridTemplateRows = 'repeat(5, 1fr)';
+                        table.style.gridTemplateColumns = 'repeat(5, 1fr)';
+                        break;
+                    case '4':
+                        table.style.gridTemplateRows = 'repeat(4, 1fr)';
+                        table.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                        break;
+                    default:
+                        size = '3';
+                        table.style.gridTemplateRows = 'repeat(3, minmax(0, 1fr))';
+                        table.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                        break;
+                }
+            }
+            if (event) return resizeBox(size);
+
+            table.innerHTML = "";
+
+            console.log(`started: {{ game.started }}`);
+
+            console.log(`player approved: {{ player.approved }}`);
+            {% if game.ended %}
+                console.log('Game Ended');    
+
+            {% elif game.started and game.auto_join_approval or game.started and not game.auto_join_approval and player.approved %}
+                console.log('Game Started');
+
+                //Populating the board images on page load/refresh
+                ///////////////////////////////////////////////////
+                {% for pic in board_pictures %}
+                table.innerHTML +=
+                    `<div class="field" onclick="markBingo(this)">
+                        {% if pic.matched %}
+                        <div class="overlay">
+                            <div style="font-weight: bold; font-size: 3rem">{% trans 'Match' %}</div>
+                        </div>
+                        {% endif %}
+                        <img src="{{ pic.image.image_file.url }}" alt="">
+
+                    </div>`;
+                {% endfor %}
+            
+            {% endif %}
+
+            setTimeout(() => {
+                resizeBox(size);
+            }, 100);
+
+        }
+
+        function resizeBox(size) {
+
+            setTimeout(() => {
+                if (document.querySelector('.bingoTable .field') != null) {
+                    let width = document.querySelector('.bingoTable .field').clientHeight;
+                }
+            }, 30);
+
+        }
+        
+
+    </script>
+
+
+</html>

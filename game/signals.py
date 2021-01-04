@@ -10,7 +10,7 @@ from django.conf import settings
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
-from .models import Player, Album, Board, Game
+from .models import Player, Album, Board, Game, DisplayPicture
 from control.models import Control
 
 from .utils import create_2d_array
@@ -40,6 +40,20 @@ def game_start(sender, instance, update_fields, **kwargs):
                     'type': 'game.message',
                     'data': {
                             'game_status': 'game_started'
+                    }
+                }
+            )
+        elif previous.ended != instance.ended:
+            # if instance.started:
+            print(f">>> SIGNALS: Game ended ID {instance.game_id}")
+            logger.info(f">>> SIGNALS: Games ended ID {instance.game_id}")
+            # Updating WS
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                str(instance.game_id), {
+                    'type': 'game.message',
+                    'data': {
+                            'game_status': 'game_ended_status'
                     }
                 }
             )
@@ -78,7 +92,38 @@ def next_picture(sender, instance: Game, **kwargs):
                 instance.save()
 
             # Updating WS
-            print(f">>> SIGNALS @next_picture: PIC: {instance.current_picture}")
+            try:
+                drawn_pics = instance.shown_pictures
+                # Extracting the display pictures list
+                drawn_obj_list = []
+                for pic in drawn_pics:
+                    drawn_obj_list.append(DisplayPicture.objects.filter(image=pic, game_id=instance.game_id))
+
+                drawn_list = []
+                for disp_list in drawn_obj_list:
+                    for disp in disp_list:
+                        try:
+                            drawn_list.append(disp.pk)
+                        except:
+                            pass
+
+                print(f"DRAWN LIST: {drawn_list}")    
+
+                display_pics = DisplayPicture.objects.filter(image=instance.current_picture, game_id=instance.game_id)
+                disp_ids = []
+                for disp_pic in display_pics:
+                    disp_pic.matched = True
+                    disp_pic.save()
+                    disp_ids.append(disp_pic.pk)
+                
+                active_boards = [pic.board for pic in display_pics]
+                print(f"ACTIVE BORDS: {active_boards}")
+            except Exception as e:
+                print(f"DISP NOT FOUND: {e} INSTANCE PIC: {instance.current_picture}  GAME ID: {instance.game_id}")
+                disp_ids = 'none'
+            
+
+            print(f">>> SIGNALS @next_picture: PIC: {instance.current_picture} DISP_ID: {disp_ids}")
             logger.info(f">>> SIGNALS @next_picture: PIC: {instance.current_picture}, URL {instance.current_picture.image_file.url}")
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(
@@ -86,6 +131,8 @@ def next_picture(sender, instance: Game, **kwargs):
                     'type': 'game.message',
                     'data': {
                             'data': instance.current_picture.image_file.url,
+                            'disp_ids': disp_ids,
+                            'drawn_list':drawn_list,
                             'title': instance.current_picture.title,
                             'current_winning_conditions': instance.current_winning_conditions,
                             'game_status': game_status
@@ -212,24 +259,26 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
         shuffle_board = shuffle_pictures(pictures_list, board_size)
         # print('SUFFLE', shuffle_board)
 
-        try:
-            board_array = create_2d_array(shuffle_board, board_size)
-            # print(f'PLAYER BOARD: {board_array}')
-        except Exception as e:
-            print(
-                f'>>> SIGNALS@new_player: failed creating a board for a player. ERROR: {e}')
-            logger.error(
-                f'>>> SIGNALS@new_player: failed creating a board for a player. ERROR: {e}')
-            board_array = []
-
         player_board = Board.objects.create(
             player=instance,
             game_id=player_game_id,
             board_number=game.number_of_players,
-            size=board_size,
-            pictures=board_array,
-            pictures_draw=board_array,
+            size=board_size
         )
+        
+        try:
+            board_array = create_2d_array(shuffle_board, board_size, player_game_id, player_board)
+            print(f'>>> SIGNALS @ new_player_signal: PLAYER BOARD: {board_array}')
+        except Exception as e:
+            print(
+                f'>>> SIGNALS @ new_player_signal: failed creating a board for a player. ERROR: {e}')
+            logger.error(
+                f'>>> SIGNALS @ new_player_signal: failed creating a board for a player. ERROR: {e}')
+            board_array = []
+
+        player_board.pictures = board_array
+        player_board.pictures_draw = board_array
+        player_board.save()
 
         # Updating WS
         channel_layer = get_channel_layer()

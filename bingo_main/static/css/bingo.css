@@ -116,6 +116,54 @@
     transition: 0.5s all;
 }
 
+/* TEST*/ 
+.overlay {
+    position: absolute;
+    overflow: hidden;
+  }
+  .overlay:after {
+    position: fixed;
+    text-align: center;
+    width: inherit;
+    height: inherit;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(25, 211, 25, 0.5);
+    opacity: 1;
+  }
+
+.image-container {
+    position: absolute;
+    width: inherit;
+    height: 15%;
+}
+.image-container .after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: rgba(6, 236, 25, 0.897);
+    color: rgb(12, 11, 11);
+}
+
+.image-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .test-image {
+    width: 8em;
+    height: 8em;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  /*TEST END*/
+
 .field img {
     min-height: 0;
     -o-object-fit: cover;
@@ -147,7 +195,8 @@
 }
 
 #approval,
-#startingSoon {
+#startingSoon,
+#game-ended {
     display: flex;
     justify-content: center;
     align-items: center;
