@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-02 08:11+0200\n"
+"POT-Creation-Date: 2021-01-04 23:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,33 +57,45 @@ msgstr "Términos y condiciones"
 msgid "Privacy"
 msgstr "Intimidad"
 
-#: bingo_main/templates/bingo_main/bingo.html:104
-#: bingo_main/templates/bingo_main/bingo.html:106
+#: bingo_main/templates/bingo_main/bingo.html:37
+#: bingo_main/templates/bingo_main/bingo.html:39
 msgid "Waiting for host approval. Hold on"
 msgstr "Esperando la aprobación del anfitrión. Espere"
 
-#: bingo_main/templates/bingo_main/bingo.html:111
-#: bingo_main/templates/bingo_main/bingo.html:113
+#: bingo_main/templates/bingo_main/bingo.html:44
+#: bingo_main/templates/bingo_main/bingo.html:46
 msgid "Game starting soon. Just a second"
 msgstr "El juego comenzará pronto. Sólo un segundo"
 
-#: bingo_main/templates/bingo_main/bingo.html:118
+#: bingo_main/templates/bingo_main/bingo.html:50
+msgid "Game Over. Thank you for playing"
+msgstr "Juego terminado. Gracias por jugar"
+
+#: bingo_main/templates/bingo_main/bingo.html:55
 msgid "Ticket Number"
 msgstr "Numero de ticket"
 
-#: bingo_main/templates/bingo_main/bingo.html:127
+#: bingo_main/templates/bingo_main/bingo.html:64
 msgid "Win Condition"
 msgstr "Condición de victoria"
 
-#: bingo_main/templates/bingo_main/bingo.html:130
+#: bingo_main/templates/bingo_main/bingo.html:67
 msgid "Current Image"
 msgstr "Imagen actual"
 
-#: bingo_main/templates/bingo_main/bingo.html:141
+#: bingo_main/templates/bingo_main/bingo.html:78
 msgid "Bingo!"
 msgstr "¡Bingo!"
 
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:33
+#: bingo_main/templates/bingo_main/bingo.html:257
+#: bingo_main/templates/bingo_main/bingo.html:406
+#: bingo_main/templates/bingo_main/bingo.html:415
+#: bingo_main/templates/bingo_main/partials/_player_board.html:145
+msgid "Match"
+msgstr ""
+
+#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:33
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:41
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:31
 #: bingo_main/templates/bingo_main/broadcast/game.html:30
 #: bingo_main/templates/bingo_main/broadcast/game_over.html:28
@@ -91,32 +103,51 @@ msgstr "¡Bingo!"
 msgid "Please rotate your device to continue"
 msgstr "Gire su dispositivo para continuar"
 
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:48
+#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:48
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:166
 msgid "Congratulations"
 msgstr "Felicidades"
 
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:50
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:57
+#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:50
+#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:57
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:168
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:176
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:44
 msgid "Card Number"
 msgstr "Número de tarjeta"
 
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:50
+#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:50
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:168
 msgid "WON"
 msgstr "ganaste"
 
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:57
+#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:57
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:176
 msgid "Not yet"
 msgstr "Aún no"
 
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:65
+#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:65
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:183
 msgid "Check another"
 msgstr "Mira otro"
 
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:67
+#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:67
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:185
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:59
 msgid "Continue"
 msgstr "Seguir"
+
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:138
+msgid "Shown Pictures"
+msgstr ""
+
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:150
+msgid "Player"
+msgstr "Jugador"
+
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:150
+msgid "card"
+msgstr "tarjeta"
 
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:57
 msgid "Check Bingo"
@@ -137,8 +168,8 @@ msgstr "Comprobar"
 #: bingo_main/templates/bingo_main/broadcast/game.html:103
 #: bingo_main/templates/bingo_main/broadcast/game_over.html:40
 #: bingo_main/templates/bingo_main/dashboard/start-bingo.html:64
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:145
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:226
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:157
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:238
 #: bingo_main/templates/bingo_main/partials/_prizes_sidebar.html:15
 msgid "Bingo"
 msgstr "Bingo"
@@ -172,6 +203,11 @@ msgstr "Iniciar bingo"
 #: bingo_main/templates/bingo_main/broadcast/index.html:61
 msgid "Price"
 msgstr "Precio"
+
+#: bingo_main/templates/bingo_main/broadcast/index.html:79
+#: bingo_main/templates/bingo_main/partials/_players_approval_list.html:2
+msgid "Current Players"
+msgstr "Jugadores actuales"
 
 #: bingo_main/templates/bingo_main/contact.html:13
 msgid "Contact"
@@ -414,55 +450,75 @@ msgid "3 Prizes"
 msgstr "3 premios"
 
 #: bingo_main/templates/bingo_main/dashboard/start-bingo.html:47
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:221
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:233
 msgid "Prize #1"
 msgstr "Premio # 1"
 
 #: bingo_main/templates/bingo_main/dashboard/start-bingo.html:50
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:140
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:177
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:221
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:152
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:189
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:233
 msgid "Prize name"
 msgstr "Nombre del premio"
 
 #: bingo_main/templates/bingo_main/dashboard/start-bingo.html:57
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:179
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:191
 msgid "Upload or drop prize image here"
 msgstr "Sube o suelta la imagen del premio aquí"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:101
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:102
 msgid "Auto Join"
 msgstr "Unión automática"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:103
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:104
+msgid "Anyone with the game ID will be able to join automatically"
+msgstr "Cualquiera que tenga el ID del juego podrá unirse automáticamente"
+
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:107
 msgid "Join by Request"
 msgstr "Únase por solicitud"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:106
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:109
+msgid ""
+"You will need to approve every player that will enter the game ID before the "
+"game starts"
+msgstr ""
+"Deberá aprobar a todos los jugadores que ingresen el ID del juego antes de "
+"comienza el juego"
+
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:113
+msgid "Auto Mark"
+msgstr "Marca automática"
+
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:115
+msgid "The system marks the player board with drawn images automatically"
+msgstr "El sistema marca el tablero del jugador con imágenes dibujadas automáticamente"
+
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:118
 msgid "Start the game"
 msgstr "Empieza el juego"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:107
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:119
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:140
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:174
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:152
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:186
 msgid "Prize"
 msgstr "Premio"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:145
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:184
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:157
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:196
 msgid "Any Line"
 msgstr "Cualquier línea"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:184
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:196
 msgid "Any two Lines"
 msgstr "Dos líneas cualesquiera"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:396
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:437
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:466
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:414
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:455
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:484
 msgid ""
 "You are missing a prize image or prize title. Please upload an image and "
 "give it a title"
@@ -738,7 +794,7 @@ msgstr "Álbum eliminado"
 msgid "Failed deleting the album. Please try again later"
 msgstr "No se pudo borrar el álbum. Por favor, inténtelo de nuevo más tarde"
 
-#: bingo_main/views.py:876
+#: bingo_main/views.py:885
 msgid ""
 "There was an error uploading the images prizes. Please try reducing the "
 "images sizes."
@@ -746,31 +802,31 @@ msgstr ""
 "Se produjo un error al cargar los premios de las imágenes. Intente reducir "
 "el tamaños de imágenes."
 
-#: bingo_main/views.py:969
+#: bingo_main/views.py:981
 msgid "Game already played"
 msgstr "Juego ya jugado"
 
-#: bingo_main/views.py:983
+#: bingo_main/views.py:995
 msgid "tickets"
 msgstr "Entradas"
 
-#: bingo_main/views.py:983
+#: bingo_main/views.py:995
 msgid "Not enough players. Need at least"
 msgstr "No hay suficientes jugadores. Necesito al menos"
 
-#: bingo_main/views.py:999
+#: bingo_main/views.py:1011
 msgid "There are not enough funds in your account. Please make a deposit"
 msgstr "No hay fondos suficientes en su cuenta. Por favor haga un deposito"
 
-#: bingo_main/views.py:1196
+#: bingo_main/views.py:1261
 msgid "Please enter a valid card number"
 msgstr "Por favor, introduzca un número de tarjeta válido"
 
-#: bingo_main/views.py:1199
+#: bingo_main/views.py:1264
 msgid "The ticket is not a part of this game"
 msgstr "El boleto no es parte de este juego."
 
-#: bingo_main/views.py:1390 payments/views.py:329
+#: bingo_main/views.py:1478 payments/views.py:329
 msgid "Please enter an amount, or pick one of the predefined amounts."
 msgstr "Ingrese una cantidad o elija una de las cantidades predefinidas."
 
