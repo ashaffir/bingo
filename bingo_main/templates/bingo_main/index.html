@@ -67,11 +67,11 @@
 				<div class="media block-6 services d-block">
 					<div class="my-card">
 						<!-- <span class="flaticon-guest"></span> -->
-						<img class="my-icon-image" style="width: 70%;" src="{% static 'images/host01.png' %}" alt="">
+						<img class="my-icon-image" style="width: 60%;" src="{% static 'images/host01.png' %}" alt="">
 					</div>
 					<div class="media-body">
 						<h3 class="heading mb-3">{{ section_a.title | safe}}</h3>
-						<p>{{ section_a.content |safe}}</p>
+						{{ section_a.content |safe}}
 					</div>
 				</div>
 			</div>
@@ -84,7 +84,7 @@
 					</div>
 					<div class="media-body">
 						<h3 class="mb-3">{{ section_b.title | safe}}</h3>
-						<p>{{ section_b.content |safe}}</p>
+						{{ section_b.content |safe}}
 					</div>
 				</div>
 			</div>
