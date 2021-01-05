@@ -65,28 +65,41 @@ def bingo_main(request):
         except Exception as e:
             print(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section C. ERROR: {e}")
             logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section C. ERROR: {e}")
-    
+
+        try:
+            section_d = ContentPage.objects.get(name='home', section='d', language='Hebrew')
+            context['section_d'] = section_d
+        except Exception as e:
+            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section C. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section C. ERROR: {e}")
+
     elif request.LANGUAGE_CODE == 'es':
         try:
             section_a = ContentPage.objects.get(name='home', section='a', language='Spanish')
             context['section_a'] = section_a
         except Exception as e:
-            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section A. ERROR: {e}")
-            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section A. ERROR: {e}")
+            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage SPANISH section A. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage SPANISH section A. ERROR: {e}")
 
         try:
             section_b = ContentPage.objects.get(name='home', section='b', language='Spanish')
             context['section_b'] = section_b
         except Exception as e:
-            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section B. ERROR: {e}")
-            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section B. ERROR: {e}")
+            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage SPANISH section B. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage SPANISH section B. ERROR: {e}")
 
         try:
             section_c = ContentPage.objects.get(name='home', section='c', language='Spanish')
             context['section_c'] = section_c
         except Exception as e:
-            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section C. ERROR: {e}")
-            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage HEBREW section C. ERROR: {e}")
+            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage SPANISH section C. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage SPANISH section C. ERROR: {e}")
+        try:
+            section_d = ContentPage.objects.get(name='home', section='d', language='Spanish')
+            context['section_d'] = section_d
+        except Exception as e:
+            print(f">>> BINGO MAIN@main_bingo: Failed loading homepage SPANISH section C. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage SPANISH section C. ERROR: {e}")
     else:
         try:
             section_a = ContentPage.objects.get(name='home', section='a', language='English')
@@ -95,6 +108,8 @@ def bingo_main(request):
             context['section_b'] = section_b
             section_c = ContentPage.objects.get(name='home', section='c', language='English')
             context['section_c'] = section_c
+            section_d = ContentPage.objects.get(name='home', section='d', language='English')
+            context['section_d'] = section_d
         except Exception as e:
             print(f">>> BINGO MAIN@main_bingo: Failed loading homepage ENGLISH sections. ERROR: {e}")
             logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage ENGLISH sections. ERROR: {e}")

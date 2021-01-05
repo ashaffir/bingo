@@ -59,7 +59,7 @@
     font-family: 'Pacifico';
     font-style: normal;
     font-weight: normal;
-    src: local('Pacifico'), url('http://themes.googleusercontent.com/font?kit=fKnfV28XkldRW297cFLeqfesZW2xOQ-xsNqO47m55DA') format('truetype');
+    src: local('Pacifico'), url('https://themes.googleusercontent.com/font?kit=fKnfV28XkldRW297cFLeqfesZW2xOQ-xsNqO47m55DA') format('truetype');
 }
 
 
@@ -131,3 +131,24 @@
         display: none;
     }
 }
+
+/* Homepage */
+
+.my-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 55%;
+    word-wrap: break-word;
+    background-color: rgba(255, 255, 255, 0);
+    background-clip: border-box;
+    margin-bottom: 2rem;
+    /* border: 1px solid #e3e6f0; */
+    /* border-radius: 0.35rem; */
+  }
+  
+  .my-card > hr {
+    margin-right: 0;
+    margin-left: 0;
+  }
