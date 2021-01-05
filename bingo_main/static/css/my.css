@@ -121,3 +121,13 @@
     transform: translate(0, 4px);
 }
 
+/* Language dropdown select  */
+.lang-select {
+    border-radius: 30px;
+}
+
+@media only screen and (max-width: 800px) {
+    .top-language-bar {
+        display: none;
+    }
+}

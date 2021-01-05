@@ -21,6 +21,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" 
+        integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" />
+    
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
@@ -67,11 +72,12 @@
                     <div class="ftco-footer-widget mb-4">
                         <div class="row">
                             <div class="col">
+                                
                                 <!-- Language Menu -->                           
                                 <form action="{% url 'set_language' %}" method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="text" value="{{ redirect_to }}">
-                                    <select name="language" id="home_lang_selector" onchange="this.form.submit()">
+                                    <select class="lang-select" name="language" id="home_lang_selector" onchange="this.form.submit()">
                                         <option value="">{% trans 'Change Language' %}</option>
                                       {% get_available_languages as LANGUAGES %}
                                       {% get_language_info_list for LANGUAGES as languages %}
@@ -84,6 +90,7 @@
                                     </select>
                                   </form>		
                                 <!-- End Language bar-->
+
                             </div>
                         </div>
                         <div class="row">                            
@@ -214,7 +221,8 @@
           })
 
     </script>
-    
+    <script src="{% static 'js/my.js' %}"></script>
+
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
