@@ -20,7 +20,7 @@
             </td>
             <td class="top-language-bar">
                 <!-- Language Menu -->           
-                <div class="">
+                <div class="top-language-bar">
                     <form action="{% url 'set_language' %}" method="POST">
                     {% csrf_token %}
                         <input type="hidden" name="text" value="{{ redirect_to }}">
