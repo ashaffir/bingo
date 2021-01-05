@@ -838,7 +838,7 @@ msgid ""
 msgstr "הסכום שהוזן אינו תקף. אנא ודא כי ההפקדה היא מעל $"
 
 #: bingo_main/views.py:1504
-msgid "and below $"
+msgid " and below $"
 msgstr "ונמוך מ- $"
 
 #: bingo_main/views.py:1507
