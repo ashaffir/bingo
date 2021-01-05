@@ -1476,16 +1476,36 @@ def player_board(request, player_id):
 @login_required
 def add_money(request):
     context = {}
+    try:
+        min_deposit = Control.objects.get(name='min_deposit')
+        max_deposit = Control.objects.get(name='max_deposit')
+        context['min_deposit'] = min_deposit
+        context['max_deposit'] = max_deposit
+    except Exception as e:
+        print(f">>> MAIN BINGO @ add_money: CONTROL min/max deposit was not defined. ERROR: {e}")
+        logger.error(f">>> MAIN BINGO @ add_money: CONTROL min/max deposit was not defined. ERROR: {e}")
+        min_deposit = 5
+        max_deposit = 200
+        context['min_deposit'] = 5
+        context['max_deposit'] = 200
+
     if request.method == 'POST':
         if 'make_payment' in request.POST:
             money = request.POST.get('money')
             
             coupon = request.POST.get('coupon') if request.POST.get('coupon') else "no_coupon"
 
-            if money:
-                amount = money
-            else:
-                amount = request.POST.get('deposit_amount')
+            try:
+                if money and float(money) > 5 and float(money) <= 200:
+                    amount = money
+                elif request.POST.get('deposit_amount'):
+                    amount = request.POST.get('deposit_amount')
+                else:
+                    messages.error(request, _(f"The amount entered is not valid. Please make sure the deposit is above $") + min_deposit + _("and below $") + max_deposit)
+                    return redirect(request.META['HTTP_REFERER'])
+            except Exception as e:
+                messages.error(request, _('Please enter a valid amount'))
+                return redirect(request.META['HTTP_REFERER'])
 
             if amount != '':
                 return HttpResponseRedirect(reverse('payments:payment', args=[amount, coupon]))

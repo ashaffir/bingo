@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-05 18:37+0200\n"
+"POT-Creation-Date: 2021-01-05 23:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -266,12 +266,12 @@ msgid "Send Message"
 msgstr "שלח הודעה"
 
 #: bingo_main/templates/bingo_main/contact.html:70
-#: bingo_main/templates/bingo_main/index.html:656
+#: bingo_main/templates/bingo_main/index.html:662
 msgid "Subcribe to our Newsletter"
 msgstr "הירשם לניוזלטר שלנו"
 
 #: bingo_main/templates/bingo_main/contact.html:75
-#: bingo_main/templates/bingo_main/index.html:663
+#: bingo_main/templates/bingo_main/index.html:669
 msgid "Enter email address"
 msgstr "הזן כתובת דואל"
 
@@ -299,11 +299,19 @@ msgstr "אחר"
 msgid "Enter a custom amount"
 msgstr "הזן סכום"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:39
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:36
+msgid "The amount shoud be between "
+msgstr "הסכום צריך להיות בין "
+
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:36
+msgid "and "
+msgstr "ו- $"
+
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:42
 msgid "Coupon"
 msgstr "קופון"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:45
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:48
 msgid "Make Payment"
 msgstr "שלם"
 
@@ -561,54 +569,54 @@ msgstr "הכנס"
 msgid "Play"
 msgstr "שחק"
 
-#: bingo_main/templates/bingo_main/index.html:398
+#: bingo_main/templates/bingo_main/index.html:404
 msgid "How it"
 msgstr "איך זה"
 
-#: bingo_main/templates/bingo_main/index.html:398
+#: bingo_main/templates/bingo_main/index.html:404
 msgid "Works"
 msgstr "עובד"
 
-#: bingo_main/templates/bingo_main/index.html:414
-#: bingo_main/templates/bingo_main/index.html:429
-#: bingo_main/templates/bingo_main/index.html:444
+#: bingo_main/templates/bingo_main/index.html:420
+#: bingo_main/templates/bingo_main/index.html:435
+#: bingo_main/templates/bingo_main/index.html:450
 msgid "Read More"
 msgstr "קרא עוד"
 
-#: bingo_main/templates/bingo_main/index.html:491
+#: bingo_main/templates/bingo_main/index.html:497
 msgid "Ticket Pricing"
 msgstr "מחירי כרטיסים"
 
-#: bingo_main/templates/bingo_main/index.html:498
+#: bingo_main/templates/bingo_main/index.html:504
 msgid "Family"
 msgstr "משפחה"
 
-#: bingo_main/templates/bingo_main/index.html:500
+#: bingo_main/templates/bingo_main/index.html:506
 msgid "Up to"
 msgstr "עד"
 
-#: bingo_main/templates/bingo_main/index.html:500
+#: bingo_main/templates/bingo_main/index.html:506
 msgid "players per game and"
 msgstr "שחקנים למשחק ו"
 
-#: bingo_main/templates/bingo_main/index.html:500
+#: bingo_main/templates/bingo_main/index.html:506
 msgid "host"
 msgstr "מנחה"
 
-#: bingo_main/templates/bingo_main/index.html:514
-#: bingo_main/templates/bingo_main/index.html:539
+#: bingo_main/templates/bingo_main/index.html:520
+#: bingo_main/templates/bingo_main/index.html:545
 msgid "Join"
 msgstr "הצטרף"
 
-#: bingo_main/templates/bingo_main/index.html:521
+#: bingo_main/templates/bingo_main/index.html:527
 msgid "Family, Friends, Team"
 msgstr "משפחה, חברים, צוות"
 
-#: bingo_main/templates/bingo_main/index.html:523
+#: bingo_main/templates/bingo_main/index.html:529
 msgid "For any additional player above"
 msgstr "לכל שחקן נוסף מעל "
 
-#: bingo_main/templates/bingo_main/index.html:537
+#: bingo_main/templates/bingo_main/index.html:543
 msgid "Fund your account"
 msgstr "ממן את החשבון שלך"
 
@@ -824,7 +832,20 @@ msgstr "נא להזין מספר כרטיס תקף"
 msgid "The ticket is not a part of this game"
 msgstr "הכרטיס אינו חלק מהמשחק הזה"
 
-#: bingo_main/views.py:1493 payments/views.py:329
+#: bingo_main/views.py:1504
+msgid ""
+"The amount entered is not valid. Please make sure the deposit is above $"
+msgstr "הסכום שהוזן אינו תקף. אנא ודא כי ההפקדה היא מעל $"
+
+#: bingo_main/views.py:1504
+msgid "and below $"
+msgstr "ונמוך מ- $"
+
+#: bingo_main/views.py:1507
+msgid "Please enter a valid amount"
+msgstr "אנא הכנס ערך חוקי"
+
+#: bingo_main/views.py:1513 payments/views.py:329
 msgid "Please enter an amount, or pick one of the predefined amounts."
 msgstr "אנא הזן סכום, או בחר את אחד מהסכומים שהוגדרו מראש."
 

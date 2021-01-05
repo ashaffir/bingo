@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-05 18:37+0200\n"
+"POT-Creation-Date: 2021-01-05 23:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -265,12 +265,12 @@ msgid "Send Message"
 msgstr "Enviar mensaje"
 
 #: bingo_main/templates/bingo_main/contact.html:70
-#: bingo_main/templates/bingo_main/index.html:656
+#: bingo_main/templates/bingo_main/index.html:662
 msgid "Subcribe to our Newsletter"
 msgstr "Suscríbete a nuestro boletín"
 
 #: bingo_main/templates/bingo_main/contact.html:75
-#: bingo_main/templates/bingo_main/index.html:663
+#: bingo_main/templates/bingo_main/index.html:669
 msgid "Enter email address"
 msgstr "Introduzca la dirección de correo electrónico"
 
@@ -298,11 +298,19 @@ msgstr "Otra"
 msgid "Enter a custom amount"
 msgstr "Ingrese una cantidad personalizada"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:39
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:36
+msgid "The amount shoud be between "
+msgstr "La cantidad debe estar entre"
+
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:36
+msgid "and "
+msgstr "y"
+
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:42
 msgid "Coupon"
 msgstr "Cupón"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:45
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:48
 msgid "Make Payment"
 msgstr "Hacer el pago"
 
@@ -566,54 +574,54 @@ msgstr "el Login"
 msgid "Play"
 msgstr "Jugar"
 
-#: bingo_main/templates/bingo_main/index.html:398
+#: bingo_main/templates/bingo_main/index.html:404
 msgid "How it"
 msgstr "Cómo"
 
-#: bingo_main/templates/bingo_main/index.html:398
+#: bingo_main/templates/bingo_main/index.html:404
 msgid "Works"
 msgstr "funciona"
 
-#: bingo_main/templates/bingo_main/index.html:414
-#: bingo_main/templates/bingo_main/index.html:429
-#: bingo_main/templates/bingo_main/index.html:444
+#: bingo_main/templates/bingo_main/index.html:420
+#: bingo_main/templates/bingo_main/index.html:435
+#: bingo_main/templates/bingo_main/index.html:450
 msgid "Read More"
 msgstr "Lee mas"
 
-#: bingo_main/templates/bingo_main/index.html:491
+#: bingo_main/templates/bingo_main/index.html:497
 msgid "Ticket Pricing"
 msgstr "Precio de las entradas"
 
-#: bingo_main/templates/bingo_main/index.html:498
+#: bingo_main/templates/bingo_main/index.html:504
 msgid "Family"
 msgstr "Familia"
 
-#: bingo_main/templates/bingo_main/index.html:500
+#: bingo_main/templates/bingo_main/index.html:506
 msgid "Up to"
 msgstr "Arriba a"
 
-#: bingo_main/templates/bingo_main/index.html:500
+#: bingo_main/templates/bingo_main/index.html:506
 msgid "players per game and"
 msgstr "Jugadores por juego y"
 
-#: bingo_main/templates/bingo_main/index.html:500
+#: bingo_main/templates/bingo_main/index.html:506
 msgid "host"
 msgstr "anfitrión"
 
-#: bingo_main/templates/bingo_main/index.html:514
-#: bingo_main/templates/bingo_main/index.html:539
+#: bingo_main/templates/bingo_main/index.html:520
+#: bingo_main/templates/bingo_main/index.html:545
 msgid "Join"
 msgstr "Unirse"
 
-#: bingo_main/templates/bingo_main/index.html:521
+#: bingo_main/templates/bingo_main/index.html:527
 msgid "Family, Friends, Team"
 msgstr "Familia, amigos, equipo"
 
-#: bingo_main/templates/bingo_main/index.html:523
+#: bingo_main/templates/bingo_main/index.html:529
 msgid "For any additional player above"
 msgstr "Para cualquier jugador adicional arriba"
 
-#: bingo_main/templates/bingo_main/index.html:537
+#: bingo_main/templates/bingo_main/index.html:543
 msgid "Fund your account"
 msgstr "Financie su cuenta"
 
@@ -835,7 +843,22 @@ msgstr "Por favor, introduzca un número de tarjeta válido"
 msgid "The ticket is not a part of this game"
 msgstr "El boleto no es parte de este juego."
 
-#: bingo_main/views.py:1493 payments/views.py:329
+#: bingo_main/views.py:1504
+msgid ""
+"The amount entered is not valid. Please make sure the deposit is above $"
+msgstr ""
+"La cantidad ingresada no es válida. Asegúrese de que el depósito sea "
+"superior a $"
+
+#: bingo_main/views.py:1504
+msgid "and below $"
+msgstr "y por debajo de $"
+
+#: bingo_main/views.py:1507
+msgid "Please enter a valid amount"
+msgstr "Por favor introduzca una dirección de correo electrónico válida"
+
+#: bingo_main/views.py:1513 payments/views.py:329
 msgid "Please enter an amount, or pick one of the predefined amounts."
 msgstr "Ingrese una cantidad o elija una de las cantidades predefinidas."
 

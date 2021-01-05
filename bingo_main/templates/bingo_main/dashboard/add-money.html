@@ -31,9 +31,12 @@
                         <option value="100">$100</option>
                         <option value="other">{% trans 'Other' %}</option>
                     </select>
-                    <label for="money">{% trans 'Enter a custom amount' %}</label>
+                    <label class="mt-4" for="money">{% trans 'Enter a custom amount' %}</label>
+                    <i class="p-1 fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" 
+                    data-placement="top" title="{% trans 'The amount shoud be between ' %} ${{ min_deposit }} {% trans 'and ' %} ${{ max_deposit }}">
+                    </i>
                     <input type="number" name="money" id="money" class="form-control">
-
+                    
                     <div class="row mt-3">
                         <div class="col-6">
                             <label for="coupon">{% trans 'Coupon' %}</label>
