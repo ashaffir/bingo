@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-04 23:44+0200\n"
+"POT-Creation-Date: 2021-01-05 18:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,70 +27,77 @@ msgstr "איו אלבומים ציבוריים שמחכים לאישור"
 msgid "Page not found"
 msgstr "הדף לא נמצא"
 
-#: bingo_main/templates/bingo_main/about.html:14
+#: bingo_main/templates/bingo_main/about.html:13
 msgid "About"
 msgstr "אודותינו"
 
-#: bingo_main/templates/bingo_main/base.html:75
+#: bingo_main/templates/bingo_main/base.html:92
+#: bingo_main/templates/bingo_main/partials/_navbar_index.html:46
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:28
 msgid "Change Language"
 msgstr "שנה שפה"
 
-#: bingo_main/templates/bingo_main/base.html:117
+#: bingo_main/templates/bingo_main/base.html:125
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:68
+msgid "Instructions"
+msgstr "הוראות הפעלה"
+
+#: bingo_main/templates/bingo_main/base.html:139
 msgid "Home"
 msgstr ""
 
-#: bingo_main/templates/bingo_main/base.html:118
+#: bingo_main/templates/bingo_main/base.html:140
 msgid "About Us"
 msgstr "אודות"
 
-#: bingo_main/templates/bingo_main/base.html:119
+#: bingo_main/templates/bingo_main/base.html:141
 msgid "Contact Us"
 msgstr "צור קשר"
 
-#: bingo_main/templates/bingo_main/base.html:120
+#: bingo_main/templates/bingo_main/base.html:142
 #: bingo_main/templates/bingo_main/terms.html:14
 msgid "Terms & Conditions"
 msgstr "תנאי שימוש"
 
-#: bingo_main/templates/bingo_main/base.html:121
-#: bingo_main/templates/bingo_main/play.html:155
+#: bingo_main/templates/bingo_main/base.html:143
+#: bingo_main/templates/bingo_main/play.html:167
 #: bingo_main/templates/bingo_main/privacy.html:14
 msgid "Privacy"
 msgstr "פרטיות"
 
-#: bingo_main/templates/bingo_main/bingo.html:37
-#: bingo_main/templates/bingo_main/bingo.html:39
+#: bingo_main/templates/bingo_main/bingo.html:59
+#: bingo_main/templates/bingo_main/bingo.html:61
 msgid "Waiting for host approval. Hold on"
 msgstr "ממתין לאישור המארח. אנא המתן"
 
-#: bingo_main/templates/bingo_main/bingo.html:44
-#: bingo_main/templates/bingo_main/bingo.html:46
+#: bingo_main/templates/bingo_main/bingo.html:66
+#: bingo_main/templates/bingo_main/bingo.html:68
 msgid "Game starting soon. Just a second"
 msgstr "המשחק יתחיל בקרוב. רק שניה"
 
-#: bingo_main/templates/bingo_main/bingo.html:50
+#: bingo_main/templates/bingo_main/bingo.html:72
 msgid "Game Over. Thank you for playing"
 msgstr "סוף המשחק. תודה ששיחקת"
 
-#: bingo_main/templates/bingo_main/bingo.html:55
+#: bingo_main/templates/bingo_main/bingo.html:77
 msgid "Ticket Number"
 msgstr "כרטיס מספר"
 
-#: bingo_main/templates/bingo_main/bingo.html:64
+#: bingo_main/templates/bingo_main/bingo.html:86
 msgid "Win Condition"
 msgstr "תנאי לנצח"
 
-#: bingo_main/templates/bingo_main/bingo.html:67
+#: bingo_main/templates/bingo_main/bingo.html:89
 msgid "Current Image"
 msgstr "תמונה נוכחית"
 
-#: bingo_main/templates/bingo_main/bingo.html:78
+#: bingo_main/templates/bingo_main/bingo.html:100
 msgid "Bingo!"
 msgstr "!בינגו"
 
-#: bingo_main/templates/bingo_main/bingo.html:257
-#: bingo_main/templates/bingo_main/bingo.html:406
-#: bingo_main/templates/bingo_main/bingo.html:415
+#: bingo_main/templates/bingo_main/bingo.html:279
+#: bingo_main/templates/bingo_main/bingo.html:428
+#: bingo_main/templates/bingo_main/bingo.html:437
 #: bingo_main/templates/bingo_main/partials/_player_board.html:145
 msgid "Match"
 msgstr ""
@@ -147,8 +154,8 @@ msgid "Player"
 msgstr "שחקן"
 
 #: bingo_main/templates/bingo_main/broadcast/checkResult.html:150
-msgid "board"
-msgstr "כרטיס"
+msgid "card"
+msgstr ""
 
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:57
 msgid "Check Bingo"
@@ -228,7 +235,7 @@ msgstr "טלפון"
 
 #: bingo_main/templates/bingo_main/contact.html:28
 #: bingo_main/templates/bingo_main/login.html:43
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:56
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:82
 #: bingo_main/templates/bingo_main/register.html:57
 msgid "Email"
 msgstr "אימייל"
@@ -259,12 +266,12 @@ msgid "Send Message"
 msgstr "שלח הודעה"
 
 #: bingo_main/templates/bingo_main/contact.html:70
-#: bingo_main/templates/bingo_main/index.html:643
+#: bingo_main/templates/bingo_main/index.html:656
 msgid "Subcribe to our Newsletter"
 msgstr "הירשם לניוזלטר שלנו"
 
 #: bingo_main/templates/bingo_main/contact.html:75
-#: bingo_main/templates/bingo_main/index.html:650
+#: bingo_main/templates/bingo_main/index.html:663
 msgid "Enter email address"
 msgstr "הזן כתובת דואל"
 
@@ -348,7 +355,7 @@ msgid "Make your album publicly used and visible to all hosts"
 msgstr ""
 
 #: bingo_main/templates/bingo_main/dashboard/create-bingo.html:136
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:53
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:79
 #: bingo_main/templates/bingo_main/register.html:51
 msgid "Name"
 msgstr "שם"
@@ -382,28 +389,28 @@ msgstr "צור משחק"
 msgid "There are no public albums here"
 msgstr "אין כאן אלבומים ציבוריים"
 
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:33
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:78
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:21
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:66
 msgid "Create Album"
 msgstr "צור אלבום"
 
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:39
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:96
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:114
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:133
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:151
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:27
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:84
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:102
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:121
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:139
 msgid "Create a Game"
 msgstr "צור משחק"
 
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:46
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:34
 msgid "Setup a Game"
 msgstr "הגדר משחק"
 
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:52
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:40
 msgid "Broadcast the Game"
 msgstr "שדר את המשחק"
 
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:59
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:47
 msgid "Run the Game"
 msgstr "הפעל את המשחק"
 
@@ -542,66 +549,66 @@ msgstr "הפוך למנחה"
 #: bingo_main/templates/bingo_main/index.html:37
 #: bingo_main/templates/bingo_main/login.html:18
 #: bingo_main/templates/bingo_main/login.html:47
-#: bingo_main/templates/bingo_main/partials/_navbar_index.html:37
+#: bingo_main/templates/bingo_main/partials/_navbar_index.html:36
 #: bingo_main/templates/bingo_main/register.html:78
 msgid "Login"
 msgstr "הכנס"
 
 #: bingo_main/templates/bingo_main/index.html:45
-#: bingo_main/templates/bingo_main/partials/_navbar_index.html:54
-#: bingo_main/templates/bingo_main/play.html:134
-#: bingo_main/templates/bingo_main/play.html:135
+#: bingo_main/templates/bingo_main/partials/_navbar_index.html:74
+#: bingo_main/templates/bingo_main/play.html:146
+#: bingo_main/templates/bingo_main/play.html:147
 msgid "Play"
 msgstr "שחק"
 
-#: bingo_main/templates/bingo_main/index.html:385
+#: bingo_main/templates/bingo_main/index.html:398
 msgid "How it"
 msgstr "איך זה"
 
-#: bingo_main/templates/bingo_main/index.html:385
+#: bingo_main/templates/bingo_main/index.html:398
 msgid "Works"
 msgstr "עובד"
 
-#: bingo_main/templates/bingo_main/index.html:401
-#: bingo_main/templates/bingo_main/index.html:416
-#: bingo_main/templates/bingo_main/index.html:431
+#: bingo_main/templates/bingo_main/index.html:414
+#: bingo_main/templates/bingo_main/index.html:429
+#: bingo_main/templates/bingo_main/index.html:444
 msgid "Read More"
 msgstr "קרא עוד"
 
-#: bingo_main/templates/bingo_main/index.html:478
+#: bingo_main/templates/bingo_main/index.html:491
 msgid "Ticket Pricing"
 msgstr "מחירי כרטיסים"
 
-#: bingo_main/templates/bingo_main/index.html:485
+#: bingo_main/templates/bingo_main/index.html:498
 msgid "Family"
 msgstr "משפחה"
 
-#: bingo_main/templates/bingo_main/index.html:487
+#: bingo_main/templates/bingo_main/index.html:500
 msgid "Up to"
 msgstr "עד"
 
-#: bingo_main/templates/bingo_main/index.html:487
+#: bingo_main/templates/bingo_main/index.html:500
 msgid "players per game and"
 msgstr "שחקנים למשחק ו"
 
-#: bingo_main/templates/bingo_main/index.html:487
+#: bingo_main/templates/bingo_main/index.html:500
 msgid "host"
 msgstr "מנחה"
 
-#: bingo_main/templates/bingo_main/index.html:501
-#: bingo_main/templates/bingo_main/index.html:526
+#: bingo_main/templates/bingo_main/index.html:514
+#: bingo_main/templates/bingo_main/index.html:539
 msgid "Join"
 msgstr "הצטרף"
 
-#: bingo_main/templates/bingo_main/index.html:508
+#: bingo_main/templates/bingo_main/index.html:521
 msgid "Family, Friends, Team"
 msgstr "משפחה, חברים, צוות"
 
-#: bingo_main/templates/bingo_main/index.html:510
+#: bingo_main/templates/bingo_main/index.html:523
 msgid "For any additional player above"
 msgstr "לכל שחקן נוסף מעל "
 
-#: bingo_main/templates/bingo_main/index.html:524
+#: bingo_main/templates/bingo_main/index.html:537
 msgid "Fund your account"
 msgstr "ממן את החשבון שלך"
 
@@ -610,7 +617,7 @@ msgid "Login with"
 msgstr "התחבר עם"
 
 #: bingo_main/templates/bingo_main/login.html:45
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:60
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:86
 #: bingo_main/templates/bingo_main/register.html:59
 msgid "Password"
 msgstr "סיסמה"
@@ -629,60 +636,60 @@ msgstr "הירשם"
 msgid "here"
 msgstr "כאן"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_index.html:27
+#: bingo_main/templates/bingo_main/partials/_navbar_index.html:26
 msgid "Dashboard"
 msgstr "לוח מחוונים"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_index.html:35
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:74
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:75
+#: bingo_main/templates/bingo_main/partials/_navbar_index.html:34
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:100
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:101
 msgid "Logout"
 msgstr "התנתק"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_index.html:45
+#: bingo_main/templates/bingo_main/partials/_navbar_index.html:65
 msgid "Menu"
 msgstr "תפריט"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_index.html:58
+#: bingo_main/templates/bingo_main/partials/_navbar_index.html:78
 msgid "Customize your bingo game"
 msgstr "התאם אישית את משחק הבינגו שלך"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:11
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:13
 msgid "Add funds to your account"
 msgstr "הוסף כספים לחשבונך"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:27
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:17
+msgid "Profile"
+msgstr ""
+
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:53
 msgid "Public Albums"
 msgstr "אלבומים ציבוריים"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:32
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:58
 msgid "Create a Bingo Album"
 msgstr "צור אלבום בינגו"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:37
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:63
 msgid "My Albums"
 msgstr "האלבומים שלי"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:42
-msgid "Instructions"
-msgstr "הוראות הפעלה"
-
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:58
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:84
 #: bingo_main/templates/bingo_main/register.html:53
 msgid "Add your logo"
 msgstr "הוסף את הלוגו שלך"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:68
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:94
 #: bingo_main/templates/bingo_main/register.html:69
 msgid "Company Name"
 msgstr "שם החברה"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:70
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:96
 #: bingo_main/templates/bingo_main/register.html:71
 msgid "VAT Number"
 msgstr "מספר מעמ"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:72
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:98
 msgid "Update Details"
 msgstr "עדכן פרטים"
 
@@ -694,15 +701,15 @@ msgstr "שורה"
 msgid "Two Lines"
 msgstr "שתי שורות"
 
-#: bingo_main/templates/bingo_main/play.html:104
+#: bingo_main/templates/bingo_main/play.html:116
 msgid "Game Code"
 msgstr "מספר משחק"
 
-#: bingo_main/templates/bingo_main/play.html:124
+#: bingo_main/templates/bingo_main/play.html:136
 msgid "Nickname"
 msgstr "כינוי"
 
-#: bingo_main/templates/bingo_main/play.html:152
+#: bingo_main/templates/bingo_main/play.html:164
 msgid "Terms"
 msgstr "תנאי שימוש"
 
@@ -767,57 +774,57 @@ msgstr "מדיניות פרטיות שלנו"
 msgid "Why and How"
 msgstr "למה ואיך"
 
-#: bingo_main/views.py:360
+#: bingo_main/views.py:375
 msgid "Oops, your message was not sent. Please try again later"
 msgstr "אופס, ההודעה שלך לא נשלחה. בבקשה נסה שוב מאוחר יותר"
 
-#: bingo_main/views.py:366
+#: bingo_main/views.py:381
 msgid "Your message was sent. We will be in touch soon"
 msgstr "ההודעה שלך נשלחה. נהיה בקשר בקרוב"
 
-#: bingo_main/views.py:490
+#: bingo_main/views.py:505
 msgid "Your updated Bingo Album is pending approval for public view"
 msgstr "אלבום הבינגו המעודכן שלך ממתין לאישור"
 
-#: bingo_main/views.py:620
+#: bingo_main/views.py:635
 msgid "Album deleted"
 msgstr "האלבום נמחק"
 
-#: bingo_main/views.py:624
+#: bingo_main/views.py:639
 msgid "Failed deleting the album. Please try again later"
 msgstr "שגיאה במחיקת האלבום. בבקשה נסה שוב מאוחר יותר"
 
-#: bingo_main/views.py:885
+#: bingo_main/views.py:900
 msgid ""
 "There was an error uploading the images prizes. Please try reducing the "
 "images sizes."
 msgstr "אירעה שגיאה בהעלאת פרסי התמונות. אנא נסה להקטין אתגדלי תמונות."
 
-#: bingo_main/views.py:981
+#: bingo_main/views.py:996
 msgid "Game already played"
 msgstr "המשחק הסתיים"
 
-#: bingo_main/views.py:995
+#: bingo_main/views.py:1010
 msgid "tickets"
 msgstr "כרטיסים"
 
-#: bingo_main/views.py:995
+#: bingo_main/views.py:1010
 msgid "Not enough players. Need at least"
 msgstr "לא מספיק שחקנים. צריך לפחות"
 
-#: bingo_main/views.py:1011
+#: bingo_main/views.py:1026
 msgid "There are not enough funds in your account. Please make a deposit"
 msgstr "אין מספיק כספים בחשבונך. אנא בצע הפקדה"
 
-#: bingo_main/views.py:1261
+#: bingo_main/views.py:1276
 msgid "Please enter a valid card number"
 msgstr "נא להזין מספר כרטיס תקף"
 
-#: bingo_main/views.py:1264
+#: bingo_main/views.py:1279
 msgid "The ticket is not a part of this game"
 msgstr "הכרטיס אינו חלק מהמשחק הזה"
 
-#: bingo_main/views.py:1478 payments/views.py:329
+#: bingo_main/views.py:1493 payments/views.py:329
 msgid "Please enter an amount, or pick one of the predefined amounts."
 msgstr "אנא הזן סכום, או בחר את אחד מהסכומים שהוגדרו מראש."
 
@@ -926,6 +933,9 @@ msgstr "אנא הכנס דואל חוקי"
 #: users/views.py:201
 msgid "Please do enter the email"
 msgstr "אנא הכנס את הדואל"
+
+#~ msgid "board"
+#~ msgstr "כרטיס"
 
 #~ msgid "for Full Bingo"
 #~ msgstr "בבינגו מלא"

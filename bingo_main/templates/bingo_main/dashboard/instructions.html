@@ -3,22 +3,10 @@
 {% load i18n %}
 {% get_current_language as lang %}
 
-{% block css %}
-<link rel="stylesheet" href="{% static 'css/styles.css' %}">
-<link rel="stylesheet" href="{% static 'css/index.css' %}" />
-<link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
-<link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
-{% endblock css %}
-
-{% block js %}
-<script src="{% static 'dashboard/../js/dropzone.js' %}"></script>
-{% endblock js %}
-
 {% block content %}
+{% include 'bingo_main/partials/_navbar_index.html' with active_tab='dashboard' %}
 
-{% include 'bingo_main/partials/_navbar_top.html' with active_tab='instructions' %}
-
-
+<section class="ftco-section testimony-section mt-5" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
 <div class="container" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
     <div class="row" style="margin-bottom: 15rem; margin-top: 5%">
         <div class="col-md-12" >
@@ -158,5 +146,5 @@
         </div>
     </div>
 </div>
-
+</section>
 {% endblock content %}

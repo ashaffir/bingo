@@ -117,15 +117,19 @@
                     </div>
                 </div>
                 <div class="col-md">
-                    <!-- <div class="ftco-footer-widget mb-4 ml-md-5">
-                        <h2 class="ftco-heading-2">Useful Links</h2>
+                    <div class="ftco-footer-widget mb-4 ml-md-5">
+                        <!-- <h2 class="ftco-heading-2">Useful Links</h2> -->
                         <ul class="list-unstyled">
-                            <li><a href="#" class="py-2 d-block">Speakers</a></li>
-                            <li><a href="#" class="py-2 d-block">Shcedule</a></li>
+                            <li>        
+                                <a class="py-2 d-block" href="{% url 'bingo_main:instructions' %}">
+                                    {% trans 'Instructions' %}
+                                </a>
+                            </li>
+                            <!-- <li><a href="#" class="py-2 d-block">Shcedule</a></li>
                             <li><a href="#" class="py-2 d-block">Events</a></li>
-                            <li><a href="#" class="py-2 d-block">Blog</a></li>
+                            <li><a href="#" class="py-2 d-block">Blog</a></li> -->
                         </ul>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="col-md">
                     <div class="ftco-footer-widget mb-4">
