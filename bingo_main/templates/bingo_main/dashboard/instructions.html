@@ -62,17 +62,17 @@
                                      </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-4 mr-2 ml-2">
                                 <a href="{% url 'bingo_main:create_bingo' %}" class="btn btn-success">{% trans 'Create Album' %}</a>
                             </div>
                         </div>
                         <div id="create_game" class="tab-pane">
                             <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_b.title }}</h3>
                             <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
-                                <div class="col">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     {{ section_b.content | safe }}
                                 </div>
-                                <div class="col">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="yt-container">
                                         {% if section_b.video %}
                                             <iframe src="{{ section_b.video }}" frameborder="0" allowfullscreen></iframe>
@@ -80,17 +80,17 @@
                                      </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-4 mr-2 ml-2">
                                 <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">{% trans 'Create a Game' %}</a>
                             </div>
                         </div>
                         <div id="setup_game" class="tab-pane">
                             <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_c.title }}</h3>
                             <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
-                                <div class="col">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     {{ section_c.content | safe }}
                                 </div>
-                                <div class="col">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="yt-container">
                                         {% if section_c.video %}
                                             <iframe src="{{ section_c.video }}" frameborder="0" allowfullscreen></iframe>
@@ -98,17 +98,17 @@
                                      </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-4 mr-2 ml-2">
                                 <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">{% trans 'Create a Game' %}</a>
                             </div>
                         </div>
                         <div id="broadcast" class="tab-pane">
                             <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_d.title }}</h3>
                             <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
-                                <div class="col">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     {{ section_d.content | safe }}
                                 </div>
-                                <div class="col">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="yt-container">
                                         {% if section_d.video %}
                                             <iframe src="{{ section_d.video }}" frameborder="0" allowfullscreen></iframe>
@@ -117,17 +117,17 @@
 
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-4 mr-2 ml-2">
                                 <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">{% trans 'Create a Game' %}</a>
                             </div>
                         </div>
                         <div id="run_game" class="tab-pane">
                             <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_e.title }}</h3>
                             <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
-                                <div class="col">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     {{ section_e.content | safe }}
                                 </div>
-                                <div class="col">
+                                <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="yt-container">
                                         {% if section_e.video %}
                                             <iframe src="{{ section_e.video }}" frameborder="0" allowfullscreen></iframe>
@@ -135,7 +135,7 @@
                                      </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mt-4 mr-2 ml-2">
                                 <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">{% trans 'Create a Game' %}</a>
                             </div>
                         </div>
