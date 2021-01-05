@@ -1477,8 +1477,8 @@ def player_board(request, player_id):
 def add_money(request):
     context = {}
     try:
-        min_deposit = Control.objects.get(name='min_deposit')
-        max_deposit = Control.objects.get(name='max_deposit')
+        min_deposit = Control.objects.get(name='min_deposit').value_float
+        max_deposit = Control.objects.get(name='max_deposit').value_float
         context['min_deposit'] = min_deposit
         context['max_deposit'] = max_deposit
     except Exception as e:
