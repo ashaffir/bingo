@@ -1496,7 +1496,7 @@ def add_money(request):
             coupon = request.POST.get('coupon') if request.POST.get('coupon') else "no_coupon"
 
             try:
-                if money and float(money) > 5 and float(money) <= 200:
+                if money and float(money) >= min_deposit and float(money) <= max_deposit:
                     amount = money
                 elif request.POST.get('deposit_amount'):
                     amount = request.POST.get('deposit_amount')
