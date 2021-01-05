@@ -1501,9 +1501,10 @@ def add_money(request):
                 elif request.POST.get('deposit_amount'):
                     amount = request.POST.get('deposit_amount')
                 else:
-                    messages.error(request, _(f"The amount entered is not valid. Please make sure the deposit is above $") + min_deposit + _("and below $") + max_deposit)
+                    messages.error(request, _(f"The amount entered is not valid. Please make sure the deposit is above $") + str(min_deposit) + _(" and below $") + str(max_deposit))
                     return redirect(request.META['HTTP_REFERER'])
             except Exception as e:
+                print(f"AMOUNT ERROR: {e}")
                 messages.error(request, _('Please enter a valid amount'))
                 return redirect(request.META['HTTP_REFERER'])
 
