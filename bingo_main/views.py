@@ -694,7 +694,6 @@ def my_bingos(request):
 
     return render(request, 'bingo_main/dashboard/my-bingos.html', context)
 
-@login_required
 def instructions(request):
     context = {}
 

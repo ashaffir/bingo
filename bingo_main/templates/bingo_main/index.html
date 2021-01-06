@@ -416,9 +416,7 @@
 				 </div>
 				<div class="text">
 					<h3 class="mb-4">{{ instructions_a.title }}</h3>
-					{% if user.is_authenticated %}
 						<a href="{% url 'bingo_main:instructions' %}"><span class="position">{% trans "Read More" %}</span></a>
-					{% endif %}
 				</div>
 			  </div>
 			</div>
@@ -431,9 +429,7 @@
 				 </div>
 				<div class="text">
 					<h3 class="mb-4">{{ instructions_b.title }}</h3>
-					{% if user.is_authenticated %}
 						<a href="{% url 'bingo_main:instructions' %}"><span class="position">{% trans "Read More" %}</span></a>
-					{% endif %}
 				</div>
 			  </div>
 			</div>
@@ -446,9 +442,7 @@
 				 </div>
 				<div class="text">
 					<h3 class="mb-4">{{ instructions_c.title }}</h3>
-					{% if user.is_authenticated %}
 						<a href="{% url 'bingo_main:instructions' %}"><span class="position">{% trans "Read More" %}</span></a>
-					{% endif %}
 
 				</div>
 			  </div>

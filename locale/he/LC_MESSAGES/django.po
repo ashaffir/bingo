@@ -415,7 +415,7 @@ msgid "Setup a Game"
 msgstr "הגדר משחק"
 
 #: bingo_main/templates/bingo_main/dashboard/instructions.html:40
-msgid "Broadcast the Game"
+msgid "Broadcast/Share the Game"
 msgstr "שדר את המשחק"
 
 #: bingo_main/templates/bingo_main/dashboard/instructions.html:47
