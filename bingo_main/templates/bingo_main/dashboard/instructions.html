@@ -87,16 +87,19 @@
                         <div id="setup_game" class="tab-pane">
                             <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_c.title }}</h3>
                             <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
+                                {% if section_c.video %}
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     {{ section_c.content | safe }}
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="yt-container">
-                                        {% if section_c.video %}
                                             <iframe src="{{ section_c.video }}" frameborder="0" allowfullscreen></iframe>
-                                        {% endif %}
-                                     </div>
+                                    </div>
                                 </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    {{ section_c.content | safe }}
+                                </div>
+                                {% endif %}
                             </div>
                             <div class="row mt-4 mr-2 ml-2">
                                 <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">{% trans 'Create a Game' %}</a>
@@ -105,17 +108,20 @@
                         <div id="broadcast" class="tab-pane">
                             <h3 {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>{{ section_d.title }}</h3>
                             <div class="row" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
+                                {% if section_d.video %}
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     {{ section_d.content | safe }}
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <div class="yt-container">
-                                        {% if section_d.video %}
                                             <iframe src="{{ section_d.video }}" frameborder="0" allowfullscreen></iframe>
-                                        {% endif %}
-                                     </div>
-
+                                    </div>
                                 </div>
+                                {% else %}
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    {{ section_d.content | safe }}
+                                </div>
+                                {% endif %}
                             </div>
                             <div class="row mt-4 mr-2 ml-2">
                                 <a href="{% url 'bingo_main:my_bingos' %}" class="btn btn-success">{% trans 'Create a Game' %}</a>
