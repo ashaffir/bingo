@@ -22,6 +22,7 @@ from game.models import Picture, Album, Game, Player, Board, DisplayPicture
 from game.utils import check_players, random_game_id
 from users.models import User
 from users.utils import send_mail
+from payments.models import Coupon
 
 logger = logging.getLogger(__file__)
 
@@ -1495,6 +1496,18 @@ def add_money(request):
             money = request.POST.get('money')
             
             coupon = request.POST.get('coupon') if request.POST.get('coupon') else "no_coupon"
+            
+            try:
+                coupons = Coupon.objects.filter(active=True)
+                coupons_ids = []
+                for c in coupons:
+                    coupons_ids.append(c.coupon_id)
+
+                if coupon in coupons_ids and 'ONME' in coupon:
+                    amount = 0
+                    return HttpResponseRedirect(reverse('payments:payment', args=[amount, coupon]))
+            except Exception as e:
+                logger.info(">>> BING MAIN @ add_money: No coupon defined")
 
             try:
                 if money and float(money) >= min_deposit and float(money) <= max_deposit:

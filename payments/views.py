@@ -161,6 +161,14 @@ def payment(request, amount=0.0, coupon=''):
     user = request.user
 
     discount = check_coupon(coupon)
+
+    if discount == 1.0:
+        free_amount = Coupon.objects.get(coupon_id=coupon).free_amount
+        user.balance += free_amount
+        user.save()
+        messages.success(request, _(f"Your account was sucessfully credited with $" + str(free_amount)))
+        return redirect('bingo_main:dashboard')
+
     total_charge = amount * (1 - discount)
     
     payment = Payment.objects.create(

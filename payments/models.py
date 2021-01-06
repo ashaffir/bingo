@@ -23,6 +23,7 @@ class Payment(models.Model):
 class Coupon(models.Model):
     coupon_id = models.CharField(max_length=30, null=True, blank=True)
     discount = models.FloatField(default=0.0)
+    free_amount = models.FloatField(default=0.0)
     active = models.BooleanField(default=False)
 
     def __str__(self):
