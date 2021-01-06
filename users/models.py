@@ -15,6 +15,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=200, blank=False)
     name = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=200, unique=True, blank=False)
+    joined = models.DateTimeField(auto_now_add=True)
 
     first_name = models.CharField('First Name', max_length=20, blank=True,
                                   null=False)
@@ -29,6 +30,7 @@ class User(AbstractUser):
     vat_number = models.CharField(max_length=50, null=True, blank=True)
     paypal = models.CharField(max_length=100, null=True, blank=True)
     balance = models.FloatField(null=True, blank=True, default=0)
+    spent = models.FloatField(null=True, blank=True, default=0)
     europeCitizenship = models.BooleanField(null=True, blank=True)
 
     stripe_customer_key = models.CharField(max_length=100, null=True, blank=True)                                 

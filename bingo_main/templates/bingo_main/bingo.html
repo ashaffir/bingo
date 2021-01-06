@@ -274,7 +274,7 @@
                 {% for pic in board_pictures %}
                 table.innerHTML +=
                     `<div class="field" onclick="markBingo(this)">
-                        {% if pic.matched %}
+                        {% if pic.matched and game.auto_matching %}
                         <div class="overlay">
                             <div style="font-weight: bold; font-size: clamp(25px, 8vw, 2vw);">{% trans 'Match' %}</div>
                         </div>
@@ -418,9 +418,10 @@
                     //Updating the board with next picture results
                     //////////////////////////////////////////////
                     let disp_id_image;
+                    let auto_matching = data.message.auto_match
                     {% for pic in board_pictures %}
                         disp_id_image = {{ pic.pk }}
-                        if (data.message.drawn_list.includes(disp_id_image)){
+                        if (data.message.drawn_list.includes(disp_id_image) && auto_matching){
                             console.log('MATCH!!!!');
                             table.innerHTML +=
                             `<div class="field" onclick="markBingo(this)">
@@ -432,23 +433,11 @@
                         } else {
                             table.innerHTML +=
                             `<div class="field" onclick="markBingo(this)">
-                                {% if pic.matched %}
-                                <div class="overlay">
-                                    <div style="font-weight: bold; font-size: clamp(25px, 8vw, 2vw);">{% trans 'Match' %}</div>
-                                </div>
-                                {% endif %}
                                 <img src="{{ pic.image.image_file.url }}" alt="">
                             </div>`;
                         }
                     {% endfor %}
                     
-                    {% if game.auto_matching %}
-                        setTimeout(function() {
-                         //location.reload();
-                         console.log('no refresh')
-                         }, 1000);
-                    {% endif %}
-
                     // Current image section
                     console.log(`CURRENT PICTURE : ${data.message.data}`);
                     console.log(`DISPLAY IMAGES IDS : ${data.message.disp_ids}`);

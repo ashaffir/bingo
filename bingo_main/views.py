@@ -942,6 +942,7 @@ def start_bingo(request):
 @login_required
 def broadcast(request):
     context = {}
+    host = request.user
     current_game = Game.objects.filter(user=request.user).last()
     context['current_game'] = current_game
 
@@ -967,6 +968,23 @@ def broadcast(request):
             # Start the game
             current_game.started = True
             current_game.save()
+
+            # print(f'GAME COST: {game.game_cost}')
+            # Billing: Check user's balance and deduct the amount
+            current_balance = host.balance
+            game_cost = current_game.game_cost
+            new_balance = current_balance - game_cost
+            if new_balance > 0:
+                # Updating user new balance
+                host.balance = new_balance
+                host.spent += round(game_cost,2)
+                host.save()
+
+            else:
+                messages.error(
+                    request, _('There are not enough funds in your account. Please make a deposit'))
+                return redirect('bingo_main:add_money')
+
             return HttpResponseRedirect(reverse('bingo_main:game', args=[current_game.game_id]))
 
     return render(request, 'bingo_main/broadcast/index.html', context=context)
@@ -999,31 +1017,15 @@ def game(request, game_id):
     host = request.user
 
     # Checking if there are minimum players
-    try:
-        min_players = Control.objects.get(name='min_players').value_integer
-    except Exception as e:
-        min_players = 2
+    # try:
+    #     min_players = Control.objects.get(name='min_players').value_integer
+    # except Exception as e:
+    #     min_players = 2
 
-    if len(game.players_list) < min_players:
-        messages.error(
-            request, _(f"Not enough players. Need at least" + str(min_players) + _("tickets")))
-        return redirect(request.META['HTTP_REFERER'])
-
-    # print(f'GAME COST: {game.game_cost}')
-
-    # Billing: Check user's balance and deduct the amount
-    current_balance = host.balance
-    game_cost = game.game_cost
-    new_balance = current_balance - game_cost
-    if new_balance > 0:
-        # Updating user new balance
-        host.balance = new_balance
-        host.save()
-
-    else:
-        messages.error(
-            request, _('There are not enough funds in your account. Please make a deposit'))
-        return redirect('bingo_main:add_money')
+    # if len(game.players_list) < min_players:
+    #     messages.error(
+    #         request, _(f"Not enough players. Need at least" + str(min_players) + _("tickets")))
+    #     return redirect(request.META['HTTP_REFERER'])
 
     # Locking prizes already won
     if game.prize_2_won:

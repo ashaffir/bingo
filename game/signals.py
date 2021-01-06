@@ -133,6 +133,7 @@ def next_picture(sender, instance: Game, **kwargs):
                             'data': instance.current_picture.image_file.url,
                             'disp_ids': disp_ids,
                             'drawn_list':drawn_list,
+                            'auto_match': instance.auto_matching,
                             'title': instance.current_picture.title,
                             'current_winning_conditions': instance.current_winning_conditions,
                             'game_status': game_status
@@ -244,8 +245,10 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
 
         game_approved_players = Player.objects.filter(game=game, approved=True)
         players_count = len(game_approved_players)
+        free_players = Control.objects.get(name='free_players').value_integer
 
-        game_cost = cost_calculation(players_count)
+        players_count_for_cost = players_count - free_players
+        game_cost = cost_calculation(players_count_for_cost)
 
         game.game_cost = game_cost
         game.number_of_players = players_count
@@ -339,14 +342,15 @@ def cost_calculation(players_count):
 
     if players_count > 0:
         try:
-            if players_count <= Control.objects.get(name="free_players").value_integer:
-                game_cost = 0.0
-            elif players_count < 21:
-                game_cost = round(players_count * base_price, 2)
-            elif players_count < 41:
-                game_cost = round(players_count * base_price*0.80, 2)
-            else:
-                game_cost = round(players_count * base_price*0.66, 2)
+            game_cost = round(players_count * base_price, 2)
+            # if players_count <= Control.objects.get(name="free_players").value_integer:
+            #     game_cost = 0.0
+            # if players_count < 21:
+            #     game_cost = round(players_count * base_price, 2)
+            # elif players_count < 41:
+            #     game_cost = round(players_count * base_price*0.80, 2)
+            # else:
+            #     game_cost = round(players_count * base_price*0.66, 2)
         except Exception as e:
             print(
                 f">>> SIGNALS: Missing Control for free_players. ERROR: {e}")
