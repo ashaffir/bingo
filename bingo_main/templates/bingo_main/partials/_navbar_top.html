@@ -10,7 +10,10 @@
             <td>
                 <div class="menuItems">
                     <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
-                        <i class="fa fa-plus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Add funds to your account' %}"></i> ${{ user.balance|floatformat }}
+                        <i class="fa fa-plus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Add funds to your account' %}"></i> 
+                        <i aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Your account balance' %}">
+                            ${{ user.balance|floatformat }}
+                        </i>
                     </div>
                     <img class="logo"
                         src="{% if user.profile_pic %} {{ user.profile_pic.url }} {% else %} {% static 'images/placeholder.png' %} {% endif %}"
