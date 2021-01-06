@@ -11,7 +11,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib import messages
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
-from django.utils.translation import gettext
+from django.utils.translation import gettext as _
 
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
@@ -98,9 +98,6 @@ class LoginView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         user_info = User.objects.get(pk=user.pk)
-        # The below works, but response in long JSON string
-        # user_obj = User.objects.filter(pk=user.pk)
-        # user_info = d_serializers.serialize("json",user_obj)
 
         django_login(request, user)
         token, created = Token.objects.get_or_create(user=user)
@@ -125,8 +122,6 @@ def logout_view(request):
     return Response(data=data, status=status.HTTP_200_OK)
 
 
-@api_view(['POST', ])
-@permission_classes((IsAuthenticated,))
 def password_change(request):
     # serializer = serializers.PasswordChangeSerializer(data=request.data)
     # serializer.is_valid(raise_exception=True)
@@ -147,19 +142,15 @@ def password_change(request):
     return Response(reset_password_serializer.error_messages)
 
 
-@api_view(['POST', ])
-def forgot_password(request):
+def password_reset(request):
     if request.method == "POST":
-        email = request.data["email"]
-
+        email = request.POST.get('login_email')
+        user = User.objects.filter(email=email).first()
         if email:
-            print(f"EMAIL: ***************{email}****************")
             if '@' in email:
 
-                user = User.objects.filter(email=email).first()
-                print(f'>>>>>>>  USER: {user}')
-                # return HttpResponse(user)
                 if user is not None:
+                    print(f"USER {user}")
                     token_generator = default_token_generator
 
                     context = {
@@ -170,38 +161,31 @@ def forgot_password(request):
                     }
 
                     try:
-                        send_mail('Reset Password', email_template_name=None,
+                        send_mail('Polybingo - Reset Password', email_template_name=None, attachement=None,
                                   context=context, to_email=[email],
                                   html_email_template_name='users/change-password-email.html')
 
-                        check_email_message = gettext(
-                            "Check your mail inbox to reset password")
-                        messages.success(request, check_email_message)
-                        # return redirect('dndsos:home')
-                        return Response('check your email')
+                        messages.success(request, _("Check your mail inbox to reset password"))
+                        return redirect('bingo_main:bingo_main')
 
-                    except Exception as ex:
-                        print(ex)
-                        # messages.error(request, "Email configurations Error !!!")
-                        return Response('Failed to send email')
+                    except Exception as e:
+                        print(f">>> USERS @ forgot_password: Failed to send recovery email. ERROR: {e}")
+                        logger.error(f">>> USERS @ forgot_password: Failed to send recovery email. ERROR: {e}")
+                        messages.error(request, _("Something went wrong. Please try again later."))
+                        return redirect(request.META['HTTP_REFERER'])
 
-                    # return redirect('core:login')
                 else:
-                    not_registered_message = gettext(
-                        "This email is not registered to us. Please register first")
-                    messages.error(request, not_registered_message)
-                    return Response('The email enteres in not registered. Please register.')
-                    # return redirect('dndsos:home')
+                    messages.error(request, _("This email is not registered to us. Please register first"))
+                    # return Response('The email enteres in not registered. Please register.')
+                    return redirect('bingo_main:bingo_main')
             else:
-                valid_email_message = gettext("Please enter a valid email")
-                # messages.error(request, valid_email_message)
-                return Response('Please enter a valid email')
-                # return redirect('core:forgot-password')
+                messages.error(request, _("Please enter a valid email"))
+                return redirect(request.META['HTTP_REFERER'])
+                
         else:
             enter_email_msg = gettext("Please do enter the email")
             messages.error(request, enter_email_msg)
-            return Response('Please do enter the email')
-            # return redirect('core:forgot-password')
+            return redirect(request.META['HTTP_REFERER'])
+            
     else:
-        # return render(request, 'core/forgot_password.html', {})
-        return Response(status.HTTP_400_BAD_REQUEST)
+        return render(request, 'users/forgot_password.html', {})

@@ -286,7 +286,7 @@ def charge(request):
 
     try:
         email_message = ContentPage.objects.get(name='invoice_email')
-        subject = _(f"New Invoice From Polybingo - PI0000{payment.pk}")
+        subject = _(f"New Invoice From Polybingo - PI0000" + str(payment.pk))
         title = email_message.title
         content = email_message.content
         
@@ -358,7 +358,7 @@ def paypal_return(request):
 
     try:
         email_message = ContentPage.objects.get(name='invoice_email')
-        subject = _(f"New Invoice From Polybingo - PI0000{payment.pk}")
+        subject = _(f"New Invoice From Polybingo - PI0000" + str(payment.pk))
         title = email_message.title
         content = email_message.content
         

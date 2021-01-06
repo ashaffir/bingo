@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-05 23:04+0200\n"
+"POT-Creation-Date: 2021-01-06 10:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -559,6 +559,7 @@ msgstr "הפוך למנחה"
 #: bingo_main/templates/bingo_main/login.html:47
 #: bingo_main/templates/bingo_main/partials/_navbar_index.html:36
 #: bingo_main/templates/bingo_main/register.html:78
+#: users/templates/users/forgot_password.html:36
 msgid "Login"
 msgstr "הכנס"
 
@@ -643,6 +644,10 @@ msgstr "הירשם"
 #: bingo_main/templates/bingo_main/register.html:78
 msgid "here"
 msgstr "כאן"
+
+#: bingo_main/templates/bingo_main/login.html:55
+msgid "Forgot your password"
+msgstr "שכחת ססמה"
 
 #: bingo_main/templates/bingo_main/partials/_navbar_index.html:26
 msgid "Dashboard"
@@ -742,6 +747,7 @@ msgid "Register with your email"
 msgstr "הירשם באמצעות הדואל שלך"
 
 #: bingo_main/templates/bingo_main/register.html:61
+#: users/templates/users/reset_password.html:37
 msgid "Confirm Password"
 msgstr "אשר סיסמה"
 
@@ -841,11 +847,11 @@ msgstr "הסכום שהוזן אינו תקף. אנא ודא כי ההפקדה �
 msgid " and below $"
 msgstr "ונמוך מ- $"
 
-#: bingo_main/views.py:1507
+#: bingo_main/views.py:1508
 msgid "Please enter a valid amount"
 msgstr "אנא הכנס ערך חוקי"
 
-#: bingo_main/views.py:1513 payments/views.py:329
+#: bingo_main/views.py:1514 payments/views.py:329
 msgid "Please enter an amount, or pick one of the predefined amounts."
 msgstr "אנא הזן סכום, או בחר את אחד מהסכומים שהוגדרו מראש."
 
@@ -899,8 +905,7 @@ msgid ""
 msgstr "משהו השתבש בתשלום שלך. יתרת חשבונך לא עודכנה."
 
 #: payments/views.py:289 payments/views.py:361
-#, python-brace-format
-msgid "New Invoice From Polybingo - PI0000{payment.pk}"
+msgid "New Invoice From Polybingo - PI0000"
 msgstr ""
 
 #: payments/views.py:311
@@ -915,23 +920,39 @@ msgstr "תודה על התשלום. אתה אמור לראות את היתרה �
 msgid "Your payment was canceled. Your account balance was not updated."
 msgstr "התשלום שלך בוטל. יתרת חשבונך לא עודכנה."
 
-#: users/templates/users/password_change.html:41
+#: users/templates/users/forgot_password.html:18
+msgid "Unable to log in?"
+msgstr "לא מצליח להתחבר?"
+
+#: users/templates/users/forgot_password.html:22
+msgid "We will send a recovery link to"
+msgstr "אנו נשלח קישור שחזור אל"
+
+#: users/templates/users/forgot_password.html:31
+msgid "Reset!"
+msgstr "אתחול!"
+
+#: users/templates/users/forgot_password.html:36
+msgid "Remembered?"
+msgstr "נזכרת?"
+
+#: users/templates/users/password_change.html:46
 msgid "Change password"
 msgstr "שנה סיסמא"
 
-#: users/templates/users/password_change.html:44
+#: users/templates/users/password_change.html:49
 msgid "Old password"
 msgstr "סיסמה ישנה"
 
-#: users/templates/users/password_change.html:45
+#: users/templates/users/password_change.html:50
 msgid "New password"
 msgstr "סיסמה חדשה"
 
-#: users/templates/users/password_change.html:46
+#: users/templates/users/password_change.html:51
 msgid "Confirm password"
 msgstr "אשר סיסמה"
 
-#: users/templates/users/password_change.html:54
+#: users/templates/users/password_change.html:59
 msgid "Change"
 msgstr "שנה"
 
@@ -939,19 +960,43 @@ msgstr "שנה"
 msgid "Your password was changed"
 msgstr "הסיסמה שלך שונתה בהצלחה"
 
-#: users/views.py:178
+#: users/templates/users/password_reset_complete.html:18
+msgid "Your password has been reset. You may go ahead and "
+msgstr "סיסמתך שונתה. אתה יכול להמשיך ו"
+
+#: users/templates/users/password_reset_complete.html:19
+msgid "login"
+msgstr "להכנס"
+
+#: users/templates/users/reset_password.html:25
+msgid "Reset Password"
+msgstr "איפוס סיסמה"
+
+#: users/templates/users/reset_password.html:31
+msgid "New Password"
+msgstr "סיסמה חדשה"
+
+#: users/templates/users/reset_password.html:44
+msgid "Reset"
+msgstr "אתחול"
+
+#: users/views.py:168
 msgid "Check your mail inbox to reset password"
 msgstr "בדוק את תיבת הדואר שלך כדי לאפס את הסיסמה"
 
-#: users/views.py:191
+#: users/views.py:174
+msgid "Something went wrong. Please try again later."
+msgstr "משהו השתבש. בבקשה נסה שוב מאוחר יותר."
+
+#: users/views.py:178
 msgid "This email is not registered to us. Please register first"
 msgstr "דואל זה לא רשום אצלינו. אנא הירשם תחילה"
 
-#: users/views.py:196
+#: users/views.py:182
 msgid "Please enter a valid email"
 msgstr "אנא הכנס דואל חוקי"
 
-#: users/views.py:201
+#: users/views.py:186
 msgid "Please do enter the email"
 msgstr "אנא הכנס את הדואל"
 
