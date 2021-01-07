@@ -39,15 +39,42 @@
 
         <div class="innerContainer">
             <div class="topArea">
-                
+                <style>
+                    .copyButton {
+                        box-shadow: 0px 10px 14px -7px #3e7327;
+                        background:linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+                        background-color:#77b55a;
+                        border-radius:4px;
+                        border:1px solid #4b8f29;
+                        display:inline-block;
+                        cursor:pointer;
+                        color:#ffffff;
+                        font-family:inherit;
+                        font-size:13px;
+                        font-weight:bold;
+                        padding:6px 12px;
+                        text-decoration:none;
+                        text-shadow:0px 1px 0px #5b8a3c;
+                    }
+                    .copyButton:hover {
+                        background:linear-gradient(to bottom, #72b352 5%, #77b55a 100%);
+                        background-color:#72b352;
+                    }
+                    .copyButton:active {
+                        position:relative;
+                        top:1px;
+                    }
+                    
+                </style>
         
                 <div id="topContainer">
                     <span>PolyBingo.com</span>
                     <br>
                     <div class="gamePin" id="gamePin">{{ current_game.game_id }}</div>
                     {% include 'bingo_main/partials/_messages_inline.html' %}
-
                 </div>
+                <a href="#" onclick="copyToClipboard()" class="copyButton">{% trans 'Copy game details' %}</a>
+
             </div>
             <form action="" name="startGameForm" method="POST">
                 {% csrf_token %}
@@ -94,6 +121,16 @@
         </div>
         <!-- <img src="{% static 'images/backgroundBroadcast.png' %}" class="speakerImage" alt=""> -->
     </div>
+
+    <script>
+        function copyToClipboard() {
+            navigator.clipboard.writeText('Website: https://polybingo.com \n Game ID: {{ current_game.game_id }}').then(function () {
+                alert('{% trans "Game details copied! Do a CTRL - V to paste" %}')
+            }, function () {
+                alert('Failure to copy. Check permissions for clipboard')
+            });
+        }
+    </script>
 
     <script src="{% static 'broadcast/js/broadcastFunctions.js' %}" defer></script>
 
