@@ -31,6 +31,7 @@ urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('admin/', admin.site.urls),
     path('administration/', include('administration.urls', namespace='administration')),
+    path('newsletter/', include('newsletter.urls', namespace='newsletter')),
     # path('', game_views.home, name='home'),
     path('', include('bingo_main.urls', namespace='home')),
     path('frontend/', include('frontend.urls', namespace='frontend')),

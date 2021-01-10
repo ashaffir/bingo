@@ -108,3 +108,7 @@ def public_albums(request):
             return redirect('administration:public_albums')
 
     return render(request, 'administration/public-albums.html', context)
+
+def contact_us_requests(request):
+    context = {}
+    return render(request, 'administration/contact-us-requests.html')

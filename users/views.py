@@ -23,10 +23,12 @@ from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication, BasicAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.pagination import (
-    LimitOffsetPagination, PageNumberPagination,)
+from rest_framework.pagination import (LimitOffsetPagination, PageNumberPagination,)
 
 from .utils import send_mail
+from administration.decorators import superuser_required
+from bingo_main.models import ContentPage
+from newsletter.models import Newsletter
 
 logger = logging.getLogger(__file__)
 
@@ -189,3 +191,10 @@ def password_reset(request):
             
     else:
         return render(request, 'users/forgot_password.html', {})
+
+@superuser_required
+def test_welcome_email(request):
+    context = {}
+    context['content'] = Newsletter.objects.get(name='welcome_email')
+    user = request.user
+    return render(request, 'users/welcome-email.html', context)

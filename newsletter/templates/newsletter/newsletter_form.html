@@ -1,0 +1,123 @@
+{% extends 'administration/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+{% if user.is_superuser %}
+{% block content %}
+    <form class="form-group" action="" name="newsletterForm" method="POST">
+        {% csrf_token %}
+            <div class="container">
+                <div class="">
+                    <div class="col">
+                        <h1>NewsLetter</h1>
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="name"></label>
+                        <label for="">Name</label>
+                        <input type="text" class="form-control" name="newsletter_name">
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="subject"></label>
+                        <label for="">Subject</label>
+                        <input type="text" class="form-control" name="subject">
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="title_1"></label>
+                        <label for="">Title 1</label>
+                        <input type="text" class="form-control" name="title_1">                   
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="content_1"></label>
+                        <label for="">Content 1</label>
+                        <textarea name="content_1" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="button_text"></label>
+                        <label for="">Button Text</label>
+                        <input type="text" class="form-control" name="button_text">                                 
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="button_link"></label>
+                        <label for="">Button Link</label>
+                        <input type="text" class="form-control" name="button_link">                                 
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="title_2"></label>
+                        <label for="">Title 2</label>
+                        <input type="text" class="form-control" name="title_2">                        
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="content_2"></label>
+                        <label for="">Content 2</label>
+                        <textarea name="content_2" class="form-control"></textarea>
+          
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="title_3"></label>
+                        <label for="">Title 3</label>           
+                        <input type="text" class="form-control" name="title_3">
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="content_3"></label>
+                        <label for="">Content 3</label>
+                        <textarea name="content_3" class="form-control"></textarea>   
+                    </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <label class="text-black" for="recipients"></label>
+                        <label for="">Recipients</label>
+                        <!-- <div class="row">
+                            <div class="col">
+                                <input type="checkbox" name="couriers"> Couriers
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <input type="checkbox" name="businesses"> Businesses
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col">
+                                <input type="checkbox" name="all"> All
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col">
+                                <input type="checkbox" name="list"> List
+                                <input type="text" name="recipients_list">
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <button class="btn btn-success" type="submit" name="newsletterSend" >GENERATE</button>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock content %}
+{% endif %}

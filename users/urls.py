@@ -15,5 +15,6 @@ urlpatterns = [
 
     # Restrict acccess to logged in users only
     path('restricted/', views.restricted, name='restricted'),
+    path('test-welcome-mail/', views.test_welcome_email, name='test-welcome-mail'),
 
 ]

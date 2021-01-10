@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # Project:
     'api',
     'channels',
+    'newsletter', 
     # 'game',
     'bingo_main',
     'game.apps.GameConfig',
@@ -95,6 +96,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'bingo_main/templates'),
             os.path.join(BASE_DIR, 'frontend/templates'),
             os.path.join(BASE_DIR, 'administration/templates'),
+            os.path.join(BASE_DIR, 'newsletter/templates'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {

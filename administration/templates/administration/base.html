@@ -65,6 +65,28 @@
                     <i class="fas fa-fw fa-cog"></i>Public Albums</a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'administration:contact_us_requests' %}">
+                    <i class="fas fa-fw fa-cog"></i>Contact Us Requests</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Newsletter</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="{% url 'newsletter:newsletter_admin' %}">Newsletter Admin</a>
+                        <a class="collapse-item" href="{% url 'newsletter:newsletter_form' %}">Newsletter Form</a>
+                        <a class="collapse-item" href="{% url 'newsletter:newsletter_test' %}">Newsletter Test</a>
+                    </div>
+                </div>
+            </li>
+
+
+
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
@@ -183,6 +205,8 @@
                             </div>
                         </div>
                     </form>
+
+                    {% include 'administration/partials/_messages.html' %}
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">

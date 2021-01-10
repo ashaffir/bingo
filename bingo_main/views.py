@@ -23,6 +23,7 @@ from game.utils import check_players, random_game_id
 from users.models import User
 from users.utils import send_mail
 from payments.models import Coupon
+from newsletter.models import Newsletter
 
 logger = logging.getLogger(__file__)
 
@@ -196,29 +197,32 @@ def bingo_main_register(request):
             user = form.save()  # add employer to db with is_active as False
             
             user.newsletter_optin = True if request.POST.get('newsletter') == 'on' else False
+            user.language = request.LANGUAGE_CODE
+            try:
+                user.country = request.POST.get('country')
+            except:
+                pass
             user.username = user.email
             user.save()
 
 
-            # send employer a accout activation email
-            # current_site = request._current_scheme_host
-            # subject = gettext('Activate PickNdell Account')
+            # Send welcome message to the new user
+            current_site = request._current_scheme_host
+            email_obj = Newsletter.objects.get(name='welcome_email')
+            subject = _('Welcome to Polybingo')
 
-            # message = {
-            #     'user': user,
-            #     'domain': current_site,
-            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            #     'token': account_activation_token.make_token(user)
-            # }
+            message = {
+                'user': user,
+                'domain': current_site,
+                'email_obj': email_obj
+            }
 
-            # send_mail(subject, email_template_name=None,
-            #         context=message, to_email=[user.email],
-            #         html_email_template_name='registration/account_activation_email.html')
-
-            # messages.success(request, 'An accout activation link has been sent to your email: ' + user.email +
-            #                  '. Check your email and click the link to activate your account.')
-            print(f"USERNAME: {form.cleaned_data['email']}")
-            print(f"PASS: {form.cleaned_data['password1']}")
+            send_mail(subject, email_template_name=None, attachement='',
+                    context=message, to_email=[user.email],
+                    html_email_template_name='users/welcome-email.html')
+            
+            # print(f"USERNAME: {form.cleaned_data['email']}")
+            # print(f"PASS: {form.cleaned_data['password1']}")
 
             new_user = authenticate(username=form.cleaned_data['email'],
                                     password=form.cleaned_data['password1'],
@@ -392,7 +396,7 @@ def update_profile(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         company_name = request.POST.get('company')
-        # country = request.POST.get('country')
+        country = request.POST.get('country')
         vat = request.POST.get('vat')
         profile_pic = request.FILES.get("complogo")
 
@@ -404,8 +408,8 @@ def update_profile(request):
             print(f'COMPANY NAME: {company_name}')
             user.company_name = company_name
 
-        # if country != 'none':
-        #     user.country = country
+        if country:
+            user.country = country
 
         if vat != '':
             user.vat_number = vat
