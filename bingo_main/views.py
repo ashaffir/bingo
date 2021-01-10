@@ -207,19 +207,34 @@ def bingo_main_register(request):
 
 
             # Send welcome message to the new user
-            current_site = request._current_scheme_host
-            email_obj = Newsletter.objects.get(name='welcome_email')
-            subject = _('Welcome to Polybingo')
+            try:
+                current_site = request._current_scheme_host
+                try:
+                    if request.LANGUAGE_CODE == 'he':
+                        email_obj = Newsletter.objects.get(name='welcome_email', language='Hebrew')
+                        context['lang'] = 'he'
+                    elif request.LANGUAGE_CODE == 'es':
+                        email_obj = Newsletter.objects.get(name='welcome_email', language='Spanish')
+                    else:
+                        email_obj = Newsletter.objects.get(name='welcome_email', language='English')
+                except Exception as e:
+                    logger.error('>>> BINGO MAIN @ bingo_main_register: Missing welcome email language. ERROR:{e}')
+                    email_obj = Newsletter.objects.get(name='welcome_email', language='English')
 
-            message = {
-                'user': user,
-                'domain': current_site,
-                'email_obj': email_obj
-            }
+                subject = _('Welcome to Polybingo')
 
-            send_mail(subject, email_template_name=None, attachement='',
-                    context=message, to_email=[user.email],
-                    html_email_template_name='users/welcome-email.html')
+                message = {
+                    'user': user,
+                    'domain': current_site,
+                    'email_obj': email_obj
+                }
+
+                send_mail(subject, email_template_name=None, attachement='',
+                        context=message, to_email=[user.email],
+                        html_email_template_name='users/welcome-email.html')
+            
+            except Exception as e:
+                logger.error(f'>>> BINGO MAIN @ bingo_main_register: Failed sending welcome email. ERROR: {e}')
             
             # print(f"USERNAME: {form.cleaned_data['email']}")
             # print(f"PASS: {form.cleaned_data['password1']}")
