@@ -117,14 +117,14 @@
     <div class="titleBar">{% trans 'Where should it be saved' %}?</div>
     {% endif %}
     <input type="radio" name="bingoType" value="private" id="private" checked onclick="checkCopyright(this)">
-    <label for="private">{% trans 'My Bingo' %}</label>
+    <label for="private">{% trans 'My Albums' %}</label>
     <i class="p-1 fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" 
     data-placement="top" title="{% trans 'Only you can use the album' %}">
     </i>
 
     <br>
     <input class="" type="radio" name="bingoType" value="public" id="public" onclick="checkCopyright(this)">
-    <label for="public">{% trans 'Public Bingo' %}</label>
+    <label for="public">{% trans 'Public Albums' %}</label>
         <i class="p-1 fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" 
         data-placement="top" title="{% trans 'Make your album publicly used and visible to all hosts' %}">
         </i>
@@ -132,14 +132,42 @@
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
     </div>
     <br>
-    <div style="margin-top:2rem; border: solid 2px; max-width: 30%">
-        <input type="text" placeholder="{% trans 'Name' %}" style="padding: 5px;" id="album-name"
-            value="{{ current_album.name }}">
-    </div>
-    <div class="saveButton" onclick="createBingo()">{% trans 'Save' %}</div>
-    <div class="errorBox" id="submitError">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
-    </div>
+    <table style="width: 100%;">
+        <tbody>
+            <tr style="vertical-align: top;">
+                <td style="width: 30%;">
+                    <div style="margin-top:2rem; border: solid 2px; max-width: 80%">
+                        <input type="text" placeholder="{% trans 'Name' %}" style="padding: 5px;" id="album-name"
+                            value="{{ current_album.name }}">
+                    </div>     
+
+                    <div style="margin-top:2rem; max-width: 40%">
+                        <select name="album_category" id="album_category" required>
+                            <option style="width: 100%;" value="">{% trans 'Select Album Category' %}</option>
+                            {% for category in categories %}
+                            <option style="width: 100%;" value="{{ category.0 }}">{{ category.0 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>     
+                    <div class="saveButton" onclick="createBingo()">{% trans 'Save' %}</div>
+                    <div class="errorBox" id="submitError">
+                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto, repellendus.
+                    </div>            
+       
+                </td>
+                <td style="width: 40%">
+                    <textarea  name="description" id="description" cols="5" 
+                        placeholder="{% trans 'Description' %}"
+                        rows="10" style="border:  solid 2px; margin-top:2rem; width: 30%"
+                        required></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 {% endblock content %}
@@ -272,18 +300,31 @@
     function createBingo() {
 
         let album_name = document.querySelector('input[id="album-name"]').value;
+        let album_description = document.querySelector('#description').value;
+        let album_category = document.querySelector('#album_category').value;
+
         let images = myDropzone.files;
         let album_type = document.querySelector('input[name="bingoType"]:checked').value
         const errorBox = document.querySelector('#submitError');
         let postData = {
             images: [],
             saveLocation: document.querySelector('input[name="bingoType"]:checked').value,
-            album_name: album_name
+            album_name: album_name,
+            album_description: album_description,
+            album_category: album_category
         };
         errorBox.style.display = '';
         if (imagesUploaded < 18 || imagesUploaded > 99) {
             errorBox.innerHTML =
                 `You have uploaded ${imagesUploaded} out of the minimum required 18 images or higher than 99! Please upload the required files and re-submit!`;
+            return errorBox.style.display = 'block';
+        } else if (album_name == ''){
+            errorBox.innerHTML =
+                "{% trans 'Please enter a name to the album' %}";
+            return errorBox.style.display = 'block';
+        } else if (album_category == ''){
+            errorBox.innerHTML =
+                "{% trans 'Please select a category for the album' %}";
             return errorBox.style.display = 'block';
         }
         let error = false;
@@ -325,6 +366,8 @@
         formData.append('images', JSON.stringify(postData))
         formData.append('delete_images', deletePKs)
         formData.append('name', album_name)
+        formData.append('description', album_description)
+        formData.append('category', album_category)
 
         loader = document.getElementById('loader');
         loader.style.display = 'block';

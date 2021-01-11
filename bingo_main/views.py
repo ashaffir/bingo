@@ -184,6 +184,22 @@ def bingo_main(request):
 
     return render(request, 'bingo_main/index.html', context)
 
+@login_required
+def album(request, album_id):
+    context = {}
+    try:
+        album = Album.objects.get(pk=album_id)
+        context['album'] = album
+        pictures = []
+        for pic in album.pictures:
+            pictures.append(Picture.objects.get(pk=pic))
+
+        context['pictures'] = pictures
+
+    except Exception as e:
+        logger.info(f">>> BINGO MAIN @ album: Failed getting album. E: {e}")
+        messages.error(request, _("Sorry, the requested album was not found"))
+    return render(request, 'bingo_main/dashboard/album.html', context)
 
 def play(request):
     context = {}
@@ -466,6 +482,8 @@ def dashboard(request):
 def create_bingo(request, album_id=''):
     context = {}
 
+    context['categories'] = Album.CATEGORIES
+
     if album_id:
         album = Album.objects.get(pk=album_id)
         context['current_album'] = album
@@ -480,8 +498,15 @@ def create_bingo(request, album_id=''):
             # Update an existing album
             album.name = request.POST.get("name")
             images_dict = json.loads(request.POST.get('images'))
+            
+            album_description = images_dict["album_description"] 
+            album_category = images_dict["album_category"]  
+
             album_type = images_dict["saveLocation"]  # Private or public
             album.is_public = True if album_type == 'public' else False
+            album.category = album_category
+            album.description = album_description
+
             album_images = album.pictures
             for image in images_dict['images']:
                 if 'pk' not in image:
@@ -547,6 +572,9 @@ def create_bingo(request, album_id=''):
             album.save()
         else:
             images_dict = json.loads(request.POST.get('images'))
+
+            album_description = images_dict["album_description"] 
+            album_category = images_dict["album_category"]  
             album_type = images_dict["saveLocation"]  # Private or public
             album_name = images_dict['album_name']
 
@@ -559,7 +587,9 @@ def create_bingo(request, album_id=''):
                 album = Album.objects.create(
                     user=request.user,
                     is_public=True if album_type == 'public' else False,
-                    name=album_name
+                    name=album_name,
+                    category=album_category,
+                    description=album_description
                 )
 
                 print(f'>>> BINGO MAIN: Album created {album.album_id}')
@@ -1548,6 +1578,19 @@ def add_money(request):
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     return render(request, 'bingo_main/dashboard/add-money.html', context)
+
+@login_required
+def search(request):
+    context = {}
+    if request.method == 'POST':
+        search_string = request.POST.get('search')
+        print(f"SEARCH Q: {search_string}")
+        albums = Album.objects.all().filter(name__contains=search_string)
+        context['albums'] = albums
+        print(f"SEARCH RES: {albums}")
+        return render(request, 'bingo_main/dashboard/search_results.html', context)
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required

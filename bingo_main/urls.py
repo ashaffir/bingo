@@ -22,6 +22,8 @@ urlpatterns = [
 
 
     path('dashboard/', bingo_main_views.dashboard, name='dashboard'),
+    path('album/<str:album_id>',bingo_main_views.album, name='album'),
+    path('search/', bingo_main_views.search, name='search'),
     path('create_bingo/', bingo_main_views.create_bingo, name='create_bingo'),
     path('create_bingo/<str:album_id>',bingo_main_views.create_bingo, name='create_bingo'),
     path('start_bingo/', bingo_main_views.start_bingo, name='start_bingo'),

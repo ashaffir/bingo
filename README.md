@@ -156,3 +156,6 @@ chmod +x post_receive
 
 # REFERENCE: websocket reconnect on disconnect 
   > https://stackoverflow.com/questions/22431751/websocket-how-to-automatically-reconnect-after-it-dies
+
+# REFERENCE: Search bar
+ > https://www.youtube.com/watch?v=b2KecUrYmcM

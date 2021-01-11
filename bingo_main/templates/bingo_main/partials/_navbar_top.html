@@ -2,11 +2,46 @@
 {% load i18n %}
 {% get_current_language as lang %}
 
+<style>
+    
+.searchBar {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .searchBar {
+        display: block;
+        margin-top:1vh;
+    }
+
+}
+
+</style>
+
 <div class="navbarTop">
     <img class="logo" src="{% static 'images/polybingo-logo-new.png' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
 
-    <table style="border-spacing: 15px; border-collapse: separate; margin-top:1vh">
+    <table style="border-spacing: 15px; border-collapse: separate; margin-top:1vh; width: 50%">
         <tr>
+            <td class="searchBar">
+                <form action="{% url 'bingo_main:search' %}" method="POST">
+                    {% csrf_token %}
+                    <table>
+                        <tr>
+                            <td>
+                                <input required type="text" style="border: 1px solid black; border-radius: 10px;" name="search" id="search">
+                            </td>
+                            <td>    
+                                <button type="submit" style="padding: 2px; border-radius: 10px; border-color: solid #deca25; 
+                                        margin-right: 1rem; margin-left:1rem; background-color: #deca25;
+                                        ">
+                                    {% trans 'Search Albums' %}
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
             <td>
                 <div class="menuItems">
                     <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
@@ -27,7 +62,7 @@
                     <form action="{% url 'set_language' %}" method="POST">
                     {% csrf_token %}
                         <input type="hidden" name="text" value="{{ redirect_to }}">
-                        <select class="lang-select" name="language" id="home_lang_selector" onchange="this.form.submit()">
+                        <select style="background-color: white;" class="lang-select" name="language" id="home_lang_selector" onchange="this.form.submit()">
                             <option class="form-control" value="">{% trans 'Change Language' %}</option>
                             {% get_available_languages as LANGUAGES %}
                             {% get_language_info_list for LANGUAGES as languages %}

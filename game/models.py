@@ -14,16 +14,27 @@ def prize_image_path(instance, filename):
 
 
 class Album(models.Model):
-    user = models.ForeignKey(
-        User, null=True, blank=True, on_delete=models.CASCADE)
-    album_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False)
+    CATEGORIES = (
+        ('Animals', 'animals'),
+        ('Religion', 'religion'),
+        ('Politics', 'politics'),
+        ('Finance', 'finance'),
+        ('Art', 'art'),
+        ('Games', 'games'),
+        ('Other', 'other'),
+    )
+
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    album_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     is_public = models.BooleanField(default=False)
     public_approved = models.BooleanField(default=False)
     public_rejected = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(max_length=300, null=True, blank=True)
+    category = models.CharField(max_length=100,choices=CATEGORIES, blank=True, null=True)
+
     number_of_pictures = models.IntegerField(blank=True, null=True)
     pictures = models.JSONField(blank=True, null=True, default=list)
     board = models.JSONField(blank=True, null=True)
