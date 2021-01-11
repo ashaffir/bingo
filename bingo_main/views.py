@@ -1585,7 +1585,7 @@ def search(request):
     if request.method == 'POST':
         search_string = request.POST.get('search')
         print(f"SEARCH Q: {search_string}")
-        albums = Album.objects.all().filter(name__contains=search_string)
+        albums = Album.objects.all().filter(name__contains=search_string,is_public=True)
         context['albums'] = albums
         print(f"SEARCH RES: {albums}")
         return render(request, 'bingo_main/dashboard/search_results.html', context)
