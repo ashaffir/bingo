@@ -15,6 +15,8 @@ def prize_image_path(instance, filename):
 
 class Album(models.Model):
     CATEGORIES = (
+        ('Movies', 'movies'),
+        ('Music', 'Music'),
         ('Animals', 'animals'),
         ('Religion', 'religion'),
         ('Politics', 'politics'),
