@@ -14,7 +14,7 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 
-from control.models import Control
+from control.models import Control, Category
 from .forms import ContactForm, HostSignupForm, LoginForm
 from .models import ContentPage, ContactUs
 from .utils import get_image_from_data_url
@@ -482,7 +482,13 @@ def dashboard(request):
 def create_bingo(request, album_id=''):
     context = {}
 
-    context['categories'] = Album.CATEGORIES
+    try:
+        context['categories'] = Category.objects.all()
+    except Exception as e:
+        print(f'>>> BINGO MAIN @ create_bingo: Categories are not set yet. ERROR: {e}')
+        logger.error(f'>>> BINGO MAIN @ create_bingo: Categories are not set yet. ERROR: {e}')
+        context['categories'] = []
+
 
     if album_id:
         album = Album.objects.get(pk=album_id)
@@ -500,11 +506,11 @@ def create_bingo(request, album_id=''):
             images_dict = json.loads(request.POST.get('images'))
             
             album_description = images_dict["album_description"] 
-            album_category = images_dict["album_category"]  
+            album_category = Category.objects.get(name=images_dict["album_category"])
 
             album_type = images_dict["saveLocation"]  # Private or public
             album.is_public = True if album_type == 'public' else False
-            album.category = album_category
+            album.album_category = album_category
             album.description = album_description
 
             album_images = album.pictures
@@ -574,7 +580,7 @@ def create_bingo(request, album_id=''):
             images_dict = json.loads(request.POST.get('images'))
 
             album_description = images_dict["album_description"] 
-            album_category = images_dict["album_category"]  
+            album_category = Category.objects.get(name=images_dict["album_category"])  
             album_type = images_dict["saveLocation"]  # Private or public
             album_name = images_dict['album_name']
 
@@ -588,7 +594,7 @@ def create_bingo(request, album_id=''):
                     user=request.user,
                     is_public=True if album_type == 'public' else False,
                     name=album_name,
-                    category=album_category,
+                    album_category=album_category,
                     description=album_description
                 )
 

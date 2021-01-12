@@ -123,7 +123,8 @@
     </i>
 
     <br>
-    <input class="" type="radio" name="bingoType" value="public" id="public" onclick="checkCopyright(this)">
+    <input class="" type="radio" name="bingoType" value="public" id="public" onclick="checkCopyright(this)"
+        {% if current_album.is_public %} checked {% endif %}>
     <label for="public">{% trans 'Public Albums' %}</label>
         <i class="p-1 fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" 
         data-placement="top" title="{% trans 'Make your album publicly used and visible to all hosts' %}">
@@ -143,9 +144,13 @@
 
                     <div style="margin-top:2rem; max-width: 40%">
                         <select name="album_category" id="album_category" required>
+                            {% if current_album.album_category %}
+                            <option style="width: 100%;" value="">{% trans 'Category' %}: {{ current_album.album_category }}</option>
+                            {% else %}
                             <option style="width: 100%;" value="">{% trans 'Select Album Category' %}</option>
+                            {% endif %}
                             {% for category in categories %}
-                            <option style="width: 100%;" value="{{ category.0 }}">{{ category.0 }}</option>
+                            <option style="width: 100%;" value="{{ category.name }}">{{ category.name }}</option>
                             {% endfor %}
                         </select>
                     </div>     
@@ -157,9 +162,9 @@
                 </td>
                 <td style="width: 40%">
                     <textarea  name="description" id="description" cols="5" 
-                        placeholder="{% trans 'Description' %}"
+                            placeholder="{% trans 'Description' %}"
                         rows="10" style="border:  solid 2px; margin-top:2rem; width: 30%"
-                        required></textarea>
+                        required>{% if current_album.description %}{{ current_album.description }}{% endif %}</textarea>
                 </td>
             </tr>
             <tr>

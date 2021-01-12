@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 from users.models import User
 from django.contrib.postgres.fields import ArrayField
-
+from control.models import Category
 
 def picture_image_path(instance, filename):
     return f'pictures/album.{instance.album_id}/{instance.pk}.{filename}'
@@ -14,17 +14,17 @@ def prize_image_path(instance, filename):
 
 
 class Album(models.Model):
-    CATEGORIES = (
-        ('Movies', 'movies'),
-        ('Music', 'Music'),
-        ('Animals', 'animals'),
-        ('Religion', 'religion'),
-        ('Politics', 'politics'),
-        ('Finance', 'finance'),
-        ('Art', 'art'),
-        ('Games', 'games'),
-        ('Other', 'other'),
-    )
+    # CATEGORIES = (
+    #     ('Movies', 'movies'),
+    #     ('Music', 'Music'),
+    #     ('Animals', 'animals'),
+    #     ('Religion', 'religion'),
+    #     ('Politics', 'politics'),
+    #     ('Finance', 'finance'),
+    #     ('Art', 'art'),
+    #     ('Games', 'games'),
+    #     ('Other', 'other'),
+    # )
 
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     album_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -35,7 +35,8 @@ class Album(models.Model):
     updated = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(max_length=300, null=True, blank=True)
-    category = models.CharField(max_length=100,choices=CATEGORIES, blank=True, null=True)
+    # category = models.CharField(max_length=100,choices=CATEGORIES, blank=True, null=True)
+    album_category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.CASCADE)
 
     number_of_pictures = models.IntegerField(blank=True, null=True)
     pictures = models.JSONField(blank=True, null=True, default=list)
