@@ -42,10 +42,13 @@
             </tr>
             <tr>
                 <td>
-                    <h5>{% trans 'Category' %}:</h5>
-                    {% if album.category %}
-                        {{ album.category }}
-                    {% endif %}
+                    <h5>{% trans 'Category' %}:
+                        <span style="font-size: 1.4rem; font-weight: bold;">
+                            {% if album.category %}
+                                {{ album.category }}
+                            {% endif %}
+                        </span>
+                    </h5>
                 </td>
             </tr>
         </table>
