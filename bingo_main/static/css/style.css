@@ -431,6 +431,7 @@ h1, h2, h3, h4, h5, h6 {
   bottom: 0px;
   left: 0px;
   opacity: 0.2;
+  transform: scale(1.5);
 }
 
 @media (max-width: 767px) {

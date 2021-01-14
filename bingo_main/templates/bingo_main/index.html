@@ -487,61 +487,50 @@
           <h3><span>{% trans 'How it' %}</span> {% trans 'Works' %}</h3>
         </header>
 
-        <div class="row justify-content-center">
+        <!-- <div class="row justify-content-center">
           <div class="col-lg-8">
 
             <div class="owl-carousel testimonials-carousel">
 
-              <div class="testimonial-item">
-				<div class="yt-container mb-2">
-					{% if instructions_a.video %}
-						<iframe src="{{ instructions_a.video }}" frameborder="0" allowfullscreen></iframe>
-					{% endif %}
-				 </div>
-				<div class="text">
-					<h2 class="mb-4 mt-5">{{ instructions_a.title }}</h2>
-						<a href="{% url 'bingo_main:instructions' %}"><span class="position">{% trans "Read More" %}</span></a>
-				</div>
-              </div>
+              {% if instructions_a.video %}
+                <div class="testimonial-item">
+                  <div class="yt-container mb-2">
+                      <iframe src="{{ instructions_a.video }}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <div class="text">
+                      <h2 class="mb-4 mt-5">{{ instructions_a.title }}</h2>
+                      <a href="{% url 'bingo_main:instructions' %}"><span class="position">{% trans "Read More" %}</span></a>
+                    </div>
+                  </div>
+              {% endif %}
 
               {% if instructions_b.video %}
                 <div class="testimonial-item">
-				    <div class="yt-container mb-2">
-						<iframe src="{{ instructions_b.video }}" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <div class="text">
-                        <h3 class="mb-4">{{ instructions_b.title }}</h3>
-						<a href="{% url 'bingo_main:instructions' %}"><span class="position">{% trans "Read More" %}</span></a>
-                    </div>
+                  <div class="yt-container mb-2">
+                    <iframe src="{{ instructions_b.video }}" frameborder="0" allowfullscreen></iframe>
+                  </div>
+                  <div class="text">
+                    <h3 class="mb-4">{{ instructions_b.title }}</h3>
+                    <a href="{% url 'bingo_main:instructions' %}"><span class="position">{% trans "Read More" %}</span></a>
+                  </div>
                 </div>
-                {% endif %}
+              {% endif %}
 
-                {% if instructions_c.video %}
+              {% if instructions_c.video %}
                 <div class="testimonial-item">
-				    <div class="yt-container mb-2">
-						<iframe src="{{ instructions_c.video }}" frameborder="0" allowfullscreen></iframe>
-                    </div>
-                    <div class="text">
-                        <h3 class="mb-4">{{ instructions_c.title }}</h3>
-						<a href="{% url 'bingo_main:instructions' %}"><span class="position">{% trans "Read More" %}</span></a>
-                        
-                    </div>
+      				    <div class="yt-container mb-2">
+			        			<iframe src="{{ instructions_c.video }}" frameborder="0" allowfullscreen></iframe>
+                  </div>
+                  <div class="text">
+                    <h3 class="mb-4">{{ instructions_c.title }}</h3>
+						        <a href="{% url 'bingo_main:instructions' %}"><span class="position">{% trans "Read More" %}</span></a>    
+                  </div>
                 </div>
-                {% endif %}
-
-              <!-- <div class="testimonial-item">
-                <img src="{% static 'img/testimonial-4.jpg' %}" class="testimonial-img" alt="">
-                <h3>Matt Brandon</h3>
-                <h4>Freelancer</h4>
-                <p>
-                  Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
-                </p>
-              </div> -->
-
+              {% endif %}
+            
             </div>
-
           </div>
-        </div>
+        </div> -->
 
       </div>
     </section>

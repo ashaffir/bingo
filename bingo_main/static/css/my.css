@@ -132,9 +132,17 @@
     display: none;
 }
 
+.only-mobile {
+    display: block;
+}
+
 @media screen and (min-width: 768px) {
     .top-language-bar {
         display: block;
+    }
+
+    .only-mobile {
+        display: none;
     }
 }
 
