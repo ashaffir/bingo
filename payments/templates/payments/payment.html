@@ -40,15 +40,9 @@
 </style>
 {% endblock css %}
 
-{% block js %}
-<script src="https://js.stripe.com/v3/"></script>
-<script src="{% static 'js/form_actions.js' %}"></script>
-{% endblock js %}
-
 {% block content %}
-{% include 'bingo_main/partials/_navbar_index.html' %}
 
-<section class="ftco-section services-section bg-light" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
+<section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
   style="text-align: left;" {% endif %}>
   <div class="container">
     <div class="" style="margin-top: 5%; max-width:100%">
@@ -78,7 +72,7 @@
                       <tr>
                         <td class="align-bottom">
                           <div><button
-                              class="btn btn-lg btn-success" style="font-size: 1.2em;font-family: 'March Madness';">
+                              class="btn btn-lg btn-success" style="font-size: 1.2em;font-family: inherit;">
                               {% trans 'Submit Payment' %}</button></div>
                         </td>
                       </tr>
@@ -106,6 +100,8 @@
 </section>
 
  <!-- Stripe -->
+<script src="https://js.stripe.com/v3/"></script>
+
  <script>
   // Create a Stripe client.
   stripe_publishable_key = '{{ stripe_publishable_key }}'
@@ -179,5 +175,11 @@
     form.submit();
   }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+
+<script src="{% static 'js/form_actions.js' %}"></script>
 
 {% endblock %}

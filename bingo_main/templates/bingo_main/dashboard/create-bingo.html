@@ -4,6 +4,7 @@
 {% get_current_language as lang %}
 
 {% block css %}
+
 <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 <link rel="stylesheet" href="{% static 'css/index.css' %}" />
 <link rel="stylesheet" href="{% static 'dashboard/css/index.css' %}">
@@ -12,10 +13,6 @@
 <link rel="stylesheet" href="{% static 'css/dropzone.css' %}">
 <link rel="stylesheet" href="{% static 'css/loader.css' %}">
 {% endblock css %}
-
-{% block js %}
-<script src="{% static 'js/dropzone.js' %}"></script>
-{% endblock js %}
 
 {% block content %}
 
@@ -143,7 +140,7 @@
                     </div>     
 
                     <div style="margin-top:2rem; max-width: 40%">
-                        <select name="album_category" id="album_category" required>
+                        <select name="album_category" id="album_category">
                             {% if current_album.album_category %}
                             <option style="width: 100%;" value="">{% trans 'Category' %}: {{ current_album.album_category }}</option>
                             {% else %}
@@ -178,6 +175,9 @@
 {% endblock content %}
 
 {% block js_bottom %}
+
+<script src="{% static 'js/dropzone.js' %}"></script>
+
 <script>
     function openSidebar() {
         let el = document.querySelector('.sidebarProfile');

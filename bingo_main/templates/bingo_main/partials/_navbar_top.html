@@ -2,22 +2,6 @@
 {% load i18n %}
 {% get_current_language as lang %}
 
-<style>
-    
-.searchBar {
-    display: none;
-}
-
-@media screen and (min-width: 768px) {
-    .searchBar {
-        display: block;
-        margin-top:1vh;
-    }
-
-}
-
-</style>
-
 <div class="navbarTop">
     <img class="logo" src="{% static 'images/polybingo-logo-new.png' %}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
 

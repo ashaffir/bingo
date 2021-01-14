@@ -4,42 +4,69 @@
 {% get_current_language as lang %}
 
 {% block content %}
-{% include 'bingo_main/partials/_navbar_index.html' with active_tab='dashboard' %}
 
-<section class="ftco-section testimony-section mt-5" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
+<style>
+    .my-nav-link {
+        display: block;
+        padding: 0.5rem 1rem;
+    }
+
+    .my-nav-link:hover, .my-nav-link:focus {
+        text-decoration: none;
+    }
+  
+  .my-nav-link.disabled {
+    color: #0df24e;
+    pointer-events: none;
+    cursor: default;
+  }
+  
+    .nav-pills .my-nav-link {
+    border-radius: 0.25rem;
+  }
+  
+  .nav-pills .my-nav-link.active,
+  .nav-pills .show > .my-nav-link {
+    color: #3a741f;
+    background-color: #ffdc26;
+  }
+  
+</style>
+
+<section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
 <div class="container" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
     <div class="row" style="margin-bottom: 15rem; margin-top: 5%">
         <div class="col-md-12" >
             <center>
                 <div class="tabs">
                     <nav class="nav nav-pills flex-column flex-sm-row">
-                        <a class="flex-sm-fill text-sm-center nav-link active" data-toggle="tab" href="#create_album"><span class="fa-stack">
+                        <a class="flex-sm-fill text-sm-center my-nav-link active" data-toggle="tab" href="#create_album"><span class="fa-stack">
                             <span class="fa fa-circle-o fa-stack-2x"></span>
                             <strong class="fa-stack-1x">
                                 1    
                             </strong>
                         </span> {% trans 'Create Album' %}</a>
-                        <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#create_game"><span class="fa-stack">
+                        <a class="flex-sm-fill text-sm-center my-nav-link" data-toggle="tab" href="#create_game"><span class="fa-stack">
                             <span class="fa fa-circle-o fa-stack-2x"></span>
                             <strong class="fa-stack-1x">
                                 2    
                             </strong>
                         </span> {% trans 'Create a Game' %}</a>
                         
-                        <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#setup_game"><span class="fa-stack">
+                        <a class="flex-sm-fill text-sm-center my-nav-link" data-toggle="tab" href="#setup_game"><span class="fa-stack">
                             <span class="fa fa-circle-o fa-stack-2x"></span>
                             <strong class="fa-stack-1x">
                                 3    
                             </strong>
                         </span> {% trans 'Setup a Game' %}</a>
-                        <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#broadcast"><span class="fa-stack">
+                        <a class="flex-sm-fill text-sm-center my-nav-link" data-toggle="tab" href="#broadcast"><span class="fa-stack">
                             <span class="fa fa-circle-o fa-stack-2x"></span>
                             <strong class="fa-stack-1x">
                                 4   
                             </strong>
                         </span> {% trans 'Broadcast/Share the Game' %}</a>
                         
-                        <a class="flex-sm-fill text-sm-center nav-link" data-toggle="tab" href="#run_game"><span class="fa-stack">
+                        <a class="flex-sm-fill text-sm-center my-nav-link" data-toggle="tab" href="#run_game"><span class="fa-stack">
                             <span class="fa fa-circle-o fa-stack-2x"></span>
                             <strong class="fa-stack-1x">
                                 5   

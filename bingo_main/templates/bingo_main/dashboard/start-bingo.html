@@ -11,10 +11,6 @@
 
 {% endblock css %}
 
-{% block js %}
-<script src="{% static 'js/dropzone.js' %}"></script>
-{% endblock js %}
-
 {% block content %}
 
 {% include 'bingo_main/partials/_navbar_top.html' with active_tab='create' %}
@@ -127,6 +123,8 @@
 {% endblock content %}
 
 {% block js_bottom %}
+
+<script src="{% static 'js/dropzone.js' %}"></script>
 
 <script>
     let prizes = '1';

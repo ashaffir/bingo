@@ -7,17 +7,9 @@
 
 {% block content %}
 
-
-{% include 'bingo_main/partials/_navbar_index.html' %}
-
-<section class="ftco-section services-section bg-light" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
+<section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
     style="text-align: left;" {% endif %}>
     <div class="container">
-        <!-- <div class="row mt-4">
-            <div class="col" align='center'>
-                <h2>{% trans 'Login' %}</h2>
-            </div>
-        </div> -->
         <div class="row d-flex" style="margin-top: 5%; margin-bottom: 10%">
             <div class="col-md-6">
                 <div class="row mr-4 ml-4">

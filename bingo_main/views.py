@@ -182,11 +182,58 @@ def bingo_main(request):
         except Exception as e:
             context['instructions_e'] = None
 
+    # Contact us form
+    print('>>> SENDING CONTACT')
+    if request.method == 'POST':
+        contact = ContactUs()
+        contact.name = request.POST.get('name')
+        contact.email = request.POST.get('email')
+        contact.subject = request.POST.get('subject')
+        contact.message = request.POST.get('message')
+        contact.save()
+
+        # Send email to admin
+        try:
+            subject = "Contact request from Polybingo"
+            title = "Contact form details"
+
+            message = {
+                'title': title,
+                'contact': True,
+                'name': request.POST.get('name'),
+                'subject': request.POST.get('subject'),
+                'email': request.POST.get('email'),
+                'message': request.POST.get('message'),
+            }
+
+            send_mail(subject, email_template_name=None,attachement='',
+                        context=message, to_email=[
+                            settings.ADMIN_EMAIL],
+                        html_email_template_name='bingo_main/emails/admin_email.html')
+        except Exception as e:
+            logger.error(
+                f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
+            print(
+                f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
+
+            messages.error(
+                request, _('Oops, your message was not sent. Please try again later'))
+
+            return redirect(request.META['HTTP_REFERER'])
+
+
+        messages.success(
+            request, _('Your message was sent. We will be in touch soon'))
+
+        return redirect(request.META['HTTP_REFERER'])    
+
     return render(request, 'bingo_main/index.html', context)
 
 @login_required
 def album(request, album_id):
     context = {}
+    context['dashboard'] = True
+
     try:
         album = Album.objects.get(pk=album_id)
         context['album'] = album
@@ -397,7 +444,7 @@ def contact(request):
                 'message': request.POST.get('message'),
             }
 
-            send_mail(subject, email_template_name=None,
+            send_mail(subject, email_template_name=None, attachement='',
                         context=message, to_email=[
                             settings.ADMIN_EMAIL],
                         html_email_template_name='bingo_main/emails/admin_email.html')
@@ -458,7 +505,7 @@ def update_profile(request):
 @login_required
 def dashboard(request):
     context = {}
-
+    context['dashboard'] = True
     albums = Album.objects.filter(is_public=True, public_approved=True)
     albums_images = []
     for album in albums:
@@ -481,6 +528,7 @@ def dashboard(request):
 @login_required(login_url='bingo_main:bingo_main_login')
 def create_bingo(request, album_id=''):
     context = {}
+    context['dashboard'] = True
 
     try:
         context['categories'] = Category.objects.all()
@@ -567,7 +615,7 @@ def create_bingo(request, album_id=''):
                         'album': album,
                     }
 
-                    send_mail(subject, email_template_name=None,
+                    send_mail(subject, email_template_name=None, attachement='',
                               context=message, to_email=[
                                   settings.ADMIN_EMAIL],
                               html_email_template_name='bingo_main/emails/admin_email.html')
@@ -604,11 +652,9 @@ def create_bingo(request, album_id=''):
                 if album_type == 'public':
                     # Send email to admin for approval
                     print(">>> BINGO MAIN: Send email to admin for approval")
-                    logger.info(
-                        ">>> BINGO MAIN: Send email to admin for approval")
+                    logger.info(">>> BINGO MAIN: Send email to admin for approval")
 
-                    messages.info(
-                        request, "Your new Bingo Album is pending approval for public view")
+                    messages.info(request, "Your new Bingo Album is pending approval for public view")
 
                     # Sending request to admin for images approval
                     try:
@@ -622,13 +668,13 @@ def create_bingo(request, album_id=''):
                             'album': album,
                         }
 
-                        send_mail(subject, email_template_name=None,
+                        send_mail(subject, email_template_name=None,attachement='',
                                   context=message, to_email=[
                                       settings.ADMIN_EMAIL],
                                   html_email_template_name='bingo_main/emails/admin_email.html')
                     except Exception as e:
-                        logger.error(
-                            f'>>> BINGO MAIN: Failed sending admin email for public album approval. ERROR: {e}')
+                        print(f'>>> BINGO MAIN: Failed sending admin email for public album approval. ERROR: {e}')
+                        logger.error(f'>>> BINGO MAIN: Failed sending admin email for public album approval. ERROR: {e}')
 
                 album_images = []
                 for image in images_dict['images']:
@@ -679,6 +725,8 @@ def create_bingo(request, album_id=''):
 @login_required
 def my_bingos(request):
     context = {}
+    context['dashboard'] = True
+
     user = request.user
     albums = Album.objects.filter(user=user)
     albums_images = []
@@ -892,6 +940,7 @@ def player_approval(request, player_id, approval):
 @login_required
 def start_bingo(request):
     context = {}
+    context['dashboard'] = True
 
     if request.method == 'POST':
         if 'make_game' in request.POST:
@@ -992,7 +1041,7 @@ def start_bingo(request):
                 print(f">>> BINGO MAIN: Failed loading the prize images. ERROR: {e}")
                 logger.error(f">>> BINGO MAIN: Failed loading the prize images. ERROR: {e}")
 
-    return render(request, 'bingo_main/dashboard/start-bingo.html')
+    return render(request, 'bingo_main/dashboard/start-bingo.html', context)
 
 
 @login_required
@@ -1533,6 +1582,7 @@ def player_board(request, player_id):
 @login_required
 def add_money(request):
     context = {}
+    context['dashboard'] = True
     try:
         min_deposit = Control.objects.get(name='min_deposit').value_float
         max_deposit = Control.objects.get(name='max_deposit').value_float
@@ -1588,6 +1638,7 @@ def add_money(request):
 @login_required
 def search(request):
     context = {}
+    context['dashboard'] = True
     if request.method == 'POST':
         search_string = request.POST.get('search')
         print(f"SEARCH Q: {search_string}")

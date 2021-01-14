@@ -72,7 +72,7 @@
     justify-content: center;
     padding-top: 5px;
     margin: 20px;
-    margin-top: 0px;
+    margin-top: 10px;
 }
 
 
@@ -148,12 +148,20 @@
                         </td>
                         <td style="vertical-align: top;">
                            <h3 style="font-family: inherit;"> {% trans 'Player' %} {{ player.nickname }} {% trans 'card' %}</h3>
+                           {% if board.size == 3 %} 
                             <div class="bingoTable3x3">
+                            {% elif board.size == 4 %}
+                            <div class="bingoTable4x4">
+                            {% elif board.size == 5 %}
+                            <div class="bingoTable5x5">
+                            {% else %}
+                                <div class="bingoTable5x5">
+                            {% endif %}
                                 {% for pic in board_pictures %}
                                     <div class="check-field">
-                                        <img src="{{ pic.image.image_file.url }}" alt="" {% if stam %} style="border: 10px solid red;" {% endif %}>
+                                        <img src="{{ pic.image.image_file.url }}" alt="" {% if pic.matched %} style="border: 10px solid red;" {% endif %}>
                                         {% if pic.matched %}
-                                        <i class="fa fa-arrow-up fa-1x"></i>
+                                        <!-- <i class="fa fa-arrow-up fa-1x"></i> -->
                                         {% endif %}
                                         
                                     </div>

@@ -7,6 +7,7 @@ __pycache__/
 references.md
 material/
 test/
+archive/
 
 # C extensions
 *.so

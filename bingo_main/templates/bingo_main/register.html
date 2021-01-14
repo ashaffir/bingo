@@ -4,10 +4,10 @@
 {% load i18n %}
 {% get_current_language as lang %}
 
+
 {% block content %}
 
-{% include 'bingo_main/partials/_navbar_index.html' %}
-<section class="ftco-section services-section bg-light" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
+<section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
     style="text-align: left;" {% endif %}>
     {% if user.is_authenticated %}
     <div class="row d-flex" style="margin-top: 5%; margin-bottom: 10%">
@@ -18,13 +18,8 @@
         </div>
         <div class="col-md-4"></div>
     </div>
-{% else %}
+    {% else %}
     <div class="container">
-        <!-- <div class="row mt-4">
-            <div class="col" align='center'>
-                <h1>{% trans 'Registration' %}</h1>
-            </div>
-        </div> -->
         <div class="row d-flex" style="margin-top: 5%; margin-bottom: 10%">
             <div class="col-md-6">
                 <div class="row mr-4 ml-4">

@@ -57,7 +57,7 @@ def public_albums(request):
                     'content': content,
                 }
 
-                send_mail(subject, email_template_name=None,
+                send_mail(subject, email_template_name=None, attachement='',
                             context=message, to_email=[
                                 album_user.email],
                             html_email_template_name='bingo_main/emails/user_update_email.html')
@@ -94,7 +94,7 @@ def public_albums(request):
                     'content': content,
                 }
 
-                send_mail(subject, email_template_name=None,
+                send_mail(subject, email_template_name=None, attachement='',
                             context=message, to_email=[
                                 album_user.email],
                             html_email_template_name='bingo_main/emails/user_update_email.html')

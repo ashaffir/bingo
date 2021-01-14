@@ -160,3 +160,44 @@
   }
 
   
+  /* Inner pages */
+  .inner-page {
+    margin-top: 20%;
+}
+
+@media screen and (min-width: 768px) {
+    .inner-page {
+        margin-top: 5%;
+    }
+}
+
+/* Search bar */
+   
+.searchBar {
+    display: none;
+}
+
+@media screen and (min-width: 768px) {
+    .searchBar {
+        display: block;
+        margin-top:1vh;
+    }
+
+}
+
+/* Video Frames */
+.yt-container {
+    position:relative;
+    padding-bottom:56.25%;
+    padding-top:30px;
+    height:0;
+    overflow:hidden;
+}
+
+.yt-container iframe, .yt-container object, .yt-container embed {
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}

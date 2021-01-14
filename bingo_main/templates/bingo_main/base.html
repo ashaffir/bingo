@@ -1,7 +1,6 @@
 {% load static %}
 {% load i18n %}
 {% get_current_language as lang %}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,12 +16,13 @@
     gtag('config', 'AW-977361548');
     </script>
     
-    <title>Polybingo-Custom Photo-Bingo Games</title>
+    <title>Polybingo-Create Photo-Bingo Games</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/polybingo-logotype-new.png' %}" />
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- SEO/WhatsApp setup -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    
+  <!-- SEO/WhatsApp setup -->
     <meta name="description" content="Polybingo, platform for online and offline customizable photo-bingo games">
     <meta property="og:title" content="Polybingo-Customizable Bingo Photo-Games" />
     <meta property="og:url" content="https://www.polybingo.com/" />
@@ -32,231 +32,308 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="he_HE" />
     <meta property="og:locale:alternate" content="es_ES" />
-    <!-- End setup -->
+<!-- End setup -->
+
+  <meta content="create bingo, create game, photo, bingo, game, custom games, custom game" name="keywords">
+
+  <!-- Favicons -->
+  <!-- <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon"> -->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,600,700" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/venobox/venobox.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  
+  <!-- Template Main CSS File -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+  
+  {% block css %}
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" 
-        integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" />
-    
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
-
-    <link rel="stylesheet" href="{% static 'css/open-iconic-bootstrap.min.css' %} ">
-    <link rel="stylesheet" href="{% static 'css/animate.css' %} ">
-
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %} ">
-    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %} ">
-    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %} ">
-
-    <link rel="stylesheet" href="{% static 'css/aos.css' %} ">
-
-    <link rel="stylesheet" href="{% static 'css/ionicons.min.css' %} ">
-
-    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %} ">
-    <link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %} ">
+  {% endblock css %}
 
 
-    <link rel="stylesheet" href="{% static 'css/flaticon.css' %} ">
-    <link rel="stylesheet" href="{% static 'css/icomoon.css' %} ">
-    <link rel="stylesheet" href="{% static 'css/style.css' %} ">
-    <link rel="stylesheet" href="{% static 'css/my.css' %} ">
-    {% block css %}
-    {% endblock css %}
-
-
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-
-    {% block js %}
-    {% endblock js %}
+  <link rel="stylesheet" href="{% static 'css/my.css' %} ">
 </head>
 
 <body>
 
-    {% block content %}
-    {% endblock content %}
+  <!-- ======= Top Bar ======= -->
+  <!-- <div id="topbar" class="d-none d-lg-flex align-items-end fixed-top topbar-transparent">
+    <div class="container d-flex justify-content-end">
+      <div class="social-links">
+        <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+        <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+        <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+        <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+      </div>
+    </div>
+  </div> -->
 
-    <footer class="ftco-footer ftco-bg-dark ftco-section" 
-        {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4">
-                        <div class="row">
-                            <div class="col">
-                                
-                                <!-- Language Menu -->                           
-                                <form action="{% url 'set_language' %}" method="POST">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="text" value="{{ redirect_to }}">
-                                    <select class="lang-select" name="language" id="home_lang_selector" onchange="this.form.submit()">
-                                        <option value="">{% trans 'Change Language' %}</option>
-                                      {% get_available_languages as LANGUAGES %}
-                                      {% get_language_info_list for LANGUAGES as languages %}
-                                      {% for language in languages %}
-                                        <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
-                                          {{ language.name_local }}
-                                        </option>
-                                      {% endfor %}
-                                      <!-- <input class="" type="submit" value="Go" style="margin: 1rem;background-color: #8bc34a; color:white; border:0em; border-radius: 3px"> -->
-                                    </select>
-                                  </form>		
-                                <!-- End Language bar-->
+  <!-- ======= Header ======= -->
+  {% if dashboard %}
+  {% else %}
+  <header id="header" class="fixed-top header-transparent">
+    <div class="container d-flex align-items-center">
+      <!-- <h1 class="logo mr-auto"><a class="navbar-brand" href="{% url 'bingo_main:bingo_main' %}"><img class="main-logo"
+        src="{% static 'images/polybingo-logo-new.png' %}" alt=""
+        onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'" ></a></h1> -->
 
-                            </div>
-                        </div>
-                        <div class="row">                            
-                            <!-- <h2 class="ftco-heading-2">Eventalk</h2>
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia,
-                                there live the blind texts.</p> -->
-                            <ul class="ftco-footer-social list-unstyled float-md-center float-lft mt-5">
-                                <li class="ftco-animate"><a href="https://twitter.com/polybingo"><span class="icon-twitter"></span></a></li>
-                                <li class="ftco-animate"><a href="https://www.facebook.com/polybingo/" target="_blank"><span class="icon-facebook"></span></a></li>
-                                <li class="ftco-animate"><a href="https://www.instagram.com/polybingo/" target="_blank"><span class="icon-instagram"></span></a></li>
-                            </ul>
-                        </div>                    
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4 ml-md-5">
-                        <!-- <h2 class="ftco-heading-2">Useful Links</h2> -->
-                        <ul class="list-unstyled">
-                            <li>        
-                                <a class="py-2 d-block" href="{% url 'bingo_main:instructions' %}">
-                                    {% trans 'Instructions' %}
-                                </a>
-                            </li>
-                            <!-- <li><a href="#" class="py-2 d-block">Shcedule</a></li>
-                            <li><a href="#" class="py-2 d-block">Events</a></li>
-                            <li><a href="#" class="py-2 d-block">Blog</a></li> -->
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="ftco-footer-widget mb-4">
-                        <!-- <h2 class="ftco-heading-2">Privacy</h2> -->
-                        <ul class="list-unstyled">
-                            <!-- <li><a href="#" class="py-2 d-block">Career</a></li> -->
-                            <li><a href="{% url 'bingo_main:bingo_main' %}" class="py-2 d-block">{% trans 'Home' %}</a></li>
-                            <li><a href="{% url 'bingo_main:about' %}" class="py-2 d-block">{% trans 'About Us' %}</a></li>
-                            <li><a href="{% url 'bingo_main:contact' %}" class="py-2 d-block">{% trans 'Contact Us' %}</a></li>
-                            <li><a href="{% url 'bingo_main:terms' %}" class="py-2 d-block">{% trans 'Terms & Conditions' %}</a></li>
-                            <li><a href="{% url 'bingo_main:privacy' %}" class="py-2 d-block">{% trans 'Privacy' %}</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md">
-                    <!-- <div class="ftco-footer-widget mb-4">
-                        <h2 class="ftco-heading-2">Have a Questions?</h2>
-                        <div class="block-23 mb-3">
-                            <ul>
-                                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain
-                                        View, San Francisco, California, USA</span></li>
-                                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929
-                                            210</span></a></li>
-                                <li><a href="#"><span class="icon icon-envelope"></span><span
-                                            class="text">info@yourdomain.com</span></a></li>
-                            </ul>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12 text-center">
+        <!-- Uncomment below if you prefer to use an image logo -->
+      <a href="{% url 'bingo_main:bingo_main' %}" class="logo mr-auto"><img src="{% static 'images/polybingo-logo-new.png' %}" alt="" class="img-fluid"></a>
 
-                    <p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Polybingo &copy;
-                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This website
-                        is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a
-                            href="https://actappon.com" target="_blank">Actappon</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    
-    <div class="container">
+      <nav class="main-nav d-none d-lg-block">
+        <ul>
+          <!-- <li class="active"><a href="index.html">Home</a></li> -->
+          <!-- <li><a href="#about">About Us</a></li> -->
+          <!-- <li><a href="#services">Services</a></li> -->
+          <!-- <li><a href="#portfolio">Portfolio</a></li> -->
+          <!-- <li><a href="#team">Team</a></li> -->
+          <!-- <li class="drop-down"><a href="">Drop Down</a>
+            <ul>
+              <li><a href="#">Drop Down 1</a></li>
+              <li class="drop-down"><a href="#">Drop Down 2</a>
+                <ul>
+                  <li><a href="#">Deep Drop Down 1</a></li>
+                  <li><a href="#">Deep Drop Down 2</a></li>
+                  <li><a href="#">Deep Drop Down 3</a></li>
+                  <li><a href="#">Deep Drop Down 4</a></li>
+                  <li><a href="#">Deep Drop Down 5</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Drop Down 3</a></li>
+              <li><a href="#">Drop Down 4</a></li>
+              <li><a href="#">Drop Down 5</a></li>
+            </ul>
+          </li> -->
+          <li>
+            {% if user.is_authenticated %}
+                <a href="{% url 'bingo_main:logout_view' %}" class="nav-link ml-2">{% trans 'Logout' %}</a>
+            {% else %}
+                <a href="{% url 'bingo_main:bingo_main_login' %}" class="nav-link ml-2">{% trans 'Login' %}</a>
+            {% endif %}
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item mr-md-2 ml-2"><button class="btn btn-success p-2"
+                  onclick="window.location.href='{% url "bingo_main:dashboard" %}'">
+                  {% trans 'Dashboard' %}</button></li>
+          {% else %}
+          {% endif %}
+          <li>
+        <!-- <li><a href="#footer">Contact Us</a></li> -->
+            <!-- Language Menu -->           
+            <div class="pt-2 ml-2">
+                <form action="{% url 'set_language' %}" method="POST">
+                {% csrf_token %}
+                    <input  type="hidden" name="text" value="{{ redirect_to }}">
+                    <select style="background-color: white;" class="lang-select" name="language" 
+                        id="home_lang_selector" onchange="this.form.submit()">
+                        <option class="form-control" value="">{% trans 'Change Language' %}</option>
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                        <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                            {{ language.name_local }}
+                        </option>
+                        {% endfor %}
+                        <!-- <input class="" type="submit" value="Go" style="margin: 1rem;background-color: #8bc34a; color:white; border:0em; border-radius: 3px"> -->
+                    </select>
+                </form>		
+            </div>                
+            <!-- End Language bar-->
+
+        </li>
+        </ul>
+      </nav><!-- .main-nav-->
+
+    </div>
+  </header>
+  <!-- End Header -->
+  {% endif %}
+
+ {% block content %}
+ 
+ {% endblock content %}
+
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer" class="section-bg">
+    <div class="footer-top">
+      <div class="container">
+
         <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-3">
-                {% include 'bingo_main/partials/_messages.html' %}
-            </div>
-            <div class="col-md-3"></div>
+
+          <div class="col-lg-6">
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <!-- <div class="footer-info">
+                  <h3>Polybingo</h3>
+                  <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus. Scelerisque felis imperdiet proin fermentum leo. Amet volutpat consequat mauris nunc congue.</p>
+                </div> -->
+
+                <!-- <div class="footer-newsletter">
+                  <h4>Our Newsletter</h4>
+                  <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna veniam enim veniam illum dolore legam minim quorum culpa amet magna export quem.</p>
+                  <form action="" method="post">
+                    <input type="email" name="email"><input type="submit" value="Subscribe">
+                  </form>
+                </div> -->
+            <!-- Language Menu -->           
+        <div class="footer-newsletter">
+            <div class="">
+                <form action="{% url 'set_language' %}" method="POST">
+                {% csrf_token %}
+                    <input  type="hidden" name="text" value="{{ redirect_to }}">
+                    <select style="background-color: white;" class="lang-select" name="language" id="home_lang_selector" onchange="this.form.submit()">
+                        <option class="form-control" value="">{% trans 'Change Language' %}</option>
+                        {% get_available_languages as LANGUAGES %}
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                        <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                            {{ language.name_local }}
+                        </option>
+                        {% endfor %}
+                        <!-- <input class="" type="submit" value="Go" style="margin: 1rem;background-color: #8bc34a; color:white; border:0em; border-radius: 3px"> -->
+                    </select>
+                </form>		
+            </div>           
         </div>
+            <!-- End Language bar-->
+
+
+              </div>
+
+              <div class="col-sm-6">
+                <div class="footer-links">
+                  <h4>Useful Links</h4>
+                  <ul>
+                    <li><a href="{% url 'bingo_main:bingo_main' %}">{% trans 'Home' %}</a></li>
+                    <li><a href="{% url 'bingo_main:about' %}">{% trans 'About Us' %}</a></li>
+                    <li><a href="{% url 'bingo_main:terms' %}">{% trans 'Terms & Conditions' %}</a></li>
+                    <li><a href="{% url 'bingo_main:privacy' %}">{% trans 'Privacy' %}</a></li>
+                  </ul>
+                </div>
+
+                <div class="footer-links">
+                  <h4>{% trans 'Contact Us' %}</h4>
+                  <p>
+                    <!-- A108 Adam Street <br>
+                    New York, NY 535022<br>
+                    United States <br>
+                    <strong>Phone:</strong> +1 5589 55488 55<br> -->
+                    <strong>Email:</strong> support@polybingo.com<br>
+                  </p>
+                </div>
+
+                <div class="social-links">
+                  <a href="https://twitter.com/polybingo" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>
+                  <a href="https://www.facebook.com/polybingo/" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a>
+                  <a href="https://www.instagram.com/polybingo/" target="_blank" class="instagram"><i class="fa fa-instagram"></i></a>
+                  <!-- <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a> -->
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="col-lg-6">
+
+            <div class="form">
+
+              <h4>{% trans 'Send us a message' %}</h4>
+              <!-- <p>Eos ipsa est voluptates. Nostrum nam libero ipsa vero. Debitis quasi sit eaque numquam similique commodi harum aut temporibus.</p> -->
+
+              <form method="post" enctype="multipart/form-data" class="">
+                {% csrf_token %}
+                <div class="form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="{% trans 'Your Name' %}" 
+                    data-rule="minlen:4" data-msg="{% trans 'Please enter at least 4 chars' %}" />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="{% trans 'Your Email' %}" 
+                  data-rule="email" data-msg="{% trans 'Please enter a valid email' %}" />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" name="subject" id="subject" placeholder="{% trans 'Subject' %}" 
+                  data-rule="minlen:4" data-msg="{% trans 'Please enter at least 8 chars of subject' %}" />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="{% trans 'Please write something for us' %}" 
+                  placeholder="{% trans 'Message' %}"></textarea>
+                  <div class="validate"></div>
+                </div>
+
+                <!-- <div class="mb-3">
+                  <div class="">{% trans 'Loading' %}</div>
+                  <div class="error-message"></div>
+                  <div class="sent-message">{% trans 'Your message has been sent. Thank you!' %}</div>
+                </div> -->
+
+                <div class="text-center"><button class="btn btn-success" type="submit" name="contact_us" title="Send Message">{% trans 'Send Message' %}</button></div>
+              </form>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
     </div>
 
-    <!-- loader -->
-    <!-- <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
-            <circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
-            <circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
-                stroke="#F96D00" /></svg></div> -->
+    {% include 'bingo_main/partials/_messages.html' %}
 
-    {% block js_bottom %}
-    {% endblock js_bottom %}
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>Polybingo</strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        Designed with <i class="fa fa-heart"></i> by <a href="https://actappon.com/">Actappon</a>
+      </div>
+    </div>
+  </footer><!-- End  Footer -->
 
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'vendor/counterup/counterup.min.js' %}"></script>
+  <script src="{% static 'vendor/venobox/venobox.min.js' %}"></script>
+  <script src="{% static 'vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'vendor/waypoints/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
 
-    <script src="{% static 'js/loadGame.js' %}"></script>
-    <script>
-        // window.addEventListener('resize', getImageHeight());
-        window.addEventListener("resize", function () {
-            getImageHeight();
-        });
+  <!-- Template Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
 
-        setInterval(() => {
-            //switchImages();
-        }, 6000);
-        //switchImages();
+  <script>
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    })
+  </script>
+  
+  {% block js_bottom %}
 
-        function switchImages() {
-            document.querySelectorAll(".imageContainer").forEach((el) => {
-                let images = el.querySelectorAll(".infoImage");
-                images[0].style.opacity = 0;
-                images[1].style.opacity = 1;
-                setTimeout(() => {
-                    images[0].style.opacity = 1;
-                    images[1].style.opacity = 0;
-                }, 3000);
-            });
-        }
+  {% endblock js_bottom %}
 
-        function getImageHeight() {
-            if (window.innerWidth < 800) return;
-            let descriptionArray = document.querySelectorAll(".descriptionText");
-            descriptionArray.forEach((el) => {
-                el.parentNode.querySelector(".infoImage").style.height =
-                    el.offsetHeight + "px";
-            });
-        }
-
-        getImageHeight();
-
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-          })
-
-    </script>
-    <script src="{% static 'js/my.js' %}"></script>
-
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
-    <script src="{% static 'js/popper.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
-    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
-    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
-    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'js/aos.js' %}"></script>
-    <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
-    <!-- <script src="{% static 'js/jquery.timepicker.min.js' %}"></script> -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
-    <script src="{% static 'js/scrollax.min.js' %}"></script>
-    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script> -->
-    <!-- <script src="{% static 'js/google-map.js' %}"></script> -->
-    <script src="{% static 'js/main.js' %}"></script>
 
 </body>
 
