@@ -26,13 +26,13 @@
           {% if user.is_authenticated %}
           {% else %}
           <div class="row">
-              <div class="col-md-5">
+              <div class="col-md-5 col-9">
                   <a href="{% url 'bingo_main:bingo_main_register' %}"
                    class="btn-get-started scrollto w-100" style="font-size: 1rem;">{% trans 'Become Host' %}
                 </a>
               </div>
-              <div class="col-md-2">
-                <a href="{% url 'bingo_main:bingo_main_login' %}" style="position: absolute; bottom:0">{% trans 'Login' %}</a>
+              <div class="col-md-2 col-3 text-left">
+                <a href="{% url 'bingo_main:bingo_main_login' %}" style="position: absolute; bottom:0; color: #3a7420;">{% trans 'Login' %}</a>
               </div>
           </div>
           <hr>
