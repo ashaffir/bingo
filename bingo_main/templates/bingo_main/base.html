@@ -112,6 +112,7 @@
               <li><a href="#">Drop Down 5</a></li>
             </ul>
           </li> -->
+          <li><a href="{% url 'bingo_main:bingo_main' %}">{% trans 'Home' %}</a></li>
           <li>
             {% if user.is_authenticated %}
                 <a href="{% url 'bingo_main:logout_view' %}" class="nav-link ml-2">{% trans 'Logout' %}</a>
@@ -125,7 +126,9 @@
                   {% trans 'Dashboard' %}</button></li>
           {% else %}
           {% endif %}
-          <li>
+        <li><a href="{% url 'bingo_main:instructions' %}">{% trans 'Instructions' %}</a></li>
+        <li><a href="{% url 'bingo_main:about' %}">{% trans 'About Us' %}</a></li>
+        <li>
         <!-- <li><a href="#footer">Contact Us</a></li> -->
             <!-- Language Menu -->           
             <div class="pt-2 ml-2">
@@ -217,6 +220,7 @@
                   <h4>Useful Links</h4>
                   <ul>
                     <li><a href="{% url 'bingo_main:bingo_main' %}">{% trans 'Home' %}</a></li>
+                    <li><a href="{% url 'bingo_main:instructions' %}">{% trans 'Instructions' %}</a></li>
                     <li><a href="{% url 'bingo_main:about' %}">{% trans 'About Us' %}</a></li>
                     <li><a href="{% url 'bingo_main:terms' %}">{% trans 'Terms & Conditions' %}</a></li>
                     <li><a href="{% url 'bingo_main:privacy' %}">{% trans 'Privacy' %}</a></li>
