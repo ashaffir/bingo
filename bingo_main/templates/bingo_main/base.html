@@ -150,9 +150,18 @@
                 </form>		
             </div>                
             <!-- End Language bar-->
-
         </li>
         </ul>
+        <div class="row mt-5">
+          <div class="col-3"></div>
+          <div class="col-6">
+            <a href="{% url 'bingo_main:play' %}" class="btn btn-success btn-lg" 
+              style="width: 100%;">
+              {% trans 'Play' %}
+            </a>
+          </div>
+          <div class="col-3"></div>
+        </div>        
       </nav><!-- .main-nav-->
 
     </div>
@@ -217,7 +226,6 @@
 
               <div class="col-sm-6">
                 <div class="footer-links">
-                  <h4>Useful Links</h4>
                   <ul>
                     <li><a href="{% url 'bingo_main:bingo_main' %}">{% trans 'Home' %}</a></li>
                     <li><a href="{% url 'bingo_main:instructions' %}">{% trans 'Instructions' %}</a></li>
