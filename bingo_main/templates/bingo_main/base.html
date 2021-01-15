@@ -272,17 +272,17 @@
                 {% csrf_token %}
                 <div class="form-group">
                   <input type="text" name="name" class="form-control" id="name" placeholder="{% trans 'Your Name' %}" 
-                    data-rule="minlen:4" data-msg="{% trans 'Please enter at least 4 chars' %}" />
+                    data-rule="minlen:4" data-msg="{% trans 'Please enter at least 4 chars' %}" required />
                   <div class="validate"></div>
                 </div>
                 <div class="form-group">
                   <input type="email" class="form-control" name="email" id="email" placeholder="{% trans 'Your Email' %}" 
-                  data-rule="email" data-msg="{% trans 'Please enter a valid email' %}" />
+                  data-rule="email" data-msg="{% trans 'Please enter a valid email' %}" required />
                   <div class="validate"></div>
                 </div>
                 <div class="form-group">
                   <input type="text" class="form-control" name="subject" id="subject" placeholder="{% trans 'Subject' %}" 
-                  data-rule="minlen:4" data-msg="{% trans 'Please enter at least 8 chars of subject' %}" />
+                  data-rule="minlen:4" data-msg="{% trans 'Please enter at least 8 chars of subject' %}" required />
                   <div class="validate"></div>
                 </div>
                 <div class="form-group">
@@ -291,11 +291,6 @@
                   <div class="validate"></div>
                 </div>
 
-                <!-- <div class="mb-3">
-                  <div class="">{% trans 'Loading' %}</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">{% trans 'Your message has been sent. Thank you!' %}</div>
-                </div> -->
                 {% if lang == 'he' %}
                   <script src='https://www.google.com/recaptcha/api.js?hl=he'> </script>
                 {% else %}
