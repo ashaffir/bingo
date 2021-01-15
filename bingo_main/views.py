@@ -408,17 +408,6 @@ def pricing(request):
     return render(request, 'bingo_main/pricing.html', context)
 
 
-def why_and_how(request):
-    context = {}
-    try:
-        terms = ContentPage.objects.get(name='why_and_how')
-        context['why_and_how'] = why_and_how
-    except Exception as e:
-        messages.error(request, 'This page content is not ready')
-        logger.error('>>> Bingo main: not content for the why_and_how section')
-    return render(request, 'bingo_main/why_and_how.html', context)
-
-
 def contact(request):
     context = {}
     print('>>> BINGO MAIN @ contact: SENDING CONTACT')

@@ -16,7 +16,6 @@ urlpatterns = [
     path('terms', bingo_main_views.terms, name='terms'),
     path('privacy', bingo_main_views.privacy, name='privacy'),
     path('pricing', bingo_main_views.pricing, name='pricing'),
-    path('why_and_how', bingo_main_views.why_and_how, name='why_and_how'),
     path('about', bingo_main_views.about, name='about'),
     path('update_profile', bingo_main_views.update_profile, name='update_profile'),
 
