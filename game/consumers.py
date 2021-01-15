@@ -90,8 +90,8 @@ class GameConsumer(AsyncWebsocketConsumer):
     async def game_message(self, event):
         try:
             message = event['data']
-            print(f'>>> CONSUMERS: SENT MESSAGE: {message}')
-            logger.info(f'>>> CONSUMERS: SENT MESSAGE: {message}')
+            # print(f'>>> CONSUMERS: SENT MESSAGE: {message}')
+            # logger.info(f'>>> CONSUMERS: SENT MESSAGE: {message}')
         except Exception as e:
             try:
                 message = event['message']

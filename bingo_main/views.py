@@ -188,13 +188,15 @@ def bingo_main(request):
 
     if request.method == 'POST':
 
-        try:
-            captcha_ok = check_captcha(request)
-        except Exception as e:
-            print(f">>> BINGO MAIN @ bingo_main: Failed check CAPTCHA. ERROR: {e}")
-            logger.error(f">>> BINGO MAIN @ bingo_main: Failed check CAPTCHA. ERROR: {e}")
-            messages.error(request, _("There was an error validation your message. Please try again later"))
-            return redirect(request.META['HTTP_REFERER'])
+        # try:
+        #     captcha_ok = check_captcha(request)
+        # except Exception as e:
+        #     print(f">>> BINGO MAIN @ bingo_main: Failed check CAPTCHA. ERROR: {e}")
+        #     logger.error(f">>> BINGO MAIN @ bingo_main: Failed check CAPTCHA. ERROR: {e}")
+        #     messages.error(request, _("There was an error validation your message. Please try again later"))
+        #     return redirect(request.META['HTTP_REFERER'])
+
+        captcha_ok = True
 
         if captcha_ok:
             print('>>> BINGO MAIN @ contact: SENDING CONTACT')
