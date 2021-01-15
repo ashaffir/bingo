@@ -243,7 +243,7 @@ def bingo_main(request):
         
         # Fail CAPTCHA
         else:
-            messages.error(request, gettext('Please confirm you are not a robot.'))
+            messages.error(request, _('Please confirm you are not a robot'))
             return redirect(request.META['HTTP_REFERER'])
 
     return render(request, 'bingo_main/index.html', context)
