@@ -268,7 +268,7 @@
               <h4>{% trans 'Send us a message' %}</h4>
               <!-- <p>Eos ipsa est voluptates. Nostrum nam libero ipsa vero. Debitis quasi sit eaque numquam similique commodi harum aut temporibus.</p> -->
 
-              <form method="post" enctype="multipart/form-data" class="">
+              <form method="post" enctype="multipart/form-data" class="" onsubmit="return submitUserForm();">
                 {% csrf_token %}
                 <div class="form-group">
                   <input type="text" name="name" class="form-control" id="name" placeholder="{% trans 'Your Name' %}" 
