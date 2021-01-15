@@ -46,11 +46,12 @@ def send_mail(subject, email_template_name,attachement,
             email_message = EmailMultiAlternatives(subject, message_html,
                                                    from_email, to_email)
             email_message.content_subtype = 'html'
-            try:
-                email_message.attach_file(attachement)
-            except Exception as e:
-                print(f">>> USERS UTILS @send_mail: Failed to attach attachement. ERROR: {e}")
-                logger.error(f">>> USERS UTILS @send_mail: Failed to attach attachement. ERROR: {e}")
+            if attachement != '':
+                try:
+                    email_message.attach_file(attachement)
+                except Exception as e:
+                    print(f">>> USERS UTILS @send_mail: Failed to attach attachement. ERROR: {e}")
+                    logger.error(f">>> USERS UTILS @send_mail: Failed to attach attachement. ERROR: {e}")
         except TemplateDoesNotExist:
             pass
 

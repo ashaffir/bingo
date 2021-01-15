@@ -22,7 +22,7 @@ class User(AbstractUser):
 
     phone = models.CharField(max_length=100, null=True, blank=True)
     company_name = models.CharField(max_length=100, blank=True, null=True)
-    profile_pic = models.ImageField(null=True, blank=True, upload_to="profile_pics", default = 'profile_pics/placeholder.png')
+    profile_pic = models.ImageField(null=True, blank=True, upload_to="profile_pics", default = 'profile_pics/profile.jpg')
     country = models.CharField(max_length=50, blank=True, null=True)
     language = models.CharField(max_length=10, blank=True, null=True)
 

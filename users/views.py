@@ -163,7 +163,7 @@ def password_reset(request):
                     }
 
                     try:
-                        send_mail('Polybingo - Reset Password', email_template_name=None, attachement=None,
+                        send_mail('Polybingo - Reset Password', email_template_name=None, attachement='',
                                   context=context, to_email=[email],
                                   html_email_template_name='users/change-password-email.html')
 
