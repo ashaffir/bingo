@@ -1,6 +1,8 @@
 import base64, secrets, io
 from PIL import Image
 from django.core.files.base import ContentFile
+from django.conf import settings
+
 def get_image_from_data_url( data_url, resize=True, base_width=600 ):
 
     # getting the file format and the necessary dataURl for the file
@@ -52,3 +54,18 @@ def get_image_and_thumbnail_from_data_url( data_url, resize=True, base_width=600
     )
 
     return file, thumbnail
+
+
+def check_captcha(request):
+    client_key = request.POST['g-recaptcha-response']
+    secret_key = settings.RECAPTCHA_PRIVATE_KEY
+
+    captcha_data = {
+        'secret':secret_key,
+        'response':client_key
+    }
+
+    r = requests.post('https://www.google.com/recaptcha/api/siteverify',data=captcha_data)
+    response = json.loads(r.text)
+    verify = response['success']
+    return verify

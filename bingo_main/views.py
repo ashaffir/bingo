@@ -24,6 +24,7 @@ from users.models import User
 from users.utils import send_mail
 from payments.models import Coupon
 from newsletter.models import Newsletter
+from .utils import check_captcha
 
 logger = logging.getLogger(__file__)
 
@@ -183,49 +184,67 @@ def bingo_main(request):
             context['instructions_e'] = None
 
     # Contact us form
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     if request.method == 'POST':
-        print('>>> SENDING CONTACT')
-        contact = ContactUs()
-        contact.name = request.POST.get('name')
-        contact.email = request.POST.get('email')
-        contact.subject = request.POST.get('subject')
-        contact.message = request.POST.get('message')
-        contact.save()
 
-        # Send email to admin
         try:
-            subject = "Contact request from Polybingo"
-            title = "Contact form details"
-
-            message = {
-                'title': title,
-                'contact': True,
-                'name': request.POST.get('name'),
-                'subject': request.POST.get('subject'),
-                'email': request.POST.get('email'),
-                'message': request.POST.get('message'),
-            }
-
-            send_mail(subject, email_template_name=None,attachement='',
-                        context=message, to_email=[
-                            settings.ADMIN_EMAIL],
-                        html_email_template_name='bingo_main/emails/admin_email.html')
+            captcha_ok = check_captcha(request)
         except Exception as e:
-            logger.error(
-                f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
-            print(
-                f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
-
-            messages.error(
-                request, _('Oops, your message was not sent. Please try again later'))
-
+            print(f">>> BINGO MAIN @ bingo_main: Failed check CAPTCHA. ERROR: {e}")
+            logger.error(f">>> BINGO MAIN @ bingo_main: Failed check CAPTCHA. ERROR: {e}")
+            messages.error(request, _("There was an error validation your message. Please try again later"))
             return redirect(request.META['HTTP_REFERER'])
 
+        if captcha_ok:
+            print('>>> BINGO MAIN @ contact: SENDING CONTACT')
+            logger.info('>>> BINGO MAIN @ contact: SENDING CONTACT')
+            contact = ContactUs()
+            contact.name = request.POST.get('name')
+            contact.email = request.POST.get('email')
+            contact.subject = request.POST.get('subject')
+            contact.message = request.POST.get('message')
+            contact.save()
 
-        messages.success(
-            request, _('Your message was sent. We will be in touch soon'))
+            # Send email to admin
+            try:
+                subject = "Contact request from Polybingo"
+                title = "Contact form details"
 
-        return redirect(request.META['HTTP_REFERER'])    
+                message = {
+                    'title': title,
+                    'contact': True,
+                    'name': request.POST.get('name'),
+                    'subject': request.POST.get('subject'),
+                    'email': request.POST.get('email'),
+                    'message': request.POST.get('message'),
+                }
+
+                send_mail(subject, email_template_name=None,attachement='',
+                            context=message, to_email=[
+                                settings.ADMIN_EMAIL],
+                            html_email_template_name='bingo_main/emails/admin_email.html')
+            except Exception as e:
+                logger.error(
+                    f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
+                print(
+                    f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
+
+                messages.error(
+                    request, _('Oops, your message was not sent. Please try again later'))
+
+                return redirect(request.META['HTTP_REFERER'])
+
+
+            messages.success(
+                request, _('Your message was sent. We will be in touch soon'))
+
+            return redirect(request.META['HTTP_REFERER'])
+        
+        # Fail CAPTCHA
+        else:
+            messages.error(request, gettext('Please confirm you are not a robot.'))
+            return redirect(request.META['HTTP_REFERER'])
 
     return render(request, 'bingo_main/index.html', context)
 
