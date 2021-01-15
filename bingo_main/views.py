@@ -183,8 +183,8 @@ def bingo_main(request):
             context['instructions_e'] = None
 
     # Contact us form
-    print('>>> SENDING CONTACT')
     if request.method == 'POST':
+        print('>>> SENDING CONTACT')
         contact = ContactUs()
         contact.name = request.POST.get('name')
         contact.email = request.POST.get('email')
@@ -421,7 +421,8 @@ def why_and_how(request):
 
 def contact(request):
     context = {}
-    print('>>> SENDING CONTACT')
+    print('>>> BINGO MAIN @ contact: SENDING CONTACT')
+    logger.info('>>> BINGO MAIN @ contact: SENDING CONTACT')
     if request.method == 'POST':
         contact = ContactUs()
         contact.name = request.POST.get('name')
