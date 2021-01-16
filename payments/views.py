@@ -352,8 +352,9 @@ def paypal_return(request):
         user.balance += amount
         user.save()
     
-    print(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
-    logger.info(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
+        print(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
+        logger.info(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
+    
     payment.payment_type = 'PayPal'
     payment.save()
 
@@ -411,8 +412,8 @@ def payment_confirm(sender, **kwargs):
     if ipn.payment_status == 'Completed':
         # payment was successful
         payment = get_object_or_404(Payment, id=ipn.invoice)
-        print(f'>>> Payments @ payment_confirm : {payment}')
-        logger.info(f'>>> Payments @ payment_confirm : {payment}')
+        print(f'>>> Payments @ payment_confirm : Deposit amount {payment}')
+        logger.info(f'>>> Payments @ payment_confirm : Deposit amount {payment}')
         payment.paid = True
         payment.save()
         user = User.objects.get(pk=payment.user.id)
