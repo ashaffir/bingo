@@ -162,8 +162,8 @@ SOCIALACCOUNT_PROVIDERS = {
 # USERNAME_FIELD = 'email'
 
 # auth urls
-# LOGIN_URL = 'core:login'
-# LOGOUT_URL = 'core:logout'
+LOGIN_URL = 'bingo_main:bingo_main_login'
+LOGOUT_URL = 'bingo_main:bingo_main'
 # LOGIN_REDIRECT_URL = 'core:login_redirect'
 # LOGOUT_REDIRECT_URL = 'core:home'
 
