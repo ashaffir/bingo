@@ -345,13 +345,15 @@ def deposits(request):
 @csrf_exempt
 def paypal_return(request):
     user = request.user
-    payment = Payment.objects.filter(user=user).last()
-    amount = payment.amount
-    user.balance += amount
-    user.save()
+
+    if settings.DEBUG:
+        payment = Payment.objects.filter(user=user).last()
+        amount = payment.amount
+        user.balance += amount
+        user.save()
+    
     print(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
     logger.info(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
-
     payment.payment_type = 'PayPal'
     payment.save()
 
@@ -409,7 +411,8 @@ def payment_confirm(sender, **kwargs):
     if ipn.payment_status == 'Completed':
         # payment was successful
         payment = get_object_or_404(Payment, id=ipn.invoice)
-        print(f'Payments: {payment}')
+        print(f'>>> Payments @ payment_confirm : {payment}')
+        logger.info(f'>>> Payments @ payment_confirm : {payment}')
         payment.paid = True
         payment.save()
         user = User.objects.get(pk=payment.user.id)
