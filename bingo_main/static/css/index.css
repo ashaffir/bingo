@@ -1,6 +1,6 @@
-.menuItems {
+/* .menuItems {
   font-family: "March Madness";
-}
+} */
 
 body {
   padding-top: 100px;
@@ -50,7 +50,7 @@ body {
 .playButton {
   justify-content: center;
   cursor: pointer;
-  font-family: "March Madness";
+  /* font-family: "March Madness"; */
   color: #fff;
   padding: 5px 30px;
   position: relative;
@@ -75,7 +75,7 @@ body {
   grid-template-rows: auto;
   row-gap: 5px;
   justify-content: flex-start;
-  font-family: "March Madness";
+  /* font-family: "March Madness"; */
   align-items: center;
   align-content: center;
   width: 100%;

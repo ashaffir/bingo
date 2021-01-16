@@ -275,8 +275,9 @@
                 table.innerHTML +=
                     `<div class="field" onclick="markBingo(this)">
                         {% if pic.matched and game.auto_matching %}
-                        <div class="overlay">
-                            <div style="font-weight: bold; font-size: clamp(25px, 8vw, 2vw);">{% trans 'Match' %}</div>
+                        <div class="overlay" style="margin-top:5%; margin-left: 5%;">
+                            <div style="font-weight: bold; font-size: clamp(25px, 2vw, 2vw); border: 5px solid red;">
+                                {% trans 'Match' %}</div>
                         </div>
                         {% endif %}
                         <img src="{{ pic.image.image_file.url }}" alt="">
