@@ -45,10 +45,10 @@
 <section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
   style="text-align: left;" {% endif %}>
   <div class="container">
-    <div class="" style="margin-top: 5%; max-width:100%">
+    <div class="" style="margin-top: 10%; max-width:100%">
 
       <div style="align-items: center;">
-          <h2 style="margin-bottom: 20px;">{% trans 'Total payment amount' %} ${{ amount }}</h2>
+          <h2 style="margin-bottom: 20px;">{% trans 'Total payment amount' %} <b>${{ amount }}</b></h2>
           <div>
             <!-- STRIPE FORM-->
             <form action="{% url 'payments:charge' %}" method="post" id="payment-form">
@@ -87,8 +87,8 @@
           {% else %}
           <hr class="hr-style" style="margin-left:0px; ">
           {% endif %}
-          <div>
-            <div style="padding-bottom: 20px; padding-top:30px" for="paypal">
+          <div style="margin-bottom: 20%">
+            <div style="padding-bottom: 20px; padding-top:30px;" for="paypal">
               Paypal
             </div>
             {{ form.render }}

@@ -157,6 +157,8 @@ def payment(request, amount=0.0, coupon=''):
     logger.info(f'>>> PAYMENTS @ payment: Amount {amount}')
     deposit_id = request.session.get('payment_id')
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     host = request.get_host()
     user = request.user
 

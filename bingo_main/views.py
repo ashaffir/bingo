@@ -253,6 +253,8 @@ def bingo_main(request):
 @login_required
 def album(request, album_id):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     context['dashboard'] = True
 
     try:
@@ -275,6 +277,8 @@ def play(request):
 
 def bingo_main_register(request):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     if request.method == 'POST':
         form = HostSignupForm(request.POST)
         if form.is_valid():
@@ -340,7 +344,7 @@ def bingo_main_register(request):
         form = HostSignupForm()
         context['form'] = form
 
-    return render(request, 'bingo_main/register.html')
+    return render(request, 'bingo_main/register.html', context)
 
 
 def bingo_main_login(request):
@@ -364,11 +368,13 @@ def bingo_main_login(request):
         else:
             msg = 'Error validating the form'
 
-    return render(request, "bingo_main/login.html", {"form": form, "msg": msg})
+    return render(request, "bingo_main/login.html", {"form": form, "msg": msg, 'site_recaptcha': settings.RECAPTCHA_PUBLIC_KEY})
 
 
 def about(request):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     if request.LANGUAGE_CODE == 'he':
         try:
             about = ContentPage.objects.get(name='about', language='Hebrew')
@@ -399,6 +405,8 @@ def about(request):
 
 def terms(request):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     try:
         terms = ContentPage.objects.get(name='terms')
         context['terms'] = terms
@@ -431,6 +439,8 @@ def pricing(request):
 
 def contact(request):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     print('>>> BINGO MAIN @ contact: SENDING CONTACT')
     logger.info('>>> BINGO MAIN @ contact: SENDING CONTACT')
     if request.method == 'POST':
@@ -516,6 +526,8 @@ def update_profile(request):
 @login_required
 def dashboard(request):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     context['dashboard'] = True
     albums = Album.objects.filter(is_public=True, public_approved=True)
     albums_images = []
@@ -539,6 +551,8 @@ def dashboard(request):
 @login_required(login_url='bingo_main:bingo_main_login')
 def create_bingo(request, album_id=''):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     context['dashboard'] = True
 
     try:
@@ -736,6 +750,8 @@ def create_bingo(request, album_id=''):
 @login_required
 def my_bingos(request):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     context['dashboard'] = True
 
     user = request.user
@@ -811,6 +827,7 @@ def my_bingos(request):
 
 def instructions(request):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
 
     if request.LANGUAGE_CODE == 'he':
         try:
@@ -951,6 +968,8 @@ def player_approval(request, player_id, approval):
 @login_required
 def start_bingo(request):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     context['dashboard'] = True
 
     if request.method == 'POST':
@@ -1593,6 +1612,8 @@ def player_board(request, player_id):
 @login_required
 def add_money(request):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     context['dashboard'] = True
     try:
         min_deposit = Control.objects.get(name='min_deposit').value_float
@@ -1649,6 +1670,8 @@ def add_money(request):
 @login_required
 def search(request):
     context = {}
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
     context['dashboard'] = True
     if request.method == 'POST':
         search_string = request.POST.get('search')
