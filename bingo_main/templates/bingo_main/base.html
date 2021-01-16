@@ -297,11 +297,11 @@
                   <script src='https://www.google.com/recaptcha/api.js'> </script>
                 {% endif %}
                 <div class="row">
-                  <div class="col-7">
+                  <div class="col-md-7 col-12">
                     <div class="g-recaptcha" data-sitekey="{{ site_recaptcha }}" data-callback="verifyCaptcha"></div>
                     <div id="g-recaptcha-error"></div>
                   </div>
-                  <div class="col-5">
+                  <div class="col-md-5 col-12">
                     <div class="text-center">
                       <button class="btn btn-success mt-3" type="submit" name="contact_us" title="Send Message">{% trans 'Send Message' %}</button>
                     </div>
