@@ -26,13 +26,13 @@
                     <h4>{% trans 'Register an existing account' %}</h4>
                 </div>
                 <div class="mt-4">
-                    <a title="Facebook" class="socialaccount_provider facebook" onclick="gtag_report_conversion()"
+                    <a title="Facebook" class="socialaccount_provider facebook" id="facebook_login"
                     href="{% provider_login_url "facebook" process='login' %}">
                     <img style="width: 60%;" src="{% static 'images/facebook-login-button.png' %}" />
                     </a>
                 </div>
                 <div class="mt-4 mb-4">
-                    <a title="Google" class="socialaccount_provider google" onclick="gtag_report_conversion()"
+                    <a title="Google" class="socialaccount_provider google" id="google_login"
                     href="{% provider_login_url "google" process='login'  %}">
                     <img style="width: 60%;" src="{% static 'images/google-login-button.png' %}" />
                     </a>
@@ -76,7 +76,7 @@
                         <p>{% trans 'By signing up, you accept our' %} <a href="{% url 'bingo_main:terms' %}" target="_blank"> {% trans 'Terms and Conditions' %}</a>
                             . {% trans 'Please read our' %} <a href="{% url 'bingo_main:privacy' %}" target="_blank"> {% trans 'Privacy Policy' %}</a> </p>
                         
-                        <input type="submit" class="btn btn-success mt-2" value="{% trans 'Register' %}" onclick="gtag_report_conversion()">
+                        <input type="submit" class="btn btn-success mt-2" id="email_registration" value="{% trans 'Register' %}" >
     
                     </form>
                 </div>
@@ -88,24 +88,6 @@
 {% endblock content %}
 
 {% block js_bottom %}
-
-<!-- Event snippet for Polybingo-Sign-up conversion page
-In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
-<script>
-    function gtag_report_conversion(url) {
-      var callback = function () {
-        if (typeof(url) != 'undefined') {
-          window.location = url;
-        }
-      };
-      gtag('event', 'conversion', {
-          'send_to': 'AW-977361548/_Ku6COS60fABEIy1hdID',
-          'event_callback': callback
-      });
-      return false;
-    }
-</script>
-    
 
 <script>
 
@@ -131,8 +113,10 @@ In your html page, add the snippet and call gtag_report_conversion when someone 
             .catch((data, status) => { })
     }
 
+    /*
     window.addEventListener('resize', function (e) {
         getHeight();
     });
+    */
 </script>
 {% endblock js_bottom %}
