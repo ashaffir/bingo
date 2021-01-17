@@ -3,6 +3,8 @@
 {% load i18n %}
 {% get_current_language as lang %}
 
+{% block title %}{% trans 'Polybingo-About Us' %}{% endblock title %}
+
 {% block content %}
 
 <section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>

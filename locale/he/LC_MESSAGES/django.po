@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-16 20:21+0200\n"
+"POT-Creation-Date: 2021-01-17 09:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,13 +51,13 @@ msgid "Contact Us"
 msgstr "צור קשר"
 
 #: archive/base.00.html:143 bingo_main/templates/bingo_main/base.html:235
-#: bingo_main/templates/bingo_main/terms.html:13
+#: bingo_main/templates/bingo_main/terms.html:15
 msgid "Terms & Conditions"
 msgstr "תנאי שימוש"
 
 #: archive/base.00.html:144 bingo_main/templates/bingo_main/base.html:236
 #: bingo_main/templates/bingo_main/play.html:146
-#: bingo_main/templates/bingo_main/privacy.html:13
+#: bingo_main/templates/bingo_main/privacy.html:15
 msgid "Privacy"
 msgstr "פרטיות"
 
@@ -65,20 +65,20 @@ msgstr "פרטיות"
 msgid "You Host"
 msgstr "הפוך למנחה"
 
-#: archive/index.00.html:21 bingo_main/templates/bingo_main/index.html:23
+#: archive/index.00.html:21 bingo_main/templates/bingo_main/index.html:25
 msgid "a Photo Bingo"
 msgstr "בינגו תמונות"
 
-#: archive/index.00.html:24 bingo_main/templates/bingo_main/index.html:25
+#: archive/index.00.html:24 bingo_main/templates/bingo_main/index.html:27
 msgid "Customize bingo games using your own photos"
 msgstr "התאם אישית משחקי בינגו באמצעות התמונות משלך"
 
-#: archive/index.00.html:32 bingo_main/templates/bingo_main/index.html:41
+#: archive/index.00.html:32 bingo_main/templates/bingo_main/index.html:43
 msgid "Become Host"
 msgstr "הפוך למנחה"
 
 #: archive/index.00.html:36 bingo_main/templates/bingo_main/base.html:120
-#: bingo_main/templates/bingo_main/index.html:45
+#: bingo_main/templates/bingo_main/index.html:47
 #: bingo_main/templates/bingo_main/login.html:39
 #: bingo_main/templates/bingo_main/partials/_navbar_index.html:36
 #: bingo_main/templates/bingo_main/register.html:73
@@ -87,64 +87,64 @@ msgid "Login"
 msgstr "הכנס"
 
 #: archive/index.00.html:44 bingo_main/templates/bingo_main/base.html:160
-#: bingo_main/templates/bingo_main/index.html:53
-#: bingo_main/templates/bingo_main/index.html:64
+#: bingo_main/templates/bingo_main/index.html:55
+#: bingo_main/templates/bingo_main/index.html:66
 #: bingo_main/templates/bingo_main/partials/_navbar_index.html:74
 #: bingo_main/templates/bingo_main/play.html:125
 #: bingo_main/templates/bingo_main/play.html:126
 msgid "Play"
 msgstr "שחק"
 
-#: archive/index.00.html:403 bingo_main/templates/bingo_main/index.html:509
+#: archive/index.00.html:403 bingo_main/templates/bingo_main/index.html:511
 msgid "How it"
 msgstr "איך זה"
 
-#: archive/index.00.html:403 bingo_main/templates/bingo_main/index.html:509
+#: archive/index.00.html:403 bingo_main/templates/bingo_main/index.html:511
 msgid "Works"
 msgstr "עובד"
 
 #: archive/index.00.html:418 archive/index.00.html:431
-#: archive/index.00.html:444 bingo_main/templates/bingo_main/index.html:524
-#: bingo_main/templates/bingo_main/index.html:536
-#: bingo_main/templates/bingo_main/index.html:548
+#: archive/index.00.html:444 bingo_main/templates/bingo_main/index.html:526
+#: bingo_main/templates/bingo_main/index.html:538
+#: bingo_main/templates/bingo_main/index.html:550
 msgid "Read More"
 msgstr "קרא עוד"
 
-#: archive/index.00.html:490 bingo_main/templates/bingo_main/index.html:678
+#: archive/index.00.html:490 bingo_main/templates/bingo_main/index.html:680
 msgid "Ticket Pricing"
 msgstr "מחירי כרטיסים"
 
-#: archive/index.00.html:497 bingo_main/templates/bingo_main/index.html:692
+#: archive/index.00.html:497 bingo_main/templates/bingo_main/index.html:694
 msgid "Family"
 msgstr "משפחה"
 
-#: archive/index.00.html:499 bingo_main/templates/bingo_main/index.html:695
+#: archive/index.00.html:499 bingo_main/templates/bingo_main/index.html:697
 msgid "Up to"
 msgstr "עד"
 
-#: archive/index.00.html:499 bingo_main/templates/bingo_main/index.html:695
+#: archive/index.00.html:499 bingo_main/templates/bingo_main/index.html:697
 msgid "players per game and"
 msgstr "שחקנים למשחק ו"
 
-#: archive/index.00.html:499 bingo_main/templates/bingo_main/index.html:695
+#: archive/index.00.html:499 bingo_main/templates/bingo_main/index.html:697
 msgid "host"
 msgstr "מנחה"
 
 #: archive/index.00.html:513 archive/index.00.html:538
-#: bingo_main/templates/bingo_main/index.html:697
-#: bingo_main/templates/bingo_main/index.html:740
+#: bingo_main/templates/bingo_main/index.html:699
+#: bingo_main/templates/bingo_main/index.html:742
 msgid "Join"
 msgstr "הצטרף"
 
-#: archive/index.00.html:520 bingo_main/templates/bingo_main/index.html:731
+#: archive/index.00.html:520 bingo_main/templates/bingo_main/index.html:733
 msgid "Family, Friends, Team"
 msgstr "משפחה, חברים, צוות"
 
-#: archive/index.00.html:522 bingo_main/templates/bingo_main/index.html:734
+#: archive/index.00.html:522 bingo_main/templates/bingo_main/index.html:736
 msgid "For any additional player above"
 msgstr "לכל שחקן נוסף מעל "
 
-#: archive/index.00.html:536 bingo_main/templates/bingo_main/index.html:738
+#: archive/index.00.html:536 bingo_main/templates/bingo_main/index.html:740
 msgid "Fund your account"
 msgstr "ממן את החשבון שלך"
 
@@ -160,7 +160,11 @@ msgstr "הזן כתובת דואל"
 msgid "Page not found"
 msgstr "הדף לא נמצא"
 
-#: bingo_main/templates/bingo_main/about.html:12
+#: bingo_main/templates/bingo_main/about.html:6
+msgid "Polybingo-About Us"
+msgstr "אודות"
+
+#: bingo_main/templates/bingo_main/about.html:14
 msgid "About"
 msgstr "אודותינו"
 
@@ -222,6 +226,10 @@ msgstr "הודעה"
 msgid "Send Message"
 msgstr "שלח הודעה"
 
+#: bingo_main/templates/bingo_main/bingo.html:21
+msgid "Polybingo-Player Bingo Card"
+msgstr "פוליבינגו - כרטיס בינגו לשחקן"
+
 #: bingo_main/templates/bingo_main/bingo.html:59
 #: bingo_main/templates/bingo_main/bingo.html:61
 msgid "Waiting for host approval. Hold on"
@@ -232,33 +240,36 @@ msgstr "ממתין לאישור המארח. אנא המתן"
 msgid "Game starting soon. Just a second"
 msgstr "המשחק יתחיל בקרוב. רק שניה"
 
-#: bingo_main/templates/bingo_main/bingo.html:72
+#: bingo_main/templates/bingo_main/bingo.html:73
 msgid "Game Over. Thank you for playing"
 msgstr "סוף המשחק. תודה ששיחקת"
 
-#: bingo_main/templates/bingo_main/bingo.html:77
+#: bingo_main/templates/bingo_main/bingo.html:81
 msgid "Ticket Number"
 msgstr "כרטיס מספר"
 
-#: bingo_main/templates/bingo_main/bingo.html:86
+#: bingo_main/templates/bingo_main/bingo.html:90
 msgid "Win Condition"
 msgstr "תנאי לנצח"
 
-#: bingo_main/templates/bingo_main/bingo.html:89
+#: bingo_main/templates/bingo_main/bingo.html:93
 msgid "Current Image"
 msgstr "תמונה נוכחית"
 
-#: bingo_main/templates/bingo_main/bingo.html:100
+#: bingo_main/templates/bingo_main/bingo.html:104
 msgid "Bingo!"
 msgstr "!בינגו"
 
-#: bingo_main/templates/bingo_main/bingo.html:280
-#: bingo_main/templates/bingo_main/bingo.html:430
+#: bingo_main/templates/bingo_main/bingo.html:284
+#: bingo_main/templates/bingo_main/bingo.html:434
 #: bingo_main/templates/bingo_main/partials/_player_board.html:145
 msgid "Match"
 msgstr "יש"
 
-#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:33
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:11
+msgid "PolyBingo-Check Bingo Card - Result"
+msgstr "PolyBingo - בדוק כרטיס בינגו - תוצאה"
+
 #: bingo_main/templates/bingo_main/broadcast/checkResult.html:41
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:31
 #: bingo_main/templates/bingo_main/broadcast/game.html:30
@@ -266,40 +277,6 @@ msgstr "יש"
 #: bingo_main/templates/bingo_main/broadcast/index.html:33
 msgid "Please rotate your device to continue"
 msgstr "סובב את המכשיר שלך כדי להמשיך"
-
-#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:48
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:174
-msgid "Congratulations"
-msgstr "מזל טוב"
-
-#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:50
-#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:57
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:176
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:184
-#: bingo_main/templates/bingo_main/broadcast/check_board.html:44
-msgid "Card Number"
-msgstr "מספר כרטיס"
-
-#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:50
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:176
-msgid "WON"
-msgstr "זכית ב"
-
-#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:57
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:184
-msgid "Not yet"
-msgstr "עדיין לא"
-
-#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:65
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:191
-msgid "Check another"
-msgstr "בדוק נוסף"
-
-#: bingo_main/templates/bingo_main/broadcast/checkResult.bak.html:67
-#: bingo_main/templates/bingo_main/broadcast/checkResult.html:193
-#: bingo_main/templates/bingo_main/broadcast/check_board.html:59
-msgid "Continue"
-msgstr "המשך"
 
 #: bingo_main/templates/bingo_main/broadcast/checkResult.html:138
 msgid "Shown Pictures"
@@ -313,9 +290,44 @@ msgstr "שחקן"
 msgid "card"
 msgstr "כרטיס"
 
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:174
+msgid "Congratulations"
+msgstr "מזל טוב"
+
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:176
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:184
+#: bingo_main/templates/bingo_main/broadcast/check_board.html:44
+msgid "Card Number"
+msgstr "מספר כרטיס"
+
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:176
+msgid "WON"
+msgstr "זכית ב"
+
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:184
+msgid "Not yet"
+msgstr "עדיין לא"
+
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:191
+msgid "Check another"
+msgstr "בדוק נוסף"
+
+#: bingo_main/templates/bingo_main/broadcast/checkResult.html:193
+#: bingo_main/templates/bingo_main/broadcast/check_board.html:59
+msgid "Continue"
+msgstr "המשך"
+
+#: bingo_main/templates/bingo_main/broadcast/check_board.html:11
+msgid "PolyBingo - Check Bingo Card"
+msgstr ""
+
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:57
 msgid "Check Bingo"
 msgstr "בדוק בינגו"
+
+#: bingo_main/templates/bingo_main/broadcast/game.html:11
+msgid "PolyBingo - Bingo Game Show"
+msgstr ""
 
 #: bingo_main/templates/bingo_main/broadcast/game.html:90
 msgid "Out"
@@ -331,12 +343,16 @@ msgstr "בדוק"
 
 #: bingo_main/templates/bingo_main/broadcast/game.html:103
 #: bingo_main/templates/bingo_main/broadcast/game_over.html:40
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:60
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:155
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:236
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:62
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:157
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:238
 #: bingo_main/templates/bingo_main/partials/_prizes_sidebar.html:15
 msgid "Bingo"
 msgstr "בינגו"
+
+#: bingo_main/templates/bingo_main/broadcast/game_over.html:11
+msgid "PolyBingo-Game Over"
+msgstr "סוף המשחק"
 
 #: bingo_main/templates/bingo_main/broadcast/game_over.html:35
 msgid "Prize Name"
@@ -351,10 +367,14 @@ msgid "Thank you for playing"
 msgstr "תודה ששיחקתם"
 
 #: bingo_main/templates/bingo_main/broadcast/game_over.html:59
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:130
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:132
 #: bingo_main/templates/bingo_main/partials/_messages.html:23
 msgid "Close"
 msgstr "סגור"
+
+#: bingo_main/templates/bingo_main/broadcast/index.html:13
+msgid "Polybingo-Bingo Game Start"
+msgstr "Polybingo - תחילת משחק הבינגו"
 
 #: bingo_main/templates/bingo_main/broadcast/index.html:76
 msgid "Copy game details"
@@ -453,24 +473,24 @@ msgid "Album name"
 msgstr "שם האלבום"
 
 #: bingo_main/templates/bingo_main/dashboard/album.html:35
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:162
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:164
 msgid "Description"
 msgstr "תיאור"
 
 #: bingo_main/templates/bingo_main/dashboard/album.html:45
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:145
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:147
 msgid "Category"
 msgstr "קטגוריה"
 
 #: bingo_main/templates/bingo_main/dashboard/album.html:64
 #: bingo_main/templates/bingo_main/dashboard/album.html:76
 #: bingo_main/templates/bingo_main/dashboard/album.html:88
-#: bingo_main/templates/bingo_main/dashboard/index.html:37
-#: bingo_main/templates/bingo_main/dashboard/index.html:50
-#: bingo_main/templates/bingo_main/dashboard/index.html:63
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:45
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:68
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:91
+#: bingo_main/templates/bingo_main/dashboard/index.html:40
+#: bingo_main/templates/bingo_main/dashboard/index.html:53
+#: bingo_main/templates/bingo_main/dashboard/index.html:66
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:47
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:70
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:93
 msgid "make game"
 msgstr "צור משחק"
 
@@ -478,70 +498,74 @@ msgstr "צור משחק"
 msgid "Album not found"
 msgstr "האלבום לא נמצא"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:26
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:6
+msgid "Polybingo-Create a Bingo Album"
+msgstr "צור אלבום בינגו"
+
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:28
 msgid "Card sizes"
 msgstr "גודל כרטיסים"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:41
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:62
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:92
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:43
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:64
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:94
 msgid "images uploaded"
 msgstr "תמונות שהועלו"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:96
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:98
 msgid "Upload images"
 msgstr "להעלות תמונות"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:96
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:98
 msgid "Uploaded"
 msgstr "הועלו"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:100
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:102
 msgid "Upload or drop images here"
 msgstr "העלה או גרור ושחרר תמונות לכאן"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:104
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:106
 msgid "Edit images"
 msgstr "ערוך תמונות"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:112
 #: bingo_main/templates/bingo_main/dashboard/create-bingo.html:114
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:116
 msgid "Where should it be saved"
 msgstr "איפה צריך לשמור אותו"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:117
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:119
 #: bingo_main/templates/bingo_main/partials/_navbar_top.html:85
 msgid "My Albums"
 msgstr "האלבומים שלי"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:119
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:121
 msgid "Only you can use the album"
 msgstr "רק אתה יכול להשתמש באלבום"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:125
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:127
 #: bingo_main/templates/bingo_main/partials/_navbar_top.html:75
 msgid "Public Albums"
 msgstr "אלבומים ציבוריים"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:127
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:129
 msgid "Make your album publicly used and visible to all hosts"
 msgstr "הפוך את האלבום שלך לשימוש ציבורי וגלוי לכל המארחים"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:138
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:140
 #: bingo_main/templates/bingo_main/partials/_navbar_top.html:101
 #: bingo_main/templates/bingo_main/register.html:46
 msgid "Name"
 msgstr "שם"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:147
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:149
 msgid "Select Album Category"
 msgstr "בחר קטגוריה לאלבום"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:154
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:156
 msgid "Save"
 msgstr "שמור"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:212
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:214
 msgid ""
 "Polybingo team will review all images before publishing. Please make sure "
 "you have permission to use these images."
@@ -549,70 +573,82 @@ msgstr ""
 "צוות פוליבינגו יבדוק את כל התמונות לפני הפרסום. בבקשה תוודאייש לך הרשאה "
 "להשתמש בתמונות אלה"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:232
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:234
 msgid "Enter name"
 msgstr "הכנס שם"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:328
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:330
 msgid "Please enter a name to the album"
 msgstr "אנא הזן שם לאלבום"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:332
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:334
 msgid "Please select a category for the album"
 msgstr "אנא בחר קטגוריה לאלבום"
 
-#: bingo_main/templates/bingo_main/dashboard/index.html:75
+#: bingo_main/templates/bingo_main/dashboard/index.html:6
+msgid "Polybingo-Dashboard Main"
+msgstr "Polybingo - לוח המחוונים הראשי"
+
+#: bingo_main/templates/bingo_main/dashboard/index.html:78
 msgid "There are no public albums here"
 msgstr "אין כאן אלבומים ציבוריים"
 
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:48
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:93
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:6
+msgid "Polybingo-Instructions"
+msgstr "הוראות הפעלה"
+
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:50
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:95
 msgid "Create Album"
 msgstr "צור אלבום"
 
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:54
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:111
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:133
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:155
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:173
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:56
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:113
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:135
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:157
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:175
 msgid "Create a Game"
 msgstr "צור משחק"
 
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:61
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:63
 msgid "Setup a Game"
 msgstr "הגדר משחק"
 
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:67
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:69
 msgid "Broadcast/Share the Game"
 msgstr "שדר את המשחק"
 
-#: bingo_main/templates/bingo_main/dashboard/instructions.html:74
+#: bingo_main/templates/bingo_main/dashboard/instructions.html:76
 msgid "Run the Game"
 msgstr "הפעל את המשחק"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:37
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:60
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:83
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:6
+msgid "Polybingo-My Bingo Albums"
+msgstr "פוליבינגו - אלבומי הבינגו שלי"
+
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:39
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:62
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:85
 msgid "Delete this Album"
 msgstr "מחק אלבום"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:41
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:43
 msgid "Edit this Album"
 msgstr "ערוך אלבום"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:104
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:106
 msgid "You have not created any albums yet"
 msgstr "עדיין לא יצרת אף אלבום"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:106
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:108
 msgid "Create an Album"
 msgstr "צור אלבום"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:127
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:129
 msgid "Album deleted cannot be restored. Please confirm delete"
 msgstr "לא ניתן לשחזר את האלבום שנמחק. אנא אשר מחיקה"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:134
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:136
 msgid "Confirm"
 msgstr "אשר סיסמה"
 
@@ -628,110 +664,118 @@ msgstr "צפייה באלבום"
 msgid "Nothing found to match your search"
 msgstr "שום דבר לא נמצא התואם את החיפוש שלך"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:25
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:5
+msgid "Polybingo-Start a Bingo Game"
+msgstr "Polybingo - התחל משחק בינגו"
+
 #: bingo_main/templates/bingo_main/dashboard/start-bingo.html:27
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:29
 msgid "How many prizes are you offering"
 msgstr "כמה פרסים אתה מציע"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:31
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:33
 msgid "1 Prize"
 msgstr "פרס אחד"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:34
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:36
 msgid "2 Prizes"
 msgstr "שני פרסים"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:37
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:39
 msgid "3 Prizes"
 msgstr "שלשה פרסים"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:43
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:231
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:45
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:233
 msgid "Prize #1"
 msgstr "פרס 1"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:46
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:150
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:187
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:231
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:48
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:152
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:189
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:233
 msgid "Prize name"
 msgstr "שם הפרס"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:53
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:189
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:55
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:191
 msgid "Upload or drop prize image here"
 msgstr "העלה את תמונת הפרס לכאן"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:98
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:100
 msgid "Auto Join"
 msgstr "הצטרפות אוטומטית"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:100
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:102
 msgid "Anyone with the game ID will be able to join automatically"
 msgstr "כל מי שיש לו מזהה משחק יוכל להצטרף אוטומטית"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:103
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:105
 msgid "Join by Request"
 msgstr "הצטרף לפי בקשה"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:105
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:107
 msgid ""
 "You will need to approve every player that will enter the game ID before the "
 "game starts"
 msgstr "יהיה עליך לאשר כל שחקן שיכניס את מזהה המשחק לפני תחילת המשחק"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:109
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:111
 msgid "Auto Mark"
 msgstr "סימון אוטומטי"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:111
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:113
 msgid "The system marks the player board with drawn images automatically"
 msgstr "המערכת מסמנת אוטומטית את התמונות שיוצאות על הכרטיס "
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:114
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:116
 msgid "Start the game"
 msgstr "תתחיל את המשחק"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:115
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:117
 msgid "Cancel"
 msgstr "ביטול"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:150
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:184
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:152
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:186
 msgid "Prize"
 msgstr "פרס"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:155
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:194
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:157
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:196
 msgid "Any Line"
 msgstr "כל שורה"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:194
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:196
 msgid "Any two Lines"
 msgstr "כל שתי שורות"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:412
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:453
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:482
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:414
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:455
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:484
 msgid ""
 "You are missing a prize image or prize title. Please upload an image and "
 "give it a title"
 msgstr "חסר לך תמונת פרס או כותרת פרס. אנא העלה תמונה ותן לה כותרת"
 
-#: bingo_main/templates/bingo_main/index.html:23
+#: bingo_main/templates/bingo_main/index.html:6
+msgid "Polybingo-Create Photo-Bingo Games"
+msgstr "Polybingo - צור משחקי פוטו-בינגו"
+
+#: bingo_main/templates/bingo_main/index.html:25
 msgid "Create & Host"
 msgstr "צור ותנחה"
 
-#: bingo_main/templates/bingo_main/index.html:32
+#: bingo_main/templates/bingo_main/index.html:34
 msgid "Go to Dashbaord"
 msgstr "לוח מחוונים"
 
-#: bingo_main/templates/bingo_main/index.html:62
+#: bingo_main/templates/bingo_main/index.html:64
 msgid "Players click here"
 msgstr "שחקנים, לחצו כאן"
 
-#: bingo_main/templates/bingo_main/index.html:688
-#: bingo_main/templates/bingo_main/index.html:727
+#: bingo_main/templates/bingo_main/index.html:690
+#: bingo_main/templates/bingo_main/index.html:729
 msgid "Ticket"
 msgstr "כרטיס"
 
@@ -818,6 +862,10 @@ msgstr "שורה"
 msgid "Two Lines"
 msgstr "שתי שורות"
 
+#: bingo_main/templates/bingo_main/play.html:19
+msgid "Polybingo-Player Access Page"
+msgstr "פוליבינגו - דף גישה לשחקן"
+
 #: bingo_main/templates/bingo_main/play.html:95
 msgid "Game Code"
 msgstr "מספר משחק"
@@ -829,6 +877,10 @@ msgstr "כינוי"
 #: bingo_main/templates/bingo_main/play.html:143
 msgid "Terms"
 msgstr "תנאי שימוש"
+
+#: bingo_main/templates/bingo_main/privacy.html:6
+msgid "Polybingo-Privacy"
+msgstr "פוליבינגו - פרטיות"
 
 #: bingo_main/templates/bingo_main/register.html:16
 msgid "You are logged in"
@@ -883,6 +935,10 @@ msgstr "אנא קרא את "
 #: bingo_main/templates/bingo_main/register.html:77
 msgid "Privacy Policy"
 msgstr "מדיניות פרטיות שלנו"
+
+#: bingo_main/templates/bingo_main/terms.html:6
+msgid "Polybingo-Terms & Conditions"
+msgstr "תנאי שימוש"
 
 #: bingo_main/views.py:236 bingo_main/views.py:479
 msgid "Oops, your message was not sent. Please try again later"

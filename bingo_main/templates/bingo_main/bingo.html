@@ -18,7 +18,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polybingo-Customizable Bingo Photo-Games - Player Page</title>
+    <title>{% trans 'Polybingo-Player Bingo Card' %}</title>
 
     <!-- SEO/WhatsApp setup -->
     <meta name="description" content="Polybingo, platform for online and offline customizable photo-bingo games">
@@ -69,7 +69,11 @@
                 {% endif %}
             </div>
             <div id="game-ended" class="lrgText">
-                {% trans 'Game Over. Thank you for playing' %}
+                <div>
+                    {% trans 'Game Over. Thank you for playing' %}
+                    <br><br>
+                    <a href="{% url 'bingo_main:bingo_main' %}">www.polybingo.com</a>
+                </div>
             </div>
 
             <div id="card">
