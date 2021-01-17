@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-17 09:16+0200\n"
+"POT-Creation-Date: 2021-01-17 09:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -432,39 +432,43 @@ msgstr "אתר אינטרנט"
 msgid "Subscribe"
 msgstr "הירשם כמנוי"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:24
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:6
+msgid "Polybingo-Add Funds"
+msgstr "פוליבינגו - הפקדה"
+
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:26
 msgid "Deposit Funds"
 msgstr "הפקדת כספים"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:25
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:27
 msgid "How much money would you like to add to your account"
 msgstr "כמה כסף תרצה להוסיף לחשבונך"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:27
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:29
 msgid "Choose an amount"
 msgstr "בחר סכום"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:32
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:34
 msgid "Other"
 msgstr "אחר"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:34
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:36
 msgid "Enter a custom amount"
 msgstr "הזן סכום"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:36
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:38
 msgid "The amount shoud be between "
 msgstr "הסכום צריך להיות בין "
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:36
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:38
 msgid "and "
 msgstr "ו- $"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:42
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:44
 msgid "Coupon"
 msgstr "קופון"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:48
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:50
 msgid "Make Payment"
 msgstr "שלם"
 
@@ -1087,15 +1091,19 @@ msgstr "ביטלת את הרישום בטעות / הירשם כמנוי מחדש
 msgid "Options to make the deposit"
 msgstr "אפשרויות לבצע את ההפקדה"
 
-#: payments/templates/payments/payment.html:51
+#: payments/templates/payments/payment.html:6
+msgid "Polybingo-Payment"
+msgstr "פוליבינגו - תשלום"
+
+#: payments/templates/payments/payment.html:53
 msgid "Total payment amount"
 msgstr "סכום תשלום כולל"
 
-#: payments/templates/payments/payment.html:63
+#: payments/templates/payments/payment.html:65
 msgid "Credit or debit card"
 msgstr "כרטיס אשראי"
 
-#: payments/templates/payments/payment.html:76
+#: payments/templates/payments/payment.html:78
 msgid "Submit Payment"
 msgstr "אשר תשלום"
 

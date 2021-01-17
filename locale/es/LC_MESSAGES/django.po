@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-17 09:16+0200\n"
+"POT-Creation-Date: 2021-01-17 09:42+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -431,39 +431,43 @@ msgstr "Sitio web"
 msgid "Subscribe"
 msgstr "Suscribir"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:24
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:6
+msgid "Polybingo-Add Funds"
+msgstr "Polybingo - Agregar fondos"
+
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:26
 msgid "Deposit Funds"
 msgstr "Fondos de depósito"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:25
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:27
 msgid "How much money would you like to add to your account"
 msgstr "Cuánto dinero le gustaría agregar a su cuenta"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:27
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:29
 msgid "Choose an amount"
 msgstr "Elige una cantidad"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:32
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:34
 msgid "Other"
 msgstr "Otra"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:34
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:36
 msgid "Enter a custom amount"
 msgstr "Ingrese una cantidad personalizada"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:36
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:38
 msgid "The amount shoud be between "
 msgstr "La cantidad debe estar entre"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:36
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:38
 msgid "and "
 msgstr "y"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:42
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:44
 msgid "Coupon"
 msgstr "Cupón"
 
-#: bingo_main/templates/bingo_main/dashboard/add-money.html:48
+#: bingo_main/templates/bingo_main/dashboard/add-money.html:50
 msgid "Make Payment"
 msgstr "Hacer el pago"
 
@@ -1102,15 +1106,19 @@ msgstr "No suscrito por error / re-suscribirse"
 msgid "Options to make the deposit"
 msgstr "Opciones para realizar el depósito"
 
-#: payments/templates/payments/payment.html:51
+#: payments/templates/payments/payment.html:6
+msgid "Polybingo-Payment"
+msgstr "Polybingo - Pago"
+
+#: payments/templates/payments/payment.html:53
 msgid "Total payment amount"
 msgstr "Importe total del pago"
 
-#: payments/templates/payments/payment.html:63
+#: payments/templates/payments/payment.html:65
 msgid "Credit or debit card"
 msgstr "Tarjeta de crédito o débito"
 
-#: payments/templates/payments/payment.html:76
+#: payments/templates/payments/payment.html:78
 msgid "Submit Payment"
 msgstr "Enviar pago"
 
