@@ -30,6 +30,7 @@ class User(AbstractUser):
     paypal = models.CharField(max_length=100, null=True, blank=True)
     balance = models.FloatField(null=True, blank=True, default=0)
     spent = models.FloatField(null=True, blank=True, default=0)
+    coupons_used = models.JSONField(null=True, blank=True, default=list)
     europeCitizenship = models.BooleanField(null=True, blank=True)
 
     stripe_customer_key = models.CharField(max_length=100, null=True, blank=True)                                 

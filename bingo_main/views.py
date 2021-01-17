@@ -969,17 +969,23 @@ def player_approval(request, player_id, approval):
 def start_bingo(request):
     context = {}
     context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
-
     context['dashboard'] = True
+
+    try:
+        free_players = Control.objects.get(name='free_players').value_integer
+    except Exception as e:
+        print(f">>> BINGO MAIN @ start_bingo: Failed to get free_players. ERROR: {e}")
+        logger.error(f">>> BINGO MAIN @ start_bingo: Failed to get free_players. ERROR: {e}")
+        free_players = 5
 
     if request.method == 'POST':
         if 'make_game' in request.POST:
             # Check if there is apositive balance in the host account
             host = request.user
-            if host.balance < 0:
+            if host.balance <= 0:
                 messages.error(
-                    request, 'Please deposit funds before creating games')
-                return HttpResponseRedirect('bingo_main:add_money')
+                    request, _(f'Please make sure to have enough funds before creating a game with more than ') +  str(free_players) + " " + _("players" ))
+                # return redirect('bingo_main:add_money')
 
             # Create a game
             try:
@@ -1612,6 +1618,7 @@ def player_board(request, player_id):
 @login_required
 def add_money(request):
     context = {}
+    user = request.user
     context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
 
     context['dashboard'] = True
@@ -1633,6 +1640,8 @@ def add_money(request):
             money = request.POST.get('money')
             
             coupon = request.POST.get('coupon') if request.POST.get('coupon') else "no_coupon"
+
+            user_coupons_used = user.coupons_used
             
             try:
                 coupons = Coupon.objects.filter(active=True)
@@ -1641,8 +1650,15 @@ def add_money(request):
                     coupons_ids.append(c.coupon_id)
 
                 if coupon in coupons_ids and 'ONME' in coupon:
-                    amount = 0
-                    return HttpResponseRedirect(reverse('payments:payment', args=[amount, coupon]))
+                    if coupon not in user_coupons_used:
+                        amount = 0
+                        user.coupons_used.append(coupon)
+                        user.save()
+                        
+                        return HttpResponseRedirect(reverse('payments:payment', args=[amount, coupon]))
+                    else:
+                        messages.info(request, _(f"You have already used this coupon. Please try another or use of the of the deposit options"))
+                        return redirect(request.META['HTTP_REFERER'])
             except Exception as e:
                 logger.info(">>> BING MAIN @ add_money: No coupon defined")
 
