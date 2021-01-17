@@ -519,7 +519,7 @@
               {% if instructions_a.video %}
                 <div class="testimonial-item">
                   <div class="yt-container mb-2">
-                      <iframe src="{{ instructions_a.video }}" frameborder="0" allowfullscreen></iframe>
+                      <iframe loading="lazy" src="{{ instructions_a.video }}" frameborder="0" allowfullscreen></iframe>
                     </div>
                     <div class="text">
                       <h2 class="mb-4 mt-5">{{ instructions_a.title }}</h2>
@@ -531,7 +531,7 @@
               {% if instructions_b.video %}
                 <div class="testimonial-item">
                   <div class="yt-container mb-2">
-                    <iframe src="{{ instructions_b.video }}" frameborder="0" allowfullscreen></iframe>
+                    <iframe loading="lazy" src="{{ instructions_b.video }}" frameborder="0" allowfullscreen></iframe>
                   </div>
                   <div class="text">
                     <h2 class="mb-4 mt-5">{{ instructions_b.title }}</h2>
@@ -543,7 +543,7 @@
               {% if instructions_c.video %}
                 <div class="testimonial-item">
       				    <div class="yt-container mb-2">
-			        			<iframe src="{{ instructions_c.video }}" frameborder="0" allowfullscreen></iframe>
+			        			<iframe loading="lazy" src="{{ instructions_c.video }}" frameborder="0" allowfullscreen></iframe>
                   </div>
                   <div class="text">
                     <h2 class="mb-4 mt-5">{{ instructions_c.title }}</h2>
