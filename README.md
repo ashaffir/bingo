@@ -159,3 +159,6 @@ chmod +x post_receive
 
 # REFERENCE: Search bar
  > https://www.youtube.com/watch?v=b2KecUrYmcM
+
+# REFERENCE: Google tag manager and Google analytics setup
+  > https://www.analyticsmania.com/post/how-to-track-events-with-google-analytics-4-and-google-tag-manager/

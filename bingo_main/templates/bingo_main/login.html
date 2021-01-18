@@ -6,12 +6,6 @@
 {% get_current_language as lang %}
 
 {% block gtm %}
-<script>
-    dataLayer = [{
-      'pageCategory': 'login',
-      'visitorType': 'high-value'
-    }];
-  </script>
 {% endblock gtm %}
 
 {% block content %}
@@ -45,7 +39,8 @@
                         <input type="email" class="form-control" name="username" id="email" required>
                         <label for="password">{% trans 'Password' %}</label>
                         <input type="password" class="form-control" name="password" id="password" required>
-                        <input type="submit" class="btn btn-success mt-2" value="{% trans 'Login' %}">
+                        <input type="submit" class="btn btn-success mt-2" value="{% trans 'Login' %}" 
+                            onclick="dataLayer.push({'event': 'login', 'userId': '{{ user.pk }}'});">
                         <div class="" id="">
                             {% trans 'Do not have an account' %}? {% trans 'Register' %} <a
                                 href="{% url "bingo_main:bingo_main_register" %}">{% trans 'here' %}</a>

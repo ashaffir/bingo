@@ -44,7 +44,7 @@
                             onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
                     </div>
                     <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                        name="make_game">{% trans 'make game' %}</button>
+                        name="make_game" onclick="updateGTM('{{ album.album_id }}')">{% trans 'make game' %}</button>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@
                             onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
                     </div>
                     <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                        name="make_game">{% trans 'make game' %}</button>
+                        name="make_game" onclick="updateGTM('{{ album.album_id }}')">{% trans 'make game' %}</button>
                 </div>
             </div>
         </div>
@@ -90,7 +90,7 @@
                             onclick="location.href='{% url "bingo_main:create_bingo" album_id=album.album_id %}'"></i>
                     </div>
                     <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                        name="make_game">{% trans 'make game' %}</button>
+                        name="make_game" onclick="updateGTM('{{ album.album_id }}')">{% trans 'make game' %}</button>
                 </div>
             </div>
         </div>
@@ -148,6 +148,12 @@
     var oldURL = document.referrer;
     console.log(`ORIGIN: ${oldURL}`);
 </script> -->
+
+<script>
+    function updateGTM(album_id){
+        dataLayer.push({'event': 'make_game', 'album_id': album_id, 'userId':'{{ user.pk }}'});
+    }
+</script>
 
 <script>
     function deleteAlbum(album_id){
