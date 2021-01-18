@@ -390,6 +390,12 @@
     });
 
     function createBingo() {
+
+        //Upadting GTM
+        //////////////
+        dataLayer.push({'event': 'start_game', 'game_id': '{{ current_game.game_id }}', 'userId':'{{ user.pk }}'});
+        //////////////
+
         let joinStatus = document.querySelector('input[name="request"]:checked').value;
         let autoMatching = document.querySelector('#automatch:checked');
         if (autoMatching != null){

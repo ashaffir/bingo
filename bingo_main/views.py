@@ -1011,7 +1011,7 @@ def start_bingo(request):
 
     if request.method == 'POST':
         if 'make_game' in request.POST:
-            # Check if there is apositive balance in the host account
+            # Check if there is a positive balance in the host account
             host = request.user
             if host.balance <= 0:
                 messages.error(
@@ -1042,6 +1042,7 @@ def start_bingo(request):
                 game.user = request.user
                 game.game_id = random_game_id(request.user)
                 game.save()
+                context['current_game'] = game
                 print(
                     f'>>> BINGO MAIN@start_bingo: A new bingo game was created. Game ID {game.game_id}')
                 logger.info(
@@ -1103,6 +1104,7 @@ def start_bingo(request):
                     logger.info(f'>>> BINGO MAIN@start_bingo: Three prizes game selected')
 
                 game.save()
+                context['current_game'] = game
 
             except Exception as e:
                 print(f">>> BINGO MAIN: Failed loading the prize images. ERROR: {e}")
