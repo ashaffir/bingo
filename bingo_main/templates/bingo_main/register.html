@@ -27,13 +27,13 @@
                 </div>
                 <div class="mt-4">
                     <a title="Facebook" class="socialaccount_provider facebook" id="facebook_login"
-                    href="{% provider_login_url "facebook" process='login' %}">
+                    href="{% provider_login_url "facebook" process='login' %}" onclick="updateGTM('facebook_login')">
                     <img style="width: 60%;" src="{% static 'images/facebook-login-button.png' %}" />
                     </a>
                 </div>
                 <div class="mt-4 mb-4">
                     <a title="Google" class="socialaccount_provider google" id="google_login"
-                    href="{% provider_login_url "google" process='login'  %}">
+                    href="{% provider_login_url "google" process='login'  %}" onclick="updateGTM('google_login')">
                     <img style="width: 60%;" src="{% static 'images/google-login-button.png' %}" />
                     </a>
                 </div>
@@ -76,7 +76,7 @@
                         <p>{% trans 'By signing up, you accept our' %} <a href="{% url 'bingo_main:terms' %}" target="_blank"> {% trans 'Terms and Conditions' %}</a>
                             . {% trans 'Please read our' %} <a href="{% url 'bingo_main:privacy' %}" target="_blank"> {% trans 'Privacy Policy' %}</a> </p>
                         
-                        <input type="submit" class="btn btn-success mt-2" id="email_registration" value="{% trans 'Register' %}" >
+                        <input type="submit" onclick="updateGTM('email_address')" class="btn btn-success mt-2" id="email_registration" value="{% trans 'Register' %}" >
     
                     </form>
                 </div>
@@ -88,6 +88,13 @@
 {% endblock content %}
 
 {% block js_bottom %}
+
+<script>
+    function updateGTM(elementId){
+        dataLayer.push({'event': 'sign_up', 'elementId': elementId});
+    }
+</script>
+
 
 <script>
 
