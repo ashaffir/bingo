@@ -21,18 +21,19 @@ def newsletter_admin(request):
             newsletter = Newsletter.objects.get(pk=request.POST.get('newsletterSelect'))
             subject = newsletter.subject
 
-            message = {
-                'title_1': newsletter.title_1,
-                'content_1': newsletter.content_1,
-                'title_2': newsletter.title_2,
-                'content_2': newsletter.content_2,
-                'title_3': newsletter.title_3,
-                'content_3': newsletter.content_3,
-                'button_text':newsletter.button_text,
-                'button_link':newsletter.button_link
-            }
+            # message = {
+            #     'title_1': newsletter.title_1,
+            #     'content_1': newsletter.content_1,
+            #     'button_text':newsletter.button_text,
+            #     'button_link':newsletter.button_link,
+            #     'title_2': newsletter.title_2,
+            #     'content_2': newsletter.content_2,
+            #     'image'
+            #     'title_3': newsletter.title_3,
+            #     'content_3': newsletter.content_3,
+            # }
 
-            context = message
+            context['message'] = newsletter
             context['admin'] = True
             context['recipients_type'] = newsletter.recipients_type
             context['lang'] = 'he' if newsletter.language == 'Hebrew' else 'en'
@@ -61,21 +62,24 @@ def newsletter_admin(request):
                 
             subject = newsletter.subject
 
-            message = {
-                'title_1':  newsletter.title_1,
-                'content_1':  newsletter.content_1,
-                'title_2':  newsletter.title_2,
-                'content_2':  newsletter.content_2,
-                'title_3':  newsletter.title_3,
-                'content_3':  newsletter.content_3,
-                'button_text': newsletter.button_text,
-                'button_link': newsletter.button_link,
-                'lang': 'he' if newsletter.language == 'Hebrew' else 'en',
-                'user': user,
-                'domain': current_site
-            }
+            # message = {
+            #     'title_1':  newsletter.title_1,
+            #     'content_1':  newsletter.content_1,
+            #     'title_2':  newsletter.title_2,
+            #     'content_2':  newsletter.content_2,
+            #     'title_3':  newsletter.title_3,
+            #     'content_3':  newsletter.content_3,
+            #     'button_text': newsletter.button_text,
+            #     'button_link': newsletter.button_link,
+            #     'lang': 'he' if newsletter.language == 'Hebrew' else 'en',
+            #     'user': user,
+            #     'domain': current_site
+            # }
 
-            context = message
+            context['message'] = newsletter
+            context['lang'] = 'he' if newsletter.language == 'Hebrew' else 'en'
+            context['user'] = user
+            context['domain'] = current_site
 
             try:
                 send_mail(subject, email_template_name=None,attachement='',
@@ -91,7 +95,7 @@ def newsletter_admin(request):
 
         elif 'sendNewsLetter' in request.POST:
             if platform.system() == 'Darwin': # MAC
-                current_site = 'http://127.0.0.1:8000' if settings.DEBUG else settings.DOMAIN_PROD
+                current_site = 'http://127.0.0.1:8030' if settings.DEBUG else settings.DOMAIN_PROD
             else:
                 current_site = settings.DOMAIN_PROD
 
@@ -106,21 +110,24 @@ def newsletter_admin(request):
                 
                 subject = newsletter.subject
 
-                message = {
-                    'title_1':  newsletter.title_1,
-                    'content_1':  newsletter.content_1,
-                    'title_2':  newsletter.title_2,
-                    'content_2':  newsletter.content_2,
-                    'title_3':  newsletter.title_3,
-                    'content_3':  newsletter.content_3,
-                    'button_text': newsletter.button_text,
-                    'button_link': newsletter.button_link,
-                    'lang': 'he' if newsletter.language == 'Hebrew' else 'en',
-                    'user': user,
-                    'domain': current_site
-                }
+                # message = {
+                #     'title_1':  newsletter.title_1,
+                #     'content_1':  newsletter.content_1,
+                #     'title_2':  newsletter.title_2,
+                #     'content_2':  newsletter.content_2,
+                #     'title_3':  newsletter.title_3,
+                #     'content_3':  newsletter.content_3,
+                #     'button_text': newsletter.button_text,
+                #     'button_link': newsletter.button_link,
+                #     'lang': 'he' if newsletter.language == 'Hebrew' else 'en',
+                #     'user': user,
+                #     'domain': current_site
+                # }
 
-                context = message
+                context['message'] = newsletter
+                context['lang'] = 'he' if newsletter.language == 'Hebrew' else 'en'
+                context['user'] = user
+                context['domain'] = current_site
 
                 try:
                     send_mail(subject, email_template_name=None,attachement='',

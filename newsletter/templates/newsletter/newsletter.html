@@ -158,7 +158,7 @@
 										<td width="100%" colspan="3" align="center" style="padding-bottom:10px;padding-top:25px;">
 											<div class="contentEditableContainer contentTextEditable">
 												<div class="contentEditable">
-													<h2 >{% if title_1 %} {{ title_1 }} {% endif %}</h2>
+													<h2 >{% if message.title_1 %} {{ message.title_1 }} {% endif %}</h2>
 												</div>
 											</div>
 										</td>
@@ -173,7 +173,7 @@
                                                     {% else %}
                                                         <p>{% trans 'Hi' %} {% if user.first_name %}{{ user.first_name }}{% endif %}</p>
                                                     {% endif %}
-													<p >{{ content_1|safe }}</p>
+													<p >{{ message.content_1|safe }}</p>
 												</div>
 											</div>
 										</td>
@@ -182,7 +182,7 @@
 								</table>
 							</div>
                             
-                            {% if button_text %}
+                            {% if message.button_text %}
 							<div class='movableContent'>
 								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
 									<tr>
@@ -193,7 +193,7 @@
 													<td bgcolor="#ED006F" align="center" style="border-radius:4px;" width="200" height="50">
 														<div class="contentEditableContainer contentTextEditable">
 															<div class="contentEditable" >
-																<a target='_blank' href="{{ button_link }}" class='link2'>{{ button_text }}</a>
+																<a target='_blank' href="{{ message.button_link }}" class='link2'>{{ message.button_text }}</a>
 															</div>
 														</div>
 
@@ -207,7 +207,7 @@
                             </div>
                             {% endif %}
 
-                            {% if title_2 %}    
+                            {% if message.title_2 or message.content_2%}    
                                 <div class='movableContent'>
                                     <table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="border-collapse:collapse;">
                                         <tr>
@@ -218,7 +218,7 @@
                                                             <div class="contentEditableContainer contentImageEditable">
                                                                 <div class="contentEditable" >
                                                                     <div style="padding-top:20px;text-align:center;">
-                                                                        <img src="images/6@2x.png" width="148" data-default="placeholder" data-max-width="200" style="margin-bottom:-3px;" />
+                                                                        <img src="{{ message.image_2.url }}" width="148" data-default="placeholder" data-max-width="200" style="margin-bottom:-3px;" />
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -228,13 +228,13 @@
                                                             <br/>
                                                             <div class="contentEditableContainer contentTextEditable">
                                                                 <div class="contentEditable" >
-                                                                    <div style="font-size:23px;font-family:Heveltica, Arial, sans-serif;color:#fff;">{{ title_2 }}</div>
+                                                                    <div style="font-size:23px;font-family:Heveltica, Arial, sans-serif;color:#fff;">{{ message.title_2 }}</div>
                                                                 </div>
                                                             </div>
                                                             
                                                             <div class="contentEditableContainer contentTextEditable">
                                                                 <div class="contentEditable"  style="padding:20px 10px 0 0;margin:0;font-family:Helvetica, Arial, sans-serif;font-size:15px;line-height:150%;">
-                                                                    <p style='color:#FFEECE;'>{{ content_2 }}</strong></p>
+                                                                    <p style='color:#FFEECE;'>{{ message.content_2 }}</strong></p>
                                                                 </div>
                                                             </div>
 
@@ -247,7 +247,7 @@
                                 </div>
                             {% endif %}
 
-                            {% if title_3 %}    
+                            {% if message.title_3 or message.content_3 %}    
 
                                 <div class='movableContent' align='center' style='text-align:center;'>
                                     <table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
@@ -255,7 +255,7 @@
                                             <td width="100%" colspan="3" align="center" style="padding-bottom:40px;padding-top:100px;">
                                                 <div class="contentEditableContainer contentTextEditable">
                                                     <div class="contentEditable"  >
-                                                        <h2 >{{ title_3 }}</h2>
+                                                        <h2 >{{ message.title_3 }}</h2>
                                                     </div>
                                                 </div>
 
@@ -264,41 +264,8 @@
                                         <tr>
                                             <td width="50">&nbsp;</td>
                                             <td width="500" align="left">
-                                                <div class="contentEditableContainer contentTextEditable">
-                                                    <div class="contentEditable" >
-                                                        <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;line-height:160%;color:#181818;font-weight:bold;">Things you believe in are important to your business</div>
-                                                    </div>
-                                                </div>
-                                                <div style="height:20px;">&nbsp;</div>
-                                                <div class="contentEditableContainer contentTextEditable">
-                                                    <div class="contentEditable" >
-                                                        <p >Why you do what you do can be just as important as what you do. You could also use this area to list benefits of using your product.</p>
-                                                    </div>
-                                                </div>
-                                                <div style="height:20px;">&nbsp;</div>
-                                                <div class="contentEditableContainer contentTextEditable">
-                                                    <div class="contentEditable" >
-                                                        <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;line-height:160%;color:#181818;font-weight:bold;">Things you believe in are important to your business</div>
-                                                    </div>
-                                                </div>
-                                                <div style="height:20px;">&nbsp;</div>
-                                                <div class="contentEditableContainer contentTextEditable">
-                                                    <div class="contentEditable" >
-                                                        <p >Why you do what you do can be just as important as what you do. You could also use this area to list benefits of using your product.</p>
-                                                    </div>
-                                                </div>
-                                                <div style="height:20px;">&nbsp;</div>
-                                                <div class="contentEditableContainer contentTextEditable">
-                                                    <div class="contentEditable" >
-                                                        <div style="font-family:Helvetica, Arial, sans-serif;font-size:16px;line-height:160%;color:#181818;font-weight:bold;">Things you believe in are important to your business</div>
-                                                    </div>
-                                                </div>
-                                                <div style="height:20px;">&nbsp;</div>
-                                                <div class="contentEditableContainer contentTextEditable">
-                                                    <div class="contentEditable" >
-                                                        <p >Why you do what you do can be just as important as what you do. You could also use this area to list benefits of using your product.</p>
-                                                    </div>
-                                                </div>
+												
+												{{ message.content_3 | safe }}
                                                 
                                             </td>
                                             <td width="50">&nbsp;</td>
@@ -307,7 +274,7 @@
                                 </div>
                             {% endif %}
 
-                            {% if title_4 %}    
+                            {% if message.title_4 or message.content_4 %}    
 
 							<div class='movableContent' align='center' style='text-align:center;'>
 								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
@@ -315,7 +282,7 @@
 										<td width="100%" align="center" style="padding-bottom:10px;padding-top:100px;">
 											<div class="contentEditableContainer contentTextEditable">
 												<div class="contentEditable" >
-													<h2>{{ title_4 }}</h2>
+													<h2>{{ message.title_4 }}</h2>
 												</div>
 											</div>
 										</td>
@@ -356,14 +323,14 @@
 							</div>
                             {% endif %}
 
-                            {% if title_5 %}
+                            {% if message.title_5 or message.content_5 %}
 							<div class='movableContent' align='center' style='text-align:center;'>
 								<table cellpadding="0" cellspacing="0" border="0" align="center" width="600">
 									<tr>
 										<td width="100%" align="center" style="padding-bottom:10px;padding-top:100px;">
 											<div class="contentEditableContainer contentTextEditable">
 												<div class="contentEditable" >
-													<h2>{{ title_5 }}</h2>
+													<h2>{{ message.title_5 }}</h2>
 												</div>
 											</div>
 										</td>

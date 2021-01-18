@@ -5,6 +5,15 @@
 
 {% get_current_language as lang %}
 
+{% block gtm %}
+<script>
+    dataLayer = [{
+      'pageCategory': 'login',
+      'visitorType': 'high-value'
+    }];
+  </script>
+{% endblock gtm %}
+
 {% block content %}
 
 <section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %}

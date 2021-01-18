@@ -18,7 +18,7 @@ class AlbumAdmin(admin.ModelAdmin):
     # )
 
     list_filter = (
-        'user',
+        'album_category',
     )
     # readonly_fields = (
     #     'order_id', 'created', 'updated',

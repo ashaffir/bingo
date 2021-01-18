@@ -71,3 +71,35 @@ def check_captcha(request):
     response = json.loads(r.text)
     verify = response['success']
     return verify
+
+
+
+def clear_session(request):
+    session_keys = ['new_album', 'album_update']
+    
+    try:
+        for key in session_keys:
+            del request.session[key]
+    except KeyError:
+        return
+
+    return
+
+
+def clear_session_key(request, session_key):
+    try:
+        del request.session[session_key]
+    except KeyError:
+        return
+
+    return
+
+
+def delete_session(request):
+    try:
+        del request.session['user']
+        del request.session['password']
+    except KeyError:
+        pass
+    
+    return render(request, 'bingo_main:bingo_main')

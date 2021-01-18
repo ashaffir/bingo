@@ -24,7 +24,7 @@ from users.models import User
 from users.utils import send_mail
 from payments.models import Coupon
 from newsletter.models import Newsletter
-from .utils import check_captcha
+from .utils import check_captcha, clear_session, delete_session, clear_session_key
 
 logger = logging.getLogger(__file__)
 
@@ -545,6 +545,22 @@ def dashboard(request):
 
     context['albums'] = albums
 
+
+    # Alert if coming from Create Album - New Public
+    try:
+        if request.session['new_album']:
+            messages.info(request, _('Album created successfuly'))
+            clear_session_key(request, 'new_album')
+    except:
+        pass
+    
+    try:
+        if request.session['album_update']:
+            messages.info(request, _(f"Your Bingo Album was updated"))
+            clear_session_key(request, 'album_update')
+    except:
+        pass
+
     return render(request, 'bingo_main/dashboard/index.html', context)
 
 
@@ -625,9 +641,6 @@ def create_bingo(request, album_id=''):
                 album.public_approved = False
                 album.public_rejected = False
 
-                messages.info(
-                    request, _(f"Your updated Bingo Album is pending approval for public view"))
-
                 # Sending request to admin for images approval
                 try:
                     subject = "Public Images Approval Request"
@@ -648,7 +661,10 @@ def create_bingo(request, album_id=''):
                     logger.error(
                         f'>>> BINGO MAIN: Failed sending admin email for public album approval. ERROR: {e}')
 
+            request.session['album_update'] = True
             album.save()
+        
+        # New Album
         else:
             images_dict = json.loads(request.POST.get('images'))
 
@@ -658,9 +674,9 @@ def create_bingo(request, album_id=''):
             album_name = images_dict['album_name']
 
             print(
-                f'Creating a {album_type} album for user: {request.user} name {album_name}')
+                f'>>> BINGO MAIN @ create_bingo: Creating a {album_type} album for user: {request.user} name {album_name}')
             logger.info(
-                f'Creating an {album_type} album for user: {request.user}')
+                f'>>> BINGO MAIN @ create_bingo: Creating an {album_type} album for user: {request.user}')
 
             try:
                 album = Album.objects.create(
@@ -678,8 +694,6 @@ def create_bingo(request, album_id=''):
                     # Send email to admin for approval
                     print(">>> BINGO MAIN: Send email to admin for approval")
                     logger.info(">>> BINGO MAIN: Send email to admin for approval")
-
-                    messages.info(request, "Your new Bingo Album is pending approval for public view")
 
                     # Sending request to admin for images approval
                     try:
@@ -701,6 +715,7 @@ def create_bingo(request, album_id=''):
                         print(f'>>> BINGO MAIN: Failed sending admin email for public album approval. ERROR: {e}')
                         logger.error(f'>>> BINGO MAIN: Failed sending admin email for public album approval. ERROR: {e}')
 
+                # Collecting all images into the album
                 album_images = []
                 for image in images_dict['images']:
                     picture = Picture()
@@ -725,24 +740,25 @@ def create_bingo(request, album_id=''):
                     else:
                         album.board_size = 5
 
+                    request.session['new_album'] = True
                     album.save()
-                    messages.success(request, 'Album saved')
+
                     logger.info(
-                        f'Album for user {request.user} name >> {album_name} << created')
+                        f'>>> BINGO MAIN @ create_bingo: Album for user {request.user} name >> {album_name} << created')
                     print(
-                        f'Album for user {request.user} name >> {album_name} << created')
+                        f'>>> BINGO MAIN @ create_bingo: Album for user {request.user} name >> {album_name} << created')
                     return redirect(request.META['HTTP_REFERER'])
 
                 except Exception as e:
                     print(
-                        f'>>> Bingo main: failed to save the pictures to the album. ERROR: {e}')
+                        f'>>> BINGO MAIN @ create_bingo: failed to save the pictures to the album. ERROR: {e}')
                     logger.error(
-                        f'>>> Bingo main: failed to save the pictures to the album. ERROR: {e}')
+                        f'>>> BINGO MAIN @ create_bingo: failed to save the pictures to the album. ERROR: {e}')
             except Exception as e:
                 print(
-                    f'>>> bingo main: failed to create the album for {request.user}. ERROR: {e}')
+                    f'>>> BINGO MAIN @ create_bingo: failed to create the album for {request.user}. ERROR: {e}')
                 logger.error(
-                    f'>>> bingo main: failed to create the album for {request.user}. ERROR: {e}')
+                    f'>>> BINGO MAIN @ create_bingo: failed to create the album for {request.user}. ERROR: {e}')
 
     return render(request, 'bingo_main/dashboard/create-bingo.html', context)
 
@@ -757,6 +773,21 @@ def my_bingos(request):
     user = request.user
     albums = Album.objects.filter(user=user)
     albums_images = []
+
+    # Alert if coming from Create Album - New
+    try:
+        if request.session['new_album']:
+            messages.info(request, _('Album created successfuly'))
+            clear_session_key(request, 'new_album')
+    except:
+        pass
+    
+    try:
+        if request.session['album_update']:
+            messages.info(request, _(f"Your Bingo Album was updated"))
+            clear_session_key(request, 'album_update')
+    except:
+        pass
 
     # Album delete
     if request.method == 'POST':

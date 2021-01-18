@@ -15,16 +15,25 @@ class Newsletter(models.Model):
     sent = models.BooleanField(default=False)
     sent_date = models.DateTimeField(null=True, blank=True)
     subject = models.CharField(max_length=100, null=True, blank=True)
+
     title_1 = models.CharField(max_length=100, null=True, blank=True)
     content_1 = RichTextField(max_length=10000, null=True, blank=True)
-    title_2 = models.CharField(max_length=100, null=True, blank=True)
-    content_2 = RichTextField(max_length=10000, null=True, blank=True)
-    title_3 = models.CharField(max_length=100, null=True, blank=True)
-    content_3 = RichTextField(max_length=10000, null=True, blank=True)
-    language = models.CharField(max_length=20, choices=LANGUAGES, default='English')
-    
     button_text = models.CharField(max_length=20, null=True, blank=True)
     button_link = models.CharField(max_length=200, null=True, blank=True)
+
+    title_2 = models.CharField(max_length=100, null=True, blank=True)
+    content_2 = RichTextField(max_length=10000, null=True, blank=True)
+    image_2 = models.ImageField(null=True, blank=True)
+    button2_text = models.CharField(max_length=20, null=True, blank=True)
+    button2_link = models.CharField(max_length=200, null=True, blank=True)
+
+    title_3 = models.CharField(max_length=100, null=True, blank=True)
+    content_3 = RichTextField(max_length=10000, null=True, blank=True)
+    image_3 = models.ImageField(null=True, blank=True)
+    button3_text = models.CharField(max_length=20, null=True, blank=True)
+    button3_link = models.CharField(max_length=200, null=True, blank=True)
+
+    language = models.CharField(max_length=20, choices=LANGUAGES, default='English')
 
     recipients_type = models.CharField(max_length=20, null=True, blank=True)
     recipients = JSONField(blank=True, null=True, default=list)
