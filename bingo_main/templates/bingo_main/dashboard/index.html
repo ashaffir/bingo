@@ -37,7 +37,7 @@
             <div class="bingoTableBottom">
                 {{ album.album_name }}
                 <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                    name="make_game">{% trans 'make game' %}</button>
+                    name="make_game" onclick="updateGTM('{{ album.album_id }}')">{% trans 'make game' %}</button>
             </div>
         </div>
         {% elif album.board_size == 4 %}
@@ -50,7 +50,7 @@
             <div class="bingoTableBottom">
                 {{ album.album_name }}
                 <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                    name="make_game">{% trans 'make game' %}</button>
+                    name="make_game" onclick="updateGTM('{{ album.album_id }}')">{% trans 'make game' %}</button>
             </div>
         </div>
         {% elif album.board_size == 5 %}
@@ -63,7 +63,7 @@
             <div class="bingoTableBottom">
                 {{ album.album_name }}
                 <button class="gameButton" style="font-family: inherit;" value='{{ album.album_id }}'
-                    name="make_game">{% trans 'make game' %}</button>
+                    name="make_game" onclick="updateGTM('{{ album.album_id }}')">{% trans 'make game' %}</button>
             </div>
         </div>
         {% endif %}
@@ -85,6 +85,13 @@
 {% endblock content %}
 
 {% block js_bottom %}
+
+<script>
+    function updateGTM(album_id){
+        dataLayer.push({'event': 'make_game', 'album_id': album_id, 'userId':'{{ user.pk }}'});
+    }
+</script>
+
 <script>
     function openSidebar() {
         let el = document.querySelector('.sidebarProfile');
