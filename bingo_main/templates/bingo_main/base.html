@@ -362,7 +362,7 @@
 
   <script>
     function updateGTM(args){
-      alert(`ARGS: ${JSON.stringify(args)}`);
+      //alert(`ARGS: ${JSON.stringify(args)}`);
       dataLayer.push({'event':args.event,'elementId':args.elementId, 'album_id':args.album_id, 'userId':'{{ user.pk }}'});
     }
   </script>
