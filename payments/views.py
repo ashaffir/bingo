@@ -273,53 +273,53 @@ def charge(request):
             messages.error(request, _("Something went wrong with your payment. Your account balance was not updated."))
             return HttpResponseRedirect(reverse("bingo_main:dashboard"))
 
-    # Stripe payment: Adding the amount to the user's balance
-    user.balance = user.balance + amount
-    user.save()
+        # Stripe payment: Adding the amount to the user's balance
+        user.balance = user.balance + amount
+        user.save()
 
 
-    # Generate and send invoice to the user
-    payment = Payment.objects.filter(user=user).last()
-    payment.payment_type = 'Credit Card'
-    payment.save()
+        # Generate and send invoice to the user
+        payment = Payment.objects.filter(user=user).last()
+        payment.payment_type = 'Credit Card'
+        payment.save()
 
-    try:
-        invoice_sub_path = generate_invoice_pdf(payment.pk)
-        invoice_path = str(settings.BASE_DIR) + invoice_sub_path
-        print(f">>> PAYMENTS @ charge: Invoice path: {invoice_path}")
-        logger.info(f">>> PAYMENTS @ charge: Invoice path: {invoice_path}")
-    except Exception as e:
-        print(f">>> PAYMENTS @ charge: Falied saving the invoice PDF file. ERROR: {e}")
-        logging.error(f">>> PAYMENTS @ charge: Falied saving the invoice PDF file. ERROR: {e}")
+        try:
+            invoice_sub_path = generate_invoice_pdf(payment.pk)
+            invoice_path = str(settings.BASE_DIR) + invoice_sub_path
+            print(f">>> PAYMENTS @ charge: Invoice path: {invoice_path}")
+            logger.info(f">>> PAYMENTS @ charge: Invoice path: {invoice_path}")
+        except Exception as e:
+            print(f">>> PAYMENTS @ charge: Falied saving the invoice PDF file. ERROR: {e}")
+            logging.error(f">>> PAYMENTS @ charge: Falied saving the invoice PDF file. ERROR: {e}")
 
-        #TODO: write an "Update Admin" routin to send emails to admin every break
+            #TODO: write an "Update Admin" routin to send emails to admin every break
 
-    try:
-        email_message = ContentPage.objects.get(name='invoice_email')
-        subject = _(f"New Invoice From Polybingo - PI0000" + str(payment.pk))
-        title = email_message.title
-        content = email_message.content
-        
-        message = {
-            'message': content
-        }
+        try:
+            email_message = ContentPage.objects.get(name='invoice_email')
+            subject = _(f"New Invoice From Polybingo - PI0000" + str(payment.pk))
+            title = email_message.title
+            content = email_message.content
+            
+            message = {
+                'message': content
+            }
 
-        send_mail(subject, 
-                    email_template_name=None,
-                    attachement=invoice_path,
-                    context=message, to_email=[user.email],
-                    html_email_template_name='bingo_main/emails/user_email.html')
-    except Exception as e:
-        logger.error(f'>>> PAYMENTS @ charge: Failed sending admin email with invoice. ERROR: {e}')
-        print(f'>>> PAYMENTS @ charge: Failed sending admin email with invoice. ERROR: {e}')
+            send_mail(subject, 
+                        email_template_name=None,
+                        attachement=invoice_path,
+                        context=message, to_email=[user.email],
+                        html_email_template_name='bingo_main/emails/user_email.html')
+        except Exception as e:
+            logger.error(f'>>> PAYMENTS @ charge: Failed sending admin email with invoice. ERROR: {e}')
+            print(f'>>> PAYMENTS @ charge: Failed sending admin email with invoice. ERROR: {e}')
 
 
-    print(f">>> PAYMENTS @ charge (Stripe): Updated user balance with additional {amount}")
-    logger.info(f">>> PAYMENTS @ charge (Stripe): Updated user balance with additional {amount}")
+        print(f">>> PAYMENTS @ charge (Stripe): Updated user balance with additional {amount}")
+        logger.info(f">>> PAYMENTS @ charge (Stripe): Updated user balance with additional {amount}")
 
-    # return redirect(reverse('payments:success', args=[amount]))
-    messages.success(request, _("Thank you for the payment. You should see your updated balance shortly."))
-    return HttpResponseRedirect(reverse("bingo_main:dashboard"))
+        # return redirect(reverse('payments:success', args=[amount]))
+        messages.success(request, _("Thank you for the payment. You should see your updated balance shortly."))
+        return HttpResponseRedirect(reverse("bingo_main:dashboard"))
 
 
 def successMsg(request, args):

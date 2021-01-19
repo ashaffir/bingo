@@ -1741,6 +1741,7 @@ def logout_view(request):
 
 
 def handler500(request, *args, **argv):
+    messages.error(request, f'INVALID PAGE REQUEST!')
     return redirect('bingo_main:bingo_main')
 
 
