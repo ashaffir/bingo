@@ -306,6 +306,11 @@
 
     function createBingo() {
 
+        //Upadting GTM
+        //////////////
+        updateGTM({event: 'save_album', userId:'{{ user.pk }}'})
+        //////////////
+
         let album_name = document.querySelector('input[id="album-name"]').value;
         let album_description = document.querySelector('#description').value;
         let album_category = document.querySelector('#album_category').value;
