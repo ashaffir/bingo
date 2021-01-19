@@ -28,7 +28,7 @@
             </td>
             <td>
                 <div class="menuItems">
-                    <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'">
+                    <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'; updateGTM();">
                         <i class="fa fa-plus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Add funds to your account' %}"></i> 
                         <i aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Your account balance' %}">
                             ${{ user.balance|floatformat }}
@@ -125,6 +125,12 @@
 </div>
 
 <script>
+    function updateGTM(){
+        dataLayer.push({'event': 'add_money', 'userId': '{{ user.pk }}'});
+    }
+</script>
+
+<script>
     function openSidebar() {
         let el = document.querySelector('.sidebarProfile');
 
@@ -137,7 +143,6 @@
 </script>
 
 <script>
-
 
     function update_profile() {
         var formData = new FormData();
