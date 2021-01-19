@@ -28,7 +28,7 @@
             </td>
             <td>
                 <div class="menuItems">
-                    <div id="addMoney" onclick="window.location.href = '{% url "bingo_main:add_money" %}'; updateGTM();">
+                    <div id="addMoney" onclick="updateGTM({event:'add_money'}); window.location.href = '{% url "bingo_main:add_money" %}'">
                         <i class="fa fa-plus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Add funds to your account' %}"></i> 
                         <i aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Your account balance' %}">
                             ${{ user.balance|floatformat }}
@@ -123,12 +123,6 @@
                 href="{% url 'bingo_main:logout_view' %}">{% trans 'Logout' %}</a></center>
     </form>
 </div>
-
-<script>
-    function updateGTM(){
-        dataLayer.push({'event': 'add_money', 'userId': '{{ user.pk }}'});
-    }
-</script>
 
 <script>
     function openSidebar() {

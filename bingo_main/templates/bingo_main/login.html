@@ -40,7 +40,7 @@
                         <label for="password">{% trans 'Password' %}</label>
                         <input type="password" class="form-control" name="password" id="password" required>
                         <input type="submit" class="btn btn-success mt-2" value="{% trans 'Login' %}" 
-                            onclick="dataLayer.push({'event': 'login', 'userId': '{{ user.pk }}'});">
+                            onclick="updateGTM({event: 'login', userId: '{{ user.pk }}'});">
                         <div class="" id="">
                             {% trans 'Do not have an account' %}? {% trans 'Register' %} <a
                                 href="{% url "bingo_main:bingo_main_register" %}">{% trans 'here' %}</a>
