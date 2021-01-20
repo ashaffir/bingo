@@ -6,7 +6,7 @@ from .models import User
 @admin.register(User)
 class UserAdmin(ImportExportModelAdmin):
 
-    list_display = ('pk', 'email', 'name', 'phone', 'balance','spent','country','joined',)
+    list_display = ('pk', 'email', 'name', 'phone', 'balance','spent','country','joined','newsletter_optin',)
     search_fields = ('name', 'username',)
     ordering = ('-name',)
 
