@@ -51,8 +51,9 @@ function openBingo(url) {
             valid = true;
             const data = JSON.parse(response)
             if (data.player_id){
-                console.log(`PLAYER: ${data.player_id}`)
-                window.location.href = `${window.location.origin}/bingo/${data.player_id}`;
+                const playerID = data.player_id;
+                console.log(`PLAYER: ${playerID}`)
+                window.location.href = `${window.location.origin}/bingo/${playerID}`;
             } else if (data.finished){
                 console.log(`GAME FINISHED: ${data.finished}`)
                 document.querySelector('#submitError').innerHTML = 'This game is finished or in progress. Please try another game that you are invited to.'
