@@ -938,8 +938,11 @@ def check_game_id(request):
         nickname = request.GET.get("name")
         game_id = game.game_id
         print(f'>>> BINGO MAIN: GAME ID: {game_id}')
+        logger.info(f'>>> BINGO MAIN: GAME ID: {game_id}')
 
         if game.is_finished or game.started or game.ended:
+            print(f'>>> BINGO MAIN: game {game_id} is finished')
+            logger.info(f'>>> BINGO MAIN: game {game_id} is finished')
             return Response(json.dumps({"finished": "True"}), status=200)
 
         # If game exists, create new player and add it to the game players list
@@ -949,10 +952,12 @@ def check_game_id(request):
             player_game_id=game_id
         )
 
-        print(f'GAME: {game}')
+        print(f'>>> BINGO MAIN: plaery {player} joined the game')
+        logger.info(f'>>> BINGO MAIN: plaery {player} joined the game')
         return Response(json.dumps({'player_id':str(player.pk)}), status=200)
     except Exception as e:
         print(f'>>> BINGO MAIN: NO GAME: {e}')
+        logger.error(f'>>> BINGO MAIN: NO GAME: {e}')
         return Response(json.dumps({'invalid': "no_game"}), status=200)
     # return redirect(request.META['HTTP_REFERER'])
 

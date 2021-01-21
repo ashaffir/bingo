@@ -50,10 +50,11 @@ function openBingo(url) {
             console.log('START BROADCAST...')
             valid = true;
             const data = JSON.parse(response)
-            console.log(`RESPONSE: ${data}`)
             if (data.player_id){
+                console.log(`PLAYER: ${player_id}`)
                 window.location.href = `${window.location.origin}/bingo/${data.player_id}`;
             } else if (data.finished){
+                console.log(`GAME FINISHED: ${data.finished}`)
                 document.querySelector('#submitError').innerHTML = 'This game is finished or in progress. Please try another game that you are invited to.'
                 document.querySelector('#submitError').style.display = 'block';                
                 setTimeout(function () {
@@ -62,6 +63,7 @@ function openBingo(url) {
                 playButton.disabled = false;
 
             } else if (data.data){
+                console.log(`INVALID GAME: ${data.data}`)
                 document.querySelector('#submitError').innerHTML = 'This game is not active. Please enter a valid Game ID'
                 document.querySelector('#submitError').style.display = 'block';                
                 setTimeout(function () {
@@ -69,6 +71,7 @@ function openBingo(url) {
                 }, 10000);
                 playButton.disabled = false;
             } else {
+                console.log(`UNKNOWN GAME: ${data}`)
                 document.querySelector('#submitError').innerHTML = 'Please enter a valid Game ID'
                 document.querySelector('#submitError').style.display = 'block';                
                 setTimeout(function () {
