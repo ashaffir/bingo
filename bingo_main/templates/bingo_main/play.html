@@ -111,8 +111,8 @@
                                 </div>
                                 <div class="row ml-2 d-flex justify-content-center" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
                                     <div class="col-md-12 col-12">
-                                        <input class="mt-3 nickname form-control" type="text" name="name"
-                                            id="name" pattern="[a-zA-Z0-9\s]+" placeholder="{% trans 'Nickname' %}" />
+                                        <input class="mt-3 nickname form-control" type="email" name="name"
+                                            id="name" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="{% trans 'Email' %}" />
                                             <div class="mt-3" style="color: black; font-weight:bold;" id="submitError">
                                             </div>
                                     </div>

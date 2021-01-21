@@ -24,14 +24,14 @@
     <meta name="description" content="Polybingo, platform for online and offline customizable photo-bingo games">
     <meta property="og:title" content="Polybingo-Customizable Bingo Photo-Games-Player Page" />
     <meta property="og:description" content="Polybingo, platform for online and offline customizable photo-bingo games">
-    <meta property="og:image" content="{% static 'images/polybingo-logotype-new-1024x1024.png' %}">
+    <meta property="og:image" content="{% static 'images/polybingo-logotype-new-256x256.png' %}">
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="he_HE" />
     <meta property="og:locale:alternate" content="es_ES" />
     <!-- End setup -->
     
-    <link rel="icon" type="image/x-icon" href="{% static 'images/polybingo-logotype-new.png' %}" />
+    <link rel="icon" type="image/x-icon" href="{% static 'images/polybingo-logotype-new-256x256.png' %}" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/bingo.css' %}">
     <link rel="stylesheet" href="{% static 'css/my.css' %}">
@@ -46,9 +46,10 @@
     <div class="bingoContainer">
         <div class="bingoIndex">
             <a href="{% url 'bingo_main:bingo_main' %}"><img class="profilePic"
-                    src="{% static 'images/polybingo-logotype-new.png' %}" alt=""></a>
-            <div class="lrgText" id="playerName">
-            </div>
+                    src="{% static 'images/polybingo-logotype-new-256x256.png' %}" alt=""></a>
+            
+            <!-- <div class="lrgText" id="game_id">{%trans 'Game ID' %}: {{ game.game_id }} </div> -->
+            <div class="lrgText" id="playerName"></div>
             <img class="profilePic" src="{{ host_logo.url }}" alt="" onclick="window.location.href = '{% url "bingo_main:bingo_main" %}'">
             <!-- <img class="bingoLogo" src="{% static 'images/polybingo-logo.png' %} alt="" onclick="window.location.href = './'"> -->
         </div>
