@@ -4,6 +4,7 @@ from . import serializers
 import logging
 from datetime import datetime
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ImproperlyConfigured
 from django.core import serializers as d_serializers
 from django.contrib.auth import login as django_login, logout as django_logout
@@ -12,6 +13,7 @@ from django.contrib import messages
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.utils.translation import gettext as _
+from django.conf import settings
 
 from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
@@ -34,6 +36,25 @@ logger = logging.getLogger(__file__)
 
 
 # from .utils import get_and_authenticate_user, create_user_account
+
+@login_required
+def profile_test(request):
+    context = {}
+    # Contact us form
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
+    user = request.user
+    return render(request, 'users/profile_test.html', context)
+
+@login_required
+def profile(request):
+    context = {}
+    # Contact us form
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
+    user = request.user
+    return render(request, 'users/profile.html', context)
+
 
 @api_view(['GET', ])
 @permission_classes((IsAuthenticated,))

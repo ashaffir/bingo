@@ -1,4 +1,15 @@
 {% extends 'administration/base.html' %}
 {% block content %}
-<h1>Administration Area</h1>
+<h2>Administration Area</h1>
+    <hr>
+<div class="container">
+    <div class="row">
+        <div class="col-md">
+            <form action="" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <button type="submit" name="optin" class="btn btn-danger" >Set Optin</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}

@@ -21,7 +21,7 @@ urlpatterns = [
     # Stripe
     path('charge/', payment_views.charge, name='charge'),
     path('success/<str:args>/', payment_views.successMsg, name="success"),
-    path('deposits/', payment_views.deposits, name='deposits'),
+    path('deposit/', payment_views.deposit, name='deposit'),
 
     # path('invoices/', payment_views.render_pdf_view, name='render_pdf_view'),
     # path('users_invoices/', UserListView.as_view(), name='users_invoices'),

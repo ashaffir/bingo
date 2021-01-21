@@ -1,0 +1,204 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
+{% block title %}{% trans 'Polybingo-Add Funds' %}{% endblock title %}
+
+{% block content %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'dashboard/css/bingoStart.css' %}">
+<link rel="stylesheet" href="{% static 'css/loader.css' %}">
+
+{% endblock css %}
+
+<style>
+    
+.active {
+    background-color: #f7f7f7;
+    color: white;
+}
+h6 {
+    color: black;
+}
+</style>
+
+{% include 'bingo_main/partials/_navbar_top.html' %}
+<section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
+    style="text-align: left;" {% endif %}>
+    <div class="container">
+        <div class="row d-flex" style="margin-bottom: 10%">
+            <div class="col-md-6 col-12">
+                <form class="form-group" action="" name="depositForm" id="depositForm" method="POST">
+                    {% csrf_token %}
+                    <div class="" style="margin-top: 5%;">
+                        <h3>{% trans 'Deposit Funds' %}</h3>
+                        <div class="">{% trans 'How much money would you like to add to your account' %}?</div>
+                        <select class="form-control" name="deposit_amount" id="deposit_amount">
+                            <option value="">{% trans 'Choose an amount' %}...</option>
+                            <option value="10">$10</option>
+                            <option value="20">$20</option>
+                            <option value="50">$50</option>
+                            <option value="100">$100</option>
+                            <option value="other">{% trans 'Other' %}</option>
+                        </select>
+                        <label class="mt-4" for="money">{% trans 'Enter a custom amount' %}</label>
+                        <i class="p-1 fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" 
+                        data-placement="top" title="{% trans 'The amount shoud be between ' %} ${{ min_deposit }} {% trans 'and ' %} ${{ max_deposit }}">
+                        </i>
+                        <input type="number" name="money" id="money" class="form-control">
+                        
+                        <!-- <div class="buttonSplit mt-3">
+                            <button class="btn btn-success mt-2" type="submit"
+                                name="make_payment">{% trans 'Make Payment' %}</button>
+                        </div> -->
+                        <hr>    
+                        <h5>{% trans 'Summary' %}</h5>
+                        <div class="row">
+                            <div class="col-6">
+                                <p><b>{% trans 'Amount Selected' %}:</b></p>
+                            </div>
+                            <div class="col-3">
+                                <h5><span id="currency">$</span><span id="summary_amount">44</span></h5>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <label for="coupon">{% trans 'Coupon' %}</label>
+                                <i class="p-1 fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" 
+                                    data-placement="top" title="{% trans 'Insert the coupon and click on the Check button to validate' %}">
+                                </i>
+                                <div class="row">
+                                    <div class="col-7">
+                                        <input type="text" name="coupon" id="coupon" class="form-control">
+                                    </div>
+                                    <div class="col-4" style="margin:0px !important">
+                                        <button class="btn btn-primary">{% trans 'Apply' %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <p><b>{% trans 'Discount' %}:</b></p>
+                            </div>
+                            <div class="col-3">
+                                <h5><span id="summary_discount">%20</span></h5>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <p><b>{% trans 'Bill Amount' %}:</b></p>
+                            </div>
+                            <div class="col-3">
+                                <h5><span id="currency">$</span><span id="summary_bill_amount">44</span></h5>
+                            </div>
+                        </div>
+                        <!-- <div class="errorBox">
+                            Hello world
+                        </div> -->
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 col-12">
+                <div class="container py-5">
+                    <!-- For demo purpose -->
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto text-center">
+                            <h4 class="">{% trans 'Choose payment option' %}</h4>
+                        </div>
+                    </div> <!-- End -->
+                    <div class="row">
+                        <div class="col-lg-12 mx-auto">
+                            <div class="card ">
+                                <div class="card-header">
+                                    <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
+                                        <!-- Credit card form tabs -->
+                                        <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
+                                            <li class="nav-item"> <a data-toggle="pill" href="#credit-card" class="nav-link active "> 
+                                                <i class="fa fa-credit-card mr-2"></i> {% trans 'Credit Card' %} </a> 
+                                            </li>
+                                            <li class="nav-item"> <a data-toggle="pill" href="#paypal" class="nav-link "> 
+                                                <i class="fa fa-paypal mr-2"></i> Paypal </a> 
+                                            </li>
+                                            <!-- <li class="nav-item"> <a data-toggle="pill" href="#net-banking" class="nav-link "> <i class="fa fa-mobile-alt mr-2"></i> Net Banking </a> </li> -->
+                                        </ul>
+                                    </div> <!-- End -->
+                                    <!-- Credit card form content -->
+                                    <div class="tab-content">
+                                        <!-- credit card info-->
+                                        <div id="credit-card" class="tab-pane fade show active pt-3">
+                                            <form role="form">
+                                                <div class="form-group"> <label for="username">
+                                                        <!-- <h6>{% trans 'Card Owner' %}</h6> -->
+                                                    </label> <input type="text" name="username" placeholder="{% trans 'Card Owner Name' %}" required class="form-control "> </div>
+                                                <div class="form-group"> <label for="cardNumber">
+                                                        <!-- <h6>{% trans 'Card number' %}</h6> -->
+                                                    </label>
+                                                    <div class="input-group"> <input type="text" name="cardNumber" placeholder="{% trans 'Valid card number' %}" class="form-control " required>
+                                                        <div class="input-group-append"> 
+                                                            <span class="input-group-text text-muted"> 
+                                                                <i class="fa fa-cc-visa mx-1"></i> 
+                                                                <i class="fa fa-cc-mastercard mx-1"></i> 
+                                                                <i class="fa fa-cc-amex mx-1"></i> 
+                                                            </span> 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group"> <label><span class="hidden-xs">
+                                                                    <!-- <h6>{% trans 'Expiration Date' %}</h6> -->
+                                                                </span></label>
+                                                            <div class="input-group"> <input type="number" placeholder="MM" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required> </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group mb-4"> <label data-toggle="tooltip" title="{% trans 'Three digit CV code on the back of your card' %}">
+                                                            </label> <input type="text" required class="form-control" placeholder="CVV"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-footer"> <button type="button" name="make_payment" class="subscribe btn btn-success btn-block shadow-sm">
+                                                    {% trans 'Confirm Payment' %} 
+                                                </button>
+                                            </form>
+                                            <div class="row">
+                                                <div class="col-4 mt-5">
+                                                    <img src="{% static 'images/powered-by-stripe-black.png' %}" style="max-width: 100%;" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- End -->
+                                    <!-- Paypal info -->
+                                    <div id="paypal" class="tab-pane fade pt-3">
+                                        <!-- <h6 class="pb-2">Select your paypal account type</h6> -->
+                                        <!-- <div class="form-group "> 
+                                            <label class="radio-inline"> 
+                                                <input type="radio" name="optradio" checked>
+                                                    <p class="text-dark"> Domestic </p> 
+                                                </label> 
+                                            <label class="radio-inline"> 
+                                                <input type="radio" name="optradio" class="ml-5"><p class="text-dark">International </p>
+                                            </label></div> -->
+                                        <p> <button type="button" class="btn btn-primary "><i class="fa fa-paypal mr-2"></i> {% trans 'Log into my Paypal' %}</button> </p>
+                                        <p class="text-muted"> {% trans 'Note: After clicking on the button, you will be directed to a secure gateway for payment. After completing the payment process, you will be redirected back to the website.'%} </p>
+                                    </div> <!-- End -->
+                                    <!-- End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block bottom_js %}
+{% endblock bottom_js %}

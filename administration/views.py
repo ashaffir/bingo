@@ -6,12 +6,40 @@ from game.models import Album, Picture, Game, Player
 from users.utils import send_mail
 
 from .decorators import superuser_required
-
+from users.models import  User
 logger = logging.getLogger(__file__)
 
 @superuser_required
 def admin_home(request):
     context = {}
+    '''
+    Settting the newsletter optin option to the ones that are registering without it
+    - Select the latest registrar
+    - Check if that have opted-in
+    - Set their newsletter opt in to True if they have not
+    '''
+    if request.method == 'POST':
+        if 'optin' in request.POST:
+            try:
+                users = User.objects.filter(newsletter_optin=False) #TODO: implement selection of users on the UI.
+                for user in users:
+                    user.newsletter_optin = True
+                    user.save()
+                
+                messages.success(request, 'Opt-in option set successfully')
+                return redirect(request.META['HTTP_REFERER'])
+
+            except Exception as e:
+                print(f">>> ADMINISTRATION @ bulk_set_optin: Failed setting the optin. ERROR: {e} ")
+                logger.error(f">>> ADMINISTRATION @ bulk_set_optin: Failed setting the optin. ERROR: {e} ")
+                messages.error(request, 'Opt-in set failed!!')
+                return redirect(request.META['HTTP_REFERER'])
+
+        else:
+            print(f"Wrong button")
+            messages.error(request, 'ERROR BUTTON')
+
+        return redirect(request.META['HTTP_REFERER'])
     return render(request, 'administration/admin-home.html')
 
 @superuser_required

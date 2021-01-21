@@ -305,10 +305,10 @@ def charge(request):
             }
 
             send_mail(subject, 
-                        email_template_name=None,
-                        attachement=invoice_path,
-                        context=message, to_email=[user.email],
-                        html_email_template_name='bingo_main/emails/user_email.html')
+                    email_template_name=None,
+                    attachement=invoice_path,
+                    context=message, to_email=[user.email],
+                    html_email_template_name='bingo_main/emails/user_email.html')
         except Exception as e:
             logger.error(f'>>> PAYMENTS @ charge: Failed sending admin email with invoice. ERROR: {e}')
             print(f'>>> PAYMENTS @ charge: Failed sending admin email with invoice. ERROR: {e}')
@@ -328,8 +328,13 @@ def successMsg(request, args):
 
 
 @login_required
-def deposits(request):
+def deposit(request):
     context = {}
+    # user = request.user
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
+    context['dashboard'] = True
+
     if request.method == 'POST':
         if 'deposit_amount' in request.POST:
             amount = request.POST.get('deposit_amount')
@@ -339,7 +344,7 @@ def deposits(request):
                 messages.error(request, _('Please enter an amount, or pick one of the predefined amounts.'))
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    return render(request, 'payments/deposits.html', context)
+    return render(request, 'payments/deposit.html', context)
 
 
 @csrf_exempt

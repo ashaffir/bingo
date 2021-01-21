@@ -39,6 +39,7 @@ urlpatterns = [
     path('api/', include('api.urls', namespace='api')),
     path('game/', include('game.urls', namespace='game')),
     path('users/', include('users.urls', namespace='users')),
+    path('hubspot_api/', include('hubspot_api.urls', namespace='hubspot_api')),
     # path('api/users/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
 

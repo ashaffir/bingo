@@ -162,3 +162,10 @@ chmod +x post_receive
 
 # REFERENCE: Google tag manager and Google analytics setup
   > https://www.analyticsmania.com/post/how-to-track-events-with-google-analytics-4-and-google-tag-manager/
+
+# REFERENCE: Hubspot API
+  > https://github.com/jpetrucciani/hubspot3
+  > https://legacydocs.hubspot.com/docs/overview
+
+# REFERENCE: Profile page HTML source 
+  > https://bootsnipp.com/snippets/4Mm5R

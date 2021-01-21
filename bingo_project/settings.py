@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'users',
     'payments',
     'stripe',
+    'hubspot_api',
     'control',
     'administration',
     'frontend',
@@ -375,3 +376,7 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10240
 RECAPTCHA_PUBLIC_KEY = config['RECAPTCHA_SITE_KEY']
 RECAPTCHA_PRIVATE_KEY = config['RECAPTCHA_SECRET_KEY']
 NOCAPTCHA = True
+
+# Hubspot
+HUBSPOT_API = config['HUBSPOT_API']
+
