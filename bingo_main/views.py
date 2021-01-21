@@ -940,7 +940,7 @@ def check_game_id(request):
         print(f'>>> BINGO MAIN: GAME ID: {game_id}')
 
         if game.is_finished or game.started or game.ended:
-            return Response(data={"message": "Game entry finished"}, status=400)
+            return Response(json.dumps({"finished": "True"}), status=200)
 
         # If game exists, create new player and add it to the game players list
         player = Player.objects.create(
@@ -950,10 +950,10 @@ def check_game_id(request):
         )
 
         print(f'GAME: {game}')
-        return Response(data=player.pk, status=200)
+        return Response(json.dumps({'player_id':str(player.pk)}), status=200)
     except Exception as e:
         print(f'>>> BINGO MAIN: NO GAME: {e}')
-        return Response(data={'message': "Game ID does not exist"}, status=400)
+        return Response(json.dumps({'invalid': "no_game"}), status=200)
     # return redirect(request.META['HTTP_REFERER'])
 
 

@@ -42,16 +42,41 @@ function openBingo(url) {
             'code': code,
             'name': name
         },
-        success: function (player_id) {
+        success: function (response) {
             // alert('Album saved!');
             // window.location.href = '{% url "bingo_main:create_bingo" %}';
 
             playButton.disabled = true;
             console.log('START BROADCAST...')
             valid = true;
-            console.log(`RESPONSE: ${player_id}`)
+            const data = JSON.parse(response)
+            console.log(`RESPONSE: ${data}`)
+            if (data.player_id){
+                window.location.href = `${window.location.origin}/bingo/${data.player_id}`;
+            } else if (data.finished){
+                document.querySelector('#submitError').innerHTML = 'This game is finished or in progress. Please try another game that you are invited to.'
+                document.querySelector('#submitError').style.display = 'block';                
+                setTimeout(function () {
+                    $("#submitError").hide();
+                }, 10000);
+                playButton.disabled = false;
 
-            window.location.href = `${window.location.origin}/bingo/${player_id}`;
+            } else if (data.data){
+                document.querySelector('#submitError').innerHTML = 'This game is not active. Please enter a valid Game ID'
+                document.querySelector('#submitError').style.display = 'block';                
+                setTimeout(function () {
+                    $("#submitError").hide();
+                }, 10000);
+                playButton.disabled = false;
+            } else {
+                document.querySelector('#submitError').innerHTML = 'Please enter a valid Game ID'
+                document.querySelector('#submitError').style.display = 'block';                
+                setTimeout(function () {
+                    $("#submitError").hide();
+                }, 10000);
+                playButton.disabled = false;
+
+            }
 
 
 
@@ -60,16 +85,6 @@ function openBingo(url) {
             valid = false;
             console.log('WRONG KEY...')
             if (!valid) {
-                document.querySelector('#submitError').innerHTML = 'Please enter a valid game pin!'
-                document.querySelector('#submitError').style.display = 'block';
-                console.log(`BUT: ${playButton.disabled}`)
-
-                setTimeout(function () {
-                    $("#submitError").hide();
-                }, 5000);
-                playButton.disabled = false;
-                console.log(`BUT: ${playButton.disabled}`)
-
                 return
             }
         }
