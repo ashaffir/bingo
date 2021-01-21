@@ -957,7 +957,7 @@ def check_game_id(request):
         return Response(json.dumps({'player_id':str(player.pk)}), status=200)
     except Exception as e:
         print(f'>>> BINGO MAIN: NO GAME: {e}')
-        logger.error(f'>>> BINGO MAIN: NO GAME: {e}')
+        logger.info(f'>>> BINGO MAIN: NO GAME: {e}')
         return Response(json.dumps({'invalid': "no_game"}), status=200)
     # return redirect(request.META['HTTP_REFERER'])
 
