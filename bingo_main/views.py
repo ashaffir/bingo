@@ -287,9 +287,11 @@ def bingo_main_register(request):
             user = form.save()  # add employer to db with is_active as False
             
             user.newsletter_optin = True if request.POST.get('newsletter') == 'on' else False
+            logger.info(f">>> BINGO MAIN @ bingo_main_register: Newsletter optin {request.POST.get('newsletter')}")
             user.language = request.LANGUAGE_CODE
             try:
                 user.country = request.POST.get('country')
+                logger.info(f">>> BINGO MAIN @ bingo_main_register: country {request.POST.get('country')}")
             except:
                 logger.info(f">>> BINGO MAIN @ bingo_main_register: No country registered")
 
