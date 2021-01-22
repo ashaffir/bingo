@@ -165,8 +165,8 @@ SOCIALACCOUNT_PROVIDERS = {
 # auth urls
 LOGIN_URL = 'bingo_main:bingo_main_login'
 LOGOUT_URL = 'bingo_main:bingo_main'
-# LOGIN_REDIRECT_URL = 'core:login_redirect'
-# LOGOUT_REDIRECT_URL = 'core:home'
+LOGIN_REDIRECT_URL = 'bingo_main:bingo_main'
+LOGOUT_REDIRECT_URL = 'bingo_main:bingo_main'
 
 
 AUTHENTICATION_BACKENDS = [
