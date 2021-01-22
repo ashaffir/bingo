@@ -279,6 +279,8 @@ def bingo_main_register(request):
     context = {}
     context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
 
+    logger.info(f">>> BINGO MAIN @ bingo_main_register: Registration request {request}")
+
     if request.method == 'POST':
         form = HostSignupForm(request.POST)
         if form.is_valid():
@@ -289,7 +291,8 @@ def bingo_main_register(request):
             try:
                 user.country = request.POST.get('country')
             except:
-                pass
+                logger.info(f">>> BINGO MAIN @ bingo_main_register: No country registered")
+
             user.username = user.email
             user.save()
 
@@ -331,6 +334,7 @@ def bingo_main_register(request):
                                     password=form.cleaned_data['password1'],
                                     )
             print(f"USER: {new_user}")
+            logger.info(f">>> BINGO MAIN @ bingo_main_register: new user -> {new_user}")
 
             login(request, new_user)
             
