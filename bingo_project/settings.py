@@ -115,8 +115,10 @@ TEMPLATES = [
 #########
 SITE_ID = 1
 ACCOUNT_EMAIL_REQUIRED = True
-LOGIN_REDIRECT_URL = '/'
-
+LOGIN_URL = 'bingo_main:bingo_main_login'
+LOGOUT_URL = 'bingo_main:bingo_main'
+LOGIN_REDIRECT_URL = 'bingo_main:dashboard'
+LOGOUT_REDIRECT_URL = 'bingo_main:bingo_main'
 
 AUTH_USER_MODEL = 'users.User'
 USERNAME_FIELD = 'email'
@@ -161,12 +163,6 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # use custom auth model
 # USERNAME_FIELD = 'email'
-
-# auth urls
-LOGIN_URL = 'bingo_main:bingo_main_login'
-LOGOUT_URL = 'bingo_main:bingo_main'
-LOGIN_REDIRECT_URL = 'bingo_main:bingo_main'
-LOGOUT_REDIRECT_URL = 'bingo_main:bingo_main'
 
 
 AUTHENTICATION_BACKENDS = [
