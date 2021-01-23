@@ -3,86 +3,81 @@
 {% load i18n %}
 {% get_current_language as lang %}
 
+{% block title %}{% trans 'Polybingo-Contact Us' %}{% endblock title %}
+
 {% block content %}
-{% include 'bingo_main/partials/_navbar_index.html' with active_tab='dashboard' %}
 
-<section class="ftco-section contact-section" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
-  <div class="container mt-5">
-    <div class="row justify-content-center mb-2 pb-3">
-      <div class="col-md-7 text-center heading-section">
-        <h2 class="mb-4"><span>{% trans 'Contact' %}</span> {% trans 'Us' %}</h2>
-      </div>
-    </div>
-    <div class="row d-flex mb-2 contact-info">
-      <div class="col-md-12 mb-4">
-        <h2 class="h3">{% trans 'Contact Information' %}</h2>
-      </div>
-      <div class="w-100"></div>
-      <!-- <div class="col-md-3">
-        <p><span>Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
-      </div> -->
-      <!-- <div class="col-md-3">
-        <p><span>{% trans 'Phone' %}:</span> <a href="tel://1234567920"></a></p>
-      </div> -->
-      <div class="col-md-3">
-        <p><span>{% trans 'Email' %}:</span> <a href="mailto:support@polybingo.com">support@polybingo.com</a></p>
-      </div>
-      <!-- <div class="col-md-3">
-        <p><span>{% trans 'Website' %}</span> <a href="#">polybingo.com</a></p>
-      </div> -->
-    </div>
-    <div class="row block-9">
-      <div class="col-md-8 order-md-last d-flex">
-        <form action="#" class="bg-light p-5 contact-form" method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          <div class="form-group">
-            <input name="name" type="text" class="form-control" placeholder="{% trans 'Your Name' %}" required>
-          </div>
-          <div class="form-group">
-            <input name="email" type="text" class="form-control" placeholder="{% trans 'Your Email' %}" required>
-          </div>
-          <div class="form-group">
-            <input name="subject" type="text" class="form-control" placeholder="{% trans 'Subject' %}" required>
-          </div>
-          <div class="form-group">
-            <textarea name="message" id="" cols="30" rows="7" class="form-control" placeholder="{% trans 'Message' %}" required ></textarea>
-          </div>
-          <div class="form-group">
-            <input type="submit" value="{% trans 'Send Message' %}" name="contact_us" class="btn btn-primary py-3 px-5">
-          </div>
-        </form>
-
+<section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
+  <div class="container">
+    <div class="row justify-content-center mb-2 pb-1 pt-3 mt-5 mb-5">
+      <div class="col-md-7 text-center heading-section mb-5">
+        <h2 class="mb-4"><span>{% trans 'Contact Us' %}</span></h2>
       </div>
 
-      <!-- <div class="col-md-6 d-flex">
-        <div id="map" class="bg-white"></div>
-      </div> -->
-    </div>
+      <div class="col-lg-6">
+        <div class="footer-links">
+          <h4>{% trans 'Send us an email' %}</h4>
+          <p>
+            <!-- A108 Adam Street <br>
+            New York, NY 535022<br>
+            United States <br>
+            <strong>Phone:</strong> +1 5589 55488 55<br> -->
+            <strong>Email:</strong> support@polybingo.com<br>
+          </p>
+        </div>
+
+      </div>
+      <div class="col-lg-6">
+
+        <div class="form">
+
+          <h4>{% trans 'Send us a message' %}</h4>
+          <!-- <p>Eos ipsa est voluptates. Nostrum nam libero ipsa vero. Debitis quasi sit eaque numquam similique commodi harum aut temporibus.</p> -->
+
+          <form method="post" enctype="multipart/form-data" class="" {% if debug %} {% else %} onsubmit="return submitUserForm();" {% endif %}>
+            {% csrf_token %}
+            <div class="form-group">
+              <input type="text" name="name" class="form-control" id="name" placeholder="{% trans 'Your Name' %}" 
+                data-rule="minlen:4" data-msg="{% trans 'Please enter at least 4 chars' %}" required />
+              <div class="validate"></div>
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control" name="email" id="email" placeholder="{% trans 'Your Email' %}" 
+              data-rule="email" data-msg="{% trans 'Please enter a valid email' %}" required />
+              <div class="validate"></div>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name="subject" id="subject" placeholder="{% trans 'Subject' %}" 
+              data-rule="minlen:4" data-msg="{% trans 'Please enter at least 8 chars of subject' %}" required />
+              <div class="validate"></div>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="{% trans 'Please write something for us' %}" 
+              placeholder="{% trans 'Message' %}"></textarea>
+              <div class="validate"></div>
+            </div>
+
+            {% if lang == 'he' and not debug %}
+              <script src='https://www.google.com/recaptcha/api.js?hl=he'> </script>
+            {% elif not debug %}
+              <script src='https://www.google.com/recaptcha/api.js'> </script>
+            {% endif %}
+            <div class="row">
+              <div class="col-md-7 col-12">
+                <div class="g-recaptcha" data-sitekey="{{ site_recaptcha }}" data-callback="verifyCaptcha"></div>
+                <div id="g-recaptcha-error"></div>
+              </div>
+              <div class="col-md-5 col-12">
+                <div class="text-center">
+                  <button class="btn btn-success mt-3" type="submit" name="contact_us" title="Send Message">{% trans 'Send Message' %}</button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>   
+     </div>
   </div>
 </section>
-
-<!-- Newsletter section -->
-<!-- <section class="ftco-section-parallax">
-  <div class="parallax-img d-flex align-items-center">
-    <div class="container">
-      <div class="row d-flex justify-content-center">
-        <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-          <h2>{% trans 'Subcribe to our Newsletter' %}</h2>
-          <div class="row d-flex justify-content-center mt-4 mb-4">
-            <div class="col-md-8">
-              <form action="#" class="subscribe-form">
-                <div class="form-group d-flex">
-                  <input type="text" class="form-control" placeholder="{% trans 'Enter email address' %}">
-                  <input type="submit" value="{% trans 'Subscribe' %}" class="submit px-3">
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
-
-
 {% endblock content %}

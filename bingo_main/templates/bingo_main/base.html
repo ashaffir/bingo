@@ -189,16 +189,14 @@
 
 
   <!-- ======= Footer ======= -->
-  <footer id="footer" class="section-bg">
+  <footer id="footer" class="section-bg" style="margin-top: 2%">
     <div class="footer-top">
       <div class="container">
 
         <div class="row">
 
           <div class="col-lg-6">
-
             <div class="row">
-
               <div class="col-sm-6">
 
                 <!-- <div class="footer-info">
@@ -206,55 +204,46 @@
                   <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus. Scelerisque felis imperdiet proin fermentum leo. Amet volutpat consequat mauris nunc congue.</p>
                 </div> -->
 
-                <!-- <div class="footer-newsletter">
-                  <h4>Our Newsletter</h4>
-                  <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna veniam enim veniam illum dolore legam minim quorum culpa amet magna export quem.</p>
-                  <form action="" method="post">
-                    <input type="email" name="email"><input type="submit" value="Subscribe">
-                  </form>
-                </div> -->
-            <!-- Language Menu -->           
-        <div class="footer-newsletter">
-            <div>
-              <!-- Search bar -->
-              <form class="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
-                  action="{% url 'bingo_main:search' %}" method="POST">
-                  {% csrf_token %}
-                  <div class="input-group">
-                      <input type="text" class="form-control border-0 small" name="search" id="search" 
-                          placeholder="{% trans 'Search Albums' %}..."
-                          aria-label="Search" aria-describedby="basic-addon2">
-                      <div class="input-group-append">
-                          <button class="btn btn-success" type="submit">
-                              <i class="fa fa-search fa-sm"></i>
-                          </button>
-                      </div>
-                  </div>
-              </form>
-              <!-- End search bar -->
-  
-            </div>
-            <div class="mt-3" style="text-align: center;">
-                <form action="{% url 'set_language' %}" method="POST">
-                {% csrf_token %}
-                    <input  type="hidden" name="text" value="{{ redirect_to }}">
-                    <select style="background-color: white;" class="lang-select" name="language" id="home_lang_selector" onchange="this.form.submit()">
-                        <option class="form-control" value="">{% trans 'Change Language' %}</option>
-                        {% get_available_languages as LANGUAGES %}
-                        {% get_language_info_list for LANGUAGES as languages %}
-                        {% for language in languages %}
-                        <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
-                            {{ language.name_local }}
-                        </option>
-                        {% endfor %}
-                        <!-- <input class="" type="submit" value="Go" style="margin: 1rem;background-color: #8bc34a; color:white; border:0em; border-radius: 3px"> -->
-                    </select>
-                </form>		
-            </div>           
-        </div>
-            <!-- End Language bar-->
-
-
+                <div class="footer-newsletter">
+                    <div>
+                      <!-- Search bar -->
+                      <form class="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+                          action="{% url 'bingo_main:search' %}" method="POST">
+                          {% csrf_token %}
+                          <div class="input-group">
+                              <input type="text" class="form-control border-0 small" name="search" id="search" 
+                                  placeholder="{% trans 'Search Albums' %}..."
+                                  aria-label="Search" aria-describedby="basic-addon2">
+                              <div class="input-group-append">
+                                  <button class="btn btn-success" type="submit">
+                                      <i class="fa fa-search fa-sm"></i>
+                                  </button>
+                              </div>
+                          </div>
+                      </form>
+                      <!-- End search bar -->
+                    </div>
+                    
+                    <!-- Language Menu -->           
+                    <div class="mt-3" style="text-align: center;">
+                        <form action="{% url 'set_language' %}" method="POST">
+                        {% csrf_token %}
+                            <input  type="hidden" name="text" value="{{ redirect_to }}">
+                            <select style="background-color: white;" class="lang-select" name="language" id="home_lang_selector" onchange="this.form.submit()">
+                                <option class="form-control" value="">{% trans 'Change Language' %}</option>
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                                    {{ language.name_local }}
+                                </option>
+                                {% endfor %}
+                                <!-- <input class="" type="submit" value="Go" style="margin: 1rem;background-color: #8bc34a; color:white; border:0em; border-radius: 3px"> -->
+                            </select>
+                        </form>		
+                    </div>           
+                    <!-- End Language bar-->
+                </div>
               </div>
 
               <div class="col-sm-6">
@@ -263,27 +252,10 @@
                     <li><a href="{% url 'bingo_main:bingo_main' %}">{% trans 'Home' %}</a></li>
                     <li><a href="{% url 'bingo_main:instructions' %}">{% trans 'Instructions' %}</a></li>
                     <li><a href="{% url 'bingo_main:about' %}">{% trans 'About Us' %}</a></li>
+                    <li><a href="{% url 'bingo_main:contact' %}">{% trans 'Contact Us' %}</a></li>
                     <li><a href="{% url 'bingo_main:terms' %}">{% trans 'Terms & Conditions' %}</a></li>
                     <li><a href="{% url 'bingo_main:privacy' %}">{% trans 'Privacy' %}</a></li>
                   </ul>
-                </div>
-
-                <div class="footer-links">
-                  <h4>{% trans 'Contact Us' %}</h4>
-                  <p>
-                    <!-- A108 Adam Street <br>
-                    New York, NY 535022<br>
-                    United States <br>
-                    <strong>Phone:</strong> +1 5589 55488 55<br> -->
-                    <strong>Email:</strong> support@polybingo.com<br>
-                  </p>
-                </div>
-
-                <div class="social-links">
-                  <a href="https://twitter.com/polybingo" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>
-                  <a href="https://www.facebook.com/polybingo/" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a>
-                  <a href="https://www.instagram.com/polybingo/" target="_blank" class="instagram"><i class="fa fa-instagram"></i></a>
-                  <!-- <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a> -->
                 </div>
 
               </div>
@@ -291,57 +263,28 @@
             </div>
 
           </div>
-
-          <div class="col-lg-6">
-
-            <div class="form">
-
-              <h4>{% trans 'Send us a message' %}</h4>
-              <!-- <p>Eos ipsa est voluptates. Nostrum nam libero ipsa vero. Debitis quasi sit eaque numquam similique commodi harum aut temporibus.</p> -->
-
-              <form method="post" enctype="multipart/form-data" class="" onsubmit="return submitUserForm();">
-                {% csrf_token %}
-                <div class="form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="{% trans 'Your Name' %}" 
-                    data-rule="minlen:4" data-msg="{% trans 'Please enter at least 4 chars' %}" required />
-                  <div class="validate"></div>
+          <div class="col-lg-3 col-md-3">
+            <div class="footer-newsletter">
+              <h4>{% trans 'Follow us' %}</h4>
+              <div class="row mb-5">
+                <div class="col-12">
+                  <div class="social-links">
+                    <a href="https://twitter.com/polybingo" target="_blank" class="twitter"><i class="fa fa-twitter"></i></a>
+                    <a href="https://www.facebook.com/polybingo/" target="_blank" class="facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/polybingo/" target="_blank" class="instagram"><i class="fa fa-instagram"></i></a>
+                    <!-- <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a> -->
+                  </div>  
                 </div>
-                <div class="form-group">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="{% trans 'Your Email' %}" 
-                  data-rule="email" data-msg="{% trans 'Please enter a valid email' %}" required />
-                  <div class="validate"></div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                <h4>{% trans 'Join Our Newsletter' %}</h4>
+                <form action="" method="post">
+                    <input type="email" name="email"><input type="submit" value="Subscribe">
+                  </form>    
                 </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" name="subject" id="subject" placeholder="{% trans 'Subject' %}" 
-                  data-rule="minlen:4" data-msg="{% trans 'Please enter at least 8 chars of subject' %}" required />
-                  <div class="validate"></div>
-                </div>
-                <div class="form-group">
-                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="{% trans 'Please write something for us' %}" 
-                  placeholder="{% trans 'Message' %}"></textarea>
-                  <div class="validate"></div>
-                </div>
-
-                {% if lang == 'he' %}
-                  <script src='https://www.google.com/recaptcha/api.js?hl=he'> </script>
-                {% else %}
-                  <script src='https://www.google.com/recaptcha/api.js'> </script>
-                {% endif %}
-                <div class="row">
-                  <div class="col-md-7 col-12">
-                    <div class="g-recaptcha" data-sitekey="{{ site_recaptcha }}" data-callback="verifyCaptcha"></div>
-                    <div id="g-recaptcha-error"></div>
-                  </div>
-                  <div class="col-md-5 col-12">
-                    <div class="text-center">
-                      <button class="btn btn-success mt-3" type="submit" name="contact_us" title="Send Message">{% trans 'Send Message' %}</button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-
+              </div>
             </div>
-
           </div>
 
         </div>
