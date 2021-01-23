@@ -427,7 +427,7 @@ def contact(request):
 
         return redirect('bingo_main:bingo_main')
 
-    return render(request, 'bingo_main/contact.html')
+    return render(request, 'bingo_main/contact.html', context)
 
 
 @login_required
