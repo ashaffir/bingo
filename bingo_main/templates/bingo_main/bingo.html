@@ -94,7 +94,7 @@
                 {% trans 'Current Image' %}
             </div>
             <div></div>
-            <div class="winCondition"></div>
+            <div class="winCondition" style="vertical-align: top;"></div>
                 {% if game.current_picture.image_file.url %}
                 <img src="{{ game.current_picture.image_file.url }}" id="currentImage" alt="" class="currentImage">
                 {% else %}
@@ -189,11 +189,8 @@
             //document.getElementById('currentImage').src = '{{ game.current_picture.image_file.url }}';
 
             setTimeout(() => {
-
-                document.querySelector('.bingoTable').style.width = document.querySelector('.bingoTable')
-                    .clientHeight +
-                    'px';
-                //document.querySelector('.currentImage').style.width = document.querySelector('.currentImage').clientHeight + 'px';
+                document.querySelector('.bingoTable').style.width = document.querySelector('.bingoTable').clientHeight + 'px';
+                document.querySelector('.currentImage').style.width = document.querySelector('.currentImage').clientHeight + 'px';
             }, 100);
 
             // if (!urlParams.get('code')) return window.location.href = './';
@@ -519,6 +516,7 @@
             */
         })
 
+        getData();
 
     </script>
 
