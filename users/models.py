@@ -35,7 +35,7 @@ class User(AbstractUser):
     coupons_used = models.JSONField(null=True, blank=True, default=list)
     europeCitizenship = models.BooleanField(null=True, blank=True)
 
-    plan_name = models.CharField(max_length=100, null=True, blank=True)
+    plan_name = models.CharField(max_length=100, null=True, blank=True, default='free')
     stripe_sub_id = models.CharField(max_length=100, null=True, blank=True)
     stripe_subscription_id = models.CharField(max_length=100, null=True, blank=True)
     stripe_customer_key = models.CharField(max_length=100, null=True, blank=True)
