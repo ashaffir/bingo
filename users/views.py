@@ -31,6 +31,9 @@ from .utils import send_mail
 from administration.decorators import superuser_required
 from bingo_main.models import ContentPage
 from newsletter.models import Newsletter
+from game.models import Album, Player, Game
+from bingo_main.utils import alert_admin
+from membership.models import Plan
 
 logger = logging.getLogger(__file__)
 
@@ -41,18 +44,90 @@ logger = logging.getLogger(__file__)
 def profile_test(request):
     context = {}
     # Contact us form
-    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
-
     user = request.user
     return render(request, 'users/profile_test.html', context)
 
 @login_required
 def profile(request):
     context = {}
-    # Contact us form
-    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
-
     user = request.user
+    print(f'>> VIEWS MAIN: Profile data: {request.POST}')
+    try:
+        context['user_albums'] = Album.objects.filter(user=request.user)
+    except:
+        context['user_albums'] = []
+
+    try:
+        context['user_games'] = Game.objects.filter(user=request.user)
+    except:
+        context['user_games'] = []
+
+    try:
+        context['user_plan'] = Plan.objects.get(name=user.plan_name)
+    except:
+        context['user_plan'] = Plan.objects.get(name='free')
+
+    ### Populate the plans ###
+    try:
+        if settings.DEBUG:
+            context['free_plan'] = Plan.objects.get(name='free')
+            context['basic_plan'] = Plan.objects.get(name='basic')
+            context['expert_plan'] = Plan.objects.get(name='expert')
+        else:
+            context['free_plan'] = Plan.objects.get(name='free')
+            context['basic_plan'] = Plan.objects.get(name='basic')
+            context['expert_plan'] = Plan.objects.get(name='expert')        
+    except Exception as e:
+        print(f">>> USERS @ profile: Failed to get plans. ERROR: {e}")
+        logger.error(f">>> USERS @ profile: Failed to get plans. ERROR: {e}")
+        alert_admin(f"Failed to get plans. ERROR: {e}",'Profile')
+
+
+
+    if request.method == 'POST':
+        if 'update_personal' in request.POST:
+            print(f"POST: {request.POST}")
+            fname = request.POST.get('fname')
+            lname = request.POST.get('lname')
+            phone = request.POST.get('phone')
+            mobile = request.POST.get('mobile')
+            company_name = request.POST.get('company')
+            country = request.POST.get('country')
+            vat = request.POST.get('vat')
+            profile_pic = request.FILES.get("complogo")
+
+            user = request.user
+            if fname != '':
+                user.first_name = fname
+
+            if lname != '':
+                user.last_name = lname
+
+            if company_name != '':
+                user.company_name = company_name
+
+            if country:
+                user.country = country
+
+            if vat != '':
+                user.vat_number = vat
+
+            if profile_pic:
+                user.profile_pic = profile_pic
+
+            if phone:
+                user.phone = phone
+
+            if mobile:
+                user.mobile_phone = mobile
+
+            user.save()
+
+            messages.success(request, _('Your profile was successfuly updated'))
+            # return redirect('bingo_main:bingo_main')
+            # return redirect(request.META['HTTP_REFERER'])       
+    
+    
     return render(request, 'users/profile.html', context)
 
 

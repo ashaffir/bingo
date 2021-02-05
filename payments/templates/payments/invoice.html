@@ -239,10 +239,10 @@
                                 <tbody>
                                     <tr>
                                         <td>1</td>
-                                        <td>Polybingo Hosting Credit</td>
+                                        <td>Polybingo <b>{{ payment.plan_purchased }}</b> plan</td>
                                         <td></td>
                                         <td>1</td>
-                                        <td>${{ payment.amount }}</td>
+                                        <td>${{ payment.total_charge }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -259,12 +259,12 @@
 
                         <div class="py-3 px-5 text-right">
                             <div class="mb-2">Discount</div>
-                            <div class="h2 font-weight-light">0%</div>
+                            <div class="h2 font-weight-light">{{ discount }}%</div>
                         </div>
 
                         <div class="py-3 px-5 text-right">
                             <div class="mb-2">Sub - Total amount</div>
-                            <div class="h2 font-weight-light">${{ payment.amount }}</div>
+                            <div class="h2 font-weight-light">${{ payment.total_charge }}</div>
                         </div>
                     </div>
                 </div>

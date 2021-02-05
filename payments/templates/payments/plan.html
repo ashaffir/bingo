@@ -1,0 +1,405 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
+{% block title %}{% trans 'Polybingo-Subscribe' %}{% endblock title %}
+
+{% block content %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'dashboard/css/global.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'css/index.css' %}" />
+<link rel="stylesheet" href="{% static 'dashboard/css/bingoStart.css' %}">
+<link rel="stylesheet" href="{% static 'css/loader.css' %}">
+
+{% endblock css %}
+
+<style>
+body {
+    padding: 50px 0px 60px !important;
+}
+#payment .error {
+    color: red;
+}
+
+.active {
+    background-color: #f7f7f7;
+    color: white;
+}
+h6 {
+    color: black;
+}
+</style>
+
+<section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %}
+    style="text-align: left;" {% endif %}>
+    <div class="container">
+        <div class="row d-flex" style="margin-bottom: 10%">
+            <div class="col-md-6 col-12">
+                <form class="form-group" action="" name="checkCoupon" id="checkCoupon" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="" style="margin-top: 5%;">
+                        <h3>{% trans 'Subscribe to plan' %}: <b>{{ selected_plan.name }}</b></h3>
+                        <hr>    
+                        <div class="row">
+                            <div class="col-3">
+                                <h1 style="margin-left: 50%;">${{ selected_plan.price_monthly }}</h1>
+                            </div>
+                            <div class="col-1">
+                                <h5><span id="currency"></span><span id="summary_amount">per month</span></h5>
+                            </div>
+                        </div>
+                        <div class="row mt-3 border-bottom">
+                            <div class="col-8">
+                               <h5> {% trans 'Plan' %}: <b>{{ selected_plan.name }}</b></h5>
+                                {% if term == 'month' %}
+                                    {% trans 'Billed monthly' %}
+                                {% else %}
+                                    {% trans 'Billed annualy' %}
+                                {% endif %}
+                            </div>
+                            <div class="col-2">
+                                {% if term == 'month' %}
+                                    ${{ selected_plan.price_monthly }}
+                                {% else %}
+                                    ${{ selected_plan.price_yearly }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-8">
+                                <h5> {% trans 'Subtotal' %}</h5>
+                             </div>
+                             <div class="col-2">
+                                {% if term == 'month' %}
+                                    ${{ selected_plan.price_monthly }}
+                                {% else %}
+                                    ${{ selected_plan.price_yearly }}
+                                {% endif %}
+                                
+                            </div> 
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-12">
+                                <label for="coupon">{% trans 'Coupon' %}</label>
+                                <i class="p-1 fa fa-question-circle" aria-hidden="true" data-toggle="tooltip" 
+                                    data-placement="top" title="{% trans 'Insert the coupon and click on the Apply button to validate' %}">
+                                </i>
+                                <div class="row">
+                                    <div class="col-7">
+                                        <input type="text" name="coupon" id="coupon" class="form-control">
+                                    </div>
+                                    <div class="col-4" style="margin:0px !important">
+                                        <button type="submit" name='coupon_check' class="btn btn-primary">{% trans 'Apply' %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% if discount %}
+                            <div class="row mt-3">
+                                <div class="col-7">
+                                    <p><b>{% trans 'Discount' %}:</b></p>
+                                </div>
+                                <div class="col-2">
+                                    <h5><span id="summary_discount">% {{ discount }}</span></h5>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <hr>
+                        <div class="row">
+                            <div class="col-8">
+                                <p><b>{% trans 'Total due today' %}:</b></p>
+                            </div>
+                            <div class="col-2">
+                                <h5><span id="currency">$</span><span id="summary_bill_amount">{{ amount }}</span></h5>
+                            </div>
+                        </div>
+                        <!-- <div class="errorBox">
+                            Hello world
+                        </div> -->
+                    </div>
+                </form>
+            </div>
+            
+            <div class="col-md-6 col-12">
+                <div class="container py-4">
+                    <!-- For demo purpose -->
+                    <div class="row">
+                        <div class="col-lg-12 mx-auto">
+                            <div class="row">
+                                <div class="col-lg-8 mx-auto text-center">
+                                    <h4 class="">{% trans 'Billing Information' %}</h4>
+                                </div>
+                            </div> <!-- End -->
+
+                            <!-- Credit Card information Form -->
+                            <form id="payment" class="" name="payment" method="post" 
+                                action="{% url 'payments:make_payment' term=term plan_id=plan_id coupon=coupon %}">
+                                {% csrf_token %}
+    
+                            <!-- Card owner information  -->
+                            <div class="card" id="personalInfo">
+                                <div class="card-header form-group">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input class="form-control" type="text" name="fname" placeholder="First Name*" required>
+                                        </div>
+                                        <div class="col-6">
+                                            <input class="form-control" type="text" name="lname" placeholder="Last Name*" required>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <input class="form-control" type="text" name="email" value="{{ user.email }}"
+                                                {% if user.is_authenticated %} placeholder="{{ user.email }}" {% else %} placeholder="Enter your email*" required{% endif %} 
+                                                >
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-6">
+                                            <input class="form-control" type="text" name="company_name" placeholder="Company name">
+                                        </div>
+                                        <div class="col-6">
+                                            <input class="form-control" type="text" name="vat" placeholder="VAT">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mt-2">
+                                <div class="card-header">
+                                    <div class="row">
+                                        <div class="col-lg-8 mx-auto text-center">
+                                            <h5 class="">{% trans 'Choose payment option' %}</h5>
+                                        </div>
+                                    </div> <!-- End -->
+                                    <div class="bg-white shadow-sm pt-2 pl-2 pr-2 pb-1">
+                                        <!-- Credit card form tabs -->
+                                        <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
+                                            <li class="nav-item"> 
+                                                <a data-toggle="pill" href="#credit-card" class="nav-link active" onclick="toggleInfo('cc')"> 
+                                                <i class="fa fa-credit-card mr-2"></i> {% trans 'Credit Card' %} </a> 
+                                            </li>
+                                            <li class="nav-item"> 
+                                                <a data-toggle="pill" href="#paypal_tab" class="nav-link" onclick="toggleInfo('paypal')"> 
+                                                <i class="fa fa-paypal mr-2"></i> Paypal </a> 
+                                            </li>
+                                            <!-- <li class="nav-item"> <a data-toggle="pill" href="#net-banking" class="nav-link "> <i class="fa fa-mobile-alt mr-2"></i> Net Banking </a> </li> -->
+                                        </ul>
+                                    </div> <!-- End -->
+                                    
+                                    <!-- Credit card form content -->
+                                    <div class="tab-content">
+                                        <!-- credit card info-->
+                                        <div id="credit-card" class="tab-pane fade show active pt-3">
+                                                <div class="form-group"> 
+                                                    <div class="input-group"> 
+                                                        <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==18) return false;"
+                                                            name="card_number" id="card_number" placeholder="{% trans 'Valid card number' %}" class="form-control " required>
+                                                        <div class="input-group-append"> 
+                                                            <span class="input-group-text text-muted"> 
+                                                                <i class="fa fa-cc-visa mx-1"></i> 
+                                                                <i class="fa fa-cc-mastercard mx-1"></i> 
+                                                                <i class="fa fa-cc-amex mx-1"></i> 
+                                                            </span> 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-8">
+                                                        <div class="form-group"> 
+                                                            <label><span class="hidden-xs">
+                                                                    <!-- <h6>{% trans 'Expiration Date' %}</h6> -->
+                                                                </span></label>
+                                                            <div class="input-group"> 
+                                                                <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;"
+                                                                    placeholder="MM" name="exp_month" id="exp_month" class="form-control" required> 
+                                                                <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==2) return false;"
+                                                                    placeholder="YY" name="exp_year" id="exp_year" class="form-control" required> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group mb-4"> 
+                                                            <label aria-hidden="true"
+                                                            data-toggle="tooltip" data-placement="top" title="{% trans 'Three digit CVV code on the back of your card' %}">
+                                                            </label> 
+                                                            <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==3) return false;"
+                                                                 name="cvv" id="cvv" required class="form-control" placeholder="CVV"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <select name="country" class="form-control" id="country" required>
+                                                            <option value="">{% trans 'Choose your country' %}...</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <input class="form-control" type="text" name="postal_code" placeholder="Postal Code">
+                                                    </div>
+                                                </div>
+                                                <br>                                
+                                                <div class="card-footer"> 
+                                                    <button type="submit" name="make_payment" class="subscribe btn btn-success btn-block shadow-sm">
+                                                        {% trans 'Confirm Payment' %} 
+                                                    </button>
+                                            <div class="row mt-3">
+                                                <div class="col-12 text-black-50">
+                                                    <h6><i class="fa fa-lock"></i> {% trans 'Safe, secure, encrypted payment' %}</h6>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <img src="{% static 'images/powered-by-stripe-black.png' %}" style="max-width: 100%;" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> <!-- End -->
+                                    </form>
+                                    <!-- Paypal info -->
+                                    <div id="paypal_tab" class="tab-pane fade pt-3">
+                                        <!-- <h6 class="pb-2">Select your paypal account type</h6> -->
+                                        <!-- <div class="form-group "> 
+                                            <label class="radio-inline"> 
+                                                <input type="radio" name="optradio" checked>
+                                                    <p class="text-dark"> Domestic </p> 
+                                                </label> 
+                                            <label class="radio-inline"> 
+                                                <input type="radio" name="optradio" class="ml-5"><p class="text-dark">International </p>
+                                            </label></div> -->
+                                        
+                                        <input type="text" hidden value="{{ amount }}" name="total_due" id="total_due">
+                                        
+                                        <p> 
+                                            <!-- <button type="button" class="btn btn-primary "><i class="fa fa-paypal mr-2"></i> 
+                                                {% trans 'Log into my Paypal' %}
+                                            </button>  -->
+                                            <center>{{ paypal_form.render }}</center>
+                                            <!-- <div id="paypal-button-container"></div> -->
+
+                                        </p>
+                                        <p class="text-muted"> {% trans 'Note: After clicking on the button, you will be directed to a secure gateway for payment. After completing the payment process, you will be redirected back to the website.'%} </p>
+                                    </div> <!-- End -->
+                                    <!-- End -->
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=Aezt0LKP7rXkqRU9BjYh8-F6wZ0xG_keVq59uudpll-bVNibo_J3k1AYe9aIBE4bkvEBGcGj3XnrFBUc&currency=USD"></script>
+
+    <script>
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+            style: {
+                color:  'blue',
+                shape:  'pill',
+                label:  'pay',
+                height: 40
+            },
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '{{ amount }}'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+    </script>
+<script>
+    function toggleInfo(event){
+        personal_info_e = document.getElementById('personalInfo')
+        if (event == 'paypal'){
+            console.log('PP');
+            personal_info_e.style.display = 'none';
+        } else {
+            console.log('STRP');
+            personal_info_e.style.display = 'block';
+        }
+    }
+</script>
+<script>
+    amount = document.getElementById('summary_bill_amount');
+    console.log(`AMOUNT: ${amount.innerHTML}`);
+</script>
+<script>
+    function validateForm() {
+        var x = document.forms["payment"]["name"].value;
+        if (x == "") {
+          alert("Name must be filled out");
+          return false;
+        }
+      }
+</script>
+
+<script>
+    function checkValues() {
+        name = document.getElementById('userName');
+        card = document.getElementById('cardNumber');
+        expiry_month = document.getElementById('exp_month');
+        expiry_year = document.getElementById('exp_year');
+        cvv = document.getElementById('cvv');
+
+        if (name.innerHTML == '' || expiry_month.innerHTML == '' || expiry_year == '' || cvv.innerHTML == '' || card == ''){
+            alert('Data incomplete!')
+        }
+
+    }
+
+</script>
+
+{% endblock content %}
+
+{% block js_bottom %}
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script type="text/javascript" src="{% static 'js/payment_validations.js' %}"></script>
+
+<script>
+
+    $.ajax({
+        method: 'GET',
+        url: 'https://restcountries.eu/rest/v2/all?fields=name;',
+        success: res => {
+            res.forEach(country => {
+                document.querySelector('#country').innerHTML +=
+                    `<option value=${country.name}>${country.name}</option>`;
+            })
+            getLocation();
+        }
+    })
+
+    function getLocation() {
+        console.log('getting location...');
+        fetch('https://extreme-ip-lookup.com/json/')
+            .then(res => res.json())
+            .then(response => {
+                document.querySelector(`option[value=${response.country}`).setAttribute('selected', 'selected');
+            })
+            .catch((data, status) => { })
+    }
+
+    /*
+    window.addEventListener('resize', function (e) {
+        getHeight();
+    });
+    */
+</script>
+{% endblock js_bottom %}

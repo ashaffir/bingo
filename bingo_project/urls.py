@@ -15,6 +15,8 @@ from game import views as game_views
 from django.contrib.sitemaps.views import sitemap
 from .sitemaps import GameSitemap
 
+from zoom import views as zoom_views
+
 if platform.system() == 'Darwin':  # MAC
     admin.site.site_header = 'PolyBingo-Development'
 else:
@@ -33,12 +35,13 @@ urlpatterns = [
     path('administration/', include('administration.urls', namespace='administration')),
     path('newsletter/', include('newsletter.urls', namespace='newsletter')),
     # path('', game_views.home, name='home'),
-    path('', include('bingo_main.urls', namespace='home')),
+    path('', include('bingo_main.urls', namespace='bingo_main')),
     path('frontend/', include('frontend.urls', namespace='frontend')),
     path('payments/', include('payments.urls', namespace='payments')),
     path('api/', include('api.urls', namespace='api')),
     path('game/', include('game.urls', namespace='game')),
     path('users/', include('users.urls', namespace='users')),
+    path('membership/', include('membership.urls', namespace='membership')),
     path('hubspot_api/', include('hubspot_api.urls', namespace='hubspot_api')),
     # path('api/users/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
 
@@ -51,6 +54,8 @@ urlpatterns = [
 
     # AllAuth
     path('accounts/', include('allauth.urls')),
+
+    path('zoom', zoom_views.zoom, name='zoom'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

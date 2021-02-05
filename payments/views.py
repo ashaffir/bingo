@@ -1,5 +1,6 @@
 import os
 import requests
+import datetime
 import stripe
 import logging
 import platform
@@ -29,7 +30,9 @@ from paypal.standard.ipn.signals import valid_ipn_received
 from .models import Payment, Coupon
 from users.models import User
 from users.utils import send_mail
+from bingo_main.utils import alert_admin
 from bingo_main.models import ContentPage
+from membership.models import Plan
 
 from administration.decorators import superuser_required
 
@@ -87,14 +90,15 @@ def render_to_pdf(template_src, context_dict={}):
     return None
 
 def generate_invoice_pdf(payment_id):
-        
+    context = {}
     if platform.system() == 'Darwin':  # MAC
         current_site = 'http://127.0.0.1:8000' if settings.DEBUG else settings.DOMAIN_PROD
     else:
         current_site = settings.DOMAIN_PROD
 
     payment = Payment.objects.get(id=payment_id)
-    context = {'payment': payment}
+    context['payment'] = payment
+    context['discount'] = payment.discount * 100
 
     pdf = render_to_pdf('payments/invoice.html', context)
     filename = f"PI0000{payment.id}.pdf"
@@ -134,23 +138,6 @@ def generate_invoice_pdf(payment_id):
 
 #     return response
 
-def check_coupon(coupon):
-    try:
-        coupons = Coupon.objects.filter(active=True)
-        coupons_ids = []
-        for c in coupons:
-            coupons_ids.append(c.coupon_id)
-
-        if coupon in coupons_ids:
-            discount = Coupon.objects.get(coupon_id=coupon).discount
-            return discount
-        else:
-            return 0.0
-    except Exception as e:
-        print(f'>>> PAYMENTS @ check_coupon: No coupon found. E: {e}')
-        logger.info(f'>>> PAYMENTS @ check_coupon: No coupon found. E: {e}')
-        return 0.0
-
 @login_required
 def payment(request, amount=0.0, coupon=''):
     print(f'>>> PAYMENTS @ payment: Amount {amount}')
@@ -165,7 +152,7 @@ def payment(request, amount=0.0, coupon=''):
     discount = check_coupon(coupon)
 
     if discount == 1.0:
-        free_amount = Coupon.objects.get(coupon_id=coupon).free_amount
+        free_amount = Coupon.objects.get(coupon_name=coupon).free_amount
         user.balance += free_amount
         user.save()
         messages.success(request, _(f"Your account was sucessfully credited with $" + str(free_amount)))
@@ -278,7 +265,7 @@ def charge(request):
         user.save()
 
 
-        # Generate and send invoice to the user
+        ### Generate and send invoice to the user ###
         payment = Payment.objects.filter(user=user).last()
         payment.payment_type = 'Credit Card'
         payment.save()
@@ -346,33 +333,18 @@ def deposit(request):
 
     return render(request, 'payments/deposit.html', context)
 
-
-@csrf_exempt
-def paypal_return(request):
-    user = request.user
-
-    if settings.DEBUG:
-        payment = Payment.objects.filter(user=user).last()
-        amount = payment.amount
-        user.balance += amount
-        user.save()
-    
-        print(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
-        logger.info(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
-    
-    payment.payment_type = 'PayPal'
-    payment.save()
-
-
-    # Generate and send invoice to the user
+def invoice_generate_send(user, payment):
+    ''' Generate and send invoice to the user 
+    '''
     try:
         invoice_sub_path = generate_invoice_pdf(payment.pk)
         invoice_path = str(settings.BASE_DIR) + invoice_sub_path
-        print(f">>> PAYMENTS @ paypal_return: Invoice path: {invoice_path}")
-        logger.info(f">>> PAYMENTS @ paypal_return: Invoice path: {invoice_path}")
+        print(f">>> PAYMENTS @ invoice_generate_send: Invoice path: {invoice_path}")
+        logger.info(f">>> PAYMENTS @ invoice_generate_send: Invoice path: {invoice_path}")
     except Exception as e:
-        print(f">>> PAYMENTS @ paypal_return: Falied saving the invoice PDF file. ERROR: {e}")
-        logging.error(f">>> PAYMENTS @ paypal_return: Falied saving the invoice PDF file. ERROR: {e}")
+        print(f">>> PAYMENTS @ invoice_generate_send: Falied saving the invoice PDF file. ERROR: {e}")
+        logging.error(f">>> PAYMENTS @ invoice_generate_send: Falied saving the invoice PDF file. ERROR: {e}")
+        return False
 
     try:
         email_message = ContentPage.objects.get(name='invoice_email')
@@ -390,15 +362,44 @@ def paypal_return(request):
                     context=message, to_email=[user.email],
                     html_email_template_name='bingo_main/emails/user_email.html')
     except Exception as e:
-        logger.error(f'>>> PAYMENTS @ paypal_return: Failed sending admin email with invoice. ERROR: {e}')
-        print(f'>>> PAYMENTS @ paypal_return: Failed sending admin email with invoice. ERROR: {e}')
+        logger.error(f'>>> PAYMENTS @ invoice_generate_send: Failed sending admin email with invoice. ERROR: {e}')
+        print(f'>>> PAYMENTS @ invoice_generate_send: Failed sending admin email with invoice. ERROR: {e}')
+        return False
+    
+    return True
 
+@csrf_exempt
+def paypal_return(request):
+    user = request.user
+
+    if settings.DEBUG:
+        payment = Payment.objects.filter(user=user).last()
+        amount = payment.amount
+
+        plan = Plan.objects.get(name=payment.plan_purchased)
+        user.plan_name = plan.name
+        user.max_players = plan.players
+        user.subscription_end_date = datetime.datetime.now() + datetime.timedelta(30)
+
+        user.balance += amount
+        user.save()
+    
+        print(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
+        logger.info(f">>> PAYMENTS @ paypal_return: Updated user balance with additional {amount}")
+    
+    payment.payment_type = 'PayPal'
+    payment.save()
+
+    send_invoice = invoice_generate_send(user, payment)
 
     # context = {'post': request.POST, 'get': request.GET}
     # return render(request, 'payments/paypal_return.html', context)
-    messages.info(request, _("Thank you for the payment. You should see your balance shortly."))
-    return HttpResponseRedirect(reverse("bingo_main:dashboard"))
-
+    if send_invoice:
+        messages.info(request, _("Payment successfuly completed. Thank you."))
+        return HttpResponseRedirect(reverse("bingo_main:dashboard"))
+    else:
+        messages.error(request, _("Failed to complete the payment. Please contact Polybingo support"))
+        return HttpResponseRedirect(reverse("bingo_main:dashboard"))
 
 @csrf_exempt
 def paypal_cancel(request):
@@ -419,11 +420,348 @@ def payment_confirm(sender, **kwargs):
         payment = get_object_or_404(Payment, id=ipn.invoice)
         print(f'>>> Payments @ payment_confirm : Deposit amount {payment}')
         logger.info(f'>>> Payments @ payment_confirm : Deposit amount {payment}')
+        
         payment.paid = True
         payment.save()
+
+        plan = Plan.objects.get(name=payment.plan_purchased)
+        user.plan_name = plan.name
+        user.max_players = plan.players
+        user.subscription_end_date = datetime.datetime.now() + datetime.timedelta(30)
+
         user = User.objects.get(pk=payment.user.id)
         user.balance = user.balance + payment.amount
         user.save()
+
+
+def check_coupon(coupon):
+    try:
+        coupons = Coupon.objects.filter(active=True)
+        coupons_ids = []
+        for c in coupons:
+            coupons_ids.append(c.coupon_stripe_id)
+
+        if coupon in coupons_ids:
+            discount = Coupon.objects.get(coupon_stripe_id=coupon).discount
+            return discount
+        else:
+            return 0.0
+    except Exception as e:
+        print(f'>>> PAYMENTS @ check_coupon: No coupon found. E: {e}')
+        logger.info(f'>>> PAYMENTS @ check_coupon: No coupon found. E: {e}')
+        return 0.0
+
+@login_required
+def plan(request, term, plan_id):
+    context = {}
+    user = request.user
+    context['dashboard'] = True
+
+    # print(f"Coupon: {stripe.Coupon.list(limit=13)}")
+    # print(f"Coupon: {stripe.Coupon.retrieve('IVKCSdth')}")
+    # stripe.Coupon.create(
+    #     percent_off=25,
+    #     name='STAM25',
+    #     duration="repeating",
+    #     duration_in_months=3,
+    #     )
+
+    try:
+        if term == 'month':
+            plan = Plan.objects.get(price_monthly_stripe_id=plan_id)
+            amount = plan.price_monthly
+            context['term'] = 'month'
+        else:
+            plan = Plan.objects.get(price_yearly_stripe_id=plan_id)
+            amount = plan.price_yearly
+            context['term'] = 'year'
+    except Exception as e:
+        plan = Plan.objects.get(name='free')
+        amount = 0
+        context['term'] = 'year'
+    
+    context['amount'] = amount
+    context['selected_plan'] = plan
+    context['plan_id'] = plan_id
+    context['coupon'] = 'none'
+
+    total_charge = amount
+    discount = 0
+    
+    ### Payment via credit card - Stripe ###
+    if request.method == 'POST':
+
+        if 'coupon_check' in request.POST:
+            coupon_name = request.POST.get('coupon') if request.POST.get('coupon') else "no_coupon"
+            coupon_stripe_id = Coupon.objects.get(coupon_name=coupon_name).coupon_stripe_id
+
+            ### collect all the active coupons' IDs ###
+            try:
+                coupons = Coupon.objects.filter(active=True)
+                coupons_ids = []
+                for c in coupons:
+                    coupons_ids.append(c.coupon_stripe_id)
+            except Exception as e:
+                print(f">>> PAYMENTS @ plan: No active coupons. E: {e}")
+                logger.info(f">>> PAYMENTS @ plan: No active coupons. E: {e}")
+
+            ### Check the entered coupon ###
+            try:
+                # Logged in user
+                user_coupons_used = user.coupons_used
+
+                if coupon_stripe_id in coupons_ids:
+                    if coupon_stripe_id not in user_coupons_used:
+                        user.coupons_used.append(coupon_stripe_id)
+                        user.save()
+                        
+                        discount = check_coupon(coupon_stripe_id)
+                        context['discount'] = discount * 100
+                        context['amount'] = amount * (1 - discount)
+                        context['coupon'] = coupon_name
+                        
+                        total_charge = amount * (1 - discount)
+                    else:
+                        messages.info(request, _(f"You have already used this coupon. Please try another or use of the of the deposit options"))
+                        return redirect(request.META['HTTP_REFERER'])
+                else:
+                    messages.info(request, _(f"No such coupon"))
+                    return redirect(request.META['HTTP_REFERER'])
+
+            except Exception as e:
+                # New user coupon check
+                if coupon_stripe_id in coupons_ids:
+                    discount = check_coupon(coupon)
+                    context['discount'] = discount * 100
+                    context['amount'] = plan.price_monthly * (1 - discount)
+                    total_charge = amount * (1 - discount)
+                else:
+                    messages.info(request, _(f"No such coupon"))
+                    return redirect(request.META['HTTP_REFERER'])
+
+    ### Populating the Paypal form ###
+    host = request.get_host()
+    
+    payment = Payment.objects.create(
+        amount=amount,
+        plan_purchased=plan.name,
+        total_charge=total_charge,
+        user=request.user,
+        discount=discount
+    )
+
+    ipn_url = (
+        # settings.PAYPAL_IPN_URL or
+        'http://{}{}'.format(host, reverse('payments:paypal-ipn'))
+    )
+    # PayPal Payments
+    #################
+    paypal_dict = {
+        "business": settings.PAYPAL_RECEIVER_EMAIL,
+        "amount": total_charge ,
+        "currency": settings.CURRENCY,
+        "locale": 'en_US',
+        "style": {
+            "size": 'medium',
+            "color": 'blue',
+            "shape": 'pill',
+            "label": 'Buy Now',
+            "tagline": 'true'
+        },
+        "src": 1, # Recurring payments
+        "item_name": "Buy",
+        "invoice": payment.id,
+        "notify_url": ipn_url,
+        "return_url": f"http://{host}/payments/paypal_return/",
+        "cancel_url": f"http://{host}/payments/paypal_cancel/"
+    }
+
+    paypal_form = PayPalPaymentsForm(initial=paypal_dict)
+
+    # print(f">>> PAYMENTS @ payment: Updated user balance with additional {amount}")
+    # logger.info(f">>> PAYMENTS @ payment: Updated user balance with additional {amount}")
+
+    context['paypal_form'] = paypal_form
+
+    return render(request, 'payments/plan.html',context)
+
+def make_payment(request,term,plan_id, coupon):
+    user = request.user
+    if coupon != 'none':
+        current_coupon = Coupon.objects.get(coupon_name=coupon)
+        latest_coupon = current_coupon.coupon_stripe_id
+        discount = current_coupon.discount
+    else:
+        latest_coupon = ''
+        discount = 0
+
+    print(f"term: {term} plan:{plan_id}")
+    try:
+        if term == 'month':
+            plan = Plan.objects.get(price_monthly_stripe_id = plan_id )
+        else:
+            plan = Plan.objects.get(price_yearly_stripe_id = plan_id )
+    except Exception as e:
+        print(f">>> PAYMENTS @ make_payment: Failed getting plans. ERROR: {e}")
+        logger.error(f">>> PAYMENTS @ make_payment: Failed getting plans. ERROR: {e}")
+        messages.error(request, _(f"Something is broken. Please try again later."))
+        return redirect(request.META['HTTP_REFERER'])
+    
+    plan_name = plan.name
+
+    if term == 'month':
+        plan_amount = plan.price_monthly
+    else:
+        plan_amount = plan.price_yearly
+
+    user_data = {'plan_name':plan_name, 'plan_amount':plan_amount, 'plan_id':plan_id}
+
+    total_charge = plan_amount * (1 - discount)
+
+    if request.method == 'POST':
+
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+
+        fname = request.POST.get("fname")
+        lname = request.POST.get("lname")
+        email = request.POST.get("email")
+        company_name = request.POST.get("company_name")
+        vat = request.POST.get("vat")
+        card_number = request.POST.get("card_number")
+        exp_month = request.POST.get("exp_month")
+        exp_year = request.POST.get("exp_year")
+        cvv = request.POST.get("cvv")
+        country = request.POST.get("country")
+        postal_code = request.POST.get("postal_code")
+        
+        print(f"""
+        name: {fname} {lname}, 
+        email: {email}, 
+        card: {card_number}, 
+        exp_month: {exp_month} 
+        exp_year: {exp_year} 
+        cvv: {cvv}
+        plan name: {plan_name}
+        plan amount: {plan_amount}
+        plan ID: {plan_id}
+        
+        """)
+
+        if lname and fname and card_number and exp_month and exp_year and cvv:
+            
+            # email = user.email
+
+            try:
+                token = stripe.Token.create(
+                    card={
+                        "number": card_number,
+                        "exp_month": exp_month,
+                        "exp_year": exp_year,
+                        "cvc": cvv,
+                    }
+                )
+
+                # return HttpResponse(type(email))
+                customer = stripe.Customer.create(
+                    name = f"{fname} {lname}",
+                    email = email
+                )
+
+                payment_method = stripe.PaymentMethod.create(
+                    type="card",
+                    card={
+                        "number": card_number,
+                        "exp_month": exp_month,
+                        "exp_year": exp_year,
+                        "cvc": cvv,
+                        },
+                    )
+
+                attach_pm = stripe.PaymentMethod.attach(
+                        payment_method.id,
+                        customer=customer.id,
+                        )
+
+
+                subscription = stripe.Subscription.create(
+                    customer=customer.id,
+                    coupon=latest_coupon,
+                    items=[
+                    {
+                      "plan": plan_id
+                      # 'quantity': 1,
+                    }
+                    ],
+                    default_payment_method=payment_method.id
+                )
+                subscription_end_date = datetime.date.fromtimestamp(subscription.current_period_end)
+                
+                # return HttpResponse(int(user_data['plan_amount'][0])*100)
+                charge = stripe.Charge.create(
+                    amount=int(plan_amount)*100,
+                    currency='usd',
+                    description=f'Polybingo {plan_name} Subscription charge',
+                    source=token
+                )
+
+                payment = Payment.objects.create(
+                        amount=plan_amount,
+                        plan_purchased=plan.name,
+                        total_charge=total_charge,
+                        user=user,
+                        discount=discount
+                    )
+                
+                #Update user information
+                user.first_name = fname
+                user.last_name = lname
+                user.company_name = company_name
+                user.vat_number = vat
+                user.country = country
+                user.stripe_customer_key = customer.id
+                user.subscription_end_date = subscription_end_date
+                user.stripe_subscription_id = plan_id
+                user.stripe_sub_id = subscription.id
+                user.plan_name = plan_name
+                user.max_players = plan.players
+                
+                user.save()
+
+                messages.success(request, _("Payment done successfully. Thank you"))
+                
+                invoice_send = invoice_generate_send(user,payment)
+
+                if not invoice_send:
+                    alert_admin(f'Failed sending an invoice to user: {user}', 'PAYMENTS @ make_payment')
+
+                return redirect('bingo_main:dashboard')
+            except Exception as e:
+                messages.error(request, _(f'Something went wrong. Please contact Polybingo support'))
+                print(f">>> PAYMENTS @ make_payment: Failed Stripe card payment. ERROR: {e}")
+                return redirect(request.META['HTTP_REFERER'])
+        else:
+            messages.error(request,'Please fill all the required fields')
+            return redirect(request.META['HTTP_REFERER'])
+    else:
+        return redirect(request.META['HTTP_REFERER'])
+
+def cancel_subscription(request):
+    user = request.user
+    try:
+        print(f">>> PAYMENTS @ cancel_subscription: Canceling subscription {user.stripe_sub_id}")
+        logger.info(f">>> PAYMENTS @ cancel_subscription: Canceling subscription {user.stripe_sub_id}")
+        cancel_sub = stripe.Subscription.delete(user.stripe_sub_id)
+        user.stripe_sub_id = None
+        user.stripe_subscription_id = Plan.objects.get(name='free').stripe_id
+        user.plan_name = 'free'
+        user.subscription_end_date = None
+        user.save()
+        return redirect(request.META['HTTP_REFERER'])
+    except Exception as e:
+        print(f">>> PAYMENTS @ cancel_subscription: Failed to cancel subscription. ERROR: {e}")
+        logger.error(f">>> PAYMENTS @ cancel_subscription: Failed to cancel subscription. ERROR: {e}")
+        messages.error(request, _("There was a problem processing your request. Please contact Polybingo support"))
+        return redirect(request.META['HTTP_REFERER'])
 
 
 # Credit Cards

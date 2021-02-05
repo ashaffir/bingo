@@ -169,3 +169,17 @@ chmod +x post_receive
 
 # REFERENCE: Profile page HTML source 
   > https://bootsnipp.com/snippets/4Mm5R
+
+# REFERENCE: Zoom marketplace apps
+  > https://marketplace.zoom.us/docs/guides
+  > https://marketplace.zoom.us/docs/guides/build
+  > https://marketplace.zoom.us/docs/sdk/native-sdks/web/build/webinars/start
+
+# REFERENCE: Stripe subscription
+  > https://tinyurl.com/y4ocdd6s
+
+# REFERENCE Paypal API docs: 
+  > https://developer.paypal.com/classic-home/
+  > https://developer.paypal.com/docs/paypal-payments-standard/integration-guide/Appx-websitestandard-htmlvariables/
+  > https://developer.paypal.com/demo/checkout/#/pattern/style
+  > https://www.youtube.com/watch?v=8rMfW4wO-vU

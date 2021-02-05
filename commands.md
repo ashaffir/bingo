@@ -30,3 +30,7 @@ pm2 restart
 django-admin makemessages -l he -i venv_bingo
 django-admin makemessages -l es -i venv_bingo
 django-admin compilemessages
+
+# Ngrok or LocalTunnel
+./ngrok http 8030
+lt --port 8030

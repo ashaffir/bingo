@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
+    'django.contrib.humanize',
 
     # Allauth
     'django.contrib.sites',
@@ -61,6 +62,8 @@ INSTALLED_APPS = [
     'payments',
     'stripe',
     'hubspot_api',
+    'zoom',
+    'membership.apps.MembershipConfig', 
     'control',
     'administration',
     'frontend',
@@ -377,3 +380,6 @@ NOCAPTCHA = True
 # Hubspot
 HUBSPOT_API = config['HUBSPOT_API']
 
+# Zoom
+ZOOM_SDK_KEY = config['ZOOM_SDK_KEY']
+ZOOM_SDK_SECRET = config['ZOOM_SDK_SECRET']

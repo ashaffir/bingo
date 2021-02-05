@@ -22,6 +22,9 @@ urlpatterns = [
     path('charge/', payment_views.charge, name='charge'),
     path('success/<str:args>/', payment_views.successMsg, name="success"),
     path('deposit/', payment_views.deposit, name='deposit'),
+    path('cancel_subscription/', payment_views.cancel_subscription, name='cancel_subscription'),
+    path('plan/<str:term>/<str:plan_id>/', payment_views.plan, name='plan'),
+    path('make_payment/<str:term>/<str:plan_id>/<str:coupon>/', payment_views.make_payment, name='make_payment'),
 
     # path('invoices/', payment_views.render_pdf_view, name='render_pdf_view'),
     # path('users_invoices/', UserListView.as_view(), name='users_invoices'),

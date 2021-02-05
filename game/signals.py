@@ -14,6 +14,8 @@ from .models import Player, Album, Board, Game, DisplayPicture
 from control.models import Control
 
 from .utils import create_2d_array
+from membership.models import Plan
+from bingo_main.utils import alert_admin
 
 logger = logging.getLogger(__file__)
 
@@ -245,8 +247,21 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
 
         game_approved_players = Player.objects.filter(game=game, approved=True)
         players_count = len(game_approved_players)
-        free_players = Control.objects.get(name='free_players').value_integer
+        # free_players = Control.objects.get(name='free_players').value_integer
+        
+        # try:
+        #     free_players = Plan.objects.get(name='Free').players
+        # except:
+        #     free_players = 5
+        #     alert_admin(f"Free plan is not defined", 'Signals')
+        max_players_reached = False
+        
+        free_players = game.max_players
+        
+        if players_count == free_players:
+            max_players_reached = True
 
+        ### Game cost calculation ###
         players_count_for_cost = players_count - free_players
         game_cost = cost_calculation(players_count_for_cost)
 
@@ -254,11 +269,12 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
         game.number_of_players = players_count
         game.save()
 
+        ### Creating the bingo board for the player ###
         pictures_list = []
         for pic in pictures:
             pictures_list.append(pic)
 
-        # Randomize the board
+        ### Randomize the board 
         shuffle_board = shuffle_pictures(pictures_list, board_size)
         # print('SUFFLE', shuffle_board)
 
@@ -283,26 +299,27 @@ def new_player_signal(sender, instance, update_fields, **kwargs):
         player_board.pictures_draw = board_array
         player_board.save()
 
-        # Updating WS
+        logger.info(f'>>>SIGNALS @ new_player_signal: PLAYER BOARD CREATED ID: {player_board}')
+        print(f'>>>SIGNALS @ new_player_signal: PLAYER BOARD CREATED ID: {player_board}')
+
+        instance.board_id = player_board.pk
+        instance.save()
+
+        ### Updating WS ###
         channel_layer = get_channel_layer()
         async_to_sync(channel_layer.group_send)(
             str(instance.player_game_id), {
                 'type': 'game.message',
                 'data': {
                         'players_count': players_count,
-                        'price': game_cost
+                        'price': game_cost,
+                        'max_players_reached': max_players_reached,
+                        'max_players': free_players,
+                        'players_remain': free_players - players_count
                 }
             }
         )
 
-        logger.info(
-            f'>>>SIGNALS@new_player: PLAYER BOARD CREATED ID: {player_board}')
-        print(
-            f'>>>SIGNALS@new_player: PLAYER BOARD CREATED ID: {player_board}')
-
-        instance.board_id = player_board.pk
-        # instance.board_dict = shuffle_board
-        instance.save()
 
 
 def shuffle_pictures(pictures, board_size):

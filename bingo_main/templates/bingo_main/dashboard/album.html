@@ -17,7 +17,6 @@
 {% endblock js %}
 
 {% block content %}
-{% include 'bingo_main/partials/_navbar_top.html' with active_tab='' %}
 
 {% if album %}
 <form action="{% url "bingo_main:start_bingo" %}" method="POST">

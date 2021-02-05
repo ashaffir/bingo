@@ -8,22 +8,26 @@
 {% block css %}
   
 <!-- <link href="{% static 'css/profile.css' %}" rel="stylesheet"> -->
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
 
 {% endblock css %}
 
 {% block content %}
 
+<form class="form" method="post" id="updatePersonalform" enctype="multipart/form-data">
+    {% csrf_token %}
 <section class="inner-page" {% if lang == 'he' %} dir='rtl' align='right' {% else %} style="text-align: left;" {% endif %}>
   <div class="container">
-    <div class="row mt-5 pt-5">
 
-      <!-- Profile Area -->
-      <div class="container bootstrap snippet">
+    <div class="row mt-5 pt-5">
+        <!-- Profile Area -->
+        <div class="container bootstrap snippet">
+            {% include 'users/partials/_inner_messages.html' %}
         <div class="row">
-              <div class="col-sm-10"><h1>User name</h1></div>
+              <div class="col-sm-10"><h1>{% trans 'User Profile' %}</h1></div>
             <!-- <div class="col-sm-2"><a href="/users" class="pull-right"><img title="profile image" class="img-circle img-responsive" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"></a></div> -->
         </div>
         <div class="row">
@@ -31,193 +35,256 @@
                   
     
           <div class="text-center">
-            <img src="{% static 'images/avatar.png' %}" class="avatar img-circle img-thumbnail" alt="avatar">
-            <h6>Upload a different photo...</h6>
-            <input type="file" class="text-center center-block file-upload">
+            <img src="{% if user.profile_pic %} {{ user.profile_pic.url }} {% else %} {% static 'images/avatar.png' %} {% endif %}" 
+            class="avatar img-circle img-thumbnail" alt="avatar" style="width: 50%;">
+            <h6>{% trans 'Upload your profile or a company photo' %}</h6>
+            <input type="file" class="text-center center-block file-upload" name="complogo" id="complogo">
+
+            <!-- <input type="file" class="text-center center-block file-upload"> -->
           </div></hr><br>
     
                    
               <div class="panel panel-default">
-                <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i></div>
-                <div class="panel-body"><a href="http://bootnipets.com">bootnipets.com</a></div>
+                <div class="panel-heading">{% trans 'Company Website' %} <i class="fa fa-link fa-1x"></i></div>
+                <div class="panel-body"><a href="http://bootnipets.com">{% if user.website %}{{ user.website }}{% endif %}</a></div>
               </div>
               
               
               <ul class="list-group">
-                <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-                <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+                <li class="list-group-item text-muted">{% trans 'Activity' %} <i class="fa fa-dashboard fa-1x"></i></li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>{% trans 'Albums' %}</strong></span> {{ user_albums|length }}</li>
+                <li class="list-group-item text-right"><span class="pull-left"><strong>{% trans 'Games' %}</strong></span> {{ user_games |length }}</li>
+                <!-- <li class="list-group-item text-right"><span class="pull-left"><strong>{% trans 'Players' %}</strong></span> 37</li> -->
               </ul> 
                    
-              <div class="panel panel-default">
+              <!-- <div class="panel panel-default">
                 <div class="panel-heading">Social Media</div>
                 <div class="panel-body">
                     <i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i class="fa fa-google-plus fa-2x"></i>
                 </div>
-              </div>
+              </div> -->
               
             </div><!--/col-3-->
             <div class="col-sm-9">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-                    <li><a data-toggle="tab" href="#messages">Menu 1</a></li>
-                    <li><a data-toggle="tab" href="#settings">Menu 2</a></li>
+                    <li class="active"><a data-toggle="tab" href="#personal">{% trans 'Personal' %}</a></li>
+                    <li><a data-toggle="tab" href="#subscription">{% trans 'Subscription' %}</a></li>
+                    <!-- <li><a data-toggle="tab" href="#password">{% trans 'Password' %}</a></li> -->
                   </ul>
     
                   
               <div class="tab-content">
-                <div class="tab-pane active" id="home">
-                    <hr>
-                      <form class="form" action="##" method="post" id="registrationForm">
+
+                <!-- Personal area -->
+                <div class="tab-pane active" id="personal">
                           <div class="form-group">
                               
                               <div class="col-xs-6">
-                                  <label for="first_name"><h4>First name</h4></label>
-                                  <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any.">
+                                  <label for="first_name"><h4>{% trans 'First name' %}</h4></label>
+                                  <input type="text" class="form-control" name="fname" id="fname" pattern="[a-zA-Z0-9\s]+" 
+                                  value="{% if user.first_name %}{{ user.first_name }} {% else %}{{ user.name }}{% endif %}">
+                                  <!-- <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any."> -->
                               </div>
                           </div>
                           <div class="form-group">
                               
                               <div class="col-xs-6">
-                                <label for="last_name"><h4>Last name</h4></label>
-                                  <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any.">
-                              </div>
-                          </div>
-              
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="phone"><h4>Phone</h4></label>
-                                  <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any.">
+                                <label for="last_name"><h4>{% trans 'Last name' %}</h4></label>
+                                <input type="text" class="form-control" name="lname" id="lname" pattern="[a-zA-Z0-9\s]+" 
+                                value="{{ user.last_name }}">
+
+                                <!-- <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any."> -->
                               </div>
                           </div>
               
                           <div class="form-group">
+                              
                               <div class="col-xs-6">
-                                 <label for="mobile"><h4>Mobile</h4></label>
-                                  <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
+                                  <label for="phone"><h4>{% trans 'Phone' %}</h4></label>
+                                  <input type="text" value="{% if user.phone %}{{ user.phone }} {% endif %}" class="form-control" 
+                                    name="phone" id="phone" placeholder="{% trans 'enter phone' %}" title="enter your phone number if any.">
+                              </div>
+                          </div>
+              
+                          <div class="form-group">
+                              <div class="col-xs-6">
+                                 <label for="mobile"><h4>{% trans 'Mobile' %}</h4></label>
+                                  <input type="text" value="{% if user.mobile_phone %}{{ user.mobile_phone }}{% endif %}" class="form-control" 
+                                  name="mobile" id="mobile" placeholder="{% trans 'enter mobile number' %}" 
+                                  title="{% trans 'enter your mobile number if any' %}">
                               </div>
                           </div>
                           <div class="form-group">
                               
                               <div class="col-xs-6">
-                                  <label for="email"><h4>Email</h4></label>
-                                  <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
+                                  <label for="email"><h4>{% trans 'Email' %}</h4></label>
+                                  <input type="email" value="{{ user.email }}" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
                               </div>
                           </div>
                           <div class="form-group">
                               
                               <div class="col-xs-6">
-                                  <label for="email"><h4>Location</h4></label>
-                                  <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location">
+                                  <label for="email"><h4>{% trans 'Country' %} {% if user.country %}: {{ user.country }} {% endif %}</h4></label>
+                                  <select name="country" class="form-control" id="country" required>
+                                    <option value="">{% trans 'Choose your country' %}...</option>
+                                </select>
+                                          <!-- <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location"> -->
                               </div>
                           </div>
                           <div class="form-group">
                               
                               <div class="col-xs-6">
-                                  <label for="password"><h4>Password</h4></label>
-                                  <input type="password" class="form-control" name="password" id="password" placeholder="password" title="enter your password.">
+                                  <label for="company"><h4>{% trans 'Company Name' %}</h4></label>
+                                  <input type="text" value="{% if user.company_name %}{{ user.company_name }}{% endif %}" class="form-control" name="company" id="company" placeholder="{% trans 'enter company name' %}" title="{% trans 'enter your company name if any' %}.">
                               </div>
                           </div>
                           <div class="form-group">
                               
                               <div class="col-xs-6">
-                                <label for="password2"><h4>Verify</h4></label>
-                                  <input type="password" class="form-control" name="password2" id="password2" placeholder="password2" title="enter your password2.">
+                                <label for="vat"><h4>VAT</h4></label>
+                                  <input type="number" value="{% if user.vat_number %}{{ user.vat_number }}{% endif %}" class="form-control" name="vat" id="vat" placeholder="VAT" title="{% trans 'enter your company VAT number' %} .">
                               </div>
                           </div>
                           <div class="form-group">
                                <div class="col-xs-12">
                                     <br>
-                                      <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                                       <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                                      <button class="btn btn-lg btn-success" type="submit" name="update_personal"><i class="glyphicon glyphicon-ok-sign"></i> Update</button>
+                                       <!-- <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset Form</button> -->
                                 </div>
                           </div>
                       </form>
                   
-                  <hr>
                   
                  </div><!--/tab-pane-->
-                 <div class="tab-pane" id="messages">
+                 <!-- END personal area -->
+
+                 <!-- Subscription area -->
+                 <div class="tab-pane" id="subscription">
                    
-                   <h2></h2>
+                    <p class='h4'>{% trans 'Current Subscription Plan' %}: 
+                        <span class="h3 text-success">{{ user_plan }}</span> 
+                        <span class="h5" >({% trans 'up to' %} {{ user_plan.players }} {% trans 'players' %})</span>
+                
+                    </p>
                    
-                   <hr>
-                      <form class="form" action="##" method="post" id="registrationForm">
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="first_name"><h4>First name</h4></label>
-                                  <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any.">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                <label for="last_name"><h4>Last name</h4></label>
-                                  <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name" title="enter your last name if any.">
-                              </div>
-                          </div>
-              
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="phone"><h4>Phone</h4></label>
-                                  <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any.">
-                              </div>
-                          </div>
-              
-                          <div class="form-group">
-                              <div class="col-xs-6">
-                                 <label for="mobile"><h4>Mobile</h4></label>
-                                  <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="email"><h4>Email</h4></label>
-                                  <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="email"><h4>Location</h4></label>
-                                  <input type="email" class="form-control" id="location" placeholder="somewhere" title="enter a location">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                  <label for="password"><h4>Password</h4></label>
-                                  <input type="password" class="form-control" name="password" id="password" placeholder="password" title="enter your password.">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                              
-                              <div class="col-xs-6">
-                                <label for="password2"><h4>Verify</h4></label>
-                                  <input type="password" class="form-control" name="password2" id="password2" placeholder="password2" title="enter your password2.">
-                              </div>
-                          </div>
-                          <div class="form-group">
-                               <div class="col-xs-12">
-                                    <br>
-                                      <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
-                                       <button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                    <form class="form" id="registrationForm" enctype="multipart/form-data" method="POST">
+                        {% csrf_token %}
+                        <div class="row mt-5">
+                            {% if user_plan.name == 'expert' or user_plan.name == 'basic' %}
+                            <div class="col-md-5 col-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">{% trans 'Downgrade to Free' %}</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>{% trans 'Up to' %} <b>{{ free_plan.players }}</b> {% trans 'players' %}. 
+                                            {% trans 'Good for family gatherings' %}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="col-12">
+                                            <a href="{% url 'payments:cancel_subscription' %}" class="btn btn-primary btn-sm"> 
+                                                {% trans 'Change to Free' %}</a>
+                                            <span class="text-danger">({% trans 'Cancel Subscription' %})</span>
+                                        </div>
+                                    </div>
                                 </div>
-                          </div>
-                      </form>
+                            </div>
+                            {% endif %}
+
+                            {% if user_plan.name == 'expert' or user_plan.name == 'free' %}
+                            <div class="col-md-5 col-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">
+                                            {% if user_plan.name == 'free' %} 
+                                                {% trans 'Upgrade to Basic plan' %}
+                                            {% else %}
+                                                {% trans 'Change to Basic plan' %}
+                                            {% endif %}
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>{% trans 'Up to' %} <b>{{ basic_plan.players }}</b> {% trans 'players' %}. 
+                                            {% trans 'Good for family, friends and small events ' %}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-md-6 col-12 text-center">
+                                                <h4>${{ basic_plan.price_monthly }}/month</h4>
+                                                <a href="{% url 'payments:plan' plan_id=basic_plan.price_monthly_stripe_id term='month' %}" class="btn btn-primary btn-sm">
+                                                    {% if user_plan.name == 'free' %} 
+                                                        {% trans 'Buy Basic Plan' %}
+                                                    {% else %}
+                                                        {% trans 'Change to Basic plan' %}
+                                                    {% endif %}
+                                                    </a>
+                                            </div>
+                                            <div class="col-md-6 col-12 text-center">
+                                                <h4>${{ basic_plan.price_yearly }}/year</h4>
+                                                <a href="{% url 'payments:plan' plan_id=basic_plan.price_yearly_stripe_id term='year' %}" class="btn btn-primary btn-sm">
+                                                        {% if user_plan.name == 'free' %} 
+                                                            {% trans 'Buy Basic Plan' %}
+                                                        {% else %}
+                                                            {% trans 'Change to Basic plan' %}
+                                                        {% endif %}
+                                                        </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if user_plan.name == 'basic' or user_plan.name == 'free' %}
+                            <div class="col-md-5 col-12">
+                                <div class="card shadow mb-4">
+                                    <div class="card-header py-3">
+                                        <h6 class="m-0 font-weight-bold text-primary">{% trans 'Upgrade to Expert plan' %}</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>{% trans 'Up to' %} <b>{{ expert_plan.players }}</b> {% trans 'players' %}. 
+                                            {% trans 'Multi-players events, promotional events with various audiences' %}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <div class="col-md-6 col-12 text-center">
+                                                <h4>${{ expert_plan.price_monthly }}/month</h4>
+                                                <a href="{% url 'payments:plan' plan_id=expert_plan.price_monthly_stripe_id term='month' %}" class="btn btn-primary btn-sm">
+                                                    {% if user_plan.name == 'free' %} 
+                                                        {% trans 'Buy Expert Plan' %}
+                                                    {% else %}
+                                                        {% trans 'Buy Expert plan' %}
+                                                    {% endif %}
+                                                    </a>
+                                            </div>
+                                            <div class="col-md-6 col-12 text-center">
+                                                <h4>${{ expert_plan.price_yearly }}/year</h4>
+                                                <a href="{% url 'payments:plan' plan_id=expert_plan.price_yearly_stripe_id term='year' %}" class="btn btn-primary btn-sm">
+                                                        {% if user_plan.name == 'free' %} 
+                                                            {% trans 'Buy Expert Plan' %}
+                                                        {% else %}
+                                                            {% trans 'Change to Expert plan' %}
+                                                        {% endif %}
+                                                        </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </form>
                    
                  </div><!--/tab-pane-->
-                 <div class="tab-pane" id="settings">
+                 <!-- END Subscription area -->
+
+                 <!-- Password area -->
+                 <div class="tab-pane" id="password">
                         
                        
                       <hr>
-                      <form class="form" action="##" method="post" id="registrationForm">
+                      <form class="form" method="post" id="registrationForm">
                           <div class="form-group">
                               
                               <div class="col-xs-6">
@@ -282,8 +349,8 @@
                                        <!--<button class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>-->
                                 </div>
                           </div>
-                      </form>
                   </div>
+                 <!-- END Password area -->
                    
                   </div><!--/tab-pane-->
               </div><!--/tab-content-->
@@ -296,12 +363,36 @@
     </div>
   </div>
 </section>
+</form>
 {% endblock content %}
+{% block js_bottom %}
 
 <script>
     $(document).ready(function() {
 
+        $.ajax({
+            method: 'GET',
+            url: 'https://restcountries.eu/rest/v2/all?fields=name;',
+            success: res => {
+                res.forEach(country => {
+                    document.querySelector('#country').innerHTML +=
+                        `<option value=${country.name}>${country.name}</option>`;
+                })
+                getLocation();
+            }
+        })
     
+        function getLocation() {
+            console.log('getting location...');
+            fetch('https://extreme-ip-lookup.com/json/')
+                .then(res => res.json())
+                .then(response => {
+                    document.querySelector(`option[value=${response.country}`).setAttribute('selected', 'selected');
+                })
+                .catch((data, status) => { })
+        }
+        
+        
         var readURL = function(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -320,3 +411,4 @@
         });
     });
 </script>
+{% endblock js_bottom %}

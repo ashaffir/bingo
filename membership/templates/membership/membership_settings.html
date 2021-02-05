@@ -1,0 +1,19 @@
+{% extends 'bingo_main/base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as lang %}
+
+{% block content %}
+<div class="container">
+  {% if cancel_at_period_end %}
+  Your membership will run to the end of your billing cycle.
+  {% elif membership %}
+  <form action="{% url 'membership:membership_settings' %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Cancel Membership?">
+  </form>
+  {% else %}
+  <a href="{% url 'membership:join' %}">Get a membership</a>
+  {% endif %}
+</div>
+{% endblock %}

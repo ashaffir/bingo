@@ -186,34 +186,18 @@
             //const urlParams = new URLSearchParams(queryString);
             //document.querySelector('#playerName').innerHTML = urlParams.get('name') ? urlParams.get('name') : '{{ player.nickname }}';
             document.querySelector('#playerName').innerHTML = '{{ player.nickname }}';
-            //document.getElementById('currentImage').src = '{{ game.current_picture.image_file.url }}';
 
             setTimeout(() => {
                 document.querySelector('.bingoTable').style.width = document.querySelector('.bingoTable').clientHeight + 'px';
                 document.querySelector('.currentImage').style.width = document.querySelector('.currentImage').clientHeight + 'px';
             }, 100);
 
-            // if (!urlParams.get('code')) return window.location.href = './';
-
-            // Create a request to the backend to get the data from the card based on the code provided;
-
             let size = '{{ board.size }}';
 
             console.log(`SIZE: ${size}`)
 
-            //let winCondition = urlParams.get('winCondition') ? urlParams.get('winCondition') : 'bingo';
             let winCondition = '{{ game.current_winning_conditions }}';
 
-            //let approvalRequired = urlParams.get('approval') ? urlParams.get('approval') : 'true';
-
-            //approvalRequired = false;
-
-
-
-            //if (!approvalRequired) document.querySelector('#approval').style.display = 'none';
-
-            // Create a loop to check if the game has started yet
-            //document.querySelector('#startingSoon').style.display = 'none';
             if (window.innerWidth < 800) {
                 switch (size) {
                     case '4':
@@ -428,8 +412,9 @@
                             console.log('MATCH!!!!');
                             table.innerHTML +=
                             `<div class="field" onclick="markBingo(this)">
-                                <div class="overlay">
-                                    <div style="font-weight: bold; font-size: clamp(25px, 8vw, 2vw);">{% trans 'Match' %}</div>
+                                <div class="overlay" style="margin-top:5%; margin-left: 5%;">
+                                    <div style="font-weight: bold; font-size: clamp(25px, 2vw, 2vw); border: 5px solid red;">
+                                        {% trans 'Match' %}</div>
                                 </div>
                                 <img src="{{ pic.image.image_file.url }}" alt="">
                             </div>`;
@@ -514,9 +499,11 @@
     
             /*
             */
+            setTimeout(() => {
+                getData('resize');
+            }, 100);
         })
 
-        getData();
 
     </script>
 

@@ -17,14 +17,16 @@ class Payment(models.Model):
     invoice_slug = models.CharField(max_length=120, null=True, blank=True)
     invoice_pdf	= models.FileField(upload_to='invoices/', null=True, blank=True)
     payment_type = models.CharField(max_length=50, choices=PAYMENT_TYPES, null=True, blank=True)
+    plan_purchased = models.CharField(max_length=30, null=True, blank=True)
     def __str__(self):
         return str(self.date) + " " + str(self.amount)
 
 class Coupon(models.Model):
-    coupon_id = models.CharField(max_length=30, null=True, blank=True)
+    coupon_name = models.CharField(max_length=30, null=True, blank=True)
+    coupon_stripe_id = models.CharField(max_length=30, null=True, blank=True)
     discount = models.FloatField(default=0.0)
     free_amount = models.FloatField(default=0.0)
     active = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.coupon_id)
+        return str(self.coupon_name)

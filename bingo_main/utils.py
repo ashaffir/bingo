@@ -1,9 +1,38 @@
 import base64, secrets, io
 import requests
 import json
+import logging
 from PIL import Image
 from django.core.files.base import ContentFile
 from django.conf import settings
+from users.utils import send_mail
+
+logger = logging.getLogger(__file__)
+
+
+def alert_admin(alert, location):
+    # Send email to admin
+    try:
+        subject = "Alert from Polybingo!"
+
+        message = {
+            'title': location,
+            'alert': True,
+            'content': alert,
+        }
+
+        send_mail(subject, email_template_name=None, attachement='',
+                    context=message, to_email=[
+                        settings.ADMIN_EMAIL],
+                    html_email_template_name='bingo_main/emails/admin_email.html')
+        return True
+    
+    except Exception as e:
+        logger.error(
+            f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
+        print(
+            f'>>> BINGO MAIN: Failed sending admin email updating on a new contact from homepage. ERROR: {e}')
+        return False
 
 def get_image_from_data_url( data_url, resize=True, base_width=600 ):
 

@@ -99,6 +99,7 @@ class Game(models.Model):
     # winning_conditions = models.CharField(max_length=10, choices=WINNING_CONDITIONS, default='ALL')
     is_public = models.BooleanField(default=False)
     prizes = models.JSONField(null=True, blank=True)
+    max_players = models.IntegerField(default=5)
 
     auto_join_approval = models.BooleanField(default=False)
     auto_matching = models.BooleanField(default=False) # for drunk users that cannot pay attention - marking resutls automatically

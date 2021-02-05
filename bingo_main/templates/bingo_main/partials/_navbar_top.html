@@ -25,17 +25,24 @@
             <!-- End search bar -->
             </td>
             <td>
-                <div class="menuItems" style="text-align: right">
-                    <div id="addMoney" onclick="updateGTM({event:'add_money'}); window.location.href = '{% url "bingo_main:add_money" %}'">
+                    <p style="text-align: center;" class="mt-4">Your Plan:{{ user.plan_name }}</p>
+            </td>
+            <td>
+                <div class="" style="text-align: right">
+                    <!-- <div id="addMoney" onclick="updateGTM({event:'add_money'}); window.location.href = '{% url "bingo_main:add_money" %}'">
                         <i class="fa fa-plus" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Add funds to your account' %}"></i> 
                         <i aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Your account balance' %}">
                             ${{ user.balance|floatformat }}
                         </i>
-                    </div>
-                    <img class="logo"
+                    </div> -->
+
+                    <!-- <img class="logo"
                         src="{% if user.profile_pic %} {{ user.profile_pic.url }} {% else %} {% static 'images/placeholder.png' %} {% endif %}"
-                        onclick="openSidebar()" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Profile' %}">
-            
+                        onclick="openSidebar()" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Profile' %}"> -->
+                        <a href="{% url 'users:profile' %}"><img class="logo"
+                            src="{% if user.profile_pic %} {{ user.profile_pic.url }} {% else %} {% static 'images/placeholder.png' %} {% endif %}"
+                            aria-hidden="true" data-toggle="tooltip" data-placement="top" title="{% trans 'Profile' %}"></a>
+                
                 </div>
             </td>
             <td class="">
@@ -58,6 +65,9 @@
                     </form>		
                 </div>                
                 <!-- End Language bar-->                
+            </td>
+            <td>
+                <a href="{% url 'bingo_main:logout_view' %}" class="nav-link">{% trans 'Logout' %}</a>
             </td>
         </tr>
     </table>

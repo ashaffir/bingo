@@ -209,3 +209,7 @@ def re_subscribe(request, user_id):
 
     messages.success(request, f'You were re-subscribed to our newsletters')
     return render(request, 'bingo_main/index.html', context)
+
+def landing_page(request):
+    context = {}
+    return render(request, 'newsletter/landing_pages/landing_page.html', context)

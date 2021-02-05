@@ -33,17 +33,18 @@
             </div>
             <div class="col-md-6">
                 <div class="registerForm" id="">
-                    <form class="form-group" method="POST" action="{% url 'bingo_main:bingo_main_login' %}">
+                    <form class="form-group" method="POST" enctype="multipart/form-data" action="{% url 'bingo_main:bingo_main_login' %}">
                         {% csrf_token %}
                         <label for="email">{% trans 'Email' %}</label>
                         <input type="email" class="form-control" name="username" id="email" required>
                         <label for="password">{% trans 'Password' %}</label>
                         <input type="password" class="form-control" name="password" id="password" required>
+                        <input type="text" hidden name="next_url" id="next_url">
                         <input type="submit" class="btn btn-success mt-2" value="{% trans 'Login' %}" 
                             onclick="updateGTM({event: 'login', userId: '{{ user.pk }}'});">
                         <div class="" id="">
                             {% trans 'Do not have an account' %}? {% trans 'Register' %} <a
-                                href="{% url "bingo_main:bingo_main_register" %}">{% trans 'here' %}</a>
+                                href="{% url 'bingo_main:bingo_main_register' term=term plan_id=plan_id %}">{% trans 'here' %}</a>
                         </div>
                     </form>
                     <hr>
@@ -57,4 +58,14 @@
         </div>
     </div>
     </div>
+
+    <script>
+        //Setting and sending the next URL to backend
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+        console.log(urlParams.get('next'));
+        next_url_e = document.getElementById('next_url')
+        next_url_e.value = urlParams.get('next')
+    </script>
     {% endblock content %}

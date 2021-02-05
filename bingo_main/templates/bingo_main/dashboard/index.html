@@ -20,10 +20,9 @@
 {% endblock js %}
 
 {% block content %}
-{% include 'bingo_main/partials/_navbar_top.html' with active_tab='dashboard' %}
 
 {% if albums_images %}
-<form action="{% url "bingo_main:start_bingo" %}" method="POST">
+<form action="{% url 'bingo_main:start_bingo' %}" method="POST">
     {% csrf_token %}
     <div class="bingoContainer">
         {% for album in albums_images %}

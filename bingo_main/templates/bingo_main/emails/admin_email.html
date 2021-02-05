@@ -20,7 +20,11 @@
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1>{{ title }}</h1>
+                {% if alert %}
+                    <h1>Location: {{ title }}</h1>
+                {% else %}
+                    <h1>{{ title }}</h1>
+                {% endif %}
             </div>
         </div>
         <div class="row">
@@ -30,6 +34,10 @@
                 <p>Name: {{ name }}</p>
                 <p>Email: {{ email }}</p>
                 <p>Message: {{ message }}</p>
+            </div>
+            {% elif alert %}
+            <div class="col">
+                <p>Alert: {{ content }}</p>
             </div>
             {% else %}
             <div class="col">

@@ -41,7 +41,7 @@
             <div class="col-md-6 col-sm-6 col-xs-12 ">
                 <div class="registerForm">
                     <h4 class="mr-2 ml-2">{% trans 'Register with your email' %}</h4>
-                    <form class="form-group" action="{% url 'bingo_main:bingo_main_register' %}" method="POST">
+                    <form class="form-group" enctype="multipart/form-data" method="POST">
                         {% csrf_token %}                
                         <!-- <label for="name">{% trans 'Name' %} *</label>
                         <input type="text" class="form-control" name="name" id="name" pattern="[a-zA-Z0-9\s]+" required>

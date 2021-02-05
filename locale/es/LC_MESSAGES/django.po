@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-17 09:42+0200\n"
+"POT-Creation-Date: 2021-02-05 07:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,39 +22,41 @@ msgstr ""
 msgid "There are no public albums waiting for approval"
 msgstr "No hay álbumes públicos en espera de aprobación."
 
-#: archive/base.00.html:93 bingo_main/templates/bingo_main/base.html:140
-#: bingo_main/templates/bingo_main/base.html:211
+#: archive/base.00.html:93 bingo_main/templates/bingo_main/base.html:165
+#: bingo_main/templates/bingo_main/base.html:291
 #: bingo_main/templates/bingo_main/partials/_navbar_index.html:46
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:50
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:55
 msgid "Change Language"
 msgstr "Cambiar idioma"
 
-#: archive/base.00.html:126 bingo_main/templates/bingo_main/base.html:129
-#: bingo_main/templates/bingo_main/base.html:233
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:90
+#: archive/base.00.html:126 bingo_main/templates/bingo_main/base.html:146
+#: bingo_main/templates/bingo_main/base.html:311
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:98
 msgid "Instructions"
 msgstr "Instrucciones"
 
-#: archive/base.00.html:140 bingo_main/templates/bingo_main/base.html:115
-#: bingo_main/templates/bingo_main/base.html:232
+#: archive/base.00.html:140 bingo_main/templates/bingo_main/base.html:138
+#: bingo_main/templates/bingo_main/base.html:310
 msgid "Home"
 msgstr "Página principal"
 
-#: archive/base.00.html:141 bingo_main/templates/bingo_main/base.html:130
-#: bingo_main/templates/bingo_main/base.html:234
+#: archive/base.00.html:141 bingo_main/templates/bingo_main/base.html:147
+#: bingo_main/templates/bingo_main/base.html:312
 msgid "About Us"
 msgstr "Sobre nosotras"
 
-#: archive/base.00.html:142 bingo_main/templates/bingo_main/base.html:241
+#: archive/base.00.html:142 bingo_main/templates/bingo_main/base.html:313
+#: bingo_main/templates/bingo_main/contact.html:14
+#: bingo_main/templates/bingo_main/index.html:794
 msgid "Contact Us"
 msgstr "Contacta con nosotras"
 
-#: archive/base.00.html:143 bingo_main/templates/bingo_main/base.html:235
+#: archive/base.00.html:143 bingo_main/templates/bingo_main/base.html:314
 #: bingo_main/templates/bingo_main/terms.html:15
 msgid "Terms & Conditions"
 msgstr "Términos y condiciones"
 
-#: archive/base.00.html:144 bingo_main/templates/bingo_main/base.html:236
+#: archive/base.00.html:144 bingo_main/templates/bingo_main/base.html:315
 #: bingo_main/templates/bingo_main/play.html:146
 #: bingo_main/templates/bingo_main/privacy.html:15
 msgid "Privacy"
@@ -64,30 +66,30 @@ msgstr "Intimidad"
 msgid "You Host"
 msgstr "Crear y alojar"
 
-#: archive/index.00.html:21 bingo_main/templates/bingo_main/index.html:25
+#: archive/index.00.html:21 bingo_main/templates/bingo_main/index.html:26
 msgid "a Photo Bingo"
 msgstr "un bingo de fotos"
 
-#: archive/index.00.html:24 bingo_main/templates/bingo_main/index.html:27
+#: archive/index.00.html:24 bingo_main/templates/bingo_main/index.html:28
 msgid "Customize bingo games using your own photos"
 msgstr "Personaliza los juegos de bingo con tus propias fotos"
 
-#: archive/index.00.html:32 bingo_main/templates/bingo_main/index.html:43
+#: archive/index.00.html:32 bingo_main/templates/bingo_main/index.html:44
 msgid "Become Host"
 msgstr "Ser un Anfitrión"
 
-#: archive/index.00.html:36 bingo_main/templates/bingo_main/base.html:120
-#: bingo_main/templates/bingo_main/index.html:47
-#: bingo_main/templates/bingo_main/login.html:39
+#: archive/index.00.html:36 bingo_main/templates/bingo_main/base.html:152
+#: bingo_main/templates/bingo_main/index.html:48
+#: bingo_main/templates/bingo_main/login.html:43
 #: bingo_main/templates/bingo_main/partials/_navbar_index.html:36
 #: bingo_main/templates/bingo_main/register.html:73
-#: users/templates/users/forgot_password.html:36
+#: users/templates/users/forgot_password.html:35
 msgid "Login"
 msgstr "el Login"
 
-#: archive/index.00.html:44 bingo_main/templates/bingo_main/base.html:160
-#: bingo_main/templates/bingo_main/index.html:55
-#: bingo_main/templates/bingo_main/index.html:66
+#: archive/index.00.html:44 bingo_main/templates/bingo_main/base.html:185
+#: bingo_main/templates/bingo_main/index.html:56
+#: bingo_main/templates/bingo_main/index.html:67
 #: bingo_main/templates/bingo_main/partials/_navbar_index.html:74
 #: bingo_main/templates/bingo_main/play.html:125
 #: bingo_main/templates/bingo_main/play.html:126
@@ -109,7 +111,7 @@ msgstr "funciona"
 msgid "Read More"
 msgstr "Lee mas"
 
-#: archive/index.00.html:490 bingo_main/templates/bingo_main/index.html:680
+#: archive/index.00.html:490
 msgid "Ticket Pricing"
 msgstr "Precio de las entradas"
 
@@ -118,40 +120,45 @@ msgid "Family"
 msgstr "Familia"
 
 #: archive/index.00.html:499 bingo_main/templates/bingo_main/index.html:697
+#: bingo_main/templates/bingo_main/index.html:726
+#: bingo_main/templates/bingo_main/index.html:763
+#: users/templates/users/profile.html:180
+#: users/templates/users/profile.html:207
+#: users/templates/users/profile.html:245
 msgid "Up to"
 msgstr "Arriba a"
 
-#: archive/index.00.html:499 bingo_main/templates/bingo_main/index.html:697
+#: archive/index.00.html:499
 msgid "players per game and"
 msgstr "Jugadores por juego y"
 
-#: archive/index.00.html:499 bingo_main/templates/bingo_main/index.html:697
+#: archive/index.00.html:499
 msgid "host"
 msgstr "anfitrión"
 
 #: archive/index.00.html:513 archive/index.00.html:538
-#: bingo_main/templates/bingo_main/index.html:699
-#: bingo_main/templates/bingo_main/index.html:742
+#: bingo_main/templates/bingo_main/index.html:704
+#: bingo_main/templates/bingo_main/index.html:820
 msgid "Join"
 msgstr "Unirse"
 
-#: archive/index.00.html:520 bingo_main/templates/bingo_main/index.html:733
+#: archive/index.00.html:520 bingo_main/templates/bingo_main/index.html:811
 msgid "Family, Friends, Team"
 msgstr "Familia, amigos, equipo"
 
-#: archive/index.00.html:522 bingo_main/templates/bingo_main/index.html:736
+#: archive/index.00.html:522 bingo_main/templates/bingo_main/index.html:814
 msgid "For any additional player above"
 msgstr "Para cualquier jugador adicional arriba"
 
-#: archive/index.00.html:536 bingo_main/templates/bingo_main/index.html:740
+#: archive/index.00.html:536 bingo_main/templates/bingo_main/index.html:818
 msgid "Fund your account"
 msgstr "Financie su cuenta"
 
-#: archive/index.00.html:655 bingo_main/templates/bingo_main/contact.html:70
+#: archive/index.00.html:655
 msgid "Subcribe to our Newsletter"
 msgstr "Suscríbete a nuestro boletín"
 
-#: archive/index.00.html:662 bingo_main/templates/bingo_main/contact.html:75
+#: archive/index.00.html:662
 msgid "Enter email address"
 msgstr "Introduzca la dirección de correo electrónico"
 
@@ -167,100 +174,97 @@ msgstr "Sobre nosotras"
 msgid "About"
 msgstr "Sobre"
 
-#: bingo_main/templates/bingo_main/base.html:118
-#: bingo_main/templates/bingo_main/partials/_navbar_index.html:34
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:122
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:123
-msgid "Logout"
-msgstr "Cerrar sesión"
-
-#: bingo_main/templates/bingo_main/base.html:126
+#: bingo_main/templates/bingo_main/base.html:142
 #: bingo_main/templates/bingo_main/partials/_navbar_index.html:26
 msgid "Dashboard"
 msgstr "Tablero"
 
-#: bingo_main/templates/bingo_main/base.html:268
-msgid "Send us a message"
-msgstr "Enviar mensaje"
+#: bingo_main/templates/bingo_main/base.html:143
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:41
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:44
+#: users/templates/users/profile_test.html:22
+msgid "Profile"
+msgstr "Perfil"
 
+#: bingo_main/templates/bingo_main/base.html:150
+#: bingo_main/templates/bingo_main/partials/_navbar_index.html:34
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:70
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:130
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:131
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+#: bingo_main/templates/bingo_main/base.html:201
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:125
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:83
+msgid "Public Albums"
+msgstr "Álbumes públicos"
+
+#: bingo_main/templates/bingo_main/base.html:208
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:88
+msgid "Create a Bingo Album"
+msgstr "Crear un álbum de bingo"
+
+#: bingo_main/templates/bingo_main/base.html:215
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:117
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:93
+msgid "My Albums"
+msgstr "Mis álbumes"
+
+#: bingo_main/templates/bingo_main/base.html:225
 #: bingo_main/templates/bingo_main/base.html:274
-#: bingo_main/templates/bingo_main/contact.html:39
-msgid "Your Name"
-msgstr "Tu nombre"
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:16
+msgid "Search Albums"
+msgstr "Buscar álbumes"
 
-#: bingo_main/templates/bingo_main/base.html:275
-msgid "Please enter at least 4 chars"
-msgstr "Ingrese al menos 4 caracteres"
+#: bingo_main/templates/bingo_main/base.html:326
+msgid "Follow us"
+msgstr "Síganos"
 
-#: bingo_main/templates/bingo_main/base.html:279
-#: bingo_main/templates/bingo_main/contact.html:42
-msgid "Your Email"
-msgstr "Tu email"
-
-#: bingo_main/templates/bingo_main/base.html:280 users/views.py:184
-msgid "Please enter a valid email"
-msgstr "Por favor introduzca una dirección de correo electrónico válida"
-
-#: bingo_main/templates/bingo_main/base.html:284
-#: bingo_main/templates/bingo_main/contact.html:45
-msgid "Subject"
-msgstr "Sujeto"
-
-#: bingo_main/templates/bingo_main/base.html:285
-msgid "Please enter at least 8 chars of subject"
-msgstr "Ingrese al menos 8 caracteres de asunto"
-
-#: bingo_main/templates/bingo_main/base.html:289
-msgid "Please write something for us"
-msgstr "Por favor escribe algo para nosotros"
-
-#: bingo_main/templates/bingo_main/base.html:290
-#: bingo_main/templates/bingo_main/contact.html:48
-#: bingo_main/templates/bingo_main/partials/_messages.html:10
-msgid "Message"
-msgstr "Mensaje"
-
-#: bingo_main/templates/bingo_main/base.html:306
-#: bingo_main/templates/bingo_main/contact.html:51
-msgid "Send Message"
-msgstr "Enviar mensaje"
+#: bingo_main/templates/bingo_main/base.html:339
+msgid "Join Our Newsletter"
+msgstr "Suscríbete a nuestro boletín"
 
 #: bingo_main/templates/bingo_main/bingo.html:21
 msgid "Polybingo-Player Bingo Card"
 msgstr "Polybingo - Tarjeta de bingo para jugadores"
 
-#: bingo_main/templates/bingo_main/bingo.html:59
-#: bingo_main/templates/bingo_main/bingo.html:61
+#: bingo_main/templates/bingo_main/bingo.html:51
+msgid "Game ID"
+msgstr "ID del juego"
+
+#: bingo_main/templates/bingo_main/bingo.html:60
+#: bingo_main/templates/bingo_main/bingo.html:62
 msgid "Waiting for host approval. Hold on"
 msgstr "Esperando la aprobación del anfitrión. Espere"
 
-#: bingo_main/templates/bingo_main/bingo.html:66
-#: bingo_main/templates/bingo_main/bingo.html:68
+#: bingo_main/templates/bingo_main/bingo.html:67
+#: bingo_main/templates/bingo_main/bingo.html:69
 msgid "Game starting soon. Just a second"
 msgstr "El juego comenzará pronto. Sólo un segundo"
 
-#: bingo_main/templates/bingo_main/bingo.html:73
+#: bingo_main/templates/bingo_main/bingo.html:74
 msgid "Game Over. Thank you for playing"
 msgstr "Juego terminado. Gracias por jugar"
 
-#: bingo_main/templates/bingo_main/bingo.html:81
+#: bingo_main/templates/bingo_main/bingo.html:82
 msgid "Ticket Number"
 msgstr "Numero de ticket"
 
-#: bingo_main/templates/bingo_main/bingo.html:90
+#: bingo_main/templates/bingo_main/bingo.html:91
 msgid "Win Condition"
 msgstr "Condición de victoria"
 
-#: bingo_main/templates/bingo_main/bingo.html:93
+#: bingo_main/templates/bingo_main/bingo.html:94
 msgid "Current Image"
 msgstr "Imagen actual"
 
-#: bingo_main/templates/bingo_main/bingo.html:104
+#: bingo_main/templates/bingo_main/bingo.html:105
 msgid "Bingo!"
 msgstr "¡Bingo!"
 
-#: bingo_main/templates/bingo_main/bingo.html:284
-#: bingo_main/templates/bingo_main/bingo.html:434
+#: bingo_main/templates/bingo_main/bingo.html:266
+#: bingo_main/templates/bingo_main/bingo.html:417
 #: bingo_main/templates/bingo_main/partials/_player_board.html:145
 msgid "Match"
 msgstr "Partido"
@@ -318,7 +322,7 @@ msgstr "Seguir"
 
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:11
 msgid "PolyBingo - Check Bingo Card"
-msgstr ""
+msgstr "PolyBingo - Compruebe la tarjeta de bingo"
 
 #: bingo_main/templates/bingo_main/broadcast/check_board.html:57
 msgid "Check Bingo"
@@ -326,7 +330,7 @@ msgstr "Ver bingo"
 
 #: bingo_main/templates/bingo_main/broadcast/game.html:11
 msgid "PolyBingo - Bingo Game Show"
-msgstr ""
+msgstr "PolyBingo - Programa de juegos de bingo"
 
 #: bingo_main/templates/bingo_main/broadcast/game.html:90
 msgid "Out"
@@ -342,9 +346,9 @@ msgstr "Comprobar"
 
 #: bingo_main/templates/bingo_main/broadcast/game.html:103
 #: bingo_main/templates/bingo_main/broadcast/game_over.html:40
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:62
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:157
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:238
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:60
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:155
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:236
 #: bingo_main/templates/bingo_main/partials/_prizes_sidebar.html:15
 msgid "Bingo"
 msgstr "Bingo"
@@ -366,7 +370,7 @@ msgid "Thank you for playing"
 msgstr "Gracias por jugar"
 
 #: bingo_main/templates/bingo_main/broadcast/game_over.html:59
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:132
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:133
 #: bingo_main/templates/bingo_main/partials/_messages.html:23
 msgid "Close"
 msgstr "Cerca"
@@ -383,121 +387,154 @@ msgstr "Copiar detalles del juego"
 msgid "Tickets"
 msgstr "Entradas"
 
-#: bingo_main/templates/bingo_main/broadcast/index.html:88
+#: bingo_main/templates/bingo_main/broadcast/index.html:86
+msgid "out of available "
+msgstr "fuera de disponible"
+
+#: bingo_main/templates/bingo_main/broadcast/index.html:90
 msgid "Start Bingo"
 msgstr "Iniciar bingo"
 
-#: bingo_main/templates/bingo_main/broadcast/index.html:88
+#: bingo_main/templates/bingo_main/broadcast/index.html:91
 msgid "Price"
 msgstr "Precio"
 
-#: bingo_main/templates/bingo_main/broadcast/index.html:106
+#: bingo_main/templates/bingo_main/broadcast/index.html:110
 #: bingo_main/templates/bingo_main/partials/_players_approval_list.html:2
 msgid "Current Players"
 msgstr "Jugadores actuales"
 
-#: bingo_main/templates/bingo_main/broadcast/index.html:128
+#: bingo_main/templates/bingo_main/broadcast/index.html:132
 msgid "Game details copied! Do a CTRL - V to paste"
 msgstr ""
 
-#: bingo_main/templates/bingo_main/contact.html:13
-msgid "Contact"
-msgstr "Contacto"
+#: bingo_main/templates/bingo_main/contact.html:6
+msgid "Polybingo-Contact Us"
+msgstr "Polybingo-Contáctenos"
 
-#: bingo_main/templates/bingo_main/contact.html:13
-msgid "Us"
-msgstr "Nosotros"
+#: bingo_main/templates/bingo_main/contact.html:19
+msgid "Send us an email"
+msgstr "Enviar mensaje"
 
-#: bingo_main/templates/bingo_main/contact.html:18
-msgid "Contact Information"
-msgstr "Información del contacto"
+#: bingo_main/templates/bingo_main/contact.html:34
+msgid "Send us a message"
+msgstr "Enviar mensaje"
 
-#: bingo_main/templates/bingo_main/contact.html:25
-msgid "Phone"
-msgstr "Teléfono"
+#: bingo_main/templates/bingo_main/contact.html:40
+msgid "Your Name"
+msgstr "Tu nombre"
 
-#: bingo_main/templates/bingo_main/contact.html:28
-#: bingo_main/templates/bingo_main/login.html:35
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:104
-#: bingo_main/templates/bingo_main/register.html:52
-msgid "Email"
-msgstr "Email"
+#: bingo_main/templates/bingo_main/contact.html:41
+msgid "Please enter at least 4 chars"
+msgstr "Ingrese al menos 4 caracteres"
 
-#: bingo_main/templates/bingo_main/contact.html:31
-msgid "Website"
-msgstr "Sitio web"
+#: bingo_main/templates/bingo_main/contact.html:45
+msgid "Your Email"
+msgstr "Tu email"
 
-#: bingo_main/templates/bingo_main/contact.html:76
-msgid "Subscribe"
-msgstr "Suscribir"
+#: bingo_main/templates/bingo_main/contact.html:46 users/views.py:280
+msgid "Please enter a valid email"
+msgstr "Por favor introduzca una dirección de correo electrónico válida"
+
+#: bingo_main/templates/bingo_main/contact.html:50
+msgid "Subject"
+msgstr "Sujeto"
+
+#: bingo_main/templates/bingo_main/contact.html:51
+msgid "Please enter at least 8 chars of subject"
+msgstr "Ingrese al menos 8 caracteres de asunto"
+
+#: bingo_main/templates/bingo_main/contact.html:55
+msgid "Please write something for us"
+msgstr "Por favor escribe algo para nosotros"
+
+#: bingo_main/templates/bingo_main/contact.html:56
+#: bingo_main/templates/bingo_main/partials/_messages.html:10
+msgid "Message"
+msgstr "Mensaje"
+
+#: bingo_main/templates/bingo_main/contact.html:72
+msgid "Send Message"
+msgstr "Enviar mensaje"
 
 #: bingo_main/templates/bingo_main/dashboard/add-money.html:6
+#: payments/templates/payments/deposit.html:6
 msgid "Polybingo-Add Funds"
 msgstr "Polybingo - Agregar fondos"
 
 #: bingo_main/templates/bingo_main/dashboard/add-money.html:26
+#: payments/templates/payments/deposit.html:38
 msgid "Deposit Funds"
 msgstr "Fondos de depósito"
 
 #: bingo_main/templates/bingo_main/dashboard/add-money.html:27
+#: payments/templates/payments/deposit.html:39
 msgid "How much money would you like to add to your account"
 msgstr "Cuánto dinero le gustaría agregar a su cuenta"
 
 #: bingo_main/templates/bingo_main/dashboard/add-money.html:29
+#: payments/templates/payments/deposit.html:41
 msgid "Choose an amount"
 msgstr "Elige una cantidad"
 
 #: bingo_main/templates/bingo_main/dashboard/add-money.html:34
+#: payments/templates/payments/deposit.html:46
 msgid "Other"
 msgstr "Otra"
 
 #: bingo_main/templates/bingo_main/dashboard/add-money.html:36
+#: payments/templates/payments/deposit.html:48
 msgid "Enter a custom amount"
 msgstr "Ingrese una cantidad personalizada"
 
 #: bingo_main/templates/bingo_main/dashboard/add-money.html:38
+#: payments/templates/payments/deposit.html:50
 msgid "The amount shoud be between "
 msgstr "La cantidad debe estar entre"
 
 #: bingo_main/templates/bingo_main/dashboard/add-money.html:38
+#: payments/templates/payments/deposit.html:50
 msgid "and "
 msgstr "y"
 
 #: bingo_main/templates/bingo_main/dashboard/add-money.html:44
+#: payments/templates/payments/deposit.html:70
+#: payments/templates/payments/plan.html:85
 msgid "Coupon"
 msgstr "Cupón"
 
 #: bingo_main/templates/bingo_main/dashboard/add-money.html:50
+#: payments/templates/payments/deposit.html:56
 msgid "Make Payment"
 msgstr "Hacer el pago"
 
-#: bingo_main/templates/bingo_main/dashboard/album.html:29
+#: bingo_main/templates/bingo_main/dashboard/album.html:28
 msgid "Album name"
 msgstr "Nombre del álbum"
 
-#: bingo_main/templates/bingo_main/dashboard/album.html:35
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:164
+#: bingo_main/templates/bingo_main/dashboard/album.html:34
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:162
 msgid "Description"
 msgstr "Descripción"
 
-#: bingo_main/templates/bingo_main/dashboard/album.html:45
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:147
+#: bingo_main/templates/bingo_main/dashboard/album.html:44
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:145
 msgid "Category"
 msgstr "Categoría"
 
-#: bingo_main/templates/bingo_main/dashboard/album.html:64
-#: bingo_main/templates/bingo_main/dashboard/album.html:76
-#: bingo_main/templates/bingo_main/dashboard/album.html:88
+#: bingo_main/templates/bingo_main/dashboard/album.html:63
+#: bingo_main/templates/bingo_main/dashboard/album.html:75
+#: bingo_main/templates/bingo_main/dashboard/album.html:87
 #: bingo_main/templates/bingo_main/dashboard/index.html:40
-#: bingo_main/templates/bingo_main/dashboard/index.html:53
-#: bingo_main/templates/bingo_main/dashboard/index.html:66
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:47
+#: bingo_main/templates/bingo_main/dashboard/index.html:54
+#: bingo_main/templates/bingo_main/dashboard/index.html:68
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:46
 #: bingo_main/templates/bingo_main/dashboard/my-bingos.html:70
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:93
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:94
 msgid "make game"
 msgstr "hacer juego"
 
-#: bingo_main/templates/bingo_main/dashboard/album.html:99
+#: bingo_main/templates/bingo_main/dashboard/album.html:98
 msgid "Album not found"
 msgstr "Álbum no encontrado"
 
@@ -505,71 +542,61 @@ msgstr "Álbum no encontrado"
 msgid "Polybingo-Create a Bingo Album"
 msgstr "Crear un álbum de bingo"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:28
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:26
 msgid "Card sizes"
 msgstr "Tamaños de tarjeta"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:43
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:64
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:94
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:41
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:62
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:92
 msgid "images uploaded"
 msgstr "imágenes cargadas"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:98
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:96
 msgid "Upload images"
 msgstr "Subir imagenes"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:98
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:96
 msgid "Uploaded"
 msgstr "Subido"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:102
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:100
 msgid "Upload or drop images here"
 msgstr "Sube o suelta imágenes aquí"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:106
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:104
 msgid "Edit images"
 msgstr "Editar imagenes"
 
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:112
 #: bingo_main/templates/bingo_main/dashboard/create-bingo.html:114
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:116
 msgid "Where should it be saved"
 msgstr "¿Dónde debería guardarse?"
 
 #: bingo_main/templates/bingo_main/dashboard/create-bingo.html:119
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:85
-msgid "My Albums"
-msgstr "Mis álbumes"
-
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:121
 msgid "Only you can use the album"
 msgstr ""
 
 #: bingo_main/templates/bingo_main/dashboard/create-bingo.html:127
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:75
-msgid "Public Albums"
-msgstr "Álbumes públicos"
-
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:129
 msgid "Make your album publicly used and visible to all hosts"
 msgstr ""
 "Haz que tu álbum sea de uso público y visible para todos los anfitriones."
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:140
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:101
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:138
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:109
 #: bingo_main/templates/bingo_main/register.html:46
 msgid "Name"
 msgstr "Nombre"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:149
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:147
 msgid "Select Album Category"
 msgstr "Seleccionar categoría de álbum"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:156
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:154
 msgid "Save"
 msgstr "Ahorrar"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:214
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:212
 msgid ""
 "Polybingo team will review all images before publishing. Please make sure "
 "you have permission to use these images."
@@ -577,15 +604,15 @@ msgstr ""
 "El equipo de Polybingo revisará todas las imágenes antes de publicarlas. Por "
 "favor asegúresetienes permiso para usar estas imágenes."
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:234
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:232
 msgid "Enter name"
 msgstr "Ingrese su nombre"
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:330
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:333
 msgid "Please enter a name to the album"
 msgstr "Ingresa un nombre para el álbum."
 
-#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:334
+#: bingo_main/templates/bingo_main/dashboard/create-bingo.html:337
 msgid "Please select a category for the album"
 msgstr "Selecciona una categoría para el álbum."
 
@@ -593,7 +620,7 @@ msgstr "Selecciona una categoría para el álbum."
 msgid "Polybingo-Dashboard Main"
 msgstr "Polybingo - Tablero principal"
 
-#: bingo_main/templates/bingo_main/dashboard/index.html:78
+#: bingo_main/templates/bingo_main/dashboard/index.html:80
 msgid "There are no public albums here"
 msgstr "No hay álbumes públicos aquí"
 
@@ -630,41 +657,41 @@ msgstr "Ejecutar el juego"
 msgid "Polybingo-My Bingo Albums"
 msgstr "Polybingo - Mis álbumes de bingo"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:39
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:62
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:37
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:61
 #: bingo_main/templates/bingo_main/dashboard/my-bingos.html:85
 msgid "Delete this Album"
 msgstr "Eliminar este álbum"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:43
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:41
 msgid "Edit this Album"
 msgstr "Editar este álbum"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:106
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:107
 msgid "You have not created any albums yet"
 msgstr "Aún no has creado ningún álbum"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:108
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:109
 msgid "Create an Album"
 msgstr "Crear un álbum"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:129
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:130
 msgid "Album deleted cannot be restored. Please confirm delete"
 msgstr "El álbum eliminado no se puede restaurar. Confirma eliminar"
 
-#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:136
+#: bingo_main/templates/bingo_main/dashboard/my-bingos.html:137
 msgid "Confirm"
 msgstr "Constatar"
 
-#: bingo_main/templates/bingo_main/dashboard/search_results.html:26
+#: bingo_main/templates/bingo_main/dashboard/search_results.html:24
 msgid "Search Results"
 msgstr "Resultados de la búsqueda"
 
-#: bingo_main/templates/bingo_main/dashboard/search_results.html:35
+#: bingo_main/templates/bingo_main/dashboard/search_results.html:33
 msgid "View Album"
 msgstr "Ver álbum"
 
-#: bingo_main/templates/bingo_main/dashboard/search_results.html:43
+#: bingo_main/templates/bingo_main/dashboard/search_results.html:41
 msgid "Nothing found to match your search"
 msgstr "No se encontró nada que coincida con su búsqueda"
 
@@ -672,53 +699,53 @@ msgstr "No se encontró nada que coincida con su búsqueda"
 msgid "Polybingo-Start a Bingo Game"
 msgstr "Polybingo - Inicie un juego de bingo"
 
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:25
 #: bingo_main/templates/bingo_main/dashboard/start-bingo.html:27
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:29
 msgid "How many prizes are you offering"
 msgstr "Cuantos premios estás ofreciendo"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:33
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:31
 msgid "1 Prize"
 msgstr "1 premio"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:36
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:34
 msgid "2 Prizes"
 msgstr "2 premios"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:39
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:37
 msgid "3 Prizes"
 msgstr "3 premios"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:45
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:233
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:43
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:231
 msgid "Prize #1"
 msgstr "Premio # 1"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:48
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:152
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:189
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:233
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:46
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:150
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:187
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:231
 msgid "Prize name"
 msgstr "Nombre del premio"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:55
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:191
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:53
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:189
 msgid "Upload or drop prize image here"
 msgstr "Sube o suelta la imagen del premio aquí"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:100
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:98
 msgid "Auto Join"
 msgstr "Unión automática"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:102
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:100
 msgid "Anyone with the game ID will be able to join automatically"
 msgstr "Cualquiera que tenga el ID del juego podrá unirse automáticamente"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:105
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:103
 msgid "Join by Request"
 msgstr "Únase por solicitud"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:107
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:105
 msgid ""
 "You will need to approve every player that will enter the game ID before the "
 "game starts"
@@ -726,41 +753,41 @@ msgstr ""
 "Deberá aprobar a todos los jugadores que ingresen el ID del juego antes de "
 "comienza el juego"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:111
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:109
 msgid "Auto Mark"
 msgstr "Marca automática"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:113
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:111
 msgid "The system marks the player board with drawn images automatically"
 msgstr ""
 "El sistema marca el tablero del jugador con imágenes dibujadas "
 "automáticamente"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:116
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:114
 msgid "Start the game"
 msgstr "Empieza el juego"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:117
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:115
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:152
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:186
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:150
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:184
 msgid "Prize"
 msgstr "Premio"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:157
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:196
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:155
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:194
 msgid "Any Line"
 msgstr "Cualquier línea"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:196
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:194
 msgid "Any two Lines"
 msgstr "Dos líneas cualesquiera"
 
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:414
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:455
-#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:484
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:418
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:459
+#: bingo_main/templates/bingo_main/dashboard/start-bingo.html:488
 msgid ""
 "You are missing a prize image or prize title. Please upload an image and "
 "give it a title"
@@ -768,52 +795,138 @@ msgstr ""
 "Falta una imagen de premio o un título de premio. Sube una imagen ydarle un "
 "título"
 
-#: bingo_main/templates/bingo_main/index.html:6
+#: bingo_main/templates/bingo_main/index.html:7
 msgid "Polybingo-Create Photo-Bingo Games"
 msgstr "Polybingo - Crea juegos de Photo-Bingo"
 
-#: bingo_main/templates/bingo_main/index.html:25
+#: bingo_main/templates/bingo_main/index.html:26
 msgid "Create & Host"
 msgstr "Crear y alojar"
 
-#: bingo_main/templates/bingo_main/index.html:34
+#: bingo_main/templates/bingo_main/index.html:35
 msgid "Go to Dashbaord"
 msgstr "Ir al panel de control"
 
-#: bingo_main/templates/bingo_main/index.html:64
+#: bingo_main/templates/bingo_main/index.html:65
 msgid "Players click here"
 msgstr "Los jugadores hacen clic aquí"
 
-#: bingo_main/templates/bingo_main/index.html:690
-#: bingo_main/templates/bingo_main/index.html:729
+#: bingo_main/templates/bingo_main/index.html:216
+msgid "Why use Polybingo"
+msgstr "Por que usar Polybingo"
+
+#: bingo_main/templates/bingo_main/index.html:269
+msgid "Hosts"
+msgstr "Hospedadores"
+
+#: bingo_main/templates/bingo_main/index.html:274
+#: users/templates/users/profile.html:56
+msgid "Games"
+msgstr "משחקים"
+
+#: bingo_main/templates/bingo_main/index.html:279
+#: users/templates/users/profile.html:55
+msgid "Albums"
+msgstr "Álbumes"
+
+#: bingo_main/templates/bingo_main/index.html:284
+#: users/templates/users/profile.html:57
+msgid "Players"
+msgstr "Jugadores"
+
+#: bingo_main/templates/bingo_main/index.html:680
+msgid "Choose Your Bingo Plan"
+msgstr "Elija su plan de bingo"
+
+#: bingo_main/templates/bingo_main/index.html:697
+#: bingo_main/templates/bingo_main/index.html:726
+#: bingo_main/templates/bingo_main/index.html:763
+msgid "players per game"
+msgstr "Jugadores por juego"
+
+#: bingo_main/templates/bingo_main/index.html:701
+#: bingo_main/templates/bingo_main/index.html:732
+msgid "Downgrade"
+msgstr "Degradar"
+
+#: bingo_main/templates/bingo_main/index.html:709
+#: bingo_main/templates/bingo_main/index.html:746
+#: bingo_main/templates/bingo_main/index.html:780
+msgid "Current Plan"
+msgstr "Plan actual"
+
+#: bingo_main/templates/bingo_main/index.html:730
+#: bingo_main/templates/bingo_main/index.html:767
+msgid "Upgrade"
+msgstr "Potenciar"
+
+#: bingo_main/templates/bingo_main/index.html:735
+#: bingo_main/templates/bingo_main/index.html:770
+msgid "Buy Now"
+msgstr "Compra ahora"
+
+#: bingo_main/templates/bingo_main/index.html:792
+msgid "Professional organizer?"
+msgstr "Organizador profesional?"
+
+#: bingo_main/templates/bingo_main/index.html:793
+msgid "Need more players?"
+msgstr "¿Necesitas más jugadores?"
+
+#: bingo_main/templates/bingo_main/index.html:807
 msgid "Ticket"
 msgstr "Boleto"
 
-#: bingo_main/templates/bingo_main/login.html:16
+#: bingo_main/templates/bingo_main/index.html:833
+msgid "Not ready to buy?"
+msgstr "¿No estás listo para comprar?"
+
+#: bingo_main/templates/bingo_main/index.html:834
+msgid "Try it out first and host Bingo with up to "
+msgstr "Pruébelo primero y organice Bingo con hasta "
+
+#: bingo_main/templates/bingo_main/index.html:836
+msgid " players. You can upgrade at any time."
+msgstr " jugadores. Puede actualizar en cualquier momento."
+
+#: bingo_main/templates/bingo_main/index.html:839
+msgid "Sign up for free - no credit card required"
+msgstr "Regístrese gratis, no se requiere tarjeta de crédito"
+
+#: bingo_main/templates/bingo_main/login.html:19
 msgid "Login with"
 msgstr "Iniciar con"
 
-#: bingo_main/templates/bingo_main/login.html:37
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:108
+#: bingo_main/templates/bingo_main/login.html:38
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:112
+#: bingo_main/templates/bingo_main/play.html:115
+#: bingo_main/templates/bingo_main/register.html:52
+#: users/templates/users/profile.html:120
+msgid "Email"
+msgstr "Email"
+
+#: bingo_main/templates/bingo_main/login.html:40
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:116
 #: bingo_main/templates/bingo_main/register.html:54
+#: users/templates/users/profile.html:72
 msgid "Password"
 msgstr "Contraseña"
 
-#: bingo_main/templates/bingo_main/login.html:41
+#: bingo_main/templates/bingo_main/login.html:46
 msgid "Do not have an account"
 msgstr "No tiene una cuenta"
 
-#: bingo_main/templates/bingo_main/login.html:41
+#: bingo_main/templates/bingo_main/login.html:46
 #: bingo_main/templates/bingo_main/register.html:79
 msgid "Register"
 msgstr "Registrarse"
 
-#: bingo_main/templates/bingo_main/login.html:42
+#: bingo_main/templates/bingo_main/login.html:47
 #: bingo_main/templates/bingo_main/register.html:73
 msgid "here"
 msgstr "aquí"
 
-#: bingo_main/templates/bingo_main/login.html:47
+#: bingo_main/templates/bingo_main/login.html:52
 msgid "Forgot your password"
 msgstr "Olvidaste tu contraseña"
 
@@ -825,42 +938,31 @@ msgstr "Menú"
 msgid "Customize your bingo game"
 msgstr "Personaliza tu juego de bingo"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:22
-msgid "Search Albums"
-msgstr "Buscar álbumes"
-
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:32
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:33
 msgid "Add funds to your account"
 msgstr "Agrega fondos a tu cuenta"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:33
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:34
 msgid "Your account balance"
 msgstr "El saldo de su cuenta"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:39
-msgid "Profile"
-msgstr "Perfil"
-
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:80
-msgid "Create a Bingo Album"
-msgstr "Crear un álbum de bingo"
-
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:106
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:114
 #: bingo_main/templates/bingo_main/register.html:48
 msgid "Add your logo"
 msgstr "Agrega tu logo"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:116
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:124
 #: bingo_main/templates/bingo_main/register.html:64
+#: users/templates/users/profile.html:137
 msgid "Company Name"
 msgstr "Nombre de empresa"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:118
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:126
 #: bingo_main/templates/bingo_main/register.html:66
 msgid "VAT Number"
 msgstr "Número de valor agregado"
 
-#: bingo_main/templates/bingo_main/partials/_navbar_top.html:120
+#: bingo_main/templates/bingo_main/partials/_navbar_top.html:128
 msgid "Update Details"
 msgstr "Detalles de actualización"
 
@@ -879,10 +981,6 @@ msgstr "Polybingo - Página de acceso del jugador"
 #: bingo_main/templates/bingo_main/play.html:95
 msgid "Game Code"
 msgstr "Código de juego"
-
-#: bingo_main/templates/bingo_main/play.html:115
-msgid "Nickname"
-msgstr "Apodo"
 
 #: bingo_main/templates/bingo_main/play.html:143
 msgid "Terms"
@@ -909,15 +1007,18 @@ msgid "Register with your email"
 msgstr "Regístrese con su correo electrónico"
 
 #: bingo_main/templates/bingo_main/register.html:56
-#: users/templates/users/reset_password.html:37
+#: users/templates/users/reset_password.html:36
 msgid "Confirm Password"
 msgstr "Confirmar contraseña"
 
 #: bingo_main/templates/bingo_main/register.html:58
+#: users/templates/users/profile.html:127
 msgid "Country"
 msgstr "País"
 
 #: bingo_main/templates/bingo_main/register.html:61
+#: payments/templates/payments/plan.html:235
+#: users/templates/users/profile.html:129
 msgid "Choose your country"
 msgstr "Elige tu país"
 
@@ -951,52 +1052,40 @@ msgstr "Política de privacidad"
 msgid "Polybingo-Terms & Conditions"
 msgstr "Términos y condiciones"
 
-#: bingo_main/views.py:236 bingo_main/views.py:479
+#: bingo_main/views.py:260
+msgid "Sorry, the requested album was not found"
+msgstr "Lo sentimos, no se encontró el álbum solicitado."
+
+#: bingo_main/views.py:314
+msgid "Welcome to Polybingo"
+msgstr "Bienvenido a polybingo"
+
+#: bingo_main/views.py:506
 msgid "Oops, your message was not sent. Please try again later"
 msgstr ""
 "Vaya, su mensaje no fue enviado. Por favor, inténtelo de nuevo más tarde"
 
-#: bingo_main/views.py:242 bingo_main/views.py:485
+#: bingo_main/views.py:512
 msgid "Your message was sent. We will be in touch soon"
 msgstr "Tu mensaje fue enviado. Nos veremos pronto"
 
-#: bingo_main/views.py:248
-msgid "Please confirm you are not a robot"
-msgstr "Confirma que no eres un robot"
+#: bingo_main/views.py:579 bingo_main/views.py:809
+msgid "Album created successfuly"
+msgstr "Álbum creado correctamente"
 
-#: bingo_main/views.py:271
-msgid "Sorry, the requested album was not found"
-msgstr "Lo sentimos, no se encontró el álbum solicitado."
+#: bingo_main/views.py:586 bingo_main/views.py:816
+msgid "Your Bingo Album was updated"
+msgstr "Tu álbum de bingo fue actualizado"
 
-#: bingo_main/views.py:312
-msgid "Welcome to Polybingo"
-msgstr "Bienvenido a polybingo"
-
-#: bingo_main/views.py:629
-msgid "Your updated Bingo Album is pending approval for public view"
-msgstr ""
-"Su Álbum de Bingo actualizado está pendiente de aprobación para su "
-"visualización pública"
-
-#: bingo_main/views.py:766
+#: bingo_main/views.py:826
 msgid "Album deleted"
 msgstr "Álbum eliminado"
 
-#: bingo_main/views.py:770
+#: bingo_main/views.py:830
 msgid "Failed deleting the album. Please try again later"
 msgstr "No se pudo borrar el álbum. Por favor, inténtelo de nuevo más tarde"
 
-#: bingo_main/views.py:987
-msgid ""
-"Please make sure to have enough funds before creating a game with more than "
-msgstr ""
-"Asegúrese de tener fondos suficientes antes de crear un juego con más de "
-
-#: bingo_main/views.py:987
-msgid "players"
-msgstr "jugadores"
-
-#: bingo_main/views.py:1040
+#: bingo_main/views.py:1127
 msgid ""
 "There was an error uploading the images prizes. Please try reducing the "
 "images sizes."
@@ -1004,45 +1093,41 @@ msgstr ""
 "Se produjo un error al cargar los premios de las imágenes. Intente reducir "
 "el tamaños de imágenes."
 
-#: bingo_main/views.py:1126
-msgid "There are not enough funds in your account. Please make a deposit"
-msgstr "No hay fondos suficientes en su cuenta. Por favor haga un deposito"
-
-#: bingo_main/views.py:1154
+#: bingo_main/views.py:1242
 msgid "Game already played"
 msgstr "Juego ya jugado"
 
-#: bingo_main/views.py:1418
+#: bingo_main/views.py:1506
 msgid "Please enter a valid card number"
 msgstr "Por favor, introduzca un número de tarjeta válido"
 
-#: bingo_main/views.py:1421
+#: bingo_main/views.py:1509
 msgid "The ticket is not a part of this game"
 msgstr "El boleto no es parte de este juego."
 
-#: bingo_main/views.py:1660
+#: bingo_main/views.py:1751 payments/views.py:525
 msgid ""
 "You have already used this coupon. Please try another or use of the of the "
 "deposit options"
 msgstr ""
 "Ya usaste este cupón. Pruebe con otro o utilice el de opciones de depósito"
 
-#: bingo_main/views.py:1671
+#: bingo_main/views.py:1762
 msgid ""
 "The amount entered is not valid. Please make sure the deposit is above $"
 msgstr ""
 "La cantidad ingresada no es válida. Asegúrese de que el depósito sea "
 "superior a $"
 
-#: bingo_main/views.py:1671
+#: bingo_main/views.py:1762
 msgid " and below $"
 msgstr "y por debajo de $"
 
-#: bingo_main/views.py:1675
+#: bingo_main/views.py:1766
 msgid "Please enter a valid amount"
 msgstr "Por favor introduzca una dirección de correo electrónico válida"
 
-#: bingo_main/views.py:1681 payments/views.py:339
+#: bingo_main/views.py:1772 payments/views.py:331
 msgid "Please enter an amount, or pick one of the predefined amounts."
 msgstr "Ingrese una cantidad o elija una de las cantidades predefinidas."
 
@@ -1078,28 +1163,109 @@ msgstr "Gracias"
 msgid "Hi"
 msgstr "Hola"
 
-#: newsletter/templates/newsletter/newsletter.html:419
+#: newsletter/templates/newsletter/newsletter.html:386
 #: users/templates/users/welcome-email.html:419
 msgid "This email was sent to"
 msgstr "Este correo electrónico fue enviado a"
 
-#: newsletter/templates/newsletter/newsletter.html:422
+#: newsletter/templates/newsletter/newsletter.html:389
 #: users/templates/users/welcome-email.html:422
 msgid "You received this email because you created a Polybingo account"
 msgstr "Recibió este correo electrónico porque creó una cuenta de Polybingo"
 
-#: newsletter/templates/newsletter/newsletter.html:431
+#: newsletter/templates/newsletter/newsletter.html:398
 #: users/templates/users/welcome-email.html:431
 msgid "Unsubscribe"
 msgstr "Darse de baja"
 
-#: newsletter/templates/newsletter/unsubscribe.html:28
+#: newsletter/templates/newsletter/unsubscribe.html:27
 msgid "You are unsubscribed"
 msgstr "Estás cancelado"
 
-#: newsletter/templates/newsletter/unsubscribe.html:29
+#: newsletter/templates/newsletter/unsubscribe.html:28
 msgid "Unsubscribed by mistake / Re-subscribe"
 msgstr "No suscrito por error / re-suscribirse"
+
+#: payments/templates/payments/deposit.html:59
+msgid "Summary"
+msgstr "Resumen"
+
+#: payments/templates/payments/deposit.html:62
+msgid "Amount Selected"
+msgstr "Cantidad seleccionada"
+
+#: payments/templates/payments/deposit.html:72
+msgid "Insert the coupon and click on the Check button to validate"
+msgstr "Inserte el cupón y haga clic en el botón Verificar para validar"
+
+#: payments/templates/payments/deposit.html:79
+#: payments/templates/payments/plan.html:94
+msgid "Apply"
+msgstr "Aplicar"
+
+#: payments/templates/payments/deposit.html:87
+#: payments/templates/payments/plan.html:103
+msgid "Discount"
+msgstr "Descuento"
+
+#: payments/templates/payments/deposit.html:96
+msgid "Bill Amount"
+msgstr "Total de la factura"
+
+#: payments/templates/payments/deposit.html:113
+#: payments/templates/payments/plan.html:174
+msgid "Choose payment option"
+msgstr "Elija la opción de pago"
+
+#: payments/templates/payments/deposit.html:124
+#: payments/templates/payments/plan.html:182
+msgid "Credit Card"
+msgstr "Tarjeta de crédito"
+
+#: payments/templates/payments/deposit.html:138
+msgid "Card Owner"
+msgstr "Titular"
+
+#: payments/templates/payments/deposit.html:139
+msgid "Card Owner Name"
+msgstr "Nombre del propietario de la tarjeta"
+
+#: payments/templates/payments/deposit.html:141
+msgid "Card number"
+msgstr "Número de tarjeta"
+
+#: payments/templates/payments/deposit.html:143
+#: payments/templates/payments/plan.html:199
+msgid "Valid card number"
+msgstr "Número de tarjeta válido"
+
+#: payments/templates/payments/deposit.html:156
+#: payments/templates/payments/plan.html:213
+msgid "Expiration Date"
+msgstr "Fecha de caducidad"
+
+#: payments/templates/payments/deposit.html:162
+#: payments/templates/payments/plan.html:226
+msgid "Three digit CVV code on the back of your card"
+msgstr "Código CVV de tres dígitos en el reverso de su tarjeta"
+
+#: payments/templates/payments/deposit.html:167
+#: payments/templates/payments/plan.html:245
+msgid "Confirm Payment"
+msgstr "Confirmar pago"
+
+#: payments/templates/payments/deposit.html:188
+#: payments/templates/payments/plan.html:276
+msgid "Log into my Paypal"
+msgstr "Iniciar sesión en mi Paypal"
+
+#: payments/templates/payments/deposit.html:189
+#: payments/templates/payments/plan.html:282
+msgid ""
+"Note: After clicking on the button, you will be directed to a secure gateway "
+"for payment. After completing the payment process, you will be redirected "
+"back to the website."
+msgstr "Nota: Después de hacer clic en el botón, se le dirigirá a una pasarela segura para el pago. Después de completar el proceso de pago, será redirigido al sitio web."
 
 #: payments/templates/payments/payment.bak.html:56
 #: payments/templates/payments/stripe_payment.html:56
@@ -1122,44 +1288,109 @@ msgstr "Tarjeta de crédito o débito"
 msgid "Submit Payment"
 msgstr "Enviar pago"
 
-#: payments/views.py:171
+#: payments/templates/payments/plan.html:6
+msgid "Polybingo-Subscribe"
+msgstr "Polybingo-Suscríbete"
+
+#: payments/templates/payments/plan.html:43
+msgid "Subscribe to plan"
+msgstr "Suscribir"
+
+#: payments/templates/payments/plan.html:55
+msgid "Plan"
+msgstr "suscripción"
+
+#: payments/templates/payments/plan.html:57
+msgid "Billed monthly"
+msgstr "facturación mensual"
+
+#: payments/templates/payments/plan.html:59
+msgid "Billed annualy"
+msgstr "facturación anual"
+
+#: payments/templates/payments/plan.html:72
+msgid "Subtotal"
+msgstr "Total parcial"
+
+#: payments/templates/payments/plan.html:87
+msgid "Insert the coupon and click on the Apply button to validate"
+msgstr "Inserte el cupón y haga clic en el botón Aplicar para validar"
+
+#: payments/templates/payments/plan.html:113
+msgid "Total due today"
+msgstr "Total vencido hoy"
+
+#: payments/templates/payments/plan.html:133
+msgid "Billing Information"
+msgstr "Datos de facturación"
+
+#: payments/templates/payments/plan.html:249
+msgid "Safe, secure, encrypted payment"
+msgstr "Pago seguro, seguro y encriptado"
+
+#: payments/views.py:158
 msgid "Your account was sucessfully credited with $"
 msgstr "Su cuenta fue acreditada con éxito con $"
 
-#: payments/views.py:273
+#: payments/views.py:260
 msgid ""
 "Something went wrong with your payment. Your account balance was not updated."
 msgstr "Algo salió mal con su pago. El saldo de su cuenta no se actualizó."
 
-#: payments/views.py:299 payments/views.py:374
+#: payments/views.py:286 payments/views.py:351
 msgid "New Invoice From Polybingo - PI0000"
 msgstr "Nueva factura de Polybingo - PI0000"
 
-#: payments/views.py:321
+#: payments/views.py:308
 msgid "Thank you for the payment. You should see your updated balance shortly."
 msgstr "Gracias por el pago. Debería ver su saldo actualizado en breve."
 
-#: payments/views.py:394
-msgid "Thank you for the payment. You should see your balance shortly."
-msgstr "Gracias por el pago. Debería ver su saldo en breve."
+#: payments/views.py:398
+msgid "Payment successfuly completed. Thank you."
+msgstr "Pago completado con éxito. Gracias."
 
-#: payments/views.py:402
+#: payments/views.py:401
+msgid "Failed to complete the payment. Please contact Polybingo support"
+msgstr "No se pudo completar el pago. Póngase en contacto con el soporte de Polybingo"
+
+#: payments/views.py:408
 msgid "Your payment was canceled. Your account balance was not updated."
 msgstr "Tu pago fue cancelado. El saldo de su cuenta no se actualizó."
 
-#: users/templates/users/forgot_password.html:18
+#: payments/views.py:528 payments/views.py:539
+msgid "No such coupon"
+msgstr "No hay tal cupón"
+
+#: payments/views.py:607
+msgid "Something is broken. Please try again later."
+msgstr "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
+
+#: payments/views.py:730
+msgid "Payment done successfully. Thank you"
+msgstr "Pago realizado correctamente. Gracias"
+
+#: payments/views.py:739
+msgid "Something went wrong. Please contact Polybingo support"
+msgstr "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
+
+#: payments/views.py:763
+msgid ""
+"There was a problem processing your request. Please contact Polybingo support"
+msgstr "Hubo un problema al procesar su solicitud. Póngase en contacto con el soporte de Polybingo"
+
+#: users/templates/users/forgot_password.html:17
 msgid "Unable to log in?"
 msgstr "¿Incapaz de iniciar sesión?"
 
-#: users/templates/users/forgot_password.html:22
+#: users/templates/users/forgot_password.html:21
 msgid "We will send a recovery link to"
 msgstr "Enviaremos un enlace de recuperación a"
 
-#: users/templates/users/forgot_password.html:31
+#: users/templates/users/forgot_password.html:30
 msgid "Reset!"
 msgstr "¡Reiniciar!"
 
-#: users/templates/users/forgot_password.html:36
+#: users/templates/users/forgot_password.html:35
 msgid "Remembered?"
 msgstr "¿Recordado?"
 
@@ -1187,43 +1418,220 @@ msgstr "Cambio"
 msgid "Your password was changed"
 msgstr "Tu contraseña fue cambiada"
 
-#: users/templates/users/password_reset_complete.html:18
+#: users/templates/users/password_reset_complete.html:17
 msgid "Your password has been reset. You may go ahead and "
 msgstr "Tu contraseña ha sido cambiada. Puedes seguir adelante y "
 
-#: users/templates/users/password_reset_complete.html:19
+#: users/templates/users/password_reset_complete.html:18
 msgid "login"
 msgstr "el Login"
 
-#: users/templates/users/reset_password.html:25
+#: users/templates/users/profile.html:6
+#: users/templates/users/profile_test.html:6
+msgid "Polybingo-Profile Page"
+msgstr "Página de perfil de Polybingo"
+
+#: users/templates/users/profile.html:30
+msgid "User Profile"
+msgstr "Perfil"
+
+#: users/templates/users/profile.html:40
+msgid "Upload your profile or a company photo"
+msgstr "Sube tu perfil o una foto de empresa"
+
+#: users/templates/users/profile.html:48
+msgid "Company Website"
+msgstr "Página Web de la compañía"
+
+#: users/templates/users/profile.html:54
+msgid "Activity"
+msgstr "Actividad"
+
+#: users/templates/users/profile.html:70
+msgid "Personal"
+msgstr "Personal"
+
+#: users/templates/users/profile.html:71
+msgid "Subscription"
+msgstr "Descripción"
+
+#: users/templates/users/profile.html:83
+#| msgid "Enter name"
+msgid "First name"
+msgstr "Nombre de pila"
+
+#: users/templates/users/profile.html:92
+msgid "Last name"
+msgstr "Apellido"
+
+#: users/templates/users/profile.html:103
+msgid "Phone"
+msgstr "Teléfono"
+
+#: users/templates/users/profile.html:105
+msgid "enter phone"
+msgstr "Ingrese teléfono"
+
+#: users/templates/users/profile.html:111
+msgid "Mobile"
+msgstr "número de celular"
+
+#: users/templates/users/profile.html:113
+msgid "enter mobile number"
+msgstr "ingrese el número de celular"
+
+#: users/templates/users/profile.html:114
+msgid "enter your mobile number if any"
+msgstr "ingrese su número de celular si lo tiene"
+
+#: users/templates/users/profile.html:138
+msgid "enter company name"
+msgstr "Nombre de empresa"
+
+#: users/templates/users/profile.html:138
+msgid "enter your company name if any"
+msgstr "Nombre de empresa"
+
+#: users/templates/users/profile.html:145
+msgid "enter your company VAT number"
+msgstr "introduzca el número de IVA de su empresa"
+
+#: users/templates/users/profile.html:164
+msgid "Current Subscription Plan"
+msgstr "Plan de suscripción actual"
+
+#: users/templates/users/profile.html:166
+msgid "up to"
+msgstr "Arriba a"
+
+#: users/templates/users/profile.html:166
+#: users/templates/users/profile.html:180
+#: users/templates/users/profile.html:207
+#: users/templates/users/profile.html:245
+msgid "players"
+msgstr "jugadores"
+
+#: users/templates/users/profile.html:177
+msgid "Downgrade to Free"
+msgstr "cancelar suscripción"
+
+#: users/templates/users/profile.html:181
+msgid "Good for family gatherings"
+msgstr "Bueno para reuniones familiares"
+
+#: users/templates/users/profile.html:186
+msgid "Change to Free"
+msgstr "cancelar suscripción"
+
+#: users/templates/users/profile.html:187
+msgid "Cancel Subscription"
+msgstr "cancelar suscripción"
+
+#: users/templates/users/profile.html:200
+msgid "Upgrade to Basic plan"
+msgstr "Actualizar al plan básico"
+
+#: users/templates/users/profile.html:202
+#: users/templates/users/profile.html:218
+#: users/templates/users/profile.html:228
+msgid "Change to Basic plan"
+msgstr "Actualizar al plan básico"
+
+#: users/templates/users/profile.html:208
+msgid "Good for family, friends and small events "
+msgstr "Bueno para familiares, amigos y pequeños eventos."
+
+#: users/templates/users/profile.html:216
+#: users/templates/users/profile.html:226
+msgid "Buy Basic Plan"
+msgstr "Comprar plan básico"
+
+#: users/templates/users/profile.html:242
+msgid "Upgrade to Expert plan"
+msgstr "Actualizar al plan Experto"
+
+#: users/templates/users/profile.html:246
+msgid "Multi-players events, promotional events with various audiences"
+msgstr "Eventos multijugador, eventos promocionales con varios públicos."
+
+#: users/templates/users/profile.html:254
+#: users/templates/users/profile.html:264
+msgid "Buy Expert Plan"
+msgstr "Comprar plan experto"
+
+#: users/templates/users/profile.html:256
+msgid "Buy Expert plan"
+msgstr "Comprar plan experto"
+
+#: users/templates/users/profile.html:266
+msgid "Change to Expert plan"
+msgstr "Comprar plan experto"
+
+#: users/templates/users/reset_password.html:24
 msgid "Reset Password"
 msgstr "Restablecer la contraseña"
 
-#: users/templates/users/reset_password.html:31
+#: users/templates/users/reset_password.html:30
 msgid "New Password"
 msgstr "Nueva contraseña"
 
-#: users/templates/users/reset_password.html:44
+#: users/templates/users/reset_password.html:43
 msgid "Reset"
 msgstr "Reiniciar"
 
-#: users/views.py:170
+#: users/views.py:126
+msgid "Your profile was successfuly updated"
+msgstr "Tu perfil se actualizó correctamente"
+
+#: users/views.py:266
 msgid "Check your mail inbox to reset password"
 msgstr ""
 "Revise la bandeja de entrada de su correo para restablecer la contraseña"
 
-#: users/views.py:176
+#: users/views.py:272
 msgid "Something went wrong. Please try again later."
 msgstr "Algo salió mal. Por favor, inténtelo de nuevo más tarde."
 
-#: users/views.py:180
+#: users/views.py:276
 msgid "This email is not registered to us. Please register first"
 msgstr ""
 "Este correo electrónico no está registrado para nosotros. Regístrese primero"
 
-#: users/views.py:188
+#: users/views.py:284
 msgid "Please do enter the email"
 msgstr "Por favor ingrese el correo electrónico"
+
+#~ msgid "Contact"
+#~ msgstr "Contacto"
+
+#~ msgid "Us"
+#~ msgstr "Nosotros"
+
+#~ msgid "Website"
+#~ msgstr "Sitio web"
+
+#~ msgid "Nickname"
+#~ msgstr "Apodo"
+
+#~ msgid "Please confirm you are not a robot"
+#~ msgstr "Confirma que no eres un robot"
+
+#~ msgid "Your updated Bingo Album is pending approval for public view"
+#~ msgstr ""
+#~ "Su Álbum de Bingo actualizado está pendiente de aprobación para su "
+#~ "visualización pública"
+
+#~ msgid ""
+#~ "Please make sure to have enough funds before creating a game with more "
+#~ "than "
+#~ msgstr ""
+#~ "Asegúrese de tener fondos suficientes antes de crear un juego con más de "
+
+#~ msgid "There are not enough funds in your account. Please make a deposit"
+#~ msgstr "No hay fondos suficientes en su cuenta. Por favor haga un deposito"
+
+#~ msgid "Thank you for the payment. You should see your balance shortly."
+#~ msgstr "Gracias por el pago. Debería ver su saldo en breve."
 
 #~ msgid "Your message has been sent. Thank you!"
 #~ msgstr "Tu mensaje ha sido enviado. ¡Gracias!"

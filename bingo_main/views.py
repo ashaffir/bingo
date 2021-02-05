@@ -24,13 +24,34 @@ from users.models import User
 from users.utils import send_mail
 from payments.models import Coupon
 from newsletter.models import Newsletter
-from .utils import check_captcha, clear_session, delete_session, clear_session_key
+from membership.models import Plan
+from .utils import check_captcha, clear_session, delete_session, clear_session_key, alert_admin
 
 logger = logging.getLogger(__file__)
 
-
 def bingo_main(request):
     context = {}
+
+    ### Check user subscription ###
+    try:
+        user_subscription = request.user.stripe_subscription_id
+        context['user_plan'] = Plan.objects.get(stripe_id=user_subscription)
+    except Exception as e:
+        context['user_plan'] = False
+    
+    ### Populate the plans ###
+    try:
+        if settings.DEBUG:
+            context['free_plan'] = Plan.objects.get(name='free')
+            context['basic_plan'] = Plan.objects.get(name='basic')
+            context['expert_plan'] = Plan.objects.get(name='expert')
+        else:
+            context['free_plan'] = Plan.objects.get(name='free')
+            context['basic_plan'] = Plan.objects.get(name='basic')
+            context['expert_plan'] = Plan.objects.get(name='expert')        
+    except Exception as e:
+        alert_admin(f"Failed to get plans. ERROR: {e}")
+
     try: 
         free_players = Control.objects.get(name='free_players')
         context['free_players'] = free_players.value_integer
@@ -47,6 +68,7 @@ def bingo_main(request):
         logger.error(f">>> BINGO MAIN@bingo_main: base_price is not set. ERROR: {e}")
         context['base_price'] = 0.1
     
+    ### Service description section ###
     if request.LANGUAGE_CODE == 'he':
         try:
             section_a = ContentPage.objects.get(name='home', section='a', language='Hebrew')
@@ -117,6 +139,38 @@ def bingo_main(request):
             print(f">>> BINGO MAIN@main_bingo: Failed loading homepage ENGLISH sections. ERROR: {e}")
             logger.error(f">>> BINGO MAIN@main_bingo: Failed loading homepage ENGLISH sections. ERROR: {e}")
 
+    ### Why Polybingo section
+    if request.LANGUAGE_CODE == 'he':
+        try:
+            context['reasons'] = ContentPage.objects.filter(name='reasons', language='Hebrew')
+        except Exception as e:
+            context['reasons'] = None
+    elif request.LANGUAGE_CODE == 'es':
+        try:
+            context['reasons'] = ContentPage.objects.filter(name='reasons', language='Spanish')
+        except Exception as e:
+            context['reasons'] = None
+    else:
+        try:
+            context['reasons'] = ContentPage.objects.filter(name='reasons', language='English')
+        except Exception as e:
+            context['reasons'] = None
+
+    ### Polybingo Stats section ###
+    try:
+        context['hosts_count'] = len(User.objects.all()) * Control.objects.get(name='hosts_count_factor').value_integer
+        context['games_count'] = len(Game.objects.all()) * Control.objects.get(name='games_count_factor').value_integer 
+        context['albums_count'] = len(Album.objects.all()) * Control.objects.get(name='albums_count_factor').value_integer
+        context['players_count'] = len(Player.objects.all()) * Control.objects.get(name='players_count_factor').value_integer
+    except Exception as e:
+        context['hosts_count'] = len(User.objects.all())
+        context['games_count'] = len(Game.objects.all())
+        context['albums_count'] = len(Album.objects.all())
+        context['players_count'] = len(Player.objects.all())
+        alert_admin('Homepage counters factors not set', "Bingo Main @ bingo_main")
+
+
+    ### How it Works section ###
     if request.LANGUAGE_CODE == 'he':
         try:
             context['instructions_a'] = ContentPage.objects.get(name='home', section='instructions_a', language='Hebrew')
@@ -210,9 +264,15 @@ def play(request):
     context = {}
     return render(request,'bingo_main/play.html', context)
 
-def bingo_main_register(request):
+def bingo_main_register(request,term, plan_id):
     context = {}
     context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+
+    try:
+        free_plan_id = Plan.objects.get(name='free').stripe_id
+    except Exception as e:
+        logger.error(f">>> BINGO_MAIN @ bingo_main_register: Failed getting free plan ID. ERROR: {e}")
+        alert_admin(f"Failed getting free plan ID. ERROR: {e}", "Bingo Main Views")
 
     logger.info(f">>> BINGO MAIN @ bingo_main_register: Registration request {request}")
 
@@ -230,6 +290,8 @@ def bingo_main_register(request):
             except:
                 logger.info(f">>> BINGO MAIN @ bingo_main_register: No country registered")
 
+            user.stripe_subscription_id = free_plan_id # Default plan at registration
+            user.plan_name = 'free'
             user.username = user.email
             user.save()
 
@@ -275,7 +337,10 @@ def bingo_main_register(request):
 
             login(request, new_user)
             
-            return redirect('bingo_main:dashboard')
+            if plan_id and plan_id != free_plan_id: 
+                return HttpResponseRedirect(reverse('payments:plan', args=[term,plan_id]))
+            else:
+                return redirect('bingo_main:dashboard')
             # return HttpResponseRedirect("/dashboard/")
         else:
             for error in form.errors:
@@ -289,11 +354,24 @@ def bingo_main_register(request):
 
 
 def bingo_main_login(request):
+    context = {}
     form = LoginForm(request.POST or None)
 
     msg = None
 
+    print(f"PLAN URL: {request.GET.get('next')}")
+    try:
+        plan_id = request.GET.get('next').split('/')[-2]
+        term = request.GET.get('next').split('/')[-3]
+    except:
+        term = 'month'
+        plan_id = None
+
+    print(f"PLAN_ID: {plan_id}")
+    print(f"TERM: {term}")
+
     if request.method == "POST":
+        next_url = request.POST.get("next_url")
 
         if form.is_valid():
             username = form.cleaned_data.get("username")
@@ -302,14 +380,22 @@ def bingo_main_login(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('bingo_main:dashboard')
+                if next_url:
+                    return redirect(next_url)
+                else:
+                    return redirect('bingo_main:dashboard')
             else:
                 messages.error(request, f"Wrong Credentials")
                 msg = 'Invalid credentials'
         else:
             msg = 'Error validating the form'
 
-    return render(request, "bingo_main/login.html", {"form": form, "msg": msg, 'site_recaptcha': settings.RECAPTCHA_PUBLIC_KEY})
+    context["form"] = form 
+    context["msg"] = msg
+    context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
+    context['plan_id'] = plan_id
+    context['term'] = term
+    return render(request, "bingo_main/login.html", context)
 
 
 def about(request):
@@ -468,8 +554,8 @@ def update_profile(request):
 def dashboard(request):
     context = {}
     context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
-
     context['dashboard'] = True
+    context['active_tab'] = 'dashboard'
     albums = Album.objects.filter(is_public=True, public_approved=True)
     albums_images = []
     for album in albums:
@@ -511,6 +597,7 @@ def create_bingo(request, album_id=''):
     context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
 
     context['dashboard'] = True
+    context['active_tab'] = 'create_bingo'
 
     try:
         context['categories'] = Category.objects.all()
@@ -710,6 +797,7 @@ def my_bingos(request):
     context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
 
     context['dashboard'] = True
+    context['active_tab'] = 'my_bingos'
 
     user = request.user
     albums = Album.objects.filter(user=user)
@@ -876,15 +964,24 @@ def check_game_id(request):
     print(f'GAME REQUEST: {request.GET.keys()}')
     try:
         game = Game.objects.get(game_id=request.GET.get("code"))
+
         nickname = request.GET.get("name")
         game_id = game.game_id
-        print(f'>>> BINGO MAIN: GAME ID: {game_id}')
-        logger.info(f'>>> BINGO MAIN: GAME ID: {game_id}')
+        print(f'>>> BINGO MAIN @ check_game_id: GAME ID: {game_id}')
+        logger.info(f'>>> BINGO MAIN @ check_game_id: GAME ID: {game_id}')
 
+        ### Check if game finished ###
         if game.is_finished or game.started or game.ended:
-            print(f'>>> BINGO MAIN: game {game_id} is finished')
-            logger.info(f'>>> BINGO MAIN: game {game_id} is finished')
+            print(f'>>> BINGO MAIN @ check_game_id: game {game_id} is finished')
+            logger.info(f'>>> BINGO MAIN @ check_game_id: game {game_id} is finished')
             return Response(json.dumps({"finished": "True"}), status=200)
+
+        ### Checking if maximum players reached ###
+        if game.number_of_players >= game.max_players:
+            print(f'>>> BINGO MAIN @ check_game_id: game {game_id} is full')
+            logger.info(f'>>> BINGO MAIN @ check_game_id: game {game_id} is full')
+            return Response(json.dumps({"full": "True"}), status=200)
+
 
         # If game exists, create new player and add it to the game players list
         player = Player.objects.create(
@@ -948,8 +1045,10 @@ def start_bingo(request):
     context['site_recaptcha'] = settings.RECAPTCHA_PUBLIC_KEY
     context['dashboard'] = True
 
+    user = request.user
     try:
-        free_players = Control.objects.get(name='free_players').value_integer
+        # free_players = Control.objects.get(name='free_players').value_integer
+        free_players = user.max_players
     except Exception as e:
         print(f">>> BINGO MAIN @ start_bingo: Failed to get free_players. ERROR: {e}")
         logger.error(f">>> BINGO MAIN @ start_bingo: Failed to get free_players. ERROR: {e}")
@@ -957,14 +1056,23 @@ def start_bingo(request):
 
     if request.method == 'POST':
         if 'make_game' in request.POST:
-            # Check if there is a positive balance in the host account
-            host = request.user
-            if host.balance <= 0:
-                messages.error(
-                    request, _(f'Please make sure to have enough funds before creating a game with more than ') +  str(free_players) + " " + _("players" ))
-                # return redirect('bingo_main:add_money')
+            ### Check if there is a positive balance in the host account ###
+            # host = request.user
+            # if host.balance <= 0:
+            #     messages.error(
+            #         request, _(f'Please make sure to have enough funds before creating a game with more than ') +  str(free_players) + " " + _("players" ))
 
-            # Create a game
+            ### Check user subscription ###
+            # try:
+            #     user_subscription = request.user.stripe_subscription_id
+            #     context['user_plan'] = Plan.objects.get(stripe_id=user_subscription)
+            # except Exception as e:
+            #     try:
+            #         context['user_plan'] = Plan.objects.get(name='Free')
+            #     except:
+            #         alert_admin(f"Plans not set for users. ERROR: {e}", 'Bingo Main @ start_bingo')
+
+            #### Create a game ####
             try:
                 print(f'ID: {request.POST["make_game"]}')
                 album_id = request.POST["make_game"]
@@ -986,6 +1094,7 @@ def start_bingo(request):
 
                 game.pictures_pool = album.pictures
                 game.user = request.user
+                game.max_players = request.user.max_players
                 game.game_id = random_game_id(request.user)
                 game.save()
                 context['current_game'] = game
@@ -1087,23 +1196,23 @@ def broadcast(request):
         else:
             # Start the game
             current_game.started = True
+            current_game.max_players = request.user.max_players
             current_game.save()
 
             # print(f'GAME COST: {game.game_cost}')
-            # Billing: Check user's balance and deduct the amount
-            current_balance = host.balance
-            game_cost = current_game.game_cost
-            new_balance = current_balance - game_cost
-            if new_balance > 0:
-                # Updating user new balance
-                host.balance = new_balance
-                host.spent += round(game_cost,2)
-                host.save()
+            ### Billing: Check user's balance, deduct the amount and updating user new balance ###
+            # current_balance = host.balance
+            # game_cost = current_game.game_cost
+            # new_balance = current_balance - game_cost
+            # if new_balance > 0:
+            #     host.balance = new_balance
+            #     host.spent += round(game_cost,2)
+            #     host.save()
 
-            else:
-                messages.error(
-                    request, _('There are not enough funds in your account. Please make a deposit'))
-                return redirect('bingo_main:add_money')
+            # else:
+            #     messages.error(
+            #         request, _('There are not enough funds in your account. Please make a deposit'))
+            #     return redirect('bingo_main:add_money')
 
             return HttpResponseRedirect(reverse('bingo_main:game', args=[current_game.game_id]))
 
@@ -1145,7 +1254,7 @@ def game(request, game_id):
     # if len(game.players_list) < min_players:
     #     messages.error(
     #         request, _(f"Not enough players. Need at least" + str(min_players) + _("tickets")))
-    #     return redirect(request.META['HTTP_REFERER'])
+    #     return redirect(request.META['HTTP_REFERER'])        
 
     # Locking prizes already won
     if game.prize_2_won:
@@ -1620,7 +1729,10 @@ def add_money(request):
             
             coupon = request.POST.get('coupon') if request.POST.get('coupon') else "no_coupon"
 
-            user_coupons_used = user.coupons_used
+            try:
+                user_coupons_used = user.coupons_used
+            except:
+                user_coupons_used = []
             
             try:
                 coupons = Coupon.objects.filter(active=True)
