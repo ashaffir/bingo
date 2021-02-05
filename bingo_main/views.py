@@ -50,7 +50,7 @@ def bingo_main(request):
             context['basic_plan'] = Plan.objects.get(name='basic')
             context['expert_plan'] = Plan.objects.get(name='expert')        
     except Exception as e:
-        alert_admin(f"Failed to get plans. ERROR: {e}")
+        alert_admin(f"Failed to get plans. ERROR: {e}", 'BINGO MAIN @ bingo_main')
 
     try: 
         free_players = Control.objects.get(name='free_players')
