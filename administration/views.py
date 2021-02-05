@@ -34,7 +34,32 @@ def admin_home(request):
                 logger.error(f">>> ADMINISTRATION @ bulk_set_optin: Failed setting the optin. ERROR: {e} ")
                 messages.error(request, 'Opt-in set failed!!')
                 return redirect(request.META['HTTP_REFERER'])
+        elif 'set_plan' in request.POST:
+            plan_name = request.POST.get('plan_name')
+            if request.POST.get('select_all'):
+                users = User.objects.all()
+                if plan_name:
+                    for user in users:
+                        user.plan_name = plan_name
+                        user.save()
+                    
+                    messages.success(request, 'ALL: Changed plans successfuly!')
+                    return redirect(request.META['HTTP_REFERER'])
 
+                else:
+                    messages.error(request, 'Data missing')
+                    return redirect(request.META['HTTP_REFERER'])
+                        
+            elif request.POST.get('username'):
+                username = request.POST.get('username')
+                user = User.objects.get(username=username)
+                user.plan_name = plan_name
+                user.save()
+                messages.success(request, f'USER {user}: Changed plans successfuly!')
+                return redirect(request.META['HTTP_REFERER'])
+            else:
+                messages.error(request, 'No values entered')
+                return redirect(request.META['HTTP_REFERER'])
         else:
             print(f"Wrong button")
             messages.error(request, 'ERROR BUTTON')

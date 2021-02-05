@@ -183,6 +183,7 @@
 
             <!-- Main Content -->
             <div id="content">
+                {% include 'users/partials/_inner_messages.html' %}
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -205,8 +206,6 @@
                             </div>
                         </div>
                     </form>
-
-                    {% include 'administration/partials/_messages.html' %}
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">

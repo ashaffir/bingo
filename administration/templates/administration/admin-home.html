@@ -3,13 +3,25 @@
 <h2>Administration Area</h1>
     <hr>
 <div class="container">
-    <div class="row">
-        <div class="col-md">
-            <form action="" enctype="multipart/form-data" method="POST">
-                {% csrf_token %}
-                <button type="submit" name="optin" class="btn btn-danger" >Set Optin</button>
-            </form>
+    <form action="" enctype="multipart/form-data" method="POST" class="form-group">
+        {% csrf_token %}
+        <h5>Bulk change newsletter opt-in</h5>
+        <div class="row">
+            <div class="col-md">
+                    <button type="submit" name="optin" class="btn btn-danger" >Set Optin</button>
+            </div>
         </div>
+        <hr>
+        <h5>Bulk change plans</h5>
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" name="username" class="form-control mb-3" placeholder="Username">
+                <input type="text" name="plan_name" class="form-control" placeholder="Plan Name" required>
+                <label for="select_all" class="mt-4">Select all</label>
+                <input type="radio" name="select_all" id="select_all"><br>
+                <button type="submit" name="set_plan" class="btn btn-lg btn-danger" >Set Plans</button>
+            </div>
+        </div>
+    </form>
     </div>
-</div>
 {% endblock content %}
