@@ -12,7 +12,10 @@
             </div>
         </div>
         <hr>
-        <h5>Bulk change plans</h5>
+    </form>
+    <form action="" enctype="multipart/form-data" method="POST" class="form-group">
+        {% csrf_token %}
+            <h5>Bulk change plans</h5>
         <div class="row">
             <div class="col-md-4">
                 <input type="text" name="username" class="form-control mb-3" placeholder="Username">
