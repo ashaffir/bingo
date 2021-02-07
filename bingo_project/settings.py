@@ -276,23 +276,31 @@ LOCALE_PATHS = [
     os.path.join(BASE_DIR, 'locale')
 ]
 
-# Zoho email
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.zoho.com'
+# Email Setup
 EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'support@polybingo.com'
-EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD_ZOHO']
 DEFAULT_FROM_EMAIL = 'Polybingo<support@polybingo.com>'
+EMAIL_PORT = 587
+
+
+# Zoho email
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.zoho.com'
+# EMAIL_HOST_USER = 'support@polybingo.com'
+# EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD_ZOHO']
+# DEFAULT_FROM_EMAIL = 'Polybingo<support@polybingo.com>'
+
+
+# SendinBlue
+EMAIL_HOST = 'smtp-relay.sendinblue.com'
+EMAIL_HOST_USER = config['SENDINBLUE_HOST_USER']
+EMAIL_HOST_PASSWORD = config['SENDINBLUE_HOST_KEY']
 
 
 # Gmail Email Setup
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
 # EMAIL_HOST_USER = 'polybingocom@gmail.com'
-# EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']
+# EMAIL_HOST_PASSWORD = config['GMAIL_EMAIL_HOST_PASSWORD']
 # DEFAULT_FROM_EMAIL = 'polybingocom@gmail.com'
 
 ADMIN_EMAIL = config['ADMIN_EMAIL']
