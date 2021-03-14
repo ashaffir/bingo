@@ -58,7 +58,10 @@ def send_mail(subject, email_template_name,attachement,
 
     try:
         email_message.send()
+        logger.info(f'>>> USERS UTILS @ send_mail: Mail sent to {to_email}')
     except Exception as e:
         if settings.DEBUG:
             print(f'ERROR: email not sent (utilities.py). Reason: {e}')
             print(sys.exc_info())
+        else:
+            logger.error(f'ERROR: email not sent (utilities.py). Reason: {e}')

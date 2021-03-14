@@ -14,8 +14,6 @@ application = ProtocolTypeRouter({
     'websocket': AuthMiddlewareStack(
         URLRouter([
             re_path(r'ws/game/(?P<game_room>\w+)/$', game_consumers.GameConsumer),
-            # re_path(r'ws/game/', game_consumers.GameConsumer),
-            # re_path(r'ws/players/', orders_consumers.OrderConsumer),
         ])
     ),
 })
