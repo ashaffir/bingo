@@ -9,6 +9,8 @@ material/
 test/
 archive/
 
+config.*
+
 # C extensions
 *.so
 
